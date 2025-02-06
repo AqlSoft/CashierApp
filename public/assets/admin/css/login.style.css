@@ -15,7 +15,7 @@ body {
 }
 
 .left-side {
-    background: #FF4B2B;
+    background: #b72d14;
     position: relative;
     overflow: hidden;
     min-height: 350px;
@@ -32,8 +32,8 @@ body {
 }
 
 .btn-primary {
-    background-color: #FF4B2B;
-    border-color: #FF4B2B;
+    background-color: #b72d14;
+    border-color: #b72d14;
     padding: 0.6rem;
     border-radius: 8px;
 }

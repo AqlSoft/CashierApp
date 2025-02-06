@@ -12,11 +12,12 @@ body {
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    margin-top: -5rem;
     
 }
 
 .left-side {
-    background: #FF4B2B;
+    background: #b72d14;
     position: relative;
     overflow: hidden;
     min-height: 350px;
@@ -33,8 +34,8 @@ body {
 }
 
 .btn-primary {
-    background-color: #FF4B2B;
-    border-color: #FF4B2B;
+    background-color: #b72d14;
+    border-color: #b72d14;
     padding: 0.6rem;
     border-radius: 8px;
 }
@@ -100,7 +101,7 @@ body {
     margin-bottom: 0.5rem;
 }
 .color-link {
-  color: #FF4B2B;;
+  color: #b72d14;;
 }
 @media (max-width: 768px) {
     .main-container {
