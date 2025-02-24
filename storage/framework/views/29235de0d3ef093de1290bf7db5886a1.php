@@ -7,7 +7,7 @@
       <div class="row mt-2">
         <div class="col-lg-12 col-sm-12">
           <div class="bulk border-dark p-0 m-1">
-            <div class="row m-0 mb-1  border-bottom border-dark-50 pb-1 ">
+            <div class="row m-0 mb-1  border-bottom border-dark-50  ">
               <div class="col col-3  "> Categery  : </div>
               <div class="col col-9  "><?php echo e($cat[$product->category]); ?></div>
             </div>
