@@ -15,8 +15,10 @@ use App\Http\Controllers\Admin\ProductsController;
 // Auth::routes();
 // // Auth::routes(['register' => false]);
 
+ Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
+// Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('admin.register');
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Admin Routes
 Route::middleware('guest:admin')->prefix('admin')->group(function () {

@@ -69,7 +69,7 @@
               </div>
 
             </div>
-            <div class="py-2" style="border-bottom: 2px solid #dedede"></div>
+            <div class="py-2" style="border-bottom: 1px solid #dedede"></div>
           </div>
         </div>
         <!-- هنا سيتم عرض المنتجات -->
