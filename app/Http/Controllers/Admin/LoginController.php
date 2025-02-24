@@ -61,7 +61,7 @@ class LoginController extends Controller
             //     ->performedOn($user)
             //     ->log('تم تسجيل الدخول بنجاح');
 
-            return redirect()->route('home')
+            return redirect()->route('admin-dashboard')
                 ->with('success', 'تم تسجيل الدخول بنجاح');
         }
 
