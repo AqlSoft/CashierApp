@@ -16,14 +16,15 @@ use App\Http\Controllers\Admin\ProductsController;
 // // Auth::routes(['register' => false]);
 
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Admin Routes
 Route::middleware('guest:admin')->prefix('admin')->group(function () {
+  Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
   Route::get('/login', [LoginController::class, 'showLoginForm'])->name('admin.login');
   Route::post('/login', [LoginController::class, 'login'])->name('admin.login.submit');
   Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('admin.register');
   Route::post('/register', [RegisterController::class, 'register'])->name('admin.register.submit');
-
 });
 
 

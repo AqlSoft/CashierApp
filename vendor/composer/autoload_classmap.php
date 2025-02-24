@@ -6,7 +6,12 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
+    'App\\Http\\Controllers\\Admin\\Controller' => $baseDir . '/app/Http/Controllers/Admin/Controller.php',
+    'App\\Http\\Controllers\\Admin\\HomeController' => $baseDir . '/app/Http/Controllers/Admin/HomeController.php',
+    'App\\Http\\Controllers\\Admin\\LoginController' => $baseDir . '/app/Http/Controllers/Admin/LoginController.php',
+    'App\\Http\\Controllers\\Admin\\RegisterController' => $baseDir . '/app/Http/Controllers/Admin/RegisterController.php',
+    'App\\Http\\Requests\\LoginRequest' => $baseDir . '/app/Http/Requests/LoginRequest.php',
+    'App\\Models\\Admin' => $baseDir . '/app/Models/Admin.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
@@ -3756,6 +3761,7 @@ return array(
     'PHPUnit\\Metadata\\Group' => $vendorDir . '/phpunit/phpunit/src/Metadata/Group.php',
     'PHPUnit\\Metadata\\IgnoreDeprecations' => $vendorDir . '/phpunit/phpunit/src/Metadata/IgnoreDeprecations.php',
     'PHPUnit\\Metadata\\IgnorePhpunitDeprecations' => $vendorDir . '/phpunit/phpunit/src/Metadata/IgnorePhpunitDeprecations.php',
+    'PHPUnit\\Metadata\\InvalidAttributeException' => $vendorDir . '/phpunit/phpunit/src/Metadata/Exception/InvalidAttributeException.php',
     'PHPUnit\\Metadata\\InvalidVersionRequirementException' => $vendorDir . '/phpunit/phpunit/src/Metadata/Exception/InvalidVersionRequirementException.php',
     'PHPUnit\\Metadata\\Metadata' => $vendorDir . '/phpunit/phpunit/src/Metadata/Metadata.php',
     'PHPUnit\\Metadata\\MetadataCollection' => $vendorDir . '/phpunit/phpunit/src/Metadata/MetadataCollection.php',
@@ -4063,7 +4069,6 @@ return array(
     'PHPUnit\\TextUI\\XmlConfiguration\\RemoveCacheTokensAttribute' => $vendorDir . '/phpunit/phpunit/src/TextUI/Configuration/Xml/Migration/Migrations/RemoveCacheTokensAttribute.php',
     'PHPUnit\\TextUI\\XmlConfiguration\\RemoveConversionToExceptionsAttributes' => $vendorDir . '/phpunit/phpunit/src/TextUI/Configuration/Xml/Migration/Migrations/RemoveConversionToExceptionsAttributes.php',
     'PHPUnit\\TextUI\\XmlConfiguration\\RemoveCoverageElementCacheDirectoryAttribute' => $vendorDir . '/phpunit/phpunit/src/TextUI/Configuration/Xml/Migration/Migrations/RemoveCoverageElementCacheDirectoryAttribute.php',
-    'PHPUnit\\TextUI\\XmlConfiguration\\RemoveCoverageElementIncludeUncoveredFilesAttribute' => $vendorDir . '/phpunit/phpunit/src/TextUI/Configuration/Xml/Migration/Migrations/RemoveCoverageElementIncludeUncoveredFilesAttribute.php',
     'PHPUnit\\TextUI\\XmlConfiguration\\RemoveCoverageElementProcessUncoveredFilesAttribute' => $vendorDir . '/phpunit/phpunit/src/TextUI/Configuration/Xml/Migration/Migrations/RemoveCoverageElementProcessUncoveredFilesAttribute.php',
     'PHPUnit\\TextUI\\XmlConfiguration\\RemoveEmptyFilter' => $vendorDir . '/phpunit/phpunit/src/TextUI/Configuration/Xml/Migration/Migrations/RemoveEmptyFilter.php',
     'PHPUnit\\TextUI\\XmlConfiguration\\RemoveListeners' => $vendorDir . '/phpunit/phpunit/src/TextUI/Configuration/Xml/Migration/Migrations/RemoveListeners.php',
