@@ -2,7 +2,7 @@
 <?php $__env->startSection('contents'); ?>
 <div class="row">
   <div class="col col-8">
-  <h2 class="mt-4 pb-2" style="border-bottom: 1px solid #dedede">Product Details</h2>
+  <h2 class="mt-4 pb-2" style="border-bottom: 1px solid #dedede"><i class="fas fa-info-circle px-1"></i>Product Details</h2>
     <fieldset class="mt-2 ms-0 mb-0  shadow-sm">
       <div class="row mt-2">
         <div class="col-lg-12 col-sm-12">
