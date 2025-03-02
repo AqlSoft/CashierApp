@@ -21,8 +21,9 @@
             </a>
           </li>
           <li>
-            <a href="">
-              <i class="fa-solid fa-utensils"></i> &nbsp; Orders
+          <a href="/admin/products/index"
+              class="rounded {{ Request::is('/admin/orders/index') ? 'active' : '' }}">
+              <i class="fa-solid fa-cubes"></i> &nbsp; Orders
             </a>
           </li>
           <li>

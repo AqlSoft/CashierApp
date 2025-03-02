@@ -1,8 +1,6 @@
 @extends('layouts.admin')
 
 @section('contents')
-
-
 <div class="container-fluid">
   <div class="row">
 
@@ -25,7 +23,7 @@
                   <form action="/admin/products/store" method="POST">
                     @csrf
                     <div class="input-group sm mb-2">
-                      <label class="input-group-text" for="quantity">Quantity</label>
+                      <label class="input-group-text" for="quantity">Categery</label>
                       <select class="form-select form-control sm py-0" name="category" id="category">
                         <option readonly>All Categery Types</option>
                         @foreach ($cat as $key => $value)
@@ -73,7 +71,7 @@
           </div>
         </div>
         <!-- هنا سيتم عرض المنتجات -->
-        <table class="table table-striped  mt-3">
+        <table class="table table-striped  mt-3 ">
           <thead>
             <tr>
               <th>
@@ -87,7 +85,7 @@
               <th>Control</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="table-group-divider">
             @php
             $counter = 0;
             @endphp
@@ -134,26 +132,6 @@
   </div>
 </div>
 
-<script>
-  function toggleCategory(event, element) {
-    // منع انتشار الحدث للعناصر الأب
-    event.stopPropagation();
 
-    // الحصول على القائمة الفرعية المرتبطة
-    const currentList = element.querySelector('.nested-list');
-    if (!currentList) return;
-
-    // إغلاق جميع القوائم الأخرى في نفس المستوى
-    const siblingLists = element.parentElement.querySelectorAll('.nested-list');
-    siblingLists.forEach(list => {
-      if (list !== currentList) {
-        list.classList.remove('show');
-      }
-    });
-
-    // تبديل حالة القائمة الحالية
-    currentList.classList.toggle('show');
-  }
-</script>
 
 @endsection

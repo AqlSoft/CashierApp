@@ -6,6 +6,9 @@ use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\OrdersController;
+use App\Http\Controllers\Admin\OrdersItemsController;
+
 
 
 // Route::get('/', function () {
@@ -44,4 +47,24 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
       Route::get('/edit/{id}',    [ProductsController::class, 'edit'])->name('edit-product-info');
       Route::get('/destroy/{id}', [ProductsController::class, 'destroy'])->name('destroy-product-info');
     });
+
+        // orders Routes
+        Route::prefix('orders')->group(function () {
+          Route::get('/index',        [OrdersController::class, 'index'])->name('display-order-all');
+          Route::post('/store',       [OrdersController::class, 'store'])->name('store-new-order');
+          Route::get('/display/{id}', [OrdersController::class, 'show'])->name('view-order-info');
+          Route::post('/update',      [OrdersController::class, 'update'])->name('update-order-info');
+          Route::get('/edit/{id}',    [OrdersController::class, 'edit'])->name('edit-order-info');
+          Route::get('/destroy/{id}', [OrdersController::class, 'destroy'])->name('destroy-order-info');
+        });
+
+        Route::prefix('orderItems')->group(function () {
+          Route::get('/input/create/{id}', [OrdersItemsController::class, 'create'])->name('add-orderitem-input-entry');
+          Route::post('/store',            [OrdersItemsController::class, 'store'])->name('save-orderitem-info');
+          Route::get('/edit/{id}',         [OrdersItemsController::class, 'edit'])->name('edit-orderitem-info');
+          Route::post('/update',           [OrdersItemsController::class, 'update'])->name('update-orderitem-input');
+          // Route::get('/get-products-by-category/{categoryId}', [OrdersItemsController::class, 'getProductsByCategory']);
+          Route::get('/get-products-by-category/{categoryId}', [OrdersItemsController::class, 'getProductsByCategory'])->name('get-products-by-category');
+      });
+  
   });

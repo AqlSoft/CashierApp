@@ -3,29 +3,25 @@
 namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
-
-namespace App\Http\Controllers\Admin;
 use Illuminate\Database\QueryException;
-use Illuminate\Http\Request;
+use Exception;
 use App\Models\Product;
 use App\Models\Admin;
 
-use Exception;
+
 
 class ProductsController extends Controller
 {
-  private static $cat = [
+  protected static $cat = [
     1 => 'اطباق رئيسية',   // 
     2 => 'مشروبات', // 
     3 => 'حلويات',   // 
 
   ];
-  private static $status = [
-    0 => 'none active',   // غير نشط
-    1 => 'active', // نشط
-
-
-  ];
+  protected static $status = [
+    1 => 'Active',
+    0 => 'Inactive',
+];
 
     /**
      * Display a listing of the resource.
