@@ -8,12 +8,8 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\OrdersItemsController;
+use App\Http\Controllers\Admin\ClientsController;
 
-
-
-// Route::get('/', function () {
-//     return view('auth.login');
-// });
 
 // Auth::routes();
 // // Auth::routes(['register' => false]);
@@ -59,12 +55,21 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
         });
 
         Route::prefix('orderItems')->group(function () {
-          Route::get('/input/create/{id}', [OrdersItemsController::class, 'create'])->name('add-orderitem-input-entry');
+          Route::get('/create/{id}',       [OrdersItemsController::class, 'create'])->name('add-orderitem-input-entry');
           Route::post('/store',            [OrdersItemsController::class, 'store'])->name('save-orderitem-info');
           Route::get('/edit/{id}',         [OrdersItemsController::class, 'edit'])->name('edit-orderitem-info');
           Route::post('/update',           [OrdersItemsController::class, 'update'])->name('update-orderitem-input');
-          // Route::get('/get-products-by-category/{categoryId}', [OrdersItemsController::class, 'getProductsByCategory']);
+          Route::get('/destroy/{id}',      [OrdersItemsController::class, 'destroy'])->name('destroy-store-input-entry');
           Route::get('/get-products-by-category/{categoryId}', [OrdersItemsController::class, 'getProductsByCategory'])->name('get-products-by-category');
       });
-  
+
+      // clients Routes
+      Route::prefix('clients')->group(function () {
+        Route::get('/index',        [ClientsController::class, 'index'])->name('display-client-all');
+        Route::post('/store',       [ClientsController::class, 'store'])->name('store-new-client');
+        Route::get('/display/{id}', [ClientsController::class, 'show'])->name('view-client-info');
+        Route::post('/update',      [ClientsController::class, 'update'])->name('update-client-info');
+        Route::get('/edit/{id}',    [ClientsController::class, 'edit'])->name('edit-client-info');
+        Route::get('/destroy/{id}', [ClientsController::class, 'destroy'])->name('destroy-client-info');
+      });
   });

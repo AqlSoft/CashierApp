@@ -21,7 +21,7 @@
             </a>
           </li>
           <li>
-          <a href="/admin/products/index"
+          <a href="/admin/orders/index"
               class="rounded <?php echo e(Request::is('/admin/orders/index') ? 'active' : ''); ?>">
               <i class="fa-solid fa-cubes"></i> &nbsp; Orders
             </a>
@@ -112,7 +112,7 @@
         class="btn btn-toggle d-inline-flex align-items-center "
         data-bs-toggle="collapse" data-bs-target="#users-collapse1"
         aria-expanded="">
-        <i class="fa-solid fa-users"></i> &nbsp; Users
+        <i class="fa-solid fa-users"></i> &nbsp; Clients
       </button>
       <div class="collapse" id="users-collapse1"
         data-bs-parent="#sidebarAccordion">
@@ -123,9 +123,11 @@
             </a>
           </li>
           <li>
-            <a href="">
-              <i class="fa-solid fa-truck-field"></i> &nbsp; users list
+          <a href="/admin/clients/index"
+              class="rounded <?php echo e(Request::is('/admin/clients/index') ? 'active' : ''); ?>">
+              <i class="fa-solid fa-cubes"></i> &nbsp; Clients
             </a>
+        
           </li>
           <li>
             <a href="">

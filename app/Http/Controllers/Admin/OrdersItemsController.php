@@ -9,11 +9,8 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Admin;
 use App\Models\Product;
-use App\Models\Party;
 use App\Models\Unit;
 use App\Models\ItemCategroy;
-
-
 
 class OrdersItemsController extends Controller
 {
@@ -24,10 +21,8 @@ class OrdersItemsController extends Controller
   public function create(string $id)
   {
     $order = Order::with(['orderItems.product', 'orderItems.unit', 'orderItems.order'])->find($id);
-    // $order = Order::find($id);
     $units = Unit::all();
     $categories = ItemCategroy::all();
-    // $products = Product::all();
     $vars = [
       'order' => $order,
       'units' => $units,
@@ -59,12 +54,11 @@ class OrdersItemsController extends Controller
         'order_id'    => $request->order,
         'category_id' => $request->category,
         'product_id'  => $request->product,
-        'unit_id'     => $request->unit,
+        'unit_id'     => $request->unit_id,
         'quantity'    => $request->quantity,
         'price'       => $request->price,
         'notes'       => $request->notes,
         'created_by'  => auth()->user()->id, // المستخدم الحالي
-        'updated_by'  => auth()->user()->id, // المستخدم الحالي
       ]);
 
       return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
@@ -91,7 +85,7 @@ class OrdersItemsController extends Controller
 
         'quantity'          => $request->quantity,
         'notes'             => $request->notes,
-        // 'updated_by'        => auth()->user()->id()
+        'updated_by'        => auth()->user()->id()
       ]);
 
 
@@ -100,4 +94,23 @@ class OrdersItemsController extends Controller
       return redirect()->back()->withErrors(['Update Error Happened: ' => $e->getMessage()]);
     }
   }
+
+  /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        // get the OrderItem
+        $orderitem_inputs = OrderItem::find($id);
+        try {
+            if (!$orderitem_inputs) {
+                return redirect()->back()->withError('The order item is not exist, may be deleted or you have insuffecient privilleges to delete it.');
+            }
+            $orderitem_inputs->delete();
+            return redirect()->back()->with(['success' => 'Order Item Removed Successfully']);
+        } catch (Exception $err) {
+            return redirect()->back()->with(['error' => 'Order Item can not be Removed due to: ' . $err]);
+        }
+    }
+
 }

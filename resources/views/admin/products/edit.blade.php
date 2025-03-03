@@ -57,7 +57,7 @@
             <i class="fas fa-undo me-1"></i> Reset
           </button>
           <button type="submit" class="input-group-text btn py-0 btn-primary" data-bs-toggle="tooltip"
-            data-bs-placement="top" title="Save receipt Info changes">
+            data-bs-placement="top" title="Save product Info changes">
             <i class="fas fa-save me-1"></i> Update
           </button>
         </div>

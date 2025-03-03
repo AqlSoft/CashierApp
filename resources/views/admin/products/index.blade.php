@@ -26,8 +26,8 @@
                       <label class="input-group-text" for="quantity">Categery</label>
                       <select class="form-select form-control sm py-0" name="category" id="category">
                         <option readonly>All Categery Types</option>
-                        @foreach ($cat as $key => $value)
-                        <option value="{{ $key }}">{{ $value }}</option>
+                        @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->cat_name }}</option>
                         @endforeach
                       </select>
                       <label class="input-group-text" for="name">Product Name</label>

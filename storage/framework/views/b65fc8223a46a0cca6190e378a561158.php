@@ -26,8 +26,8 @@
                       <label class="input-group-text" for="quantity">Categery</label>
                       <select class="form-select form-control sm py-0" name="category" id="category">
                         <option readonly>All Categery Types</option>
-                        <?php $__currentLoopData = $cat; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+                        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($category->id); ?>"><?php echo e($category->cat_name); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                       </select>
                       <label class="input-group-text" for="name">Product Name</label>

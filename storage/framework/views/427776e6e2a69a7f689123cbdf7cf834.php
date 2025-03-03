@@ -13,7 +13,7 @@
             <i data-bs-toggle="tooltip" title="Add New order" class="fa fa-plus"></i>
           </a>
         </h1>
-        <!-- هنا سيتم اضافة المنتجات -->
+        <!-- هنا سيتم اضافة الطلبات -->
         <div class="row">
           <div class="col col-12 collapse  pt-3" id="addOrderForm">
             <div class="row">
@@ -23,47 +23,34 @@
                   <form action="/admin/orders/store" method="POST">
                     <?php echo csrf_field(); ?>
                     <div class="input-group sm mb-2">
-                      <label class="input-group-text" for="type"> Client</label>
-                      <select class="form-select  form-control sm py-0" name="type" id="type">
-                        <option readonly>All customer</option>
+                      <label class="input-group-text" for="serial_number">Serial Number</label>
+                      <input type="number" class="form-control sm" name="serial_number" id="serial_number">
+                      <label class="input-group-text" for="customer_id"> Client</label>
+                      <select class="form-select  form-control sm py-0" name="customer_id" id="customer_id">
+                        <option readonly>All Client</option>
                         <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <option value="<?php echo e($customer->id); ?>"><?php echo e($customer->name); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                       </select>
-                    </div>
-                    <div id="items-container">
-                    <div class="item mb-3">
-                    <div class="input-group sm mb-2">
-                      <label class="input-group-text" for="quantity">Product</label>
-                      <select class="form-select  form-control sm py-0" name="admin_id" id="admin_id">
-                        <option readonly>All products</option>
-                        <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($product->id); ?>"><?php echo e($product->name); ?></option>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                      </select>
-                    
-                      <label class="input-group-text" for="cost_price">Cost Price</label>
-                      <input type="number" class="form-control sm" name="cost_price" id="cost_price">
+                      <label class="input-group-text" for="customer_id" >
+                      <a class="btn btn-sm py-0" href="<?php echo e(route('display-client-all')); ?>">
+                      <i class="fa-solid fa-user-plus"  title="View Details"></i></a>
+                        </label>
+                      <label class="input-group-text" for="order_date">Order Date</label>
+                      <input  type="text" value="<?php echo e(date('Y-m-d')); ?>"  placeholder="YYYY-MM-DD"  class="fc-datepicker form-control sm " name="order_date" id="order_date">
                     </div>
                     <div class="input-group sm mt-2">
-                      <label class="input-group-text" for="quantity">Quantity</label>
-                      <input type="number" class="form-control sm" name="quantity" id="quantity">
-
-                    </div>
-                    <div class="input-group sm mt-2">
-                      <label class="input-group-text" for="brief">Description</label>
-                      <input type="text" class="form-control sm" name="brief" id="brief">
+                    <label class="input-group-text" for="notes">Notes</label>
+                    <input type="text" class="form-control sm" name="notes" id="notes">
                       <div class="input-group-text">
                         <input class="form-check-input mt-0" name="status" type="checkbox" value="1"
                           aria-label="Checkbox for following text input">
                       </div>
                       <button type="button" class="input-group-text text-start">Active</button>
                     </div>
-                    </div>
-                    </div>
-                    <div class="input-group sm mt-2" style="border-top: 1px solid #aaa">                  
-                      <button type="submit" class="py-0 btn btn-primary p-3 mt-2" style="margin-left:850px;">Save Order</button>
-                      <button type="button" class="py-0 btn btn-secondary p-3 mt-2"  id="add-item" style="margin-left:850px;">Add Another Item</button>
+                    <div class="input-group d-flex sm mt-2 justify-content-end" style="border-top: 1px solid #aaa">
+                      <button type="submit" class="py-0 btn btn-primary p-3 mt-2" >Save Order</button>
+                      <button type="reset" class="py-0 btn btn-secondary p-3 mt-2" id="add-item" >reset</button>
                     </div>
                   </form>
                 </div>
@@ -77,13 +64,11 @@
         <table class="table table-striped  mt-3">
           <thead>
             <tr>
-              <th>
-                #
-              </th>
-              <th>serial_number</th>
-            <th>Customer Name</th>
-            <th>Order Date</th>
-            <th>Status</th>
+              <th> #</th>
+              <th>Serial Number</th>
+              <th>Client Name</th>
+              <th>Order Date</th>
+              <th>Status</th>
               <th>Control</th>
             </tr>
           </thead>
@@ -93,31 +78,33 @@
             ?>
             <?php if(count($orders)): ?>
             <?php $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-      <tr>
-      <td><?php echo e(++$counter); ?></td>
-      <td><?php echo e($order->serial_number); ?></td>
-      <td><?php echo e($order->customer->name); ?></td> <!-- اسم العميل -->
-                <td><?php echo e($order->order_date); ?></td>
-        <td>
-          <?php if($order->status == 1): ?>
-          <span class="badge bg-primary">New</span>
-          <?php elseif($order->status == 2): ?>
-          <span class="badge bg-warning">In Progress</span>
-          <?php else: ?>
-          <span class="badge bg-success">Completed</span>
-          <?php endif; ?>
-        </td>
+            <tr>
+              <td><?php echo e(++$counter); ?></td>
+              <td><?php echo e($order->serial_number); ?></td>
+              <td><?php echo e(@$order->customer->name); ?></td> <!-- اسم العميل -->
+              <td><?php echo e($order->order_date); ?></td>
+              <td>
+                <?php if($order->status == 1): ?>
+                <span class="badge bg-primary">New</span>
+                <?php elseif($order->status == 2): ?>
+                <span class="badge bg-warning">In Progress</span>
+                <?php else: ?>
+                <span class="badge bg-success">Completed</span>
+                <?php endif; ?>
+              </td>
 
               <td>
-              <a class="btn btn-sm py-0 p-0" data-bs-toggle="tooltip" title="Add order item"
-                href="<?php echo e(route('add-orderitem-input-entry', [$order->id])); ?>"><i
-                  class="fa fa-square-plus text-success"></i></a>
+              <?php if($order->status == 1 || $order->status == 2): ?>
+                <a class="btn btn-sm py-0 p-0" data-bs-toggle="tooltip" title="Add order item"
+                  href="<?php echo e(route('add-orderitem-input-entry', [$order->id])); ?>"><i
+                    class="fa fa-square-plus text-success"></i></a>
+              <?php endif; ?>
                 <a class="btn btn-sm py-0" href="<?php echo e(route('view-order-info', $order->id)); ?>"><i
-                    class="fas fa-eye text-success"   title="View Details"></i></a>
+                    class="fas fa-eye text-success" title="View Details"></i></a>
                 <a class="btn btn-sm py-0" href="<?php echo e(route('edit-order-info', $order->id)); ?>"><i
                     class="fa fa-edit text-primary"></i></a>
-                    <a class="btn btn-sm py-0 p-0" data-bs-toggle="tooltip" title="print order"
-                    href="#"><i class="fa fa-print text-secondary"></i></a>
+                <a class="btn btn-sm py-0 p-0" data-bs-toggle="tooltip" title="print order"
+                  href="#"><i class="fa fa-print text-secondary"></i></a>
                 <a class="btn btn-sm py-0" onclick="if(!confirm('You are about to delete a order, are you sure!?.')){return false}"
                   title="Delete order and related Information" href="<?php echo e(route('destroy-order-info', $order->id)); ?>"><i
                     class="fa fa-trash text-danger"></i></a>
@@ -127,7 +114,7 @@
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             <?php else: ?>
             <tr>
-              <td colspan="7">No product has been added yet, Add your .</td>
+              <td colspan="7">No order has been added yet, Add your .</td>
             </tr>
             <?php endif; ?>
           </tbody>
@@ -137,34 +124,9 @@
   </div>
 </div>
 <script>
-        let itemCount = 1;
-        document.getElementById('add-item').addEventListener('click', function() {
-            const container = document.getElementById('items-container');
-            const newItem = document.createElement('div');
-            newItem.classList.add('item', 'mb-3');
-            newItem.innerHTML = `
-                <h5>Item ${itemCount + 1}</h5>
-                <div class="mb-3">
-                    <label for="product_id" class="form-label">Product ID</label>
-                    <input type="number" class="form-control" name="items[${itemCount}][product_id]" required>
-                </div>
-                <div class="mb-3">
-                    <label for="quantity" class="form-label">Quantity</label>
-                    <input type="number" class="form-control" name="items[${itemCount}][quantity]" required>
-                </div>
-                <div class="mb-3">
-                    <label for="unit_id" class="form-label">Unit ID</label>
-                    <input type="number" class="form-control" name="items[${itemCount}][unit_id]" required>
-                </div>
-                <div class="mb-3">
-                    <label for="price" class="form-label">Price</label>
-                    <input type="number" step="0.01" class="form-control" name="items[${itemCount}][price]" required>
-                </div>
-            `;
-            container.appendChild(newItem);
-            itemCount++;
-        });
-    </script>
+        var date = $('.fc-datepicker').datepicker({
+            dateFormat: 'yy-mm-dd'
+        }).val();
+  </script>
 <?php $__env->stopSection(); ?>
-
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\kashear_project\resources\views/admin/orders/index.blade.php ENDPATH**/ ?>

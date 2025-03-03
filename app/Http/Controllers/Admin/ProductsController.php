@@ -7,17 +7,13 @@ use Illuminate\Database\QueryException;
 use Exception;
 use App\Models\Product;
 use App\Models\Admin;
+use App\Models\ItemCategroy;
 
 
 
 class ProductsController extends Controller
 {
-  protected static $cat = [
-    1 => 'اطباق رئيسية',   // 
-    2 => 'مشروبات', // 
-    3 => 'حلويات',   // 
 
-  ];
   protected static $status = [
     1 => 'Active',
     0 => 'Inactive',
@@ -29,12 +25,12 @@ class ProductsController extends Controller
     public function index()
     {
       $products = Product::all();
-    $vars = [
-      'cat'      => static::$cat,
-      'status'   => static::$status,
-      'products' => $products,
-      'admins'   => Admin::all()
-    ];
+      $vars = [
+        'categories' => ItemCategroy::all(),
+        'status'   => static::$status,
+        'products' => $products,
+        'admins'   => Admin::all()
+      ];
     return view('admin.products.index', $vars);
     }
 
@@ -79,7 +75,6 @@ class ProductsController extends Controller
       return redirect()->back()->withError('The product is not exist, may be deleted or you have insuffecient privilleges.');
     }
     $vars = [
-      'cat'     => static::$cat,
       'status'  => static::$status,
       'product' => $product,
     
@@ -111,9 +106,8 @@ class ProductsController extends Controller
       $product = Product::find($request->id);
 
       try {
-
           $product->update([
-              'name'           => $request->name,
+            'name'           => $request->name,
             'cost_price'       => $request->cost_price,
             'quantity'         => $request->quantity,
             'description'      => $request->description,

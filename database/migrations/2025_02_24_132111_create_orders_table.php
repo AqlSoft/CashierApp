@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
           $table->id();
-        $table->unsignedBigInteger('customer_id');
-        $table->tinyInteger('status')->default(1);
-        $table->timestamps();
+          $table->unsignedBigInteger('serial_number');
+          $table->date('order_date');
+          $table->unsignedBigInteger('customer_id');
+          $table->text('notes')->nullable();
+          $table->boolean('status')->default(1);
+          $table->timestamps();
         });
     }
 

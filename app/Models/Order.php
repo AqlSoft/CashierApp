@@ -14,16 +14,20 @@ class Order extends Model
     'serial_number',
     'order_date',
     'customer_id',
+    'notes',
     'status',
     'created_by',
     'updated_by',
 ];
 
-  public function creator()
-  {
-      return $this->belongsTo(Admin::class, 'created_by', 'id');
-  }
-
+    public function creator()
+    {
+        return $this->belongsTo(Admin::class, 'created_by', 'id');
+    }
+    public function editor()
+    {
+        return $this->belongsTo(Admin::class, 'updated_by', 'id');
+    }
   /* علاقة مع العميل (Party)*/
     public function customer()
     {
