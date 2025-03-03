@@ -1,8 +1,6 @@
 
 
 <?php $__env->startSection('contents'); ?>
-
-
 <div class="container-fluid">
   <div class="row">
 
@@ -25,11 +23,11 @@
                   <form action="/admin/products/store" method="POST">
                     <?php echo csrf_field(); ?>
                     <div class="input-group sm mb-2">
-                      <label class="input-group-text" for="quantity">Quantity</label>
+                      <label class="input-group-text" for="quantity">Categery</label>
                       <select class="form-select form-control sm py-0" name="category" id="category">
                         <option readonly>All Categery Types</option>
-                        <?php $__currentLoopData = $cat; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+                        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($category->id); ?>"><?php echo e($category->cat_name); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                       </select>
                       <label class="input-group-text" for="name">Product Name</label>
@@ -73,7 +71,7 @@
           </div>
         </div>
         <!-- هنا سيتم عرض المنتجات -->
-        <table class="table table-striped  mt-3">
+        <table class="table table-striped  mt-3 ">
           <thead>
             <tr>
               <th>
@@ -87,7 +85,7 @@
               <th>Control</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="table-group-divider">
             <?php
             $counter = 0;
             ?>
@@ -134,27 +132,7 @@
   </div>
 </div>
 
-<script>
-  function toggleCategory(event, element) {
-    // منع انتشار الحدث للعناصر الأب
-    event.stopPropagation();
 
-    // الحصول على القائمة الفرعية المرتبطة
-    const currentList = element.querySelector('.nested-list');
-    if (!currentList) return;
-
-    // إغلاق جميع القوائم الأخرى في نفس المستوى
-    const siblingLists = element.parentElement.querySelectorAll('.nested-list');
-    siblingLists.forEach(list => {
-      if (list !== currentList) {
-        list.classList.remove('show');
-      }
-    });
-
-    // تبديل حالة القائمة الحالية
-    currentList.classList.toggle('show');
-  }
-</script>
 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\kashear_project\resources\views/admin/products/index.blade.php ENDPATH**/ ?>
