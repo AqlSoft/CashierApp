@@ -22,33 +22,33 @@
   <form action="<?php echo e(route('save-invoices-orderitem-info')); ?>" method="post" class="bg-transparent">
     <?php echo csrf_field(); ?>
     <input type="hidden" name="order" value="<?php echo e($order->id); ?>">
-    <div class="row mt-3 bg-transparent">
-      <div class="col col-2 text-end fw-bold">Serial Number:</div>
-      <div class="col col-4"> <input value="<?php echo e($order->serial_number  ?? 'N/A'); ?>" name="serial_number" style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled> </div>
-      <div class="col col-2 text-end fw-bold">Order Date:</div>
-      <div class="col col-4"><input value="<?php echo e($order->order_date  ?? 'N/A'); ?>" name="order_date" style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled></div>
-      <div class="col col-2 text-end fw-bold"> Invoice Number :</div>
-      <div class="col col-4"><input name="invoice_number" style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
-      <div class="col col-2 text-end fw-bold">Invoice Date:</div>
-      <div class="col col-4"><input name="invoice_date"value="<?php echo e(date('Y-m-d')); ?>"  placeholder="YYYY-MM-DD"  style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
-      <div class="col col-2 text-end fw-bold">Vat Number:</div>
-      <div class="col col-4"><input name="vat_number" style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
-      <div class="col col-2 text-end fw-bold">Client Name:</div>
-      <div class="col col-4"><input  name="" value="<?php echo e($order->customer->name     ?? 'N/A'); ?>"  style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled>
+    <div class="row mt-3 ">
+      <div class="col col-2 text-end fw-bold bg-transparent">Serial Number:</div>
+      <div class="col col-4 bg-transparent"> <input  value="<?php echo e($order->serial_number  ?? 'N/A'); ?>" name="serial_number" style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled> </div>
+      <div class="col col-2 text-end fw-bold bg-transparent">Order Date:</div>
+      <div class="col col-4 bg-transparent"><input  value="<?php echo e($order->order_date  ?? 'N/A'); ?>" name="order_date" style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled></div>
+      <div class="col col-2 text-end fw-bold bg-transparent"> Invoice Number :</div>
+      <div class="col col-4 bg-transparent"><input name="invoice_number" class="bg-transparent " style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
+      <div class="col col-2 text-end fw-bold bg-transparent">Invoice Date:</div>
+      <div class="col col-4 bg-transparent"><input name="invoice_date" value="<?php echo e(date('Y-m-d')); ?>"  placeholder="YYYY-MM-DD"  class="bg-transparent " style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
+      <div class="col col-2 text-end fw-bold bg-transparent ">Vat Number:</div>
+      <div class="col col-4 bg-transparent"><input name="vat_number" class="bg-transparent " style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
+      <div class="col col-2 text-end fw-bold bg-transparent">Client Name:</div>
+      <div class="col col-4 bg-transparent"><input  name="" value="<?php echo e($order->customer->name     ?? 'N/A'); ?>"  style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled>
       <input type="hidden" name="client_id" id="client_id" value="<?php echo e($order->customer->id); ?>">
       </div>
-      <div class="col col-2 text-end fw-bold"> Order Status :</div>
-      <div class="col col-4">
+      <div class="col col-2 text-end fw-bold bg-transparent"> Order Status :</div>
+      <div class="col col-4 bg-transparent">
         <?php if($order->status == 1): ?>
         <span class="bg-transparent text-primary"><input value="<?php echo e($status[$order->status]     ?? 'N/A'); ?>" name="status" style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled></span>
         <?php endif; ?>
       </div>
-      <div class="col col-2 text-end fw-bold">Due Date:</div>
-      <div class="col col-4"><input name="due_date" value="<?php echo e(date('Y-m-d')); ?>"  placeholder="YYYY-MM-DD"  style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
-      <div class="col col-2 text-end fw-bold">Payment Date:</div>
-      <div class="col col-4"><input name="payment_date" value="<?php echo e(date('Y-m-d')); ?>"  placeholder="YYYY-MM-DD"  style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
-      <div class="col col-2 text-end fw-bold">Invoice Type:</div>
-      <div class="col col-4"><input name="type" value="sales" style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
+      <div class="col col-2 text-end fw-bold bg-transparent">Due Date:</div>
+      <div class="col col-4 bg-transparent"><input name="due_date" value="<?php echo e(date('Y-m-d')); ?>" class="bg-transparent " placeholder="YYYY-MM-DD"  style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
+      <div class="col col-2 text-end fw-bold bg-transparent ">Payment Date:</div>
+      <div class="col col-4 bg-transparent "><input name="payment_date" value="<?php echo e(date('Y-m-d')); ?>" class="bg-transparent " placeholder="YYYY-MM-DD"  style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
+      <div class="col col-2 text-end fw-bold bg-transparent ">Invoice Type:</div>
+      <div class="col col-4 bg-transparent "><input name="type" value="sales" class="bg-transparent " style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
     </div>
 
     <table class="mt-3 w-100   table-hover">
@@ -117,8 +117,8 @@
     </table>
 
     <div class="input-group pt-2 px-3 justify-content-end">
-      <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Save Invoice">
-        Save Invoice
+      <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Create Invoice">
+        Create Invoice
       </button>
       <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Invoice">
         Cancel Invoice
