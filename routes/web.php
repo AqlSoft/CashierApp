@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\OrdersItemsController;
 use App\Http\Controllers\Admin\ClientsController;
+use App\Http\Controllers\Admin\SalesInvoiceController;
 
 
 // Auth::routes();
@@ -72,4 +73,13 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
         Route::get('/edit/{id}',    [ClientsController::class, 'edit'])->name('edit-client-info');
         Route::get('/destroy/{id}', [ClientsController::class, 'destroy'])->name('destroy-client-info');
       });
+      // invoices routes
+      Route::prefix('invoices')->group(function () {
+        Route::get('/create/{id}',   [SalesInvoiceController::class, 'create'])->name('add-invoices-orderItem');
+        Route::post('/store',        [SalesInvoiceController::class, 'store'])->name('save-invoices-orderitem-info');
+        Route::get('/edit/{id}',     [SalesInvoiceController::class, 'edit'])->name('edit-invoices-orderitem-info');
+        Route::post('/update',       [SalesInvoiceController::class, 'update'])->name('update-invoices-orderitem-input');
+        Route::get('/destroy/{id}',  [SalesInvoiceController::class, 'destroy'])->name('destroy-invoices-orderitem');
+      
+    });
   });
