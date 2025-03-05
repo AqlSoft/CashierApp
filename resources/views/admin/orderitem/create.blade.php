@@ -23,9 +23,9 @@
   <div class="row mt-3">
     <div class="col col-2 text-end fw-bold">Serial Number:</div>
     <div class="col col-4"> {{ $order->serial_number }}</div>
-    <div class="col col-2 text-end fw-bold">Date Expiry:</div>
+    <div class="col col-2 text-end fw-bold">Order Date:</div>
     <div class="col col-4">{{ $order->order_date }}</div>
-    <div class="col col-2 text-end fw-bold">Representative:</div>
+    <div class="col col-2 text-end fw-bold">Client Name:</div>
     <div class="col col-4">{{ $order->customer->name  }}</div>
     <div class="col col-2 text-end fw-bold">Status:</div>
     <div class="col col-4">
@@ -164,9 +164,10 @@
     <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Bach to Order">
       Bach to Order
     </button>
-
+    
     <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Confirm Order">
-      Confirm Order
+    <a class="btn btn-sm py-0" href="{{ route('add-invoices-orderItem', $order->id) }}">Confirm Order</a>
+      
     </button>
     <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Order">
       Cancel Order

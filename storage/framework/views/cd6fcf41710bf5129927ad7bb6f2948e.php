@@ -1,7 +1,7 @@
 
 
 <?php $__env->startSection('extra-links'); ?>
-<link rel="stylesheet" href="<?php echo e(asset('assets/admin/css/store.entries.css')); ?>">
+<link rel="stylesheet" href="<?php echo e(asset('assets/admin/css/orderitem.css')); ?>">
 <style>
   .table th {
     font-weight: 600;
@@ -101,7 +101,6 @@
       </form>
       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-
       <?php else: ?>
       <tr>
         <td colspan="7">No order item has been added yet</td>
@@ -165,9 +164,10 @@
     <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Bach to Order">
       Bach to Order
     </button>
-
+    
     <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Confirm Order">
-      Confirm Order
+    <a class="btn btn-sm py-0" href="<?php echo e(route('add-invoices-orderItem', $order->id)); ?>">Confirm Order</a>
+      
     </button>
     <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Order">
       Cancel Order
