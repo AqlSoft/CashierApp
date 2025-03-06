@@ -322,14 +322,15 @@ CREATE TABLE IF NOT EXISTS `payments` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `order_id` bigint NOT NULL,
   `payment_method` smallint NOT NULL,
-  `amount` decimal(10,2) NOT NULL,
+  `amount_from` decimal(10,2) NOT NULL,
+  `amount_to` decimal(10,2) NOT NULL,
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `status` smallint NOT NULL DEFAULT '1',
   `from_account` bigint NOT NULL,
   `to_account` bigint NOT NULL,
   `reference` text COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
