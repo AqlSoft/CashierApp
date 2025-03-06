@@ -167,7 +167,6 @@
     
     <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Confirm Order">
     <a class="btn btn-sm py-0" href="{{ route('add-invoices-orderItem', $order->id) }}">Confirm Order</a>
-      
     </button>
     <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Order">
       Cancel Order

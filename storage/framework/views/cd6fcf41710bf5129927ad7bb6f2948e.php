@@ -23,9 +23,9 @@
   <div class="row mt-3">
     <div class="col col-2 text-end fw-bold">Serial Number:</div>
     <div class="col col-4"> <?php echo e($order->serial_number); ?></div>
-    <div class="col col-2 text-end fw-bold">Date Expiry:</div>
+    <div class="col col-2 text-end fw-bold">Order Date:</div>
     <div class="col col-4"><?php echo e($order->order_date); ?></div>
-    <div class="col col-2 text-end fw-bold">Representative:</div>
+    <div class="col col-2 text-end fw-bold">Client Name:</div>
     <div class="col col-4"><?php echo e($order->customer->name); ?></div>
     <div class="col col-2 text-end fw-bold">Status:</div>
     <div class="col col-4">

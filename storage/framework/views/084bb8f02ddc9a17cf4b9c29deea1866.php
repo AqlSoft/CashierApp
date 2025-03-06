@@ -19,23 +19,23 @@
 </h1>
 
 <fieldset class="table mt-3">
-  <form action="<?php echo e(route('save-invoices-orderitem-info')); ?>" method="post" class="bg-transparent">
+  <form action="<?php echo e(route('save-invoices-orderitem-info')); ?>" method="post" class="bg-transparent p-0 ">
     <?php echo csrf_field(); ?>
     <input type="hidden" name="order" value="<?php echo e($order->id); ?>">
     <div class="row mt-3 ">
       <div class="col col-2 text-end fw-bold bg-transparent">Serial Number:</div>
-      <div class="col col-4 bg-transparent"> <input  value="<?php echo e($order->serial_number  ?? 'N/A'); ?>" name="serial_number" style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled> </div>
+      <div class="col col-4 bg-transparent"> <input value="<?php echo e($order->serial_number  ?? 'N/A'); ?>" name="serial_number" style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled> </div>
       <div class="col col-2 text-end fw-bold bg-transparent">Order Date:</div>
-      <div class="col col-4 bg-transparent"><input  value="<?php echo e($order->order_date  ?? 'N/A'); ?>" name="order_date" style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled></div>
+      <div class="col col-4 bg-transparent"><input value="<?php echo e($order->order_date  ?? 'N/A'); ?>" name="order_date" style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled></div>
       <div class="col col-2 text-end fw-bold bg-transparent"> Invoice Number :</div>
       <div class="col col-4 bg-transparent"><input name="invoice_number" class="bg-transparent " style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
       <div class="col col-2 text-end fw-bold bg-transparent">Invoice Date:</div>
-      <div class="col col-4 bg-transparent"><input name="invoice_date" value="<?php echo e(date('Y-m-d')); ?>"  placeholder="YYYY-MM-DD"  class="bg-transparent " style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
+      <div class="col col-4 bg-transparent"><input name="invoice_date" value="<?php echo e(date('Y-m-d')); ?>" placeholder="YYYY-MM-DD" class="bg-transparent " style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
       <div class="col col-2 text-end fw-bold bg-transparent ">Vat Number:</div>
       <div class="col col-4 bg-transparent"><input name="vat_number" class="bg-transparent " style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
       <div class="col col-2 text-end fw-bold bg-transparent">Client Name:</div>
-      <div class="col col-4 bg-transparent"><input  name="" value="<?php echo e($order->customer->name     ?? 'N/A'); ?>"  style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled>
-      <input type="hidden" name="client_id" id="client_id" value="<?php echo e($order->customer->id); ?>">
+      <div class="col col-4 bg-transparent"><input name="" value="<?php echo e($order->customer->name     ?? 'N/A'); ?>" style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled>
+        <input type="hidden" name="client_id" id="client_id" value="<?php echo e($order->customer->id); ?>">
       </div>
       <div class="col col-2 text-end fw-bold bg-transparent"> Order Status :</div>
       <div class="col col-4 bg-transparent">
@@ -44,9 +44,9 @@
         <?php endif; ?>
       </div>
       <div class="col col-2 text-end fw-bold bg-transparent">Due Date:</div>
-      <div class="col col-4 bg-transparent"><input name="due_date" value="<?php echo e(date('Y-m-d')); ?>" class="bg-transparent " placeholder="YYYY-MM-DD"  style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
+      <div class="col col-4 bg-transparent"><input name="due_date" value="<?php echo e(date('Y-m-d')); ?>" class="bg-transparent " placeholder="YYYY-MM-DD" style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
       <div class="col col-2 text-end fw-bold bg-transparent ">Payment Date:</div>
-      <div class="col col-4 bg-transparent "><input name="payment_date" value="<?php echo e(date('Y-m-d')); ?>" class="bg-transparent " placeholder="YYYY-MM-DD"  style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
+      <div class="col col-4 bg-transparent "><input name="payment_date" value="<?php echo e(date('Y-m-d')); ?>" class="bg-transparent " placeholder="YYYY-MM-DD" style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
       <div class="col col-2 text-end fw-bold bg-transparent ">Invoice Type:</div>
       <div class="col col-4 bg-transparent "><input name="type" value="sales" class="bg-transparent " style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
     </div>
@@ -60,7 +60,7 @@
           <th>price</th>
           <th>Unit</th>
           <th>Quantity</th>
-          <th>Notes</th>
+          <th>Total</th>
           <th></th>
         </tr>
       </thead>
@@ -69,8 +69,8 @@
         <?php
         $counter = 0;
         ?>
-        <?php if(count($orderItems)): ?>
-        <?php $__currentLoopData = $orderItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $orderItem): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <?php if(isset($order->orderItems) && count($order->orderItems)): ?>
+        <?php $__currentLoopData = $order->orderItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $orderItem): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <tr>
           <td><?php echo e(++$counter); ?></td>
           <td><?php echo e($orderItem->category->cat_name); ?></td> <!-- عرض اسم الفئة -->
@@ -78,7 +78,7 @@
           <td><?php echo e($orderItem->price); ?></td>
           <td><?php echo e($orderItem->unit->name); ?></td> <!-- عرض اسم الوحدة -->
           <td><?php echo e($orderItem->quantity); ?></td>
-          <td><?php echo e($orderItem->notes); ?></td>
+          <td><?php echo e($orderItem->price * $orderItem->quantity); ?></td>
         </tr>
 
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -89,87 +89,98 @@
         <?php endif; ?>
       </tbody>
       <tfoot class="bg-transparent mt-3">
-    <tr>
-        <td colspan="6" class="fw-bold text-end text-primary ">Invoice Total :</td>
-        <td class="text-primary">
-            <input id="invoice_total" name="invoice_total" class="bg-transparent" style="border:none;border-bottom: 2px solid #dedede" readonly>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="6" class="fw-bold text-end text-primary ">Vat Amount :</td>
-        <td class="text-primary">
-            <input id="vat_amount" name="vat_amount" class="bg-transparent" style="border:none;border-bottom: 2px solid #dedede" >
-        </td>
-    </tr>
-    <tr>
-        <td colspan="6" class="fw-bold text-end text-primary ">Amount :</td>
-        <td class="text-primary">
-            <input id="amount" name="amount" class="bg-transparent" style="border:none;border-bottom: 2px solid #dedede">
-        </td>
-    </tr>
-    <tr>
-        <td colspan="6" class="fw-bold text-end text-primary ">Total Amount :</td>
-        <td class="text-primary">
-            <input id="total_amount" name="total_amount" class="bg-transparent" style="border:none;border-bottom: 2px solid #dedede" readonly>
-        </td>
-    </tr>
-</tfoot>
+        <tr>
+          <td colspan="6" class="fw-bold text-end text-primary ">Amount :</td>
+          <td class="text-primary">
+            <input id="amount" name="amount" class="bg-transparent" value="<?php echo e($amount); ?>"  style="border:none;border-bottom: 2px solid #dedede" readonly>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="6" class="fw-bold text-end text-primary ">Vat Amount :</td>
+          <td class="text-primary">
+            <input id="vat_amount" name="vat_amount" class="bg-transparent" value="<?php echo e($vatAmount); ?>" style="border:none;border-bottom: 2px solid #dedede">
+          </td>
+        </tr>
+        
+        <tr>
+          <td colspan="6" class="fw-bold text-end text-primary ">Total Amount :</td>
+          <td class="text-primary">
+            <input id="total_amount" name="total_amount" class="bg-transparent" value="<?php echo e($totalAmount); ?>" style="border:none;border-bottom: 2px solid #dedede" readonly>
+          </td>
+        </tr>
+      </tfoot>
     </table>
 
-    <div class="input-group pt-2 px-3 justify-content-end">
-      <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Create Invoice">
-        Create Invoice
+    <div class="input-group pt-2 px-3 justify-content-end ">
+      <button class="btn px-3 py-1 btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Confirm & Pay
       </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item active" href="#" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" >Cash Payment</a></li>
+        <li><a class="dropdown-item" href="#">Debit Card </a></li>
+        <li><a class="dropdown-item" href="#">Transfer</a></li>
+        <li><a class="dropdown-item" href="#">Credit Sales </a></li>
+      </ul>
       <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Invoice">
         Cancel Invoice
       </button>
     </div>
   </form>
 </fieldset>
+<!-- Cash Payment modal -->
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-sm ">
+    <div class="modal-content">
+      <h1 class="modal-title fs-5 mt-2  ps-3" id="exampleModalToggleLabel" style="border-bottom: 1px solid #dedede">Cash Payment </h1>
+      <div class="modal-body">
+        <form action="<?php echo e(route('payments.cash.store', $order->id)); ?>" method="POST">
+          <?php echo csrf_field(); ?>
+          <div class="input-group sm mb-2">
+            <label class="input-group-text" for="amount">Amount</label>
+            <input type="number" class="form-control sm" value="<?php echo e($amount); ?>" name="amount" id="amount">
+          </div>
+          <div class="input-group sm mb-2">
+            <label class="input-group-text" for="vatAmount">Vat Amount </label>
+            <input type="number" class="form-control sm" name="vat_amount" value="<?php echo e($vatAmount); ?>" id="vatAmount">
+          </div>
+          <div class="input-group sm mb-2">
+            <label class="input-group-text" for="total_amount">Total Amount</label>
+            <input type="number" class="form-control sm" value="<?php echo e($totalAmount); ?>" name="total_amount" id="total_amount">
+          </div>
+          <div class="input-group sm mb-2">
+            <label class="input-group-text" for="paid">Paid</label>
+            <input type="number" class="form-control sm" name="paid" id="paid">
+          </div>
+          <div class="input-group sm mb-0">
+            <label class="input-group-text" for="Remaining">Remaining</label>
+            <input type="number" class="form-control sm" name="remaining" id="remaining">
+          </div>
+          <div class="input-group pt-2 px-3 mt-2 justify-content-end " style="border-top: 1px solid #dedede">
+            <button type="button" class="btn px-3 py-1 btn-outline-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn px-3 py-1 btn-primary btn-sm" >confirm</button>
+         </div>
+         </form>
+      </div>
+  
+    </div>
+  </div>
+</div>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // العناصر التي سنتعامل معها
-    const invoiceTotalInput = document.getElementById('invoice_total');
-    const vatAmountInput = document.getElementById('vat_amount');
-    const amountInput = document.getElementById('amount');
-    const totalAmountInput = document.getElementById('total_amount');
+    const paidInput = document.getElementById('paid');
+    const remainingInput = document.getElementById('remaining');
 
-    // بيانات الطلب (يمكن جلبها من الخادم)
-    const orderItems = <?php echo json_encode($orderItems); ?>; // تحويل بيانات الطلب إلى JSON
+    // القيمة الإجمالية (Total Amount) - يتم تمريرها من الكونترولر
+    const totalAmount = <?php echo e($totalAmount); ?>;
 
-    // حساب إجمالي الفاتورة
-    function calculateInvoiceTotal() {
-      let total = 0;
-      orderItems.forEach(item => {
-        total += item.quantity * item.price;
-      });
-      return total;
-    }
+    // تحديث قيمة Remaining عند تغيير Paid
+    paidInput.addEventListener('input', function () {
+      const paidAmount = parseFloat(paidInput.value) || 0; // القيمة المدخلة أو 0 إذا كانت فارغة
+      const remainingAmount = totalAmount - paidAmount; // حساب المبلغ المتبقي
 
-    // حساب قيمة الضريبة (افترض أن الضريبة 15%)
-    function calculateVatAmount(invoiceTotal) {
-      return invoiceTotal * 0.15;
-    }
-
-    // تحديث القيم عند تغيير المبلغ المدفوع
-    amountInput.addEventListener('input', function () {
-      const invoiceTotal = calculateInvoiceTotal();
-      const vatAmount = calculateVatAmount(invoiceTotal);
-      const amountPaid = parseFloat(amountInput.value) || 0;
-
-      // تحديث القيم في الحقول
-      invoiceTotalInput.value = invoiceTotal.toFixed(2);
-      vatAmountInput.value = vatAmount.toFixed(2);
-      totalAmountInput.value = (invoiceTotal + vatAmount).toFixed(2);
+      // تحديث حقل Remaining
+      remainingInput.value = remainingAmount.toFixed(2); // عرض القيمة مع خانتين عشريتين
     });
-
-    // حساب القيم عند تحميل الصفحة
-    const invoiceTotal = calculateInvoiceTotal();
-    const vatAmount = calculateVatAmount(invoiceTotal);
-
-    invoiceTotalInput.value = invoiceTotal.toFixed(2);
-    vatAmountInput.value = vatAmount.toFixed(2);
-    totalAmountInput.value = (invoiceTotal + vatAmount).toFixed(2);
   });
 </script>
 

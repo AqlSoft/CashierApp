@@ -16,19 +16,32 @@ class SalesInvoiceController  extends Controller
     1 => 'New',
     2 => 'In Progress',
     3 => 'Completed',
+    4 =>   'paid'
 
 ];
+
     /**
      * Show the form for creating a new resource.
      */
     public function create(string $id)
     {
-      $order=Order::find($id);
-        $orderItems = OrderItem::with(['product', 'category', 'unit', 'order'])->get();
+        $order = Order::with(['orderItems.product', 'orderItems.unit', 'orderItems.order'])->find($id);
+
+        $amount = $order->orderItems->sum(function ($item) {
+          return $item->price * $item->quantity;
+      });
+  
+      // حساب Vat Amount (افترض أن الضريبة 15%)
+      $vatAmount = $amount * 0.15;
+  
+      // حساب Total Amount
+      $totalAmount = $amount + $vatAmount;
         $vars = [
-          'orderItems' => $orderItems,
           'order'       => $order ,
           'status'  => static::$status,
+          'amount'=>$amount,
+          'vatAmount'=>$vatAmount,
+          'totalAmount'=>$totalAmount
     
         ];
         return view('admin.invoices.create', $vars);
@@ -52,9 +65,8 @@ class SalesInvoiceController  extends Controller
                 'vat_number'          => $request->vat_number,
                 'due_date'            => $request->due_date,
                 'payment_date'        => $request->payment_date,
-                'invoice_total'       => $request->invoice_total,
-                'vat_amount'          => $request->vat_amount,
                 'amount'              => $request->amount,
+                'vat_amount'          => $request->vat_amount,
                 'total_amount'        => $request->total_amount,
                 'status'              => $request->amount >= $request->total_amount ? 1 : 0, // حالة الفاتورة
                 'created_by'          => auth()->user()->id,
@@ -85,8 +97,9 @@ class SalesInvoiceController  extends Controller
                     'notes'      => $item->notes,
                     'created_by' => auth()->user()->id,
                 ]);
+
             }
-    
+           
             return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
         } catch (\Exception $e) {
             return redirect()->back()
