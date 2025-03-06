@@ -1,0 +1,308 @@
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Payment;
+use App\Models\Order;
+use App\Models\PaymentMethod;
+use Illuminate\Support\Facades\DB;
+
+class PaymentController extends Controller
+{
+    // عرض صفحة الدفع
+    public function create($orderId)
+    {
+        $order = Order::with('customer')->findOrFail($orderId);
+        $paymentMethods = PaymentMethod::where('is_active', 1)->get(); // جلب طرق الدفع النشطة
+        return view('payments.create', compact('order', 'paymentMethods'));
+    }
+
+    // حفظ الدفع
+    public function store(Request $request, $orderId)
+    {
+        DB::beginTransaction();
+        try {
+            // التحقق من صحة البيانات
+            $request->validate([
+                'payment_method_id' => 'required|exists:payment_methods,id',
+                'amount' => 'required|numeric|min:0',
+                'reference' => 'required|string',
+            ]);
+
+            // إنشاء الدفع
+            $payment = Payment::create([
+                'order_id' => $orderId,
+                'payment_method_id' => $request->payment_method_id,
+                'amount' => $request->amount,
+                'date' => now(),
+                'status' => 1, // ناجح
+                'reference' => $request->reference,
+            ]);
+
+            // تحديث حالة الطلب
+            $order = Order::findOrFail($orderId);
+            $order->update(['status' => 'paid']);
+
+            DB::commit();
+
+            return redirect()->route('orders.show', $orderId)
+                ->with('success', 'تم تأكيد الدفع بنجاح.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', 'حدث خطأ أثناء تأكيد الدفع: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+}
+
+
+<div class="order-details">
+  <h3>معلومات الطلب</h3>
+  <p>رقم الطلب: <strong>#{{ $order->id }}</strong></p>
+  <p>الإجمالي: <strong>{{ $order->total_amount }} جنيه</strong></p>
+  <p>الضريبة: <strong>{{ $order->vat_amount }} جنيه</strong></p>
+  <p>الإجمالي النهائي: <strong>{{ $order->total_amount + $order->vat_amount }} جنيه</strong></p>
+  <p>حالة الطلب: <strong>{{ $order->status }}</strong></p>
+</div>
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Payment;
+use App\Models\Order;
+use App\Models\PaymentMethod;
+use Illuminate\Support\Facades\DB;
+
+class PaymentController extends Controller
+{
+    // عرض صفحة الدفع
+    public function create($orderId)
+    {
+        $order = Order::with('customer')->findOrFail($orderId);
+        $paymentMethods = PaymentMethod::where('is_active', 1)->get(); // جلب طرق الدفع النشطة
+        return view('payments.create', compact('order', 'paymentMethods'));
+    }
+
+    // حفظ الدفع
+    public function store(Request $request, $orderId)
+    {
+        DB::beginTransaction();
+        try {
+            // التحقق من صحة البيانات
+            $request->validate([
+                'payment_method_id' => 'required|exists:payment_methods,id',
+                'amount' => 'required|numeric|min:0',
+                'reference' => 'required|string',
+            ]);
+
+            // إنشاء الدفع
+            $payment = Payment::create([
+                'order_id' => $orderId,
+                'payment_method_id' => $request->payment_method_id,
+                'amount' => $request->amount,
+                'date' => now(),
+                'status' => 1, // ناجح
+                'reference' => $request->reference,
+            ]);
+
+            // تحديث حالة الطلب
+            $order = Order::findOrFail($orderId);
+            $order->update(['status' => 'paid']);
+
+            DB::commit();
+
+            return redirect()->route('orders.show', $orderId)
+                ->with('success', 'تم تأكيد الدفع بنجاح.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', 'حدث خطأ أثناء تأكيد الدفع: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+}
+
+
+INSERT INTO accounts (reference, from_account, to_account, value)
+VALUES ('فاتورة مبيعات', 2, 1, 500.00);
+
+
+$paymentData = [
+    'OrderID' => null, // لا يوجد طلب مرتبط
+    'PaymentMethod' => 1, // نقدي
+    'Amount' => 100, // المبلغ المدفوع
+    'Date' => now(), // تاريخ الدفع
+    'Status' => 1, // ناجح
+    'from' => 1, // الحساب الذي تم السحب منه (الخزنة)
+    'to' => 3, // الحساب الذي تم الإيداع فيه (الموظف)
+    'reference' => 'سند سلفة', // المرجع
+];
+
+$payment = Payment::create($paymentData);
+
+Account::create([
+    'reference' => 'سند سلفة',
+    'from' => 1, // الحساب الذي تم السحب منه (الخزنة)
+    'to' => 3, // الحساب الذي تم الإيداع فيه (الموظف)
+    'value' => 100, // قيمة العملية
+    'date' => now(), // تاريخ العملية
+]);
+
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Payment;
+use App\Models\Order;
+use App\Models\PaymentMethod;
+use Illuminate\Support\Facades\DB;
+
+class PaymentController extends Controller
+{
+    // عرض صفحة اختيار طريقة الدفع
+    public function showPaymentMethods($orderId)
+    {
+        $order = Order::findOrFail($orderId);
+        $paymentMethods = PaymentMethod::where('is_active', 1)->get();
+        return view('payments.methods', compact('order', 'paymentMethods'));
+    }
+
+    // معالجة الدفع
+    public function processPayment(Request $request, $orderId)
+    {
+        DB::beginTransaction();
+        try {
+            // التحقق من صحة البيانات
+            $request->validate([
+                'payment_method_id' => 'required|exists:payment_methods,id',
+                'amount' => 'required|numeric|min:0',
+            ]);
+
+            // جلب طريقة الدفع
+            $paymentMethod = PaymentMethod::findOrFail($request->payment_method_id);
+
+            // معالجة الدفع
+            $paymentStatus = $this->handlePayment($paymentMethod->name, $request->amount);
+
+            // إنشاء الدفع
+            $payment = Payment::create([
+                'order_id' => $orderId,
+                'payment_method_id' => $paymentMethod->id,
+                'amount' => $request->amount,
+                'status' => $paymentStatus ? 1 : 0, // 1 = ناجح، 0 = فاشل
+                'reference' => 'فاتورة مبيعات #' . $orderId,
+            ]);
+
+            // تحديث حالة الطلب
+            $order = Order::findOrFail($orderId);
+            $order->update(['status' => $paymentStatus ? 'paid' : 'pending']);
+
+            DB::commit();
+
+            return redirect()->route('orders.show', $orderId)
+                ->with('success', $paymentStatus ? 'تم الدفع بنجاح.' : 'فشل الدفع.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', 'حدث خطأ أثناء معالجة الدفع: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    // معالجة الدفع (وهمي)
+    private function handlePayment($method, $amount)
+    {
+        // يمكن استبدال هذا الجزء باتصال حقيقي ببوابة الدفع
+        if ($method === 'نقدي') {
+            return true; // الدفع ناجح
+        } elseif ($method === 'بطاقة' || $method === 'محفظة إلكترونية') {
+            // محاكاة اتصال ببوابة الدفع
+            return rand(0, 1) === 1; // نجاح أو فشل عشوائي
+        }
+        return false;
+    }
+}
+
+
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h1>اختر طريقة الدفع للطلب #{{ $order->id }}</h1>
+
+    <form action="{{ route('payments.process', $order->id) }}" method="POST">
+        @csrf
+        <div class="form-group">
+            <label for="payment_method_id">طريقة الدفع:</label>
+            <select name="payment_method_id" id="payment_method_id" class="form-control" required>
+                @foreach ($paymentMethods as $method)
+                    <option value="{{ $method->id }}">{{ $method->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="amount">المبلغ المدفوع:</label>
+            <input type="number" name="amount" id="amount" class="form-control" value="{{ $order->total_amount }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">تأكيد الدفع</button>
+    </form>
+</div>
+@endsection
+
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Payment;
+use App\Models\Order;
+use App\Models\PaymentMethod;
+use Illuminate\Support\Facades\DB;
+
+class PaymentController extends Controller
+{
+    // عرض صفحة الدفع
+    public function create($orderId)
+    {
+        $order = Order::with('customer')->findOrFail($orderId);
+        $paymentMethods = PaymentMethod::where('is_active', 1)->get(); // جلب طرق الدفع النشطة
+        return view('payments.create', compact('order', 'paymentMethods'));
+    }
+
+    // حفظ الدفع
+    public function store(Request $request, $orderId)
+    {
+        DB::beginTransaction();
+        try {
+            // التحقق من صحة البيانات
+            $request->validate([
+                'payment_method_id' => 'required|exists:payment_methods,id',
+                'amount' => 'required|numeric|min:0',
+                'reference' => 'required|string',
+            ]);
+
+            // إنشاء الدفع
+            $payment = Payment::create([
+                'order_id' => $orderId,
+                'payment_method_id' => $request->payment_method_id,
+                'amount' => $request->amount,
+                'date' => now(),
+                'status' => 1, // ناجح
+                'reference' => $request->reference,
+            ]);
+
+            // تحديث حالة الطلب
+            $order = Order::findOrFail($orderId);
+            $order->update(['status' => 'paid']);
+
+            DB::commit();
+
+            return redirect()->route('orders.show', $orderId)
+                ->with('success', 'تم تأكيد الدفع بنجاح.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', 'حدث خطأ أثناء تأكيد الدفع: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+}
