@@ -30,15 +30,16 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `accounts`;
 CREATE TABLE IF NOT EXISTS `accounts` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `reference` char(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `from_account` bigint UNSIGNED NOT NULL,
-  `to_account` bigint UNSIGNED NOT NULL,
-  `value` decimal(10,2) NOT NULL,
-  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `fk_from_account` (`from_account`),
-  KEY `fk_to_account` (`to_account`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `name` char(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `parent_id` bigint UNSIGNED NOT NULL,
+  `type` enum (debit,credit) NOT NULL,
+  `status` tinyint (1) NOT NULL DEFAULT 1,
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_by` bigint UNSIGNED NOT NULL,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ 
+) ENGINE=innodb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 

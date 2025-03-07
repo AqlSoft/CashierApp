@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Account;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -12,13 +13,13 @@ use App\Models\InvoiceItem;
 class SalesInvoiceController  extends Controller
 {
 
-  protected static $status = [
-    1 => 'New',
-    2 => 'In Progress',
-    3 => 'Completed',
-    4 =>   'paid'
+    protected static $status = [
+        1 => 'New',
+        2 => 'In Progress',
+        3 => 'Completed',
+        4 =>   'paid'
 
-];
+    ];
 
     /**
      * Show the form for creating a new resource.
@@ -26,28 +27,32 @@ class SalesInvoiceController  extends Controller
     public function create(string $id)
     {
         $order = Order::with(['orderItems.product', 'orderItems.unit', 'orderItems.order'])->find($id);
-
+        // accounts
+        $accounts = Account::all();
         $amount = $order->orderItems->sum(function ($item) {
-          return $item->price * $item->quantity;
-      });
-  
-      // حساب Vat Amount (افترض أن الضريبة 15%)
-      $vatAmount = $amount * 0.15;
-  
-      // حساب Total Amount
-      $totalAmount = $amount + $vatAmount;
+            return $item->price * $item->quantity;
+        });
+
+        // حساب Vat Amount (افترض أن الضريبة 15%)
+        $vatAmount = $amount * 0.15;
+
+        // حساب Total Amount
+        $totalAmount = $amount + $vatAmount;
         $vars = [
-          'order'       => $order ,
-          'status'  => static::$status,
-          'amount'=>$amount,
-          'vatAmount'=>$vatAmount,
-          'totalAmount'=>$totalAmount
-    
+            'accounts' => $accounts,
+
+
+            'order'       => $order,
+            'status'  => static::$status,
+            'amount' => $amount,
+            'vatAmount' => $vatAmount,
+            'totalAmount' => $totalAmount
+
         ];
         return view('admin.invoices.create', $vars);
     }
 
-  
+
 
     /**
      * Store a newly created resource in storage.
@@ -59,7 +64,7 @@ class SalesInvoiceController  extends Controller
             $invoice = SalesInvoice::create([
                 'order_id'            => $request->order,
                 'serial_number_order' => $request->serial_number,
-                'client_id'           => $request->client_id,  
+                'client_id'           => $request->client_id,
                 'invoice_number'      => $request->invoice_number,
                 'invoice_date'        => $request->invoice_date,
                 'vat_number'          => $request->vat_number,
@@ -71,22 +76,22 @@ class SalesInvoiceController  extends Controller
                 'status'              => $request->amount >= $request->total_amount ? 1 : 0, // حالة الفاتورة
                 'created_by'          => auth()->user()->id,
             ]);
-    
+
             // جلب أصناف الطلب المرتبطة بالطلب
             $orderItems = OrderItem::where('order_id', $request->order)
                 ->with(['product', 'category', 'unit'])
                 ->get();
-    
+
             // التأكد من وجود أصناف
             if ($orderItems->isEmpty()) {
                 return redirect()->back()
                     ->with('error', 'لا توجد أصناف في الطلب.')
                     ->withInput();
             }
-    
+
             // إضافة أصناف الفاتورة
             foreach ($orderItems as $item) {
-              InvoiceItem::create([
+                InvoiceItem::create([
                     'category_id' => $item->category_id,
                     'product_id'  => $item->product_id,
                     'invoice_id' => $invoice->id,
@@ -97,9 +102,8 @@ class SalesInvoiceController  extends Controller
                     'notes'      => $item->notes,
                     'created_by' => auth()->user()->id,
                 ]);
-
             }
-           
+
             return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
         } catch (\Exception $e) {
             return redirect()->back()
