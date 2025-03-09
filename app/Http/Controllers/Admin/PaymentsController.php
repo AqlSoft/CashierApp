@@ -9,6 +9,8 @@ use Exception;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\SalesInvoice;
+use App\Models\OrderItem;
+
 
 class PaymentsController
 {
@@ -37,56 +39,54 @@ class PaymentsController
         // store invoice
         $order = Order::find($orderId);
         try {
+            // إنشاء الفاتورة
             $invoice = SalesInvoice::create([
                 'order_id' => $orderId,
-                'invoice_number' => SalesInvoice::generateNumber(),
-                'invoice_date' => date('Y-m-d'),
-                'due_date' => date('Y-m-d'),
-                'payment_method' => '1',
-                'client_id' => 1,
-                'amount' => $order->amount,
-                'vat'   => $order->vat,
-                'tatal' => $order->total,
+                'serial_number_order' => $request->serial_number,
+                'invoice_number'      => SalesInvoice::generateNumber(),
+                'client_id'           => $request->client_id,
+                'invoice_date'        => date('Y-m-d'),
+                'vat_number'          => $request->vat_number,
+                'due_date'            => date('Y-m-d'),
+                'payment_method'      => '1',
+                'payment_date'        => date('Y-m-d'),
+                'amount'              => $request->amount,
+                'vat_amount'          => $request->vat_amount,
+                'total_amount'        => $request->total_amount,
+                'status'              => $request->amount >= $request->total_amount ? 1 : 0,// حالة الفاتورة
+                'type'                => 'sales', 
+                'created_by'          => auth()->user()->id,
             ]);
-
-            // foreach ($order->items as $item) {
-            //     InvoiceItem::create([
-            //         'invoice_id' => $order->id,
-
-            //         'invoice_id' => $invoice->id,
-            //         'product_id',
-            //         'qty',
-            //         'unit',
-            //         'unit_price'
-            //     ]);
-            // }
-
-            foreach ($order->items as $item) {
-                $item->invoice_id = $invoice->id;
-                $item->save();
-            }
-        } catch (QueryException $e) {
-        }
-        // store payment
-        // update order status
-        try {
+    
+            // تحديث أصناف الطلب المرتبطة بالطلب
+            OrderItem::where('order_id', $orderId)->update([
+                'invoice_id' => $invoice->id,
+                'updated_at' => now(),
+                'updated_by' => auth()->user()->id,
+            ]);
+    
             // إنشاء الدفع
             $payment = Payment::create([
                 'order_id'          => $orderId,
-                'invoice_id'        => $orderId,
-                'payment_method_id' => '1',
-                'amount'            => $request->amount,
+                'invoice_id'        => $invoice->id, // يجب أن يكون invoice_id وليس orderId
+                'payment_method'    => '1',
+                'amount_from'       => $request->amount_from,
+                'amount_to'         => $request->amount_to,
                 'payment_date'      => now(),
                 'status'            => 1, // ناجح
-                'from_account'      => 1, // الحساب الذي تم السحب منه (الخزنة)
-                'to_account'        => 3, // الحساب الذي تم الإيداع فيه (الموظف)
-                'Note'              => 'سند سلفة', // المرجع
+                'from_account'      => $request->account_from, // الحساب الذي تم السحب منه (الخزنة)
+                'to_account'        => $request->account_to, // الحساب الذي تم الإيداع فيه (الموظف)
+                'note'              => 'سند سلفة', // المرجع
                 'created_by'        => auth()->user()->id,
             ]);
-
+    
             // تحديث حالة الطلب
-            $order = Order::findOrFail($orderId);
-            $order->update(['status' => '4']); // تم الدفع
+            $order->update([
+            'status' => '4',
+            'updated_at' => now(),
+            'updated_by' => auth()->user()->id
+          ,]); // تم الدفع
+    
             return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
         } catch (\Exception $e) {
             return redirect()->back()

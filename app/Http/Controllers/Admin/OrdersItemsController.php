@@ -14,6 +14,13 @@ use App\Models\ItemCategroy;
 
 class OrdersItemsController extends Controller
 {
+  protected static $status = [
+    1 => 'New',
+    2 => 'In Progress',
+    3 => 'Completed',
+    4 =>   'paid'
+
+];
   // عرض جميع الطلبات
   public function index() {}
 
@@ -27,7 +34,7 @@ class OrdersItemsController extends Controller
       'order' => $order,
       'units' => $units,
       'categories' => $categories,
-      // 'products'  =>$products,
+       'status'  => static::$status,
 
     ];
     return view('admin.orderitem.create', $vars);

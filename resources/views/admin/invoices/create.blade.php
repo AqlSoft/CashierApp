@@ -17,21 +17,21 @@
 @section('contents')
     <h1 class="mt-3 pb-2 " style="border-bottom: 2px solid #dedede">Create Invoices
     </h1>
-
+    <form action="{{ route('payments.cash.store', $order->id) }}" method="POST">
+    @csrf
     <fieldset class="table mt-3">
-        <form action="{{ route('save-invoices-orderitem-info') }}" method="post" class="bg-transparent p-0 ">
-            @csrf
+    
             <input type="hidden" name="order" value="{{ $order->id }}">
             <div class="row mt-3 ">
                 <div class="col col-2 text-end fw-bold bg-transparent">Serial Number:</div>
                 <div class="col col-4 bg-transparent"> <input value="{{ $order->serial_number ?? 'N/A' }}"
-                        name="serial_number" style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled>
+                        name="serial_number" style="width: 160px;border:none;border-bottom: 2px solid #dedede " class="bg-transparent"disabled>
                 </div>
                 <div class="col col-2 text-end fw-bold bg-transparent">Order Date:</div>
                 <div class="col col-4 bg-transparent"><input value="{{ $order->order_date ?? 'N/A' }}" name="order_date"
-                        style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled></div>
+                        style="width: 160px;border:none;border-bottom: 2px solid #dedede" class="bg-transparent" disabled></div>
                 <div class="col col-2 text-end fw-bold bg-transparent"> Invoice Number :</div>
-                <div class="col col-4 bg-transparent"><input name="invoice_number" class="bg-transparent "
+                <div class="col col-4 bg-transparent"><input name="invoice_number" value="{{$invoiceNumber}}" class="bg-transparent"
                         style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
                 <div class="col col-2 text-end fw-bold bg-transparent">Invoice Date:</div>
                 <div class="col col-4 bg-transparent"><input name="invoice_date" value="{{ date('Y-m-d') }}"
@@ -42,16 +42,15 @@
                         style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
                 <div class="col col-2 text-end fw-bold bg-transparent">Client Name:</div>
                 <div class="col col-4 bg-transparent"><input name="" value="{{ $order->customer->name ?? 'N/A' }}"
-                        style="width: 160px;border:none;border-bottom: 2px solid #dedede" disabled>
+                        style="width: 160px;border:none;border-bottom: 2px solid #dedede" class="bg-transparent" disabled>
                     <input type="hidden" name="client_id" id="client_id" value="{{ $order->customer->id }}">
                 </div>
                 <div class="col col-2 text-end fw-bold bg-transparent"> Order Status :</div>
                 <div class="col col-4 bg-transparent">
-                    @if ($order->status == 1)
+                
                         <span class="bg-transparent text-primary"><input value="{{ $status[$order->status] ?? 'N/A' }}"
                                 name="status" style="width: 160px;border:none;border-bottom: 2px solid #dedede"
                                 disabled></span>
-                    @endif
                 </div>
                 <div class="col col-2 text-end fw-bold bg-transparent">Due Date:</div>
                 <div class="col col-4 bg-transparent"><input name="due_date" value="{{ date('Y-m-d') }}"
@@ -66,15 +65,15 @@
                         style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
             </div>
 
-            <table class="mt-3 w-100   table-hover">
+            <table class="mt-3 w-100   table-hover mb-2">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>category</th>
+                        <!-- <th>category</th> -->
                         <th>Product</th>
-                        <th>price</th>
                         <th>Unit</th>
                         <th>Quantity</th>
+                        <th>price</th>
                         <th>Total</th>
                         <th></th>
                     </tr>
@@ -88,47 +87,49 @@
                         @foreach ($order->orderItems as $orderItem)
                             <tr>
                                 <td>{{ ++$counter }}</td>
-                                <td>{{ $orderItem->category->cat_name }}</td> <!-- عرض اسم الفئة -->
+                                <!-- <td>{{ $orderItem->category->cat_name }}</td> عرض اسم الفئة -->
                                 <td>{{ $orderItem->product->name }}</td> <!-- عرض اسم المنتج -->
-                                <td>{{ $orderItem->price }}</td>
                                 <td>{{ $orderItem->unit->name }}</td> <!-- عرض اسم الوحدة -->
                                 <td>{{ $orderItem->quantity }}</td>
+                                <td>{{ $orderItem->price }}</td>
                                 <td>{{ $orderItem->price * $orderItem->quantity }}</td>
                             </tr>
                         @endforeach
                     @else
                         <tr>
-                            <td colspan="7">No order Item has been added yet, Add your .</td>
+                            <td colspan="5">No order Item has been added yet, Add your .</td>
                         </tr>
                     @endif
                 </tbody>
-                <tfoot class="bg-transparent mt-3">
-                    <tr>
-                        <td colspan="6" class="fw-bold text-end text-primary ">Amount :</td>
-                        <td class="text-primary">
+                <tfoot class="bg-transparent mt-3 ">
+                    <tr >
+                        <td colspan="5" class="fw-bold text-end text-primary ">Amount :</td>
+                        <td class="text-primary"   style="border:none;border-bottom: 2px solid #dedede; width:100px;">
                             <input id="amount" name="amount" class="bg-transparent" value="{{ $amount }}"
-                                style="border:none;border-bottom: 2px solid #dedede" readonly>
+                            style="border:none;"  readonly>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="6" class="fw-bold text-end text-primary ">Vat Amount :</td>
-                        <td class="text-primary">
-                            <input id="vat_amount" name="vat_amount" class="bg-transparent" value="{{ $vatAmount }}"
-                                style="border:none;border-bottom: 2px solid #dedede">
+                        <td colspan="5" class="fw-bold text-end text-primary ">Vat Amount :</td>
+                        <td class="text-primary"   style="border:none;border-bottom: 2px solid #dedede; width:100px;">
+                            <input id="vat_amount" name="vat_amount" class="bg-transparent" value="{{ $vatAmount }}"  style="border:none;"  >
                         </td>
                     </tr>
 
                     <tr>
-                        <td colspan="6" class="fw-bold text-end text-primary ">Total Amount :</td>
-                        <td class="text-primary">
+                        <td colspan="5" class="fw-bold text-end text-primary ">Total Amount :</td>
+                        <td class="text-primary"   style="border:none;border-bottom: 2px solid #dedede; width:100px;">
                             <input id="total_amount" name="total_amount" class="bg-transparent" value="{{ $totalAmount }}"
-                                style="border:none;border-bottom: 2px solid #dedede" readonly>
+                                style="border:none;" readonly>
                         </td>
                     </tr>
                 </tfoot>
             </table>
 
             <div class="input-group pt-2 px-3 justify-content-end ">
+            <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Invoice">
+                  Print
+                </button>
                 <button class="btn px-3 py-1 btn-outline-secondary btn-sm dropdown-toggle" type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     Confirm & Pay
@@ -141,10 +142,10 @@
                     <li><a class="dropdown-item" href="#">Credit Sales </a></li>
                 </ul>
                 <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Invoice">
-                    Cancel Invoice
+                    Cancel 
                 </button>
             </div>
-        </form>
+    
     </fieldset>
     <!-- Cash Payment modal -->
     <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
@@ -154,36 +155,42 @@
                 <h1 class="modal-title fs-5 mt-2  ps-3" id="exampleModalToggleLabel"
                     style="border-bottom: 1px solid #dedede">Cash Payment </h1>
                 <div class="modal-body">
-                    <form action="{{ route('payments.cash.store', $order->id) }}" method="POST">
-                        @csrf
                         {{-- <input type="hidden" name="invoice_id" value="1"> --}}
-                        <div class="input-group sm mb-2">
+                        <div class="input-group sm mb-1">
                             <label class="input-group-text" for="amount">Amount</label>
                             <input type="number" step="0.01" class="form-control sm" value="{{ $amount }}"
                                 name="amount" id="amount">
                         </div>
-                        <div class="input-group sm mb-2">
+                        <div class="input-group sm mb-1">
                             <label class="input-group-text" for="vatAmount">Vat Amount </label>
                             <input type="number" step="0.01" class="form-control sm" name="vat_amount"
                                 value="{{ $vatAmount }}" id="vatAmount">
                         </div>
-                        <div class="input-group sm mb-2">
+                        <div class="input-group sm mb-1">
                             <label class="input-group-text" for="total_amount">Total Amount</label>
                             <input type="number" step="0.01" class="form-control sm" value="{{ $totalAmount }}"
                                 name="total_amount" id="total_amount">
                         </div>
-                        <div class="input-group sm mb-2">
+                        <div class="input-group sm mb-1">
                             <label class="input-group-text" for="paid">Paid</label>
                             <input type="number" step="0.01" class="form-control sm" name="paid" id="paid">
                         </div>
-                        <div class="input-group sm mb-0">
+                        <div class="input-group sm sm mb-1">
                             <label class="input-group-text" for="Remaining">Remaining</label>
                             <input type="number" step="0.01" class="form-control sm" name="remaining"
                                 id="remaining">
                         </div>
-                        <div class="input-group sm mb-0">
+                        <div class="input-group sm mb-1">
+                            <label class="input-group-text" for="amount_from">Amount From</label>
+                            <input type="number" step="0.01" class="form-control sm"   name="amount_from" id="amount_from">
+                        </div>
+                        <div class="input-group sm mb-1">
+                            <label class="input-group-text" for="amount">Amount To</label>
+                            <input type="number" step="0.01" class="form-control sm"  name="amount_to" id="amount_to">
+                        </div>
+                        <div class="input-group sm mb-1">
                             <label class="input-group-text" for="account_from">From</label>
-                            <select class="form-control sm" name="account_from" id="account_from">
+                            <select class="form-control py-0 sm" name="account_from" id="account_from">
                                 @foreach ($accounts as $fa)
                                     <option value="{{ $fa->id }}">{{ $fa->name }}</option>
                                 @endforeach
@@ -192,7 +199,7 @@
                         </div>
                         <div class="input-group sm mb-0">
                             <label class="input-group-text" for="account_to">To</label>
-                            <select class="form-control sm" name="account_to" id="account_to">
+                            <select class="form-control sm py-0" name="account_to" id="account_to">
                                 @foreach ($accounts as $ta)
                                     <option value="{{ $ta->id }}">{{ $ta->name }}</option>
                                 @endforeach
@@ -205,12 +212,13 @@
                                 data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn px-3 py-1 btn-primary btn-sm">confirm</button>
                         </div>
-                    </form>
+                
                 </div>
 
             </div>
         </div>
     </div>
+    </form>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const paidInput = document.getElementById('paid');

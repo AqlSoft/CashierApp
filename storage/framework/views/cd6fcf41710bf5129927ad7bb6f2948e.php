@@ -15,7 +15,7 @@
 </style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('contents'); ?>
-<h1 class="mt-3 pb-2 " style="border-bottom: 2px solid #dedede">Order Details
+<h1 class="mt-3 pb-2 " style="border-bottom: 2px solid #dedede"> Add Order Items
 </h1>
 
 <fieldset class="table mt-3">
@@ -29,12 +29,7 @@
     <div class="col col-4"><?php echo e($order->customer->name); ?></div>
     <div class="col col-2 text-end fw-bold">Status:</div>
     <div class="col col-4">
-      <?php if($order->status == 1): ?>
-      <span class="bg-transparent text-primary">New</span>
-      <?php elseif($order->status == 2): ?>
-      <span class=" text-warning">In Progress</span>
-      <?php else: ?>
-      <?php endif; ?>
+      <span class="bg-transparent text-primary"><?php echo e($status[$order->status]); ?></span>
     </div>
 
   </div>
@@ -167,7 +162,6 @@
     
     <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Confirm Order">
     <a class="btn btn-sm py-0" href="<?php echo e(route('add-invoices-orderItem', $order->id)); ?>">Confirm Order</a>
-      
     </button>
     <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Order">
       Cancel Order

@@ -68,23 +68,23 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
       Route::prefix('clients')->group(function () {
         Route::get('/index',        [ClientsController::class, 'index'])->name('display-client-all');
         Route::post('/store',       [ClientsController::class, 'store'])->name('store-new-client');
-        // Route::get('/display/{id}', [ClientsController::class, 'show'])->name('view-client-info');
-        // Route::post('/update',      [ClientsController::class, 'update'])->name('update-client-info');
-        // Route::get('/edit/{id}',    [ClientsController::class, 'edit'])->name('edit-client-info');
+        Route::get('/display/{id}', [ClientsController::class, 'show'])->name('view-client-info');
+        Route::post('/update',      [ClientsController::class, 'update'])->name('update-client-info');
+        Route::get('/edit/{id}',    [ClientsController::class, 'edit'])->name('edit-client-info');
         Route::get('/destroy/{id}', [ClientsController::class, 'destroy'])->name('destroy-client-info');
       });
 
       // invoices routes
       Route::prefix('invoices')->group(function () {
         Route::get('/create/{id}',   [SalesInvoiceController::class, 'create'])->name('add-invoices-orderItem');
-        Route::post('/store',        [SalesInvoiceController::class, 'store'])->name('save-invoices-orderitem-info');
+        // Route::post('/store',        [SalesInvoiceController::class, 'store'])->name('save-invoices-orderitem-info');
       
       
     });
   
         // invoices routes
         Route::prefix('payments')->group(function () {
-          Route::post('/cash/store/{id}',   [PaymentsController::class, 'cashStore'])->name('payments.cash.store');
+          Route::post('/cash/store/{id}',  [PaymentsController::class, 'cashStore'])->name('payments.cash.store');
           Route::post('/store',            [PaymentsController::class, 'store'])->name('save-invoices-orderitem-info');
           Route::get('/edit/{id}',         [PaymentsController::class, 'edit'])->name('edit-invoices-orderitem-info');
           Route::post('/update',           [PaymentsController::class, 'update'])->name('update-invoices-orderitem-input');

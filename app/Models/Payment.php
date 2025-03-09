@@ -6,41 +6,45 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
-    public $timestamps=true;
-    
-    protected $table="payments";
+  public $timestamps = true;
 
-    protected $fillable = [
-      'order_id',
-      'payment_method_id',
-      'amount',
-      'payment_date',
-      'status',
-      'from_account',
-      'to_account',
-      'reference',
-      'created_by',
-      'updated_by'
-    ];
+  protected $table = "payments";
 
-        // علاقة واحدة إلى واحدة مع PaymentMethod
-        public function paymentMethod()
-        {
-            return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
-        }
+  protected $fillable = [
+    'order_id',
+    'payment_method',
+    'amount_from',
+    'amount_to',
+    'payment_date',
+    'status',
+    'from_account',
+    'to_account',
+    'note',
+    'created_at',
+    'updated_at',
+    'created_by',
+    'updated_by'
+  ];
 
-    // علاقة واحدة إلى واحدة مع Orde
-    public function Order(){
-      return $this->belongsTo(Order::class,'order_id');
-    }
+  // علاقة واحدة إلى واحدة مع PaymentMethod
+  public function paymentMethod()
+  {
+    return $this->belongsTo(PaymentMethod::class, 'payment_method');
+  }
 
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
+  // علاقة واحدة إلى واحدة مع Orde
+  public function Order()
+  {
+    return $this->belongsTo(Order::class, 'order_id');
+  }
 
-    public function updatedBy()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
+  public function createdBy()
+  {
+    return $this->belongsTo(User::class, 'created_by');
+  }
+
+  public function updatedBy()
+  {
+    return $this->belongsTo(User::class, 'updated_by');
+  }
 }

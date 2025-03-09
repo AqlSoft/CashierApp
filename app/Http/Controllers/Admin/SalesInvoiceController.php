@@ -27,6 +27,7 @@ class SalesInvoiceController  extends Controller
     public function create(string $id)
     {
         $order = Order::with(['orderItems.product', 'orderItems.unit', 'orderItems.order'])->find($id);
+
         // accounts
         $accounts = Account::all();
         $amount = $order->orderItems->sum(function ($item) {
@@ -38,16 +39,16 @@ class SalesInvoiceController  extends Controller
 
         // حساب Total Amount
         $totalAmount = $amount + $vatAmount;
+        // create new invoice Number
+         $invoiceNumber = SalesInvoice::generateNumber();
         $vars = [
-            'accounts' => $accounts,
-
-
-            'order'       => $order,
-            'status'  => static::$status,
-            'amount' => $amount,
-            'vatAmount' => $vatAmount,
-            'totalAmount' => $totalAmount
-
+            'accounts'      => $accounts,
+            'order'         => $order,
+            'status'        => static::$status,
+            'amount'        => $amount,
+            'vatAmount'     => $vatAmount,
+            'totalAmount'   => $totalAmount,
+            'invoiceNumber' => $invoiceNumber,
         ];
         return view('admin.invoices.create', $vars);
     }
@@ -59,57 +60,7 @@ class SalesInvoiceController  extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            // إنشاء الفاتورة
-            $invoice = SalesInvoice::create([
-                'order_id'            => $request->order,
-                'serial_number_order' => $request->serial_number,
-                'client_id'           => $request->client_id,
-                'invoice_number'      => $request->invoice_number,
-                'invoice_date'        => $request->invoice_date,
-                'vat_number'          => $request->vat_number,
-                'due_date'            => $request->due_date,
-                'payment_date'        => $request->payment_date,
-                'amount'              => $request->amount,
-                'vat_amount'          => $request->vat_amount,
-                'total_amount'        => $request->total_amount,
-                'status'              => $request->amount >= $request->total_amount ? 1 : 0, // حالة الفاتورة
-                'created_by'          => auth()->user()->id,
-            ]);
-
-            // جلب أصناف الطلب المرتبطة بالطلب
-            $orderItems = OrderItem::where('order_id', $request->order)
-                ->with(['product', 'category', 'unit'])
-                ->get();
-
-            // التأكد من وجود أصناف
-            if ($orderItems->isEmpty()) {
-                return redirect()->back()
-                    ->with('error', 'لا توجد أصناف في الطلب.')
-                    ->withInput();
-            }
-
-            // إضافة أصناف الفاتورة
-            foreach ($orderItems as $item) {
-                InvoiceItem::create([
-                    'category_id' => $item->category_id,
-                    'product_id'  => $item->product_id,
-                    'invoice_id' => $invoice->id,
-                    'quantity'    => $item->quantity,
-                    'unit_id'    => $item->unit_id,
-                    'price'       => $item->price,
-                    'type'       => 'sales',
-                    'notes'      => $item->notes,
-                    'created_by' => auth()->user()->id,
-                ]);
-            }
-
-            return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
-                ->withInput();
-        }
+        
     }
 
     /**

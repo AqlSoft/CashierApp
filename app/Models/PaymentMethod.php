@@ -18,7 +18,7 @@ class PaymentMethod extends Model
 
     public function payments()
 {
-    return $this->hasMany(Payment::class, 'payment_method_id');
+    return $this->hasMany(Payment::class, 'payment_method');
 }
 
     public function createdBy()

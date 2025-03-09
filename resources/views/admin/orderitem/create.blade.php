@@ -15,7 +15,7 @@
 </style>
 @endsection
 @section('contents')
-<h1 class="mt-3 pb-2 " style="border-bottom: 2px solid #dedede">Order Details
+<h1 class="mt-3 pb-2 " style="border-bottom: 2px solid #dedede"> Add Order Items
 </h1>
 
 <fieldset class="table mt-3">
@@ -29,12 +29,7 @@
     <div class="col col-4">{{ $order->customer->name  }}</div>
     <div class="col col-2 text-end fw-bold">Status:</div>
     <div class="col col-4">
-      @if($order->status == 1)
-      <span class="bg-transparent text-primary">New</span>
-      @elseif($order->status == 2)
-      <span class=" text-warning">In Progress</span>
-      @else
-      @endif
+      <span class="bg-transparent text-primary">{{ $status[$order->status]}}</span>
     </div>
 
   </div>
