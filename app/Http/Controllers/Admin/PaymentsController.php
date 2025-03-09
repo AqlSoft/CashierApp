@@ -44,27 +44,33 @@ class PaymentsController
                 'order_id' => $orderId,
                 'serial_number_order' => $request->serial_number,
                 'invoice_number'      => SalesInvoice::generateNumber(),
-                'client_id'           => $request->client_id,
+                'client_id'           => $order->client_id,
                 'invoice_date'        => date('Y-m-d'),
-                'vat_number'          => $request->vat_number,
                 'due_date'            => date('Y-m-d'),
                 'payment_method'      => '1',
                 'payment_date'        => date('Y-m-d'),
                 'amount'              => $request->amount,
                 'vat_amount'          => $request->vat_amount,
                 'total_amount'        => $request->total_amount,
-                'status'              => $request->amount >= $request->total_amount ? 1 : 0,// حالة الفاتورة
-                'type'                => 'sales', 
+                'status'              => $request->amount >= $request->total_amount ? 1 : 0, // حالة الفاتورة
+                'type'                => 'sales',
                 'created_by'          => auth()->user()->id,
             ]);
-    
+
+            // update order Items
+            // get all items
+            // loop to update every item
+            $items = OrderItem::where('order_id', $orderId)->get();
+            foreach ($items as $item) {
+                $item->update(['invoice_id' => $invoice->id]);
+            }
             // تحديث أصناف الطلب المرتبطة بالطلب
             OrderItem::where('order_id', $orderId)->update([
                 'invoice_id' => $invoice->id,
                 'updated_at' => now(),
                 'updated_by' => auth()->user()->id,
             ]);
-    
+
             // إنشاء الدفع
             $payment = Payment::create([
                 'order_id'          => $orderId,
@@ -79,15 +85,15 @@ class PaymentsController
                 'note'              => 'سند سلفة', // المرجع
                 'created_by'        => auth()->user()->id,
             ]);
-    
+
             // تحديث حالة الطلب
             $order->update([
-            'status' => '4',
-            'updated_at' => now(),
-            'updated_by' => auth()->user()->id
-          ,]); // تم الدفع
-    
-            return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
+                'status' => '4',
+                'updated_at' => now(),
+                'updated_by' => auth()->user()->id,
+            ]); // تم الدفع
+
+            return redirect()->route('order.create')->with('success', 'تم حفظ البيانات بنجاح.');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
