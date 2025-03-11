@@ -56,6 +56,7 @@ class PaymentsController
                 'invoice_number'      => SalesInvoice::generateNumber(),
                 'client_id'           => $order->client_id,
                 'invoice_date'        => date('Y-m-d'),
+<<<<<<< HEAD
                 'vat_number'          => $order->customer->vat_number,
                 'due_date'            => date('Y-m-d'),
                 'payment_method'      => '1',
@@ -65,16 +66,37 @@ class PaymentsController
                 'total_amount'        => $total_amount,
                 'status'              => $amount >= $total_amount ? 1 : 0,// حالة الفاتورة
                 'type'                => 'sales', 
+=======
+                'due_date'            => date('Y-m-d'),
+                'payment_method'      => '1',
+                'payment_date'        => date('Y-m-d'),
+                'amount'              => $request->amount,
+                'vat_amount'          => $request->vat_amount,
+                'total_amount'        => $request->total_amount,
+                'status'              => $request->amount >= $request->total_amount ? 1 : 0, // حالة الفاتورة
+                'type'                => 'sales',
+>>>>>>> f5efa5a0413fec046ac834191e19ee4b6e057f04
                 'created_by'          => auth()->user()->id,
             ]);
-    
+
+            // update order Items
+            // get all items
+            // loop to update every item
+            $items = OrderItem::where('order_id', $orderId)->get();
+            foreach ($items as $item) {
+                $item->update(['invoice_id' => $invoice->id]);
+            }
             // تحديث أصناف الطلب المرتبطة بالطلب
          OrderItem::where('order_id', $orderId)->update([
                 'invoice_id' => $invoice->id,
                 'updated_at' => now(),
                 'updated_by' => auth()->user()->id,
             ]);
+<<<<<<< HEAD
           
+=======
+
+>>>>>>> f5efa5a0413fec046ac834191e19ee4b6e057f04
             // إنشاء الدفع
             $payment = Payment::create([
                 'order_id'          => $orderId,
@@ -88,16 +110,21 @@ class PaymentsController
                 'to_account'        => $request->account_to, // الحساب الذي تم الإيداع فيه (الموظف)
                 'note'              => 'سند سلفة', // المرجع
                 'created_by'        => auth()->user()->id,
+<<<<<<< HEAD
             ]); 
     
+=======
+            ]);
+
+>>>>>>> f5efa5a0413fec046ac834191e19ee4b6e057f04
             // تحديث حالة الطلب
             $order->update([
-            'status' => '4',
-            'updated_at' => now(),
-            'updated_by' => auth()->user()->id
-          ,]); // تم الدفع
-    
-            return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
+                'status' => '4',
+                'updated_at' => now(),
+                'updated_by' => auth()->user()->id,
+            ]); // تم الدفع
+
+            return redirect()->route('order.create')->with('success', 'تم حفظ البيانات بنجاح.');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
