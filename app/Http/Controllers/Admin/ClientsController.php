@@ -35,10 +35,12 @@ class ClientsController extends Controller
     {
       try {
         $client = Party::create([
+        'vat_number'    =>$request->vat_number,
          'name'         => $request->name,
          'phone'        => $request->phone,
          'address'      => $request->address,
          'type'         => 'customer',
+         'is_default'   => 0 ,
          'created_by'   => auth()->user()->id, // المستخدم الحالي
      ]);
  

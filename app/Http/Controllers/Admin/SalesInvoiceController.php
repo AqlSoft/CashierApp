@@ -12,15 +12,6 @@ use App\Models\InvoiceItem;
 
 class SalesInvoiceController  extends Controller
 {
-
-    protected static $status = [
-        1 => 'New',
-        2 => 'In Progress',
-        3 => 'Completed',
-        4 =>   'paid'
-
-    ];
-
     /**
      * Show the form for creating a new resource.
      */
@@ -44,7 +35,7 @@ class SalesInvoiceController  extends Controller
         $vars = [
             'accounts'      => $accounts,
             'order'         => $order,
-            'status'        => static::$status,
+            'status'        => Order::getStatusList(),
             'amount'        => $amount,
             'vatAmount'     => $vatAmount,
             'totalAmount'   => $totalAmount,

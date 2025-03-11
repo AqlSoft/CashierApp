@@ -16,7 +16,9 @@
                   <form action="/admin/clients/store" method="POST">
                     @csrf
                     <div class="input-group sm mb-2">
-                      <label class="input-group-text" for="name">Clent name</label>
+                      <label class="input-group-text" for="vat_number">Vat Number</label>
+                      <input type="number" class="form-control sm" name="vat_number" id="vat_number" >
+                      <label class="input-group-text" for="name">Client name</label>
                       <input type="text" class="form-control sm" name="name" id="name">
                       <label class="input-group-text" for="phone">Phone Number</label>
                       <input  type="number"   class=" form-control sm " name="phone" id="phone">

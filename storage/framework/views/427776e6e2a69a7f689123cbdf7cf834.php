@@ -22,9 +22,13 @@
               <div class="modal-content">
                 <h1 class="modal-title fs-5 mt-2  ps-3" id="exampleModalToggleLabel"
                   style="border-bottom: 1px solid #dedede">Add New Client </h1>
-                <div class="modal-body">
+                <div class="modal-body"> 
+                <div class="input-group sm mb-2">
+                <label class="input-group-text" for="vat_number">Vat Number</label>
+                <input type="number" class="form-control sm" name="vat_number" id="vat_number" >
+                  </div>
                   <div class="input-group sm mb-2">
-                    <label class="input-group-text" for="name">Clent name</label>
+                    <label class="input-group-text" for="name">Client name</label>
                     <input type="text" class="form-control sm" name="name" id="name">
                   </div>
                   <div class="input-group sm mb-2">
@@ -56,12 +60,12 @@
                   <form action="/admin/orders/store" method="POST">
                     <?php echo csrf_field(); ?>
                     <div class="input-group sm mb-2">
-                      <label class="input-group-text" for="serial_number">Serial Number</label>
-                      <input type="number" class="form-control sm" name="serial_number" id="serial_number">
+                      <label class="input-group-text" for="serial_number">Order SN</label>
+                      <input type="number" class="form-control sm" name="serial_number" id="serial_number" value="<?php echo e($order_SN); ?>">
                       <label class="input-group-text" for="customer_id"> Client</label>
                       <select class="form-select  form-control sm py-0" name="customer_id" id="customer_id">
-                        <option readonly>All Client</option>
                         <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($customer->id); ?>" <?php echo e($defaultCustomer && $customer->id == $defaultCustomer->id ? 'selected' : ''); ?>><?php echo e($customer->name); ?></option>
                         <option value="<?php echo e($customer->id); ?>"><?php echo e($customer->name); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                       </select>
@@ -99,7 +103,7 @@
           <thead>
             <tr>
               <th> #</th>
-              <th>Serial Number</th>
+              <th>Order SN</th>
               <th>Client Name</th>
               <th>Order Date</th>
               <th>Status</th>

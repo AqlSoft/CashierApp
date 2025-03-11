@@ -45,8 +45,8 @@
                         <option value="<?php echo e($admin->id); ?>"><?php echo e($admin->userName); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                       </select>
-                      <label class="input-group-text" for="quantity">Quantity</label>
-                      <input type="number" class="form-control sm" name="quantity" id="quantity">
+                      <label class="input-group-text" for="sale_price">Sale Price</label>
+                      <input type="number" class="form-control sm" name="sale_price" id="sale_price">
 
                     </div>
                     <div class="input-group sm mt-2">
@@ -79,7 +79,7 @@
               </th>
               <th>Name</th>
               <th>Cost Price</th>
-              <th>QTY</th>
+              <th>Sale Price</th>
               <th>Admin</th>
               <th>Status</th>
               <th>Control</th>
@@ -97,7 +97,7 @@
               <td><?php echo e(++$counter); ?></td>
               <td><?php echo e($product->name); ?></td>
               <td><?php echo e($product->cost_price); ?></td>
-              <td><?php echo e($product->quantity); ?></td>
+              <td><?php echo e($product->sale_price); ?></td>
               <td><?php echo e($product->creator->userName); ?></td>
               <td>  
                 <?php if($product->status === 1): ?>

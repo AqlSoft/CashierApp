@@ -15,20 +15,19 @@
 <?php $__env->startSection('contents'); ?>
     <h1 class="mt-3 pb-2 " style="border-bottom: 2px solid #dedede">Create Invoices
     </h1>
-    <form action="<?php echo e(route('payments.cash.store', $order->id)); ?>" method="POST">
-    <?php echo csrf_field(); ?>
+  
     <fieldset class="table mt-3">
     
             <input type="hidden" name="order" value="<?php echo e($order->id); ?>">
             <div class="row mt-3 ">
-                <div class="col col-2 text-end fw-bold bg-transparent">Serial Number:</div>
+                <div class="col col-2 text-end fw-bold bg-transparent">Order SN:</div>
                 <div class="col col-4 bg-transparent"> <input value="<?php echo e($order->serial_number ?? 'N/A'); ?>"
                         name="serial_number" style="width: 160px;border:none;border-bottom: 2px solid #dedede " class="bg-transparent"disabled>
                 </div>
                 <div class="col col-2 text-end fw-bold bg-transparent">Order Date:</div>
                 <div class="col col-4 bg-transparent"><input value="<?php echo e($order->order_date ?? 'N/A'); ?>" name="order_date"
                         style="width: 160px;border:none;border-bottom: 2px solid #dedede" class="bg-transparent" disabled></div>
-                <div class="col col-2 text-end fw-bold bg-transparent"> Invoice Number :</div>
+                <div class="col col-2 text-end fw-bold bg-transparent"> Invoice SN :</div>
                 <div class="col col-4 bg-transparent"><input name="invoice_number" value="<?php echo e($invoiceNumber); ?>" class="bg-transparent"
                         style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
                 <div class="col col-2 text-end fw-bold bg-transparent">Invoice Date:</div>
@@ -36,7 +35,7 @@
                         placeholder="YYYY-MM-DD" class="bg-transparent "
                         style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
                 <div class="col col-2 text-end fw-bold bg-transparent ">Vat Number:</div>
-                <div class="col col-4 bg-transparent"><input name="vat_number" class="bg-transparent "
+                <div class="col col-4 bg-transparent"><input name="vat_number"  value="<?php echo e($order->customer->vat_number ?? 'N/A'); ?>"class="bg-transparent "
                         style="width: 160px;border:none;border-bottom: 2px solid #dedede"></div>
                 <div class="col col-2 text-end fw-bold bg-transparent">Client Name:</div>
                 <div class="col col-4 bg-transparent"><input name="" value="<?php echo e($order->customer->name ?? 'N/A'); ?>"
@@ -45,10 +44,7 @@
                 </div>
                 <div class="col col-2 text-end fw-bold bg-transparent"> Order Status :</div>
                 <div class="col col-4 bg-transparent">
-                
-                        <span class="bg-transparent text-primary"><input value="<?php echo e($status[$order->status] ?? 'N/A'); ?>"
-                                name="status" style="width: 160px;border:none;border-bottom: 2px solid #dedede"
-                                disabled></span>
+                    <input value="<?php echo e($status[$order->status] ?? 'N/A'); ?>" class="bg-transparent"  name="status" style="width: 160px;border:none;border-bottom: 2px solid #dedede"  disabled>
                 </div>
                 <div class="col col-2 text-end fw-bold bg-transparent">Due Date:</div>
                 <div class="col col-4 bg-transparent"><input name="due_date" value="<?php echo e(date('Y-m-d')); ?>"
@@ -101,7 +97,7 @@
                 </tbody>
                 <tfoot class="bg-transparent mt-3 ">
                     <tr >
-                        <td colspan="5" class="fw-bold text-end text-primary ">Amount :</td>
+                        <td colspan="5" class="fw-bold text-end text-primary bg-transparent ">Amount :</td>
                         <td class="text-primary"   style="border:none;border-bottom: 2px solid #dedede; width:100px;">
                             <input id="amount" name="amount" class="bg-transparent" value="<?php echo e($amount); ?>"
                             style="border:none;"  readonly>
@@ -125,9 +121,10 @@
             </table>
 
             <div class="input-group pt-2 px-3 justify-content-end ">
-            <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Invoice">
-                  Print
-                </button>
+              <a href="/admin/orders/index" class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Invoice">
+                  New Order
+               </a>
+            
                 <button class="btn px-3 py-1 btn-outline-secondary btn-sm dropdown-toggle" type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     Confirm & Pay
@@ -139,6 +136,9 @@
                     <li><a class="dropdown-item" href="#">Transfer</a></li>
                     <li><a class="dropdown-item" href="#">Credit Sales </a></li>
                 </ul>
+                <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Invoice">
+                  Print
+                </button>
                 <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Invoice">
                     Cancel 
                 </button>
@@ -152,6 +152,8 @@
             <div class="modal-content">
                 <h1 class="modal-title fs-5 mt-2  ps-3" id="exampleModalToggleLabel"
                     style="border-bottom: 1px solid #dedede">Cash Payment </h1>
+                    <form action="<?php echo e(route('payments.cash.store', $order->id)); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
                 <div class="modal-body">
                         
                         <div class="input-group sm mb-1">
@@ -212,11 +214,12 @@
                         </div>
                 
                 </div>
+                </form>
 
             </div>
         </div>
     </div>
-    </form>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const paidInput = document.getElementById('paid');

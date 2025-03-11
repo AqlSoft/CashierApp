@@ -10,24 +10,23 @@ use App\Models\Party;
 
 class OrdersController extends Controller
 {
-  protected static $status = [
-    1 => 'New',
-    2 => 'In Progress',
-    3 => 'Completed',
-    4 => 'paid'
 
-];
-    // عرض جميع الطلبات
+
+
+  // عرض جميع الطلبات
     public function index()
     {
         $orders    = Order::with('customer')->get();
         $products  = Product::all();
         $customers = Party::where('type', 'customer')->get();
+        $defaultCustomer = Party::where([['type', '=', 'customer'],  ['is_default', '=', 1],  ])->first();
+        $order_SN = Order::generateNumber();
       $vars = [
-    
-         'products' => $products,
-          'orders' => $orders,
-          'customers'=>$customers,
+         'products'         => $products,
+          'orders'          => $orders,
+          'customers'       =>$customers,
+          'order_SN'        =>$order_SN,
+          'defaultCustomer' =>$defaultCustomer,
           'admins'   => Admin::all()
         ];
         return view('admin.orders.index', $vars);
@@ -70,7 +69,7 @@ class OrdersController extends Controller
         return redirect()->back()->withError('The order is not exist, may be deleted or you have insuffecient privilleges.');
       }
       $vars = [
-        'status'  => static::$status,
+        'status' => Order::getStatusList(),
         'order' => $order,
       
       ];

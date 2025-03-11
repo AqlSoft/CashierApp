@@ -51,7 +51,7 @@ class ProductsController extends Controller
         Product::create([
             'name'             => $request->name,
             'cost_price'       => $request->cost_price,
-            'quantity'         => $request->quantity,
+            'sale_price'       => $request->sale_price,
             'description'      => $request->description,
             'category'         => $request->category ,
             'status'           => $request->status !== null ? $request->status : 0,

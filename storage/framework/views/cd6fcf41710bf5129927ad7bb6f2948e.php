@@ -21,7 +21,7 @@
 <fieldset class="table mt-3">
 
   <div class="row mt-3">
-    <div class="col col-2 text-end fw-bold">Serial Number:</div>
+    <div class="col col-2 text-end fw-bold">Order SN:</div>
     <div class="col col-4"> <?php echo e($order->serial_number); ?></div>
     <div class="col col-2 text-end fw-bold">Order Date:</div>
     <div class="col col-4"><?php echo e($order->order_date); ?></div>
@@ -160,9 +160,9 @@
       Bach to Order
     </button>
     
-    <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Confirm Order">
-    <a class="btn btn-sm py-0" href="<?php echo e(route('add-invoices-orderItem', $order->id)); ?>">Confirm Order</a>
-    </button>
+    <a class="btn px-3 py-1 btn-outline-secondary btn-sm" href="<?php echo e(route('add-invoices-orderItem', $order->id)); ?>" title="Confirm Order">
+     Confirm Order
+    </a>
     <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Order">
       Cancel Order
     </button>

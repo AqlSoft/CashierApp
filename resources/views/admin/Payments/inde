@@ -306,3 +306,221 @@ class PaymentController extends Controller
         }
     }
 }
+
+
+
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class SalesInvoice extends Model
+{
+    protected $fillable = [
+        'order_id', 'serial_number_order', 'client_id', 'invoice_number',
+        'invoice_date', 'vat_number', 'due_date', 'payment_date',
+        'amount', 'vat_amount', 'total_amount', 'status', 'type', 'created_by',
+    ];
+
+    /**
+     * Generate a unique invoice number.
+     *
+     * @return string
+     */
+    public static function generateNumber()
+    {
+        // الحصول على آخر فاتورة تم إدخالها
+        $lastInvoice = self::latest('id')->first();
+
+        // إذا كانت هناك فواتير موجودة، نأخذ آخر رقم فاتورة ونضيف 1
+        if ($lastInvoice) {
+            $lastNumber = $lastInvoice->invoice_number;
+            $nextNumber = (int) $lastNumber + 1;
+        } else {
+            // إذا لم تكن هناك فواتير، نبدأ برقم معين (مثل 1000)
+            $nextNumber = 0001;
+        }
+
+        // إرجاع الرقم الجديد
+        return str_pad($nextNumber, 8, '0', STR_PAD_LEFT); // لجعل الرقم مكونًا من 8 أرقام (مثال: 00001000)
+    }
+}
+
+
+
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Models\InvoiceItem;
+use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
+use Exception;
+use App\Models\Order;
+use App\Models\Payment;
+use App\Models\SalesInvoice;
+
+class PaymentsController
+{
+
+    /**confirmPayment
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function cashStore(Request $request, $orderId)
+    {
+
+        // store invoice
+        $order = Order::find($orderId);
+        try {
+          // إنشاء الفاتورة
+          $invoice = SalesInvoice::create([
+              'order_id' => $orderId,
+              'serial_number_order' => $request->serial_number,
+              'client_id'           => $request->client_id,
+              'invoice_number'      => SalesInvoice::generateNumber(),
+              'invoice_date'        => $request->invoice_date,
+              'vat_number'          => $request->vat_number,
+              'due_date'            => $request->due_date,
+              'payment_date'        => $request->payment_date,
+              'amount'              => $request->amount,
+              'vat_amount'          => $request->vat_amount,
+              'total_amount'        => $request->total_amount,
+              'status'              => $request->amount >= $request->total_amount ? 1 : 0,
+              'type'                => 'sales', // حالة الفاتورة
+              'created_by'          => auth()->user()->id,
+          ]);
+
+          // جلب أصناف الطلب المرتبطة بالطلب
+          $orderItems = OrderItem::where('order_id', $orderId)
+              ->with(['product', 'category', 'unit'])
+              ->get();
+
+          // التأكد من وجود أصناف
+          if ($orderItems->isEmpty()) {
+              return redirect()->back()
+                  ->with('error', 'لا توجد أصناف في الطلب.')
+                  ->withInput();
+          }
+
+          // إضافة أصناف الفاتورة
+          foreach ($orderItems as $item) {
+              InvoiceItem::create([
+                  'category_id' => $item->category_id,
+                  'product_id'  => $item->product_id,
+                  'invoice_id' => $invoice->id,
+                  'quantity'    => $item->quantity,
+                  'unit_id'    => $item->unit_id,
+                  'price'       => $item->price,
+                  'notes'      => $item->notes,
+                  'created_by' => auth()->user()->id,
+              ]);
+          }
+        $order = Order::find($orderId);
+        try {
+            $invoice = SalesInvoice::create([
+                'order_id' => $orderId,
+                'invoice_number' => SalesInvoice::generateNumber(),
+                'invoice_date' => date('Y-m-d'),
+                'due_date' => date('Y-m-d'),
+                'payment_method' => '1',
+                'client_id' => 1,
+                'amount' => $order->amount,
+                'vat'   => $order->vat,
+                'tatal' => $order->total,
+            ]);
+
+            // foreach ($order->items as $item) {
+            //     InvoiceItem::create([
+            //         'invoice_id' => $order->id,
+
+            //         'invoice_id' => $invoice->id,
+            //         'product_id',
+            //         'qty',
+            //         'unit',
+            //         'unit_price'
+            //     ]);
+            // }
+
+            foreach ($order->items as $item) {
+                $item->invoice_id = $invoice->id;
+                $item->save();
+            }
+        } catch (QueryException $e) {
+        }
+
+        // store payment
+        // update order status
+        try {
+            // إنشاء الدفع
+            $payment = Payment::create([
+                'order_id'          => $orderId,
+                'invoice_id'        => $orderId,
+                'payment_method_id' => '1',
+                'amount'            => $request->amount,
+                'payment_date'      => now(),
+                'status'            => 1, // ناجح
+                'from_account'      => 1, // الحساب الذي تم السحب منه (الخزنة)
+                'to_account'        => 3, // الحساب الذي تم الإيداع فيه (الموظف)
+                'Note'              => 'سند سلفة', // المرجع
+                'created_by'        => auth()->user()->id,
+            ]);
+
+            // تحديث حالة الطلب
+            $order = Order::findOrFail($orderId);
+            $order->update(['status' => '4']); // تم الدفع
+            return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}

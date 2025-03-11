@@ -10,11 +10,13 @@ class Party extends Model
     public $timestamps = true;
     protected $table = "parties";
     protected $fillable = [
+        'vat_number',
         'name',
         'phone',
         'email',
         'address',
         'type',
+        'is_default',
         'created_by',
         'updated_by',
     ];

@@ -45,8 +45,8 @@
                         <option value="{{ $admin->id }}">{{ $admin->userName }}</option>
                         @endforeach
                       </select>
-                      <label class="input-group-text" for="quantity">Quantity</label>
-                      <input type="number" class="form-control sm" name="quantity" id="quantity">
+                      <label class="input-group-text" for="sale_price">Sale Price</label>
+                      <input type="number" class="form-control sm" name="sale_price" id="sale_price">
 
                     </div>
                     <div class="input-group sm mt-2">
@@ -79,7 +79,7 @@
               </th>
               <th>Name</th>
               <th>Cost Price</th>
-              <th>QTY</th>
+              <th>Sale Price</th>
               <th>Admin</th>
               <th>Status</th>
               <th>Control</th>
@@ -97,7 +97,7 @@
               <td>{{ ++$counter }}</td>
               <td>{{ $product->name }}</td>
               <td>{{ $product->cost_price }}</td>
-              <td>{{ $product->quantity }}</td>
+              <td>{{ $product->sale_price }}</td>
               <td>{{ $product->creator->userName }}</td>
               <td>  
                 @if ($product->status === 1)
