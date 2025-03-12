@@ -82,24 +82,24 @@ class PaymentsController
                 'order_id'          => $orderId,
                 'invoice_id'        => $invoice->id,
                 'payment_method'    => '1',
-                'amount_from'       => $request->amount_from,
-                'amount_to'         => $request->amount_to,
+                // 'amount_from'       => $request->amount_from,
+                // 'amount_to'         => $request->amount_to,
                 'payment_date'      => now(),
                 'status'            => 1, // ناجح
-                'from_account'      => $request->account_from, // الحساب الذي تم السحب منه (الخزنة)
-                'to_account'        => $request->account_to, // الحساب الذي تم الإيداع فيه (الموظف)
+                // 'from_account'      => $request->account_from, // الحساب الذي تم السحب منه (الخزنة)
+                // 'to_account'        => $request->account_to, // الحساب الذي تم الإيداع فيه (الموظف)
                 'note'              => 'سند سلفة', // المرجع
                 'created_by'        => auth()->user()->id,
             ]);
 
             // تحديث حالة الطلب
             $order->update([
-                'status' => '4',
+                'status' => '3',
                 'updated_at' => now(),
                 'updated_by' => auth()->user()->id,
             ]); // تم الدفع
 
-            return redirect()->route('display-order-all')->with('success', 'تم حفظ البيانات بنجاح.');
+            return redirect()->back('')->with('success', 'تم حفظ البيانات بنجاح.');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())

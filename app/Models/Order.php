@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Order extends Model
 {
+  use SoftDeletes; // تفعيل Soft Delete
+
   public $timestamps = true;
 
   protected $table = "orders";
@@ -19,37 +23,44 @@ class Order extends Model
     'created_by',
     'updated_by',
 ];
-
+protected $dates=['deleted_at'];
   /**
      * Generate a unique invoice number.
      *
      * @return string
      */
   
-    public static function generateNumber()
-    {
-        //الحصول على آخر طلب تم إدخالها
-        $lastInvoice = self::latest('id')->first();
-
-        // إذا كانت هناك طلبات موجودة، نأخذ آخر رقم طلب ونضيف 1
-        if ($lastInvoice) {
-            $lastNumber = $lastInvoice->invoice_number;
-            $nextNumber = (int) $lastNumber + 1;
-        } else {
-            // إذا لم تكن هناك طلبات نبدأ برقم معين (مثل 0001)
-            $nextNumber = 0001;
-        }
-
-        // إرجاع الرقم الجديد
-        return str_pad($nextNumber, 8, '0', STR_PAD_LEFT); // لجعل الرقم مكونًا من 8 أرقام (مثال: 00001000)
-    }
+     public static function generateSerialNumber()
+     {
+         // الحصول على آخر سريال نمبر تم إنشاؤه
+         $lastSerial = self::orderBy('id', 'desc')->first();
+     
+         if ($lastSerial) {
+             // إذا كان هناك سريال نمبر سابق، نأخذه ونضيف 1
+             $lastNumber = (int) $lastSerial->serial_number;
+             $nextNumber = $lastNumber + 1;
+         } else {
+             // إذا لم يكن هناك سريال نمبر سابق، نبدأ من رقم معين (مثل 1)
+             $nextNumber = 1;
+         }
+     
+         // التأكد من أن الرقم الجديد غير مستخدم مسبقًا (للتأكد من عدم التكرار)
+         while (self::where('serial_number', $nextNumber)->exists()) {
+             $nextNumber++;
+         }
+     
+         // إرجاع الرقم الجديد مع تنسيق مكون من 8 أرقام (مثال: 00000001)
+         return str_pad($nextNumber, 8, '0', STR_PAD_LEFT);
+     }
 
     // قائمة الحالات
     protected static $status = [
       1 => 'New',
       2 => 'In Progress',
-      3 => 'Completed',
-      4 => 'Paid',
+      3 => 'Pending',
+      4 => 'On Delivery',
+      5 => 'Completed',
+      0 => 'Canceled',
   ];
 
   // دالة للحصول على قائمة الحالات

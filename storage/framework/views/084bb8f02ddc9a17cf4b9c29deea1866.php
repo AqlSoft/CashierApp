@@ -136,12 +136,13 @@
                     <li><a class="dropdown-item" href="#">Transfer</a></li>
                     <li><a class="dropdown-item" href="#">Credit Sales </a></li>
                 </ul>
-                <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Invoice">
+                <a  href="<?php echo e(route('print-invoice', $order->id)); ?>" class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Print Invoice">
                   Print
-                </button>
-                <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Invoice">
+                </a>
+
+                <a  href="<?php echo e(route('cancel-order-info', $order->id)); ?>"class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Invoice">
                     Cancel 
-                </button>
+                </a>
             </div>
     
     </fieldset>
@@ -180,32 +181,8 @@
                             <input type="number" step="0.01" class="form-control sm" name="remaining"
                                 id="remaining">
                         </div>
-                        <div class="input-group sm mb-1">
-                            <label class="input-group-text" for="amount_from">Amount From</label>
-                            <input type="number" step="0.01" class="form-control sm"   name="amount_from" id="amount_from">
-                        </div>
-                        <div class="input-group sm mb-1">
-                            <label class="input-group-text" for="amount">Amount To</label>
-                            <input type="number" step="0.01" class="form-control sm"  name="amount_to" id="amount_to">
-                        </div>
-                        <div class="input-group sm mb-1">
-                            <label class="input-group-text" for="account_from">From</label>
-                            <select class="form-control py-0 sm" name="account_from" id="account_from">
-                                <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $fa): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <option value="<?php echo e($fa->id); ?>"><?php echo e($fa->name); ?></option>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            </select>
-
-                        </div>
-                        <div class="input-group sm mb-0">
-                            <label class="input-group-text" for="account_to">To</label>
-                            <select class="form-control sm py-0" name="account_to" id="account_to">
-                                <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ta): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <option value="<?php echo e($ta->id); ?>"><?php echo e($ta->name); ?></option>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            </select>
-
-                        </div>
+                      
+                      
                         <div class="input-group pt-2 px-3 mt-2 justify-content-end "
                             style="border-top: 1px solid #dedede">
                             <button type="button" class="btn px-3 py-1 btn-outline-secondary btn-sm"

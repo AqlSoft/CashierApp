@@ -61,16 +61,16 @@
         <tr>
           <td>{{ ++$counter }}</td>
           <td>
-            <input value="{{ $orderItem->category->cat_name ?? 'N/A' }}" style="width: 150px">
+            <input value="{{ $orderItem->category->cat_name ?? 'N/A' }}" style="width: 150px; border:none;">
           </td>
 
           <td data-bs-toggle="tooltip" data-bs-title="">
-            <input value="{{ $orderItem->product->name ?? 'N/A' }}" style="width: 160px">
+            <input value="{{ $orderItem->product->name ?? 'N/A' }}" style="width: 160px; border:none;">
           </td>
-          <td><input type="text" name="price" value="{{ $orderItem->price }}" style="width: 120px"></td>
           <td>
-            <input value="{{ $orderItem->unit->name ?? 'N/A' }}" name="unit" style="width: 100px">
+            <input value="{{ $orderItem->unit->name ?? 'N/A' }}" name="unit" style="width: 100px; border:none;">
           </td>
+          <td><input type="text" name="price" value="{{ $orderItem->price }}" style="width: 120px; border:none;"></td>
           <td>
             <input type="number" name="quantity" value="{{ old('quantity', $orderItem->quantity) }}" id="quantity" style="width: 110px">
           </td>
@@ -103,7 +103,7 @@
       @endif
       {{-- end of order item --}}
       {{-- Start input form --}}
-      <form action="{{ route('save-orderitem-info') }}" method="post">
+      <form action="{{ route('save-orderitem-info' ,$order->id) }}" method="post">
         @csrf
         <input type="hidden" name="order" value="{{ $order->id }}">
 
@@ -156,16 +156,16 @@
   </table>
 
   <div class="input-group pt-2 px-3 justify-content-end">
-    <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Bach to Order">
+    <a  href="/admin/orders/index" class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Bach to Order">
       Bach to Order
-    </button>
+    </a>
     
     <a class="btn px-3 py-1 btn-outline-secondary btn-sm" href="{{ route('add-invoices-orderItem', $order->id) }}" title="Confirm Order">
      Confirm Order
     </a>
-    <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Order">
+    <a href="{{ route('cancel-order-info', $order->id) }}" class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Order">
       Cancel Order
-    </button>
+    </a>
   </div>
 </fieldset>
 <script>

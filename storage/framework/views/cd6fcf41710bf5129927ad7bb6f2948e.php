@@ -61,16 +61,16 @@
         <tr>
           <td><?php echo e(++$counter); ?></td>
           <td>
-            <input value="<?php echo e($orderItem->category->cat_name ?? 'N/A'); ?>" style="width: 150px">
+            <input value="<?php echo e($orderItem->category->cat_name ?? 'N/A'); ?>" style="width: 150px; border:none;">
           </td>
 
           <td data-bs-toggle="tooltip" data-bs-title="">
-            <input value="<?php echo e($orderItem->product->name ?? 'N/A'); ?>" style="width: 160px">
+            <input value="<?php echo e($orderItem->product->name ?? 'N/A'); ?>" style="width: 160px; border:none;">
           </td>
-          <td><input type="text" name="price" value="<?php echo e($orderItem->price); ?>" style="width: 120px"></td>
           <td>
-            <input value="<?php echo e($orderItem->unit->name ?? 'N/A'); ?>" name="unit" style="width: 100px">
+            <input value="<?php echo e($orderItem->unit->name ?? 'N/A'); ?>" name="unit" style="width: 100px; border:none;">
           </td>
+          <td><input type="text" name="price" value="<?php echo e($orderItem->price); ?>" style="width: 120px; border:none;"></td>
           <td>
             <input type="number" name="quantity" value="<?php echo e(old('quantity', $orderItem->quantity)); ?>" id="quantity" style="width: 110px">
           </td>
@@ -103,7 +103,7 @@
       <?php endif; ?>
       
       
-      <form action="<?php echo e(route('save-orderitem-info')); ?>" method="post">
+      <form action="<?php echo e(route('save-orderitem-info' ,$order->id)); ?>" method="post">
         <?php echo csrf_field(); ?>
         <input type="hidden" name="order" value="<?php echo e($order->id); ?>">
 
@@ -156,16 +156,16 @@
   </table>
 
   <div class="input-group pt-2 px-3 justify-content-end">
-    <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Bach to Order">
+    <a  href="/admin/orders/index" class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Bach to Order">
       Bach to Order
-    </button>
+    </a>
     
     <a class="btn px-3 py-1 btn-outline-secondary btn-sm" href="<?php echo e(route('add-invoices-orderItem', $order->id)); ?>" title="Confirm Order">
      Confirm Order
     </a>
-    <button class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Order">
+    <a href="<?php echo e(route('cancel-order-info', $order->id)); ?>" class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Order">
       Cancel Order
-    </button>
+    </a>
   </div>
 </fieldset>
 <script>
