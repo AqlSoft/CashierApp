@@ -1,8 +1,8 @@
 .admin-wrapper {
-    display: flex;
-    min-height: 100vh;
+  display: flex;
+  min-height: 100vh;
+  background-color: #fbfafa;
 }
-
 #content {
     flex: 1;
     margin-left: 220px;
@@ -48,7 +48,8 @@
 
 /* إضافة تنسيقات للبطاقات */
 .card {
-  background-color:#eee;
+  /* background-color:#eee; */
+  background-color:#f5f5f5;
     transition: all 0.2s ease-in-out;
 }
 
