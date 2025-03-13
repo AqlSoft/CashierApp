@@ -42,6 +42,7 @@
           <thead>
             <tr>
               <th> #</th>
+              <th>Vat Number</th>
               <th>Name</th>
               <th>Phone</th>
               <th>Address</th>
@@ -56,8 +57,9 @@
             @foreach ($clients as $client)
             <tr>
               <td>{{ ++$counter }}</td>
+              <td>{{ $client->vat_number}}</td>
               <td>{{ $client->name}}</td>
-              <td>{{ @$client->phone }}</td> <!-- اسم العميل -->
+              <td>{{ $client->phone }}</td> 
               <td>{{ $client->address }}</td>
               <td>
                 <a class="btn btn-sm py-0" href="{{ route('view-client-info', $client->id) }}"><i

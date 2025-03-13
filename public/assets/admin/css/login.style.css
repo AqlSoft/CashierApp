@@ -1,25 +1,41 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: #f5f5f5;
+  background-color: #eee;
 }
-
 .main-container {
-  max-width: 900px;
-  width: 90%;
-  /* margin: .5rem auto; */
-  background: white;
-  border-radius: 15px;
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin:auto;
+  background: #fbfafa;
+  border-radius: 8px;
+  margin-top:6rem;
+  padding: 0;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  margin-top:-8rem;
+  position: relative;
 }
 
-.left-side {
-  background: #b72d14;
-  position: relative;
-  overflow: hidden;
-  min-height: 350px;
+.restaurant-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  position: absolute;
+  top: 60px;
+  margin: auto;
+  background-color: #d3dce3;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+.top-side {
+  background: linear-gradient(#fff, #dcdcdc);;
+  min-height: 100px;
+  width:100%;
+}
+
 
 .login-form {
   max-width: 320px;
@@ -28,58 +44,24 @@ body {
 
 .form-control {
   padding: 0.6rem 1rem;
+  width:3rem;
   border-radius: 8px;
 }
 
 .btn-primary {
-  background-color: #b72d14;
-  border-color: #b72d14;
+  background-color:rgb(186, 214, 236);;
+  border-color: #d3dce3;;
   padding: 0.6rem;
+  color:#000;
   border-radius: 8px;
 }
 
 .btn-primary:hover {
-  background-color: #ff3910;
-  border-color: #ff3910;
+  background: linear-gradient(#fff, #dcdcdc);
+  border-color: linear-gradient(#fff, #dcdcdc);
+  color:blue;
 }
 
-/* Decorative elements */
-.decoration-dot-1,
-.decoration-dot-2 {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
-}
-
-.decoration-dot-1 {
-  top: 20%;
-  left: 10%;
-}
-
-.decoration-dot-2 {
-  bottom: 30%;
-  right: 20%;
-}
-
-.decoration-circle {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
-  top: 15%;
-  right: 15%;
-}
-
-.decoration-x {
-  position: absolute;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 20px;
-  bottom: 20%;
-  left: 15%;
-}
 
 .mb-3 {
   margin-bottom: 0.8rem !important;
@@ -94,10 +76,9 @@ body {
   padding-bottom: 1rem !important;
 }
 
-.restaurant-icon {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-}
+
+
+
 
 @media (max-width: 768px) {
   .main-container {

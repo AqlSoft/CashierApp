@@ -42,6 +42,7 @@
           <thead>
             <tr>
               <th> #</th>
+              <th>Vat Number</th>
               <th>Name</th>
               <th>Phone</th>
               <th>Address</th>
@@ -56,8 +57,9 @@
             <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <tr>
               <td><?php echo e(++$counter); ?></td>
+              <td><?php echo e($client->vat_number); ?></td>
               <td><?php echo e($client->name); ?></td>
-              <td><?php echo e(@$client->phone); ?></td> <!-- اسم العميل -->
+              <td><?php echo e($client->phone); ?></td> 
               <td><?php echo e($client->address); ?></td>
               <td>
                 <a class="btn btn-sm py-0" href="<?php echo e(route('view-client-info', $client->id)); ?>"><i
