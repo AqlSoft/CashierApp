@@ -86,7 +86,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
   
         // invoices routes
         Route::prefix('payments')->group(function () {
-          Route::post('/cash/store/{id}',  [PaymentsController::class, 'cashStore'])->name('payments.cash.store');
+          Route::post('/cash/store',       [PaymentsController::class, 'cashStore'])->name('payments.cash.store');
           Route::post('/store',            [PaymentsController::class, 'store'])->name('save-invoices-orderitem-info');
           Route::get('/edit/{id}',         [PaymentsController::class, 'edit'])->name('edit-invoices-orderitem-info');
           Route::post('/update',           [PaymentsController::class, 'update'])->name('update-invoices-orderitem-input');

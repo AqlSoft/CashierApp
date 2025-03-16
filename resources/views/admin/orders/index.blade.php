@@ -60,8 +60,8 @@
                   <form action="/admin/orders/store" method="POST">
                     @csrf
                     <div class="input-group sm mb-2">
-                      <label class="input-group-text" for="serial_number">Order SN</label>
-                      <input type="number" class="form-control sm" name="serial_number" id="serial_number" value="{{$order_SN}}">
+                      <label class="input-group-text" for="order_sn">Order SN</label>
+                      <input type="number" class="form-control sm" name="order_sn" id="order_sn" value="{{$order_SN}}">
                       <label class="input-group-text" for="customer_id"> Client</label>
                       <select class="form-select  form-control sm py-0" name="customer_id" id="customer_id">
                         @foreach ($customers as $customer)
@@ -118,7 +118,7 @@
             @foreach ($orders as $order)
             <tr>
               <td>{{ ++$counter }}</td>
-              <td>{{ $order->serial_number}}</td>
+              <td>{{ $order->order_sn}}</td>
               <td>{{ @$order->customer->name }}</td> <!-- اسم العميل -->
               <td>{{ $order->order_date }}</td>
               <td>
@@ -145,8 +145,8 @@
                     <a class="btn btn-sm py-0" href="{{ route('edit-order-info', $order->id) }}"><i
                     class="fa fa-edit text-primary"></i></a>
                     <a class="btn btn-sm py-0" onclick="if(!confirm('You are about to Archive a order, are you sure!?.')){return false}"
-                  title="Archive  order and related Information" href="{{ route('destroy-order-info', $order->id) }}"><i
-                    class="fa fa-trash text-danger"></i></a>
+                  title="Archive  order and related Information" href="{{ route('destroy-order-info', $order->id) }}">
+                  <i class="fa fa-trash text-danger"></i></a>
                 @endif
                 <a class="btn btn-sm py-0" href="{{ route('view-order-info', $order->id) }}"><i
                     class="fas fa-eye text-success" title="View Details"></i></a>

@@ -34,8 +34,9 @@ class PaymentsController
     /**
      * Store a newly created resource in storage.
      */
-    public function cashStore(Request $request, $orderId)
+    public function cashStore(Request $request)
     {
+      return $request;
       $order = Order::with(['orderItems.product', 'orderItems.unit', 'orderItems.order' ,'customer'])->find($orderId);
 
       $amount = $order->orderItems->sum(function ($item) {

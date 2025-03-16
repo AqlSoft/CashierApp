@@ -21,11 +21,13 @@ class OrdersItemsController extends Controller
   // عرض نموذج إنشاء طلب
   public function create(string $id)
   {
-    $order = Order::with(['orderItems.product', 'orderItems.unit', 'orderItems.order'])->find($id);
+
     $units = Unit::all();
+    $products = Product::all();
     $categories = ItemCategroy::all();
     $vars = [
-      'order' => $order,
+
+      'products' => $products,
       'units' => $units,
       'categories' => $categories,
       'status' => Order::getStatusList(),

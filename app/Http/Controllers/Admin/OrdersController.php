@@ -45,7 +45,7 @@ class OrdersController extends Controller
        // إنشاء الطلب
     try {
        $order = Order::create([
-        'serial_number'   => $request->serial_number,
+        'order_sn'        => $request->order_sn,
         'order_date'      => $request->order_date,
         'customer_id'     => $request->customer_id, // customer_id هو العميل المحدد
         'notes'           => $request->notes,

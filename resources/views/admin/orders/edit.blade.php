@@ -10,8 +10,8 @@
         <input type="hidden" name="id" value="{{ $order->id }}">
         @csrf
         <div class="input-group  mb-2">
-        <label class="input-group-text" for="serial_number">Serial Number</label>
-          <input type="number" class="form-control sm" name="serial_number" id="serial_number" value="{{$order->serial_number}}" disabled>
+        <label class="input-group-text" for="order_sn">Order SN</label>
+          <input type="number" class="form-control sm" name="order_sn" id="order_sn" value="{{$order->order_sn}}" disabled>
           <label class="input-group-text" for="admin_id">Status</label>
             <select class="form-select form-control sm py-0" name="status" id="status">
             @foreach ($status as $key => $value)

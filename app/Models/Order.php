@@ -15,7 +15,7 @@ class Order extends Model
   protected $table = "orders";
 
   protected $fillable = [
-    'serial_number',
+    'order_sn',
     'order_date',
     'customer_id',
     'notes',
@@ -37,7 +37,7 @@ protected $dates=['deleted_at'];
      
          if ($lastSerial) {
              // إذا كان هناك سريال نمبر سابق، نأخذه ونضيف 1
-             $lastNumber = (int) $lastSerial->serial_number;
+             $lastNumber = (int) $lastSerial->order_sn;
              $nextNumber = $lastNumber + 1;
          } else {
              // إذا لم يكن هناك سريال نمبر سابق، نبدأ من رقم معين (مثل 1)
@@ -45,7 +45,7 @@ protected $dates=['deleted_at'];
          }
      
          // التأكد من أن الرقم الجديد غير مستخدم مسبقًا (للتأكد من عدم التكرار)
-         while (self::where('serial_number', $nextNumber)->exists()) {
+         while (self::where('order_sn', $nextNumber)->exists()) {
              $nextNumber++;
          }
      
