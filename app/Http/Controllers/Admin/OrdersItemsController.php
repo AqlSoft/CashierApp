@@ -30,20 +30,16 @@ class OrdersItemsController extends Controller
 
     // إنشاء مصفوفة لتخزين الكميات (Quantities)
     $quantities = [];
-    foreach ($orderItems as $item) {
-      $quantities[$item->product_id] = $item->quantity;
-    }
-    // حساب الإجمالي الكلي (Total Price)
-    $totalPrice = 0;
-    foreach ($orderItems as $item) {
-      $totalPrice += $item->quantity * $item->price;
-    }
-    // حساب المبلغ الإجمالي (بدون الضريبة)
+      // حساب الإجمالي الكلي (Total Price)
+      $totalPrice = 0;
+        // حساب المبلغ الإجمالي (بدون الضريبة)
     $amount = 0;
     foreach ($orderItems as $item) {
+      $quantities[$item->product_id] = $item->quantity;
+      $totalPrice += $item->quantity * $item->price;
       $amount += $item->quantity * $item->price;
     }
-
+  
     // حساب قيمة الضريبة (VAT) بنسبة 15%
     $vatRate = 0.15; // نسبة الضريبة (15%)
     $vatAmount = $amount * $vatRate;
@@ -75,16 +71,6 @@ class OrdersItemsController extends Controller
 
     ];
     return view('admin.orderitem.create', $vars);
-  }
-
-  public function getProductsByCategory($categoryId)
-  {
-
-    $products = Product::where('category_id', $categoryId)
-      ->with('unit') // تحميل العلاقة مع الوحدة
-      ->get(['id', 'name', 'sale_price', 'unit_id']); // إضافة unit_id إلى البيانات المرتجعة
-
-    return response()->json($products);
   }
 
 
