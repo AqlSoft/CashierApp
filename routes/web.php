@@ -61,7 +61,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
           Route::post('/store/{id}',       [OrdersItemsController::class, 'store'])->name('save-orderitem-info');
           Route::get('/edit/{id}',         [OrdersItemsController::class, 'edit'])->name('edit-orderitem-info');
           Route::post('/update',           [OrdersItemsController::class, 'update'])->name('update-orderitem-input');
-          Route::get('/destroy/{id}',      [OrdersItemsController::class, 'destroy'])->name('destroy-store-input-entry');
+          Route::get('/destroy/{id}',      [OrdersItemsController::class, 'destroy'])->name('destroy-oItem-info');
           Route::get('/get-products-by-category/{categoryId}', [OrdersItemsController::class, 'getProductsByCategory'])->name('get-products-by-category');
       });
 
