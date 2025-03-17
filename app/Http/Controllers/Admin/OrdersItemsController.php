@@ -26,9 +26,10 @@ class OrdersItemsController extends Controller
     $products = Product::all();
     $categories = ItemCategroy::all();
     $vars = [
-
+      'order' => Order::find($id),
       'products' => $products,
       'units' => $units,
+      'Ois' => OrderItem::where('order_id', $id)->pluck('product_id')->toArray(),
       'categories' => $categories,
       'status' => Order::getStatusList(),
 
@@ -48,34 +49,43 @@ class OrdersItemsController extends Controller
 
 
   // حفظ الطلب الجديد
-  public function store(Request $request ,$orderId)
+  public function store(Request $request, $orderId)
   {
+    //return $request;
 
     // حفظ البيانات في قاعدة البيانات
-    try {
-      OrderItem::create([
-        'order_id'    => $request->order,
-        'category_id' => $request->category,
-        'product_id'  => $request->product,
-        'unit_id'     => $request->unit_id,
-        'quantity'    => $request->quantity,
-        'price'       => $request->price,
-        'notes'       => $request->notes,
-        'status'      =>2,
-        'created_by'  => auth()->user()->id, // المستخدم الحالي
-      ]);
-
-      Order::where('id', $orderId)->update([
-        'status' => 2,
-        'updated_at' => now(),
-        'updated_by' => auth()->user()->id,
-    ]);
-
+    $product = Product::find($request->product_id);
+    $productIsExist = OrderItem::where(['order_id' => $orderId, 'product_id' => $product->id])
+      ->first();
+    if ($productIsExist) {
+      $productIsExist->update(['quantity' => $productIsExist->quantity + 1]);
       return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
-    } catch (\Exception $e) {
-      return redirect()->back()
-        ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
-        ->withInput();
+    } else {
+
+      try {
+        OrderItem::create([
+          'order_id'    => $request->order_id,
+          'product_id'  => $product->id,
+          'category_id' => $product->category_id,
+          'unit_id'   => $product->unit_id,
+          'quantity'    => 1,
+          'price'       => $product->sale_price,
+          'status'      => 2,
+          'created_by'  => auth()->user()->id, // المستخدم الحالي
+        ]);
+
+        Order::where('id', $orderId)->update([
+          'status' => 2,
+          'updated_at' => now(),
+          'updated_by' => auth()->user()->id,
+        ]);
+
+        return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
+      } catch (\Exception $e) {
+        return redirect()->back()
+          ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
+          ->withInput();
+      }
     }
   }
 
@@ -106,21 +116,20 @@ class OrdersItemsController extends Controller
   }
 
   /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        // get the OrderItem
-        $orderitem_inputs = OrderItem::find($id);
-        try {
-            if (!$orderitem_inputs) {
-                return redirect()->back()->withError('The order item is not exist, may be deleted or you have insuffecient privilleges to delete it.');
-            }
-            $orderitem_inputs->delete();
-            return redirect()->back()->with(['success' => 'Order Item Removed Successfully']);
-        } catch (Exception $err) {
-            return redirect()->back()->with(['error' => 'Order Item can not be Removed due to: ' . $err]);
-        }
+   * Remove the specified resource from storage.
+   */
+  public function destroy(string $id)
+  {
+    // get the OrderItem
+    $orderitem_inputs = OrderItem::find($id);
+    try {
+      if (!$orderitem_inputs) {
+        return redirect()->back()->withError('The order item is not exist, may be deleted or you have insuffecient privilleges to delete it.');
+      }
+      $orderitem_inputs->delete();
+      return redirect()->back()->with(['success' => 'Order Item Removed Successfully']);
+    } catch (Exception $err) {
+      return redirect()->back()->with(['error' => 'Order Item can not be Removed due to: ' . $err]);
     }
-
+  }
 }
