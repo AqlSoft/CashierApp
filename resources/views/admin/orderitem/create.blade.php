@@ -38,7 +38,7 @@
                             @foreach ($order->orderItems as $oItem)
                             <tr>
                                 <form action="">
-                                    <td>{{ $loop->iteration }}</td>
+                                    <th scope="row">{{ $loop->iteration }}</th>
                                     <td>{{ $oItem->product->name }}</td>
                                     <td>{{ $oItem->quantity }}</td>
                                     <td>{{ $oItem->price }}</td>
@@ -79,18 +79,16 @@
             <div class="row d-flex gap-2" id="product-list">
                 @if (isset($products) && count($products))
                     @foreach ($products as $product)
-                        <div class="col col-2 productlist" style="border: 1px solid {{ in_array($product->id, $Ois) ? '#007bff' : '#ddd' }}" data-category="{{ $product->category_id }}">
+                        <div class="col col-2 productlist" style="border: 1px solid {{ in_array($product->id, $Ois) ? '#007bff' : '#f7f5f5' }}" data-category="{{ $product->category_id }}">
                             <form action="/admin/orderItems/store/{{ $order->id }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <input type="hidden" name="order_id" value="{{ $order->id }}">
                                 <button type="submit" class="product-item">
-                                    <div class="productlistimg">
-                                        <img src="{{ asset('assets/admin/uploads/images/products/' . $product->image) }}">
-                                    </div>
+                                <div class="productlistimg" style="background-image: url('{{ $product->image ? asset('assets/admin/uploads/images/products/' . $product->image) : asset('assets/admin/images/default-product.png') }}');"></div>
                                     <div class="productlistcontent">
-                                        <h5 class="pb-2 mt-1 mb-2">{{ $product->name }}</h5>
-                                        <p class="mb-3 quantity-display">Qty: {{ $quantities[$product->id] ?? 0 }}</p>
+                                        <h5 class=" mt-1 ">{{ $product->name }}</h5>
+                                        <p class="mb-3 quantity-display">Qty:{{ $quantities[$product->id] ?? 0 }}</p>
                                     </div>
                                     <div class="price-overlay">
                                         <h5 class="price-display">{{ $product->sale_price }}</h5>
@@ -117,7 +115,7 @@
                     <!-- حقول الفورم -->
                     <div class="input-group sm mb-1">
                         <label class="input-group-text" for="amount">Amount</label>
-                        <input type="number" step="0.01" class="form-control sm" name="amount" id="amount" value="{{ $amount }}" required readonly>
+                        <input type="number" step="0.01" class="form-control sm" name="amount" id="amount" value="{{ $totalPrice }}" required readonly>
                     </div>
                     <div class="input-group sm mb-1">
                         <label class="input-group-text" for="vatAmount">Vat Amount</label>
@@ -129,7 +127,7 @@
                     </div>
                     <div class="input-group sm mb-1">
                         <label class="input-group-text" for="paid">Paid</label>
-                        <input type="number" step="0.01" class="form-control sm" name="paid" id="paid" value="{{ $paid }}" required>
+                        <input type="number" step="0.01" class="form-control sm" name="paid" id="paid" value="0" required>
                     </div>
                     <div class="input-group sm mb-1">
                         <label class="input-group-text" for="remaining">Remaining</label>

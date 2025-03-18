@@ -38,7 +38,7 @@
                             <?php $__currentLoopData = $order->orderItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $oItem): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
                                 <form action="">
-                                    <td><?php echo e($loop->iteration); ?></td>
+                                    <th scope="row"><?php echo e($loop->iteration); ?></th>
                                     <td><?php echo e($oItem->product->name); ?></td>
                                     <td><?php echo e($oItem->quantity); ?></td>
                                     <td><?php echo e($oItem->price); ?></td>
@@ -79,18 +79,16 @@
             <div class="row d-flex gap-2" id="product-list">
                 <?php if(isset($products) && count($products)): ?>
                     <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <div class="col col-2 productlist" style="border: 1px solid <?php echo e(in_array($product->id, $Ois) ? '#007bff' : '#ddd'); ?>" data-category="<?php echo e($product->category_id); ?>">
+                        <div class="col col-2 productlist" style="border: 1px solid <?php echo e(in_array($product->id, $Ois) ? '#007bff' : '#f7f5f5'); ?>" data-category="<?php echo e($product->category_id); ?>">
                             <form action="/admin/orderItems/store/<?php echo e($order->id); ?>" method="POST">
                                 <?php echo csrf_field(); ?>
                                 <input type="hidden" name="product_id" value="<?php echo e($product->id); ?>">
                                 <input type="hidden" name="order_id" value="<?php echo e($order->id); ?>">
                                 <button type="submit" class="product-item">
-                                    <div class="productlistimg">
-                                        <img src="<?php echo e(asset('assets/admin/uploads/images/products/' . $product->image)); ?>">
-                                    </div>
+                                <div class="productlistimg" style="background-image: url('<?php echo e($product->image ? asset('assets/admin/uploads/images/products/' . $product->image) : asset('assets/admin/images/default-product.png')); ?>');"></div>
                                     <div class="productlistcontent">
-                                        <h5 class="pb-2 mt-1 mb-2"><?php echo e($product->name); ?></h5>
-                                        <p class="mb-3 quantity-display">Qty: <?php echo e($quantities[$product->id] ?? 0); ?></p>
+                                        <h5 class=" mt-1 "><?php echo e($product->name); ?></h5>
+                                        <p class="mb-3 quantity-display">Qty:<?php echo e($quantities[$product->id] ?? 0); ?></p>
                                     </div>
                                     <div class="price-overlay">
                                         <h5 class="price-display"><?php echo e($product->sale_price); ?></h5>
@@ -117,7 +115,7 @@
                     <!-- حقول الفورم -->
                     <div class="input-group sm mb-1">
                         <label class="input-group-text" for="amount">Amount</label>
-                        <input type="number" step="0.01" class="form-control sm" name="amount" id="amount" value="<?php echo e($amount); ?>" required readonly>
+                        <input type="number" step="0.01" class="form-control sm" name="amount" id="amount" value="<?php echo e($totalPrice); ?>" required readonly>
                     </div>
                     <div class="input-group sm mb-1">
                         <label class="input-group-text" for="vatAmount">Vat Amount</label>
@@ -129,7 +127,7 @@
                     </div>
                     <div class="input-group sm mb-1">
                         <label class="input-group-text" for="paid">Paid</label>
-                        <input type="number" step="0.01" class="form-control sm" name="paid" id="paid" value="<?php echo e($paid); ?>" required>
+                        <input type="number" step="0.01" class="form-control sm" name="paid" id="paid" value="0" required>
                     </div>
                     <div class="input-group sm mb-1">
                         <label class="input-group-text" for="remaining">Remaining</label>

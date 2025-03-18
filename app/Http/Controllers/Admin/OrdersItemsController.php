@@ -9,85 +9,72 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Admin;
 use App\Models\Product;
-use App\Models\Unit;
 use App\Models\ItemCategroy;
 
 class OrdersItemsController extends Controller
 {
 
-  // عرض جميع الطلبات
+  
   public function index() {}
 
-  // عرض نموذج إنشاء طلب
-  public function create(string $id)
-  {
 
-    $units = Unit::all();
-    $products = Product::all();
-    $categories = ItemCategroy::all();
+public function create(string $id)
+    {
+        // جلب البيانات المطلوبة باستخدام Eager Loading لتجنب N+1 Query
+        $order = Order::with('orderItems.product')->findOrFail($id);  
 
-    $orderItems = OrderItem::where('order_id', $id)->get();
+        // حساب الكميات والمبالغ
+        $quantities = [];
+        $totalPrice = 0;
 
-    // إنشاء مصفوفة لتخزين الكميات (Quantities)
-    $quantities = [];
-      // حساب الإجمالي الكلي (Total Price)
-      $totalPrice = 0;
-        // حساب المبلغ الإجمالي (بدون الضريبة)
-    $amount = 0;
-    foreach ($orderItems as $item) {
-      $quantities[$item->product_id] = $item->quantity;
-      $totalPrice += $item->quantity * $item->price;
-      $amount += $item->quantity * $item->price;
+        foreach ($order->orderItems as $item) {
+            $quantities[$item->product_id] = $item->quantity;
+            $totalPrice += $item->quantity * $item->price;
+        }
+
+        // حساب الضريبة والمبلغ الإجمالي
+        $vatRate = 0.15; // نسبة الضريبة (15%)
+        $vatAmount = $totalPrice * $vatRate;
+        $totalAmount = $totalPrice + $vatAmount;
+
+        // البيانات المرسلة إلى الواجهة
+        $vars = [
+            'order'       => $order,
+            'products'    => Product::all(),
+            'categories'  => ItemCategroy::all(),
+            'Ois'         => OrderItem::where('order_id', $id)->pluck('product_id')->toArray(),
+            'quantities'  => $quantities,
+            'totalPrice'  => $totalPrice,
+            'vatAmount'   => $vatAmount,
+            'totalAmount' => $totalAmount,
+            'remaining'   => $totalAmount, // المبلغ المتبقي
+            'status'      => Order::getStatusList(),
+        ];
+
+        return view('admin.orderitem.create', $vars);
     }
-  
-    // حساب قيمة الضريبة (VAT) بنسبة 15%
-    $vatRate = 0.15; // نسبة الضريبة (15%)
-    $vatAmount = $amount * $vatRate;
-
-    // حساب المبلغ الإجمالي (بما في ذلك الضريبة)
-    $totalAmount = $amount + $vatAmount;
-
-    // المبلغ المدفوع (يمكن جلبها من قاعدة البيانات أو تعيينها يدويًا)
-    $paid = 0;
-
-    // حساب المبلغ المتبقي
-    $remaining = $totalAmount - $paid;
 
 
-    $vars = [
-      'order' => Order::find($id),
-      'products' => $products,
-      'units' => $units,
-      'Ois' => OrderItem::where('order_id', $id)->pluck('product_id', 'quantity')->toArray(),
-      'categories' => $categories,
-      'quantities' => $quantities,
-      'totalPrice' => $totalPrice,
-      'amount' => $amount,
-      'vatAmount' => $vatAmount,
-      'totalAmount' => $totalAmount,
-      'paid' => $paid,
-      'remaining' => $remaining,
-      'status' => Order::getStatusList(),
 
-    ];
-    return view('admin.orderitem.create', $vars);
-  }
-
-
-  // حفظ الطلب الجديد
+  // حفظ  عناصر الطلب الجديد
   public function store(Request $request, $orderId)
   {
-    //return $request;
+    
+      // التحقق من وجود المنتج
+      $product = Product::findOrFail($request->product_id);
 
-    // حفظ البيانات في قاعدة البيانات
-    $product = Product::find($request->product_id);
-    $productIsExist = OrderItem::where(['order_id' => $orderId, 'product_id' => $product->id])
-      ->first();
-    if ($productIsExist) {
-      $productIsExist->update(['quantity' => $productIsExist->quantity + 1]);
-      return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
-    } else {
+      // التحقق من وجود المنتج في الطلب مسبقًا
+      $existingOrderItem = OrderItem::where([
+          'order_id' => $orderId,
+          'product_id' => $product->id,
+      ])->first();
 
+      if ($existingOrderItem) {
+          // زيادة الكمية إذا كان المنتج موجودًا مسبقًا
+          $existingOrderItem->increment('quantity');
+          return redirect()->back()->with('success', 'تم تحديث الكمية بنجاح.');
+      }  else {
+           // إنشاء عنصر طلب جديد
       try {
         OrderItem::create([
           'order_id'    => $request->order_id,
@@ -116,7 +103,7 @@ class OrdersItemsController extends Controller
   }
 
 
-  // عرض تفاصيل طلب معين
+
   public function show(Order $order) {}
 
   /**
