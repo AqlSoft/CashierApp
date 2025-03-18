@@ -56,6 +56,8 @@ class PaymentsController
             // تحديث حالة الطلب
             Order::where('id', $request->order_id)->update([
                 'status' => '3',
+                 'delivery_method' =>1, //Takeout 
+                 'wait_no'         => Order::generateWaitNo($request->order_id), 
                 'updated_at' => now(),
                 'updated_by' => auth()->user()->id,
             ]); // تم الدفع

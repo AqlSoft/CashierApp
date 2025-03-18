@@ -88,9 +88,9 @@ public function create(string $id)
         ]);
 
         Order::where('id', $orderId)->update([
-          'status' => 2,
-          'updated_at' => now(),
-          'updated_by' => auth()->user()->id,
+          'status'          => 2,
+          'updated_at'      => now(),
+          'updated_by'      => auth()->user()->id,
         ]);
 
         return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
