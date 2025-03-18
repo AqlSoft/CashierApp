@@ -88,7 +88,9 @@
                                 <div class="productlistimg" style="background-image: url('<?php echo e($product->image ? asset('assets/admin/uploads/images/products/' . $product->image) : asset('assets/admin/images/default-product.png')); ?>');"></div>
                                     <div class="productlistcontent">
                                         <h5 class=" mt-1 "><?php echo e($product->name); ?></h5>
+                                        <?php if( ($quantities[$product->id] ?? 0) > 0): ?>
                                         <p class="mb-3 quantity-display">Qty:<?php echo e($quantities[$product->id] ?? 0); ?></p>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="price-overlay">
                                         <h5 class="price-display"><?php echo e($product->sale_price); ?></h5>

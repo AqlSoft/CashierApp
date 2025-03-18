@@ -88,7 +88,9 @@
                                 <div class="productlistimg" style="background-image: url('{{ $product->image ? asset('assets/admin/uploads/images/products/' . $product->image) : asset('assets/admin/images/default-product.png') }}');"></div>
                                     <div class="productlistcontent">
                                         <h5 class=" mt-1 ">{{ $product->name }}</h5>
+                                        @if( ($quantities[$product->id] ?? 0) > 0)
                                         <p class="mb-3 quantity-display">Qty:{{ $quantities[$product->id] ?? 0 }}</p>
+                                        @endif
                                     </div>
                                     <div class="price-overlay">
                                         <h5 class="price-display">{{ $product->sale_price }}</h5>

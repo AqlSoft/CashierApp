@@ -20,7 +20,7 @@ class OrdersItemsController extends Controller
 
 public function create(string $id)
     {
-        // جلب البيانات المطلوبة باستخدام Eager Loading لتجنب N+1 Query
+        
         $order = Order::with('orderItems.product')->findOrFail($id);  
 
         // حساب الكميات والمبالغ
