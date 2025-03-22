@@ -8,8 +8,8 @@
 <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede">Add Order Items</h1>
 <div class="container">
     <div class="row mt-3 d-flex gap-3">
-        <div class="col col-4">
-            <div class="row">
+        <div class="col col-4 cat-select ">
+            <div class="row ">
                 <div class="col col-12">
                     <!-- قائمة الفئات -->
                     <select class="form-select form-control mt-2" id="category-select">
