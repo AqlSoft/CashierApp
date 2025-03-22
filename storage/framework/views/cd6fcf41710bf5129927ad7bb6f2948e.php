@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('extra-links'); ?>
 <link rel="stylesheet" href="<?php echo e(asset('assets/admin/css/orderitem.css')); ?>">
 <?php $__env->stopSection(); ?>

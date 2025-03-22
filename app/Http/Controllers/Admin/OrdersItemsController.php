@@ -14,67 +14,72 @@ use App\Models\ItemCategroy;
 class OrdersItemsController extends Controller
 {
 
-  
+
   public function index() {}
 
 
-public function create(string $id)
-    {
-        
-        $order = Order::with('orderItems.product')->findOrFail($id);  
+  public function create(string $id)
+  {
+    $orders = Order::all();
 
-        // حساب الكميات والمبالغ
-        $quantities = [];
-        $totalPrice = 0;
+    $order = Order::with('orderItems.product')->findOrFail($id);
+    // $order->status = 2;
+    // $order->save();
 
-        foreach ($order->orderItems as $item) {
-            $quantities[$item->product_id] = $item->quantity;
-            $totalPrice += $item->quantity * $item->price;
-        }
 
-        // حساب الضريبة والمبلغ الإجمالي
-        $vatRate = 0.15; // نسبة الضريبة (15%)
-        $vatAmount = $totalPrice * $vatRate;
-        $totalAmount = $totalPrice + $vatAmount;
+    // حساب الكميات والمبالغ
+    $quantities = [];
+    $totalPrice = 0;
 
-        // البيانات المرسلة إلى الواجهة
-        $vars = [
-            'order'       => $order,
-            'products'    => Product::all(),
-            'categories'  => ItemCategroy::all(),
-            'Ois'         => OrderItem::where('order_id', $id)->pluck('product_id')->toArray(),
-            'quantities'  => $quantities,
-            'totalPrice'  => $totalPrice,
-            'vatAmount'   => $vatAmount,
-            'totalAmount' => $totalAmount,
-            'remaining'   => $totalAmount, // المبلغ المتبقي
-            'status'      => Order::getStatusList(),
-        ];
-
-        return view('admin.orderitem.create', $vars);
+    foreach ($order->orderItems as $item) {
+      $quantities[$item->product_id] = $item->quantity;
+      $totalPrice += $item->quantity * $item->price;
     }
+
+    // حساب الضريبة والمبلغ الإجمالي
+    $vatRate = 0.15; // نسبة الضريبة (15%)
+    $vatAmount = $totalPrice * $vatRate;
+    $totalAmount = $totalPrice + $vatAmount;
+
+    // البيانات المرسلة إلى الواجهة
+    $vars = [
+      'order'       => $order,
+      'orders'       => $orders,
+      'products'    => Product::all(),
+      'categories'  => ItemCategroy::all(),
+      'Ois'         => OrderItem::where('order_id', $id)->pluck('product_id')->toArray(),
+      'quantities'  => $quantities,
+      'totalPrice'  => $totalPrice,
+      'vatAmount'   => $vatAmount,
+      'totalAmount' => $totalAmount,
+      'remaining'   => $totalAmount, // المبلغ المتبقي
+      'status'      => Order::getStatusList(),
+    ];
+
+    return view('admin.orderitem.create', $vars);
+  }
 
 
 
   // حفظ  عناصر الطلب الجديد
   public function store(Request $request, $orderId)
   {
-    
-      // التحقق من وجود المنتج
-      $product = Product::findOrFail($request->product_id);
 
-      // التحقق من وجود المنتج في الطلب مسبقًا
-      $existingOrderItem = OrderItem::where([
-          'order_id' => $orderId,
-          'product_id' => $product->id,
-      ])->first();
+    // التحقق من وجود المنتج
+    $product = Product::findOrFail($request->product_id);
 
-      if ($existingOrderItem) {
-          // زيادة الكمية إذا كان المنتج موجودًا مسبقًا
-          $existingOrderItem->increment('quantity');
-          return redirect()->back()->with('success', 'تم تحديث الكمية بنجاح.');
-      }  else {
-           // إنشاء عنصر طلب جديد
+    // التحقق من وجود المنتج في الطلب مسبقًا
+    $existingOrderItem = OrderItem::where([
+      'order_id' => $orderId,
+      'product_id' => $product->id,
+    ])->first();
+
+    if ($existingOrderItem) {
+      // زيادة الكمية إذا كان المنتج موجودًا مسبقًا
+      $existingOrderItem->increment('quantity');
+      return redirect()->back()->with('success', 'تم تحديث الكمية بنجاح.');
+    } else {
+      // إنشاء عنصر طلب جديد
       try {
         OrderItem::create([
           'order_id'    => $request->order_id,
