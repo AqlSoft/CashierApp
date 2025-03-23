@@ -62,7 +62,7 @@ class PaymentsController
                 'updated_by'       => auth()->user()->id,
             ]); // تم الدفع
 
-            return redirect()->route('display-order-all')->with('success', 'تم حفظ البيانات بنجاح.');
+            return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())

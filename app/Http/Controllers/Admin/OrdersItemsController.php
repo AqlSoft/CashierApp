@@ -85,7 +85,7 @@ class OrdersItemsController extends Controller
           'order_id'    => $request->order_id,
           'product_id'  => $product->id,
           'category_id' => $product->category_id,
-          'unit_id'   => $product->unit_id,
+          'unit_id'     => $product->unit_id,
           'quantity'    => 1,
           'price'       => $product->sale_price,
           'status'      => 2,
@@ -95,10 +95,10 @@ class OrdersItemsController extends Controller
         Order::where('id', $orderId)->update([
           'status'          => 2,
           'updated_at'      => now(),
-          'updated_by'      => auth()->user()->id,
+          'updated_by'      => Auth()->user()->id,
         ]);
 
-        return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
+        return redirect()->back()->with('success', 'تم تحديث عناصر الطلب البيانات بنجاح.');
       } catch (\Exception $e) {
         return redirect()->back()
           ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
@@ -114,22 +114,26 @@ class OrdersItemsController extends Controller
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request,)
+  public function update(Request $request)
   {
-
-    $orderitem_inputs = OrderItem::find($request->orderitem_id);
+    $oitem = OrderItem::find($request->id);
+    if (!$oitem) {
+      return redirect()->back()->withErrors(['error' => 'Order Item not found.']);
+  }
     try {
-      $orderitem_inputs->update([
-
+      $oitem->update([
         'quantity'          => $request->quantity,
-        'notes'             => $request->notes,
-        'updated_by'        => auth()->user()->id()
+        'price'             => $request->price,
+        'status'            => 3,
+        'updated_by'        => auth()->user()->id,
       ]);
 
 
       return redirect()->back()->with('success', 'Order Item Updated successfully.');
-    } catch (Exception $e) {
-      return redirect()->back()->withErrors(['Update Error Happened: ' => $e->getMessage()]);
+    } catch (\Exception $e) {
+      return redirect()->back()
+        ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
+        ->withInput();
     }
   }
 

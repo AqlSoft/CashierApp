@@ -59,7 +59,7 @@ class OrdersController extends Controller
         'created_by'      => Admin::currentUser(), // المستخدم الحالي
       ]);
 
-      return redirect()->route('add-orderitem-input-entry', [$order->id])->with('success', 'تم حفظ البيانات بنجاح.');
+      return redirect()->route('add-orderitem-input-entry', [$order->id])->with('success', 'تم انشاء عميل جديد بنجاح.');
     } catch (\Exception $e) {
       return redirect()->back()
         ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
