@@ -98,7 +98,7 @@ class OrdersItemsController extends Controller
           'updated_by'      => Auth()->user()->id,
         ]);
 
-        return redirect()->back()->with('success', 'تم تحديث عناصر الطلب البيانات بنجاح.');
+        return redirect()->back()->with('success', 'تم تحديث عناصر الطلب  بنجاح.');
       } catch (\Exception $e) {
         return redirect()->back()
           ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())

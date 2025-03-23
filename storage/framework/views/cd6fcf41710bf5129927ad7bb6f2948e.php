@@ -9,7 +9,7 @@
     Add Order Items <a href="<?php echo e(route('fast-creqate-order')); ?>" class="py-0 mx-2 d-flex align-items-center"><i data-bs-toggle="tooltip" title="Add New order" class="fa fa-plus py-0"></i> New</a>
     <div class="row gap-1 mx-4  ">
     <?php $__empty_1 = true; $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pendingOrder): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-    <a href="<?php echo e(route('add-orderitem-input-entry', [$pendingOrder->id])); ?>" title="Order SN - <?php echo e($pendingOrder->order_sn); ?>"
+    <a href="<?php echo e(route('add-orderitem', [$pendingOrder->id])); ?>" title="Order SN - <?php echo e($pendingOrder->order_sn); ?>"
       class="col col-auto btn btn-sm btn-outline-secondary sm"><?php echo e($pendingOrder->wait_no); ?></a>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
     <?php endif; ?>
