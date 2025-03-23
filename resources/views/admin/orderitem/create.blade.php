@@ -11,7 +11,7 @@
     Add Order Items <a href="{{ route('fast-creqate-order') }}" class="py-0 mx-2 d-flex align-items-center"><i data-bs-toggle="tooltip" title="Add New order" class="fa fa-plus py-0"></i> New</a>
     <div class="row gap-1 mx-4  ">
     @forelse ($orders as $pendingOrder)
-    <a href="{{ route('add-orderitem-input-entry', [$pendingOrder->id]) }}" title="Order SN - {{$pendingOrder->order_sn}}"
+    <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}" title="Order SN - {{$pendingOrder->order_sn}}"
       class="col col-auto btn btn-sm btn-outline-secondary sm">{{ $pendingOrder->wait_no }}</a>
     @empty
     @endforelse

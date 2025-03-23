@@ -59,7 +59,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
   });
 
   Route::prefix('orderItems')->group(function () {
-    Route::get('/create/{id}',       [OrdersItemsController::class, 'create'])->name('add-orderitem-input-entry');
+    Route::get('/create/{id}',       [OrdersItemsController::class, 'create'])->name('add-orderitem');
     Route::post('/store/{id}',       [OrdersItemsController::class, 'store'])->name('save-orderitem-info');
     // Route::get('/edit/{id}',         [OrdersItemsController::class, 'edit'])->name('edit-orderitem-info');
     Route::post('/update',           [OrdersItemsController::class, 'update'])->name('update-orderitem');
