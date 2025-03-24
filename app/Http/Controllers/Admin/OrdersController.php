@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Admin;
 use App\Models\Product;
 use App\Models\Party;
+use App\Models\User;
 
 class OrdersController extends Controller
 {
@@ -78,7 +79,7 @@ class OrdersController extends Controller
         'customer_id'     => $request->customer_id, // customer_id هو العميل المحدد
         'notes'           => $request->notes,
         'status'          => $request->status !== null ? $request->status : 1, // إذا لم يتم تحديد الحالة، افترض أنها غير نشطة
-        'created_by'      => auth()->user()->id, // المستخدم الحالي
+        'created_by'      => User::currentUser(), // المستخدم الحالي
       ]);
 
       return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
@@ -126,7 +127,7 @@ class OrdersController extends Controller
     try {
       $status->update([
         'status'           => $request->status,
-        'updated_by'       => auth()->user()->id,
+        'updated_by'       => User::currentUser(),
       ]);
 
       return redirect()->back()->with('success', 'Order Updated successfully');
@@ -141,7 +142,7 @@ class OrdersController extends Controller
     try {
       $status->update([
         'status'           => 0,
-        'updated_by'       => auth()->user()->id,
+        'updated_by'       => User::currentUser(),
       ]);
 
       return redirect()->route('display-order-all')->with('success', 'Order cancel successfully');
