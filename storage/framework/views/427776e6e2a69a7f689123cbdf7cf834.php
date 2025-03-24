@@ -138,7 +138,7 @@
               <td>
                 <?php if($order->status == 1 || $order->status == 2  ): ?>
                 <a class="btn btn-sm py-0 p-0" data-bs-toggle="tooltip" title="Add order item"
-                  href="<?php echo e(route('add-orderitem-input-entry', [$order->id])); ?>"><i
+                  href="<?php echo e(route('add-orderitem', [$order->id])); ?>"><i
                     class="fa fa-square-plus text-success"></i></a>
                     <a class="btn btn-sm py-0" href="<?php echo e(route('edit-order-info', $order->id)); ?>"><i
                     class="fa fa-edit text-primary"></i></a>

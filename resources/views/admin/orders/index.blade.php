@@ -131,7 +131,7 @@
                                         <td>{{ $order->order_sn }}</td>
                                         <td>{{ @$order->customer->name }}</td> <!-- اسم العميل -->
                                         <td>{{ $order->order_date }}</td>
-                                        <td>
+                                        {{-- <td>
                                             @if ($order->status == 1)
                                                 <span class="badge bg-primary">{{ $status[$order->status] }}</span>
                                             @elseif($order->status == 2)
@@ -145,13 +145,13 @@
                                             @else
                                                 <span class="badge bg-danger">{{ $status[$order->status] }}</span>
                                             @endif
-                                        </td>
+                                        </td> --}}
 
                                         <td>
                                             @if ($order->status == 1 || $order->status == 2)
                                                 <a class="btn btn-sm py-0 p-0" data-bs-toggle="tooltip"
                                                     title="Add order item"
-                                                    href="{{ route('add-orderitem', [$order->id]) }}"><i
+                                                    href="{{ route('add-orderitem-input-entry', [$order->id]) }}"><i
                                                         class="fa fa-square-plus text-success"></i></a>
                                                 <a class="btn btn-sm py-0"
                                                     href="{{ route('edit-order-info', $order->id) }}"><i
@@ -194,10 +194,10 @@
             </div>
         </div>
 
-    </div>
-    <script>
-        var date = $('.fc-datepicker').datepicker({
-            dateFormat: 'yy-mm-dd'
-        }).val();
-    </script>
-@endsection
+
+        <script>
+            var date = $('.fc-datepicker').datepicker({
+                dateFormat: 'yy-mm-dd'
+            }).val();
+        </script>
+    @endsection
