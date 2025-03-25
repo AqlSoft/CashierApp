@@ -123,29 +123,44 @@
               <td>{{ $order->order_date }}</td>
               <td>
                 @if($order->status == 1)
-                <span class="badge bg-primary">New</span>
+                <span class="badge bg-primary">{{$status[$order->status]}}</span>
                 @elseif($order->status == 2)
-                <span class="badge bg-warning">In Progress</span>
+                <span class="badge bg-warning">{{$status[$order->status]}}</span>
+                @elseif($order->status == 3)
+                <span class="badge bg-secondary">{{$status[$order->status]}}</span>
+                @elseif($order->status == 4)
+                <span class="badge bg-info">{{$status[$order->status]}}</span>
+                @elseif($order->status == 5)
+                <span class="badge bg-success">{{$status[$order->status]}}</span>
                 @else
-                <span class="badge bg-success">Completed</span>
+                <span class="badge bg-danger">{{$status[$order->status]}}</span>
                 @endif
               </td>
 
               <td>
-                @if($order->status == 1 || $order->status == 2)
+                @if($order->status == 1 || $order->status == 2  )
                 <a class="btn btn-sm py-0 p-0" data-bs-toggle="tooltip" title="Add order item"
                   href="{{ route('add-orderitem-input-entry', [$order->id]) }}"><i
                     class="fa fa-square-plus text-success"></i></a>
+                    <a class="btn btn-sm py-0" href="{{ route('edit-order-info', $order->id) }}"><i
+                    class="fa fa-edit text-primary"></i></a>
+                    <a class="btn btn-sm py-0" onclick="if(!confirm('You are about to Archive a order, are you sure!?.')){return false}"
+                  title="Archive  order and related Information" href="{{ route('destroy-order-info', $order->id) }}"><i
+                    class="fa fa-trash text-danger"></i></a>
                 @endif
                 <a class="btn btn-sm py-0" href="{{ route('view-order-info', $order->id) }}"><i
                     class="fas fa-eye text-success" title="View Details"></i></a>
-                <a class="btn btn-sm py-0" href="{{ route('edit-order-info', $order->id) }}"><i
-                    class="fa fa-edit text-primary"></i></a>
+                    @if($order->status == 5)
                 <a class="btn btn-sm py-0 p-0" data-bs-toggle="tooltip" title="print order"
                   href="#"><i class="fa fa-print text-secondary"></i></a>
-                <a class="btn btn-sm py-0" onclick="if(!confirm('You are about to delete a order, are you sure!?.')){return false}"
-                  title="Delete order and related Information" href="{{ route('destroy-order-info', $order->id) }}"><i
+                  @endif
+                  @if($order->status ==0)
+                  <a class="btn btn-sm py-0" onclick="if(!confirm('You are about to Archive a order, are you sure!?.')){return false}"
+                  title="Archive  order and related Information" href="{{ route('destroy-order-info', $order->id) }}"><i
                     class="fa fa-trash text-danger"></i></a>
+                  @endif
+
+              
 
               </td>
             </tr>

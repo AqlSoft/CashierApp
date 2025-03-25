@@ -53,11 +53,12 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
           Route::post('/update',      [OrdersController::class, 'update'])->name('update-order-info');
           Route::get('/edit/{id}',    [OrdersController::class, 'edit'])->name('edit-order-info');
           Route::get('/destroy/{id}', [OrdersController::class, 'destroy'])->name('destroy-order-info');
+          Route::get('/cancel/{id}', [OrdersController::class, 'cancel'])->name('cancel-order-info');
         });
 
         Route::prefix('orderItems')->group(function () {
           Route::get('/create/{id}',       [OrdersItemsController::class, 'create'])->name('add-orderitem-input-entry');
-          Route::post('/store',            [OrdersItemsController::class, 'store'])->name('save-orderitem-info');
+          Route::post('/store/{id}',       [OrdersItemsController::class, 'store'])->name('save-orderitem-info');
           Route::get('/edit/{id}',         [OrdersItemsController::class, 'edit'])->name('edit-orderitem-info');
           Route::post('/update',           [OrdersItemsController::class, 'update'])->name('update-orderitem-input');
           Route::get('/destroy/{id}',      [OrdersItemsController::class, 'destroy'])->name('destroy-store-input-entry');
@@ -76,8 +77,9 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
       // invoices routes
       Route::prefix('invoices')->group(function () {
-        Route::get('/create/{id}',   [SalesInvoiceController::class, 'create'])->name('add-invoices-orderItem');
-        // Route::post('/store',        [SalesInvoiceController::class, 'store'])->name('save-invoices-orderitem-info');
+      Route::get('/create/{id}',        [SalesInvoiceController::class, 'create'])->name('add-invoices-orderItem');
+      Route::get('/print-invoice/{id}', [SalesInvoiceController::class, 'printInvoice'])->name('print-invoice');
+
       
       
     });

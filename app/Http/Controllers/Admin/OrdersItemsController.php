@@ -46,7 +46,7 @@ class OrdersItemsController extends Controller
 
 
   // حفظ الطلب الجديد
-  public function store(Request $request)
+  public function store(Request $request ,$orderId)
   {
 
     // حفظ البيانات في قاعدة البيانات
@@ -59,8 +59,15 @@ class OrdersItemsController extends Controller
         'quantity'    => $request->quantity,
         'price'       => $request->price,
         'notes'       => $request->notes,
+        'status'      =>2,
         'created_by'  => auth()->user()->id, // المستخدم الحالي
       ]);
+
+      Order::where('id', $orderId)->update([
+        'status' => 2,
+        'updated_at' => now(),
+        'updated_by' => auth()->user()->id,
+    ]);
 
       return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
     } catch (\Exception $e) {

@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Party extends Model
 {
     use HasFactory;
+
     public $timestamps = true;
+
     protected $table = "parties";
+    
     protected $fillable = [
         'vat_number',
         'name',
