@@ -20,6 +20,7 @@ class Order extends Model
     'customer_id',
     'notes',
     'status',
+    'wait_no',
     'created_by',
     'updated_by',
 ];
@@ -62,6 +63,12 @@ protected $dates=['deleted_at'];
       5 => 'Completed',
       0 => 'Canceled',
   ];
+  protected static $delivery_method = [
+    1 => 'Takeout',
+    2 => 'Local ',
+    3 => 'Delivery',
+  
+];
 
   // دالة للحصول على قائمة الحالات
   public static function getStatusList()
@@ -89,4 +96,28 @@ protected $dates=['deleted_at'];
     } 
 
     
+/**
+     * Generate a unique wait_no for the order item.
+     *
+     * @param int $orderId
+     * @return string
+     */
+    public static function generateWaitNo($orderId)
+    {
+        // الحصول على رقم الطلب (order_sn)
+        $order = self::find($orderId);
+    
+        if (!$order) {
+            throw new \Exception('الطلب غير موجود.');
+        }
+    
+        
+        $orderSn = $order->order_sn;
+        $lastFourDigits = substr($orderSn, -4); 
+    
+        
+        $waitNo = 'OUT' . $lastFourDigits;
+    
+        return $waitNo;
+    }
 }

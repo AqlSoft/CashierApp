@@ -140,7 +140,7 @@
               <td>
                 @if($order->status == 1 || $order->status == 2  )
                 <a class="btn btn-sm py-0 p-0" data-bs-toggle="tooltip" title="Add order item"
-                  href="{{ route('add-orderitem-input-entry', [$order->id]) }}"><i
+                  href="{{ route('add-orderitem', [$order->id]) }}"><i
                     class="fa fa-square-plus text-success"></i></a>
                     <a class="btn btn-sm py-0" href="{{ route('edit-order-info', $order->id) }}"><i
                     class="fa fa-edit text-primary"></i></a>

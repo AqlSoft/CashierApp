@@ -9,65 +9,83 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Admin;
 use App\Models\Product;
-use App\Models\Unit;
 use App\Models\ItemCategroy;
 
 class OrdersItemsController extends Controller
 {
 
-  // عرض جميع الطلبات
+
   public function index() {}
 
-  // عرض نموذج إنشاء طلب
+
   public function create(string $id)
   {
+    $orders = Order::all();
 
-    $units = Unit::all();
-    $products = Product::all();
-    $categories = ItemCategroy::all();
+    $order = Order::with('orderItems.product')->findOrFail($id);
+    // $order->status = 2;
+    // $order->save();
+
+
+    // حساب الكميات والمبالغ
+    $quantities = [];
+    $totalPrice = 0;
+
+    foreach ($order->orderItems as $item) {
+      $quantities[$item->product_id] = $item->quantity;
+      $totalPrice += $item->quantity * $item->price;
+    }
+
+    // حساب الضريبة والمبلغ الإجمالي
+    $vatRate = 0.15; // نسبة الضريبة (15%)
+    $vatAmount = $totalPrice * $vatRate;
+    $totalAmount = $totalPrice + $vatAmount;
+
+    // البيانات المرسلة إلى الواجهة
     $vars = [
-      'order' => Order::find($id),
-      'products' => $products,
-      'units' => $units,
-      'Ois' => OrderItem::where('order_id', $id)->pluck('product_id')->toArray(),
-      'categories' => $categories,
-      'status' => Order::getStatusList(),
-
+      'order'       => $order,
+      'orders'       => $orders,
+      'products'    => Product::all(),
+      'categories'  => ItemCategroy::all(),
+      'Ois'         => OrderItem::where('order_id', $id)->pluck('product_id')->toArray(),
+      'quantities'  => $quantities,
+      'totalPrice'  => $totalPrice,
+      'vatAmount'   => $vatAmount,
+      'totalAmount' => $totalAmount,
+      'remaining'   => $totalAmount, // المبلغ المتبقي
+      'status'      => Order::getStatusList(),
     ];
+
     return view('admin.orderitem.create', $vars);
   }
 
-  public function getProductsByCategory($categoryId)
-  {
-
-    $products = Product::where('category_id', $categoryId)
-      ->with('unit') // تحميل العلاقة مع الوحدة
-      ->get(['id', 'name', 'sale_price', 'unit_id']); // إضافة unit_id إلى البيانات المرتجعة
-
-    return response()->json($products);
-  }
 
 
-  // حفظ الطلب الجديد
+  // حفظ  عناصر الطلب الجديد
   public function store(Request $request, $orderId)
   {
-    //return $request;
 
-    // حفظ البيانات في قاعدة البيانات
-    $product = Product::find($request->product_id);
-    $productIsExist = OrderItem::where(['order_id' => $orderId, 'product_id' => $product->id])
-      ->first();
-    if ($productIsExist) {
-      $productIsExist->update(['quantity' => $productIsExist->quantity + 1]);
-      return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
+    // التحقق من وجود المنتج
+    $product = Product::findOrFail($request->product_id);
+
+    // التحقق من وجود المنتج في الطلب مسبقًا
+    $existingOrderItem = OrderItem::where([
+      'order_id' => $orderId,
+      'product_id' => $product->id,
+    ])->first();
+
+    if ($existingOrderItem) {
+      // زيادة الكمية إذا كان المنتج موجودًا مسبقًا
+      $existingOrderItem->increment('quantity');
+      return redirect()->back()->with('success', 'تم تحديث الكمية بنجاح.');
     } else {
-
+      // إنشاء عنصر طلب جديد
       try {
         OrderItem::create([
           'order_id'    => $request->order_id,
           'product_id'  => $product->id,
           'category_id' => $product->category_id,
-          'unit_id'   => $product->unit_id,
+          'unit_id'     => $product->unit_id,
           'quantity'    => 1,
           'price'       => $product->sale_price,
           'status'      => 2,
@@ -75,12 +93,12 @@ class OrdersItemsController extends Controller
         ]);
 
         Order::where('id', $orderId)->update([
-          'status' => 2,
-          'updated_at' => now(),
-          'updated_by' => auth()->user()->id,
+          'status'          => 2,
+          'updated_at'      => now(),
+          'updated_by'      => Auth()->user()->id,
         ]);
 
-        return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
+        return redirect()->back()->with('success', 'تم تحديث عناصر الطلب  بنجاح.');
       } catch (\Exception $e) {
         return redirect()->back()
           ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
@@ -90,28 +108,32 @@ class OrdersItemsController extends Controller
   }
 
 
-  // عرض تفاصيل طلب معين
+
   public function show(Order $order) {}
 
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request,)
+  public function update(Request $request)
   {
-
-    $orderitem_inputs = OrderItem::find($request->orderitem_id);
+    $oitem = OrderItem::find($request->id);
+    if (!$oitem) {
+      return redirect()->back()->withErrors(['error' => 'Order Item not found.']);
+  }
     try {
-      $orderitem_inputs->update([
-
+      $oitem->update([
         'quantity'          => $request->quantity,
-        'notes'             => $request->notes,
-        'updated_by'        => auth()->user()->id()
+        'price'             => $request->price,
+        'status'            => 3,
+        'updated_by'        => auth()->user()->id,
       ]);
 
 
       return redirect()->back()->with('success', 'Order Item Updated successfully.');
-    } catch (Exception $e) {
-      return redirect()->back()->withErrors(['Update Error Happened: ' => $e->getMessage()]);
+    } catch (\Exception $e) {
+      return redirect()->back()
+        ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
+        ->withInput();
     }
   }
 
