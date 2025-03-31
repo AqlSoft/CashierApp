@@ -5,95 +5,69 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\Admin;
 use App\Models\SalesInvoice;
-use App\Models\InvoiceItem;
+use App\Models\Admin;
+use App\Models\Setting;
+
 
 class SalesInvoiceController  extends Controller
 {
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(string $id)
-    {
-        $order = Order::with(['orderItems.product', 'orderItems.unit', 'orderItems.order'])->find($id);
-        $invoices =  SalesInvoice::all();
-      
-        // accounts
-        $accounts = Account::all();
-        $amount = $order->orderItems->sum(function ($item) {
-            return $item->price * $item->quantity;
-        });
-
-        // حساب Vat Amount (افترض أن الضريبة 15%)
-        $vatAmount = $amount * 0.15;
-
-        // حساب Total Amount
-        $totalAmount = $amount + $vatAmount;
-        // create new invoice Number
-         $invoiceNumber = SalesInvoice::generateNumber();
-        $vars = [
-            'accounts'      => $accounts,
-            'order'         => $order,
-            'status'        => Order::getStatusList(),
-            'amount'        => $amount,
-            'vatAmount'     => $vatAmount,
-            'totalAmount'   => $totalAmount,
-            'invoiceNumber' => $invoiceNumber,
-            'invoices'    =>$invoices
-        ];
-        return view('admin.invoices.create', $vars);
-    }
+  /**
+   * Show the form for creating a new resource.
+   */
+  public function view(string $id)
+  {
+  
+    $invoice = SalesInvoice::with('order.orderItems.product', 'customer')->findOrFail($id);
+  
+    $vars = [
+      'invoice'        => $invoice,
+      'settings'       =>   Setting::all(),
+    ];
+    return view('admin.invoices.view', $vars);
+  }
 
 
-    public function printInvoice($id)
-    {
-      
-        // البحث عن الفاتورة باستخدام المعرف
-        // $invoice = SalesInvoice::findOrFail($id);
+  public function printInvoice($id)
+  {
 
-        return view('admin.invoices.print');
-      
-    }
+    // البحث عن الفاتورة باستخدام المعرف
+    // $invoice = SalesInvoice::findOrFail($id);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        
-    }
+    return view('admin.invoices.print');
+  }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-      
-    }
+  /**
+   * Store a newly created resource in storage.
+   */
+  public function store(Request $request) {}
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+  /**
+   * Display the specified resource.
+   */
+  public function show(string $id) {}
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+  /**
+   * Show the form for editing the specified resource.
+   */
+  public function edit(string $id)
+  {
+    //
+  }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+  /**
+   * Update the specified resource in storage.
+   */
+  public function update(Request $request, string $id)
+  {
+    //
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   */
+  public function destroy(string $id)
+  {
+    //
+  }
 }

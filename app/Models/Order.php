@@ -15,11 +15,12 @@ class Order extends Model
   protected $table = "orders";
 
   protected $fillable = [
-    'serial_number',
+    'order_sn',
     'order_date',
     'customer_id',
     'notes',
     'status',
+    'wait_no',
     'created_by',
     'updated_by',
 ];
@@ -37,7 +38,7 @@ protected $dates=['deleted_at'];
      
          if ($lastSerial) {
              // إذا كان هناك سريال نمبر سابق، نأخذه ونضيف 1
-             $lastNumber = (int) $lastSerial->serial_number;
+             $lastNumber = (int) $lastSerial->order_sn;
              $nextNumber = $lastNumber + 1;
          } else {
              // إذا لم يكن هناك سريال نمبر سابق، نبدأ من رقم معين (مثل 1)
@@ -45,7 +46,7 @@ protected $dates=['deleted_at'];
          }
      
          // التأكد من أن الرقم الجديد غير مستخدم مسبقًا (للتأكد من عدم التكرار)
-         while (self::where('serial_number', $nextNumber)->exists()) {
+         while (self::where('order_sn', $nextNumber)->exists()) {
              $nextNumber++;
          }
      
@@ -62,6 +63,12 @@ protected $dates=['deleted_at'];
       5 => 'Completed',
       0 => 'Canceled',
   ];
+  protected static $delivery_method = [
+    1 => 'Takeout',
+    2 => 'Local ',
+    3 => 'Delivery',
+  
+];
 
   // دالة للحصول على قائمة الحالات
   public static function getStatusList()
@@ -89,4 +96,32 @@ protected $dates=['deleted_at'];
     } 
 
     
+/**
+     * Generate a unique wait_no for the order item.
+     *
+     * @param int $orderId
+     * @return string
+     */
+    public static function generateWaitNo($orderId)
+    {
+        // الحصول على رقم الطلب (order_sn)
+        $order = self::find($orderId);
+    
+        if (!$order) {
+            throw new \Exception('الطلب غير موجود.');
+        }
+    
+        
+        $orderSn = $order->order_sn;
+        $lastFourDigits = substr($orderSn, -4); 
+    
+        
+        $waitNo = 'OUT' . $lastFourDigits;
+    
+        return $waitNo;
+    }
+    public function invoice()
+{
+    return $this->hasOne(SalesInvoice::class, 'order_id');
+}
 }

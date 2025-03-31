@@ -1,220 +1,259 @@
-
-
 <?php $__env->startSection('extra-links'); ?>
 <link rel="stylesheet" href="<?php echo e(asset('assets/admin/css/orderitem.css')); ?>">
-<style>
-  .table th {
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.5px;
-    background: #d3dce3;
-    color: #000;
-    padding-top: 10px;
-  }
-</style>
+
 <?php $__env->stopSection(); ?>
+
 <?php $__env->startSection('contents'); ?>
-<h1 class="mt-3 pb-2 " style="border-bottom: 2px solid #dedede"> Add Order Items
+
+<h1 class="mt-3 pb-2 d-flex" style="border-bottom: 1px solid #dedede">
+  Add Order Items <a href="<?php echo e(route('fast-creqate-order')); ?>" class="py-0 mx-2 d-flex align-items-center"><i data-bs-toggle="tooltip" title="Add New order" class="fa fa-plus py-0"></i> New</a>
+  <div class="row gap-1 mx-4">
+    <?php $__empty_1 = true; $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pendingOrder): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+    <?php if($pendingOrder->wait_no == 'new'): ?>
+    <a href="<?php echo e(route('add-orderitem', [$pendingOrder->id])); ?>" title="Order SN - <?php echo e($pendingOrder->order_sn); ?>"
+      class="col col-auto btn btn-sm btn-info sm"><?php echo e($pendingOrder->wait_no); ?></a>
+    <?php else: ?>
+    <a href="<?php echo e(route('add-orderitem', [$pendingOrder->id])); ?>" title="Order SN - <?php echo e($pendingOrder->order_sn); ?>"
+      class="col col-auto btn btn-sm btn-outline-secondary sm"><?php echo e($pendingOrder->wait_no); ?></a>
+    <?php endif; ?>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+    <?php endif; ?>
+  </div>
 </h1>
 
-<fieldset class="table mt-3">
-
-  <div class="row mt-3">
-    <div class="col col-2 text-end fw-bold">Order SN:</div>
-    <div class="col col-4"> <?php echo e($order->serial_number); ?></div>
-    <div class="col col-2 text-end fw-bold">Order Date:</div>
-    <div class="col col-4"><?php echo e($order->order_date); ?></div>
-    <div class="col col-2 text-end fw-bold">Client Name:</div>
-    <div class="col col-4"><?php echo e($order->customer->name); ?></div>
-    <div class="col col-2 text-end fw-bold">Status:</div>
+<div class="container">
+  <div class="row mt-3 d-flex gap-3">
     <div class="col col-4">
-      <span class="bg-transparent text-primary"><?php echo e($status[$order->status]); ?></span>
+      <div class="row">
+        <div class="col col-12">
+          <!-- Category list -->
+          <select class="form-select form-control mt-2" id="category-select">
+            <option selected value="">All category</option>
+            <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($category->id); ?>"><?php echo e($category->cat_name); ?></option>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+          </select>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col col-12">
+          <div class="selected-products-container" style="font-size: 14px;">
+            <!-- Header Row -->
+            <div class="row g-0 border-bottom py-2  fw-bold align-items-center">
+              <div class="col-1 text-center fw-bold fs-6">#</div>
+              <div class="col-3 ps-2 fw-bold fs-6">Meal</div>
+              <div class="col-2 text-center fw-bold fs-6">Qty</div>
+              <div class="col-2 text-center fw-bold fs-6">U.Price</div>
+              <div class="col-2 text-center fw-bold fs-6">T.Price</div>
+              <div class="col-2 text-center fw-bold fs-6">Action</div>
+            </div>
+
+            <!-- Items Rows -->
+            <?php $__currentLoopData = $order->orderItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $oItem): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <div class="row g-0 border-bottom py-2 align-items-center">
+              <form action="<?php echo e(route('update-orderitem')); ?>" method="post" class="d-flex align-items-center w-100">
+                <?php echo csrf_field(); ?>
+                <input type="hidden" name="id" value="<?php echo e($oItem->id); ?>">
+
+                <div class="col-1 text-center fs-6"><?php echo e($loop->iteration); ?></div>
+                <div class="col-3 ps-2 fs-6"><?php echo e($oItem->product->name); ?></div>
+
+                <div class="col-2 text-center fs-6">
+                  <input type="number"
+                    name="quantity"
+                    value="<?php echo e($oItem->quantity); ?>"
+                    style="width: 50px; border: 1px solid #dedede; padding: 2px 5px;"
+                    class="text-center fs-6">
+                </div>
+
+                <div class="col-2 text-center fs-6">
+                  <input type="number"
+                    name="price"
+                    value="<?php echo e(old('price',$oItem->price)); ?>"
+                    style="width: 70px; border: 1px solid #dedede; padding: 2px 5px;"
+                    class="text-center fs-6">
+                </div>
+
+                <div class="col-2 text-end fs-6"><?php echo e($oItem->quantity * $oItem->price); ?></div>
+
+                <div class="col-2 text-center fs-6">
+                  <div class="d-flex justify-content-center gap-1">
+                    <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent" title="Update Order Item">
+                      <i class="fas fa-save text-secondary fs-6"></i>
+                    </button>
+                    <a class="btn btn-sm p-0 border-0 bg-transparent"
+                      onclick="return confirm('You are about to delete an item, are you sure?')"
+                      title="Delete order item"
+                      href="<?php echo e(route('destroy-oItem-info', $oItem->id)); ?>">
+                      <i class="fa fa-trash text-danger fs-6"></i>
+                    </a>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+          </div>
+
+
+          <div class="py-1" style="border-bottom: 1px solid #dedede"></div>
+          <!-- Display total price -->
+          <div class="total-price mt-2">
+            <h4>Total Price: <span id="total-price"><?php echo e($totalPrice); ?></span></h4>
+          </div>
+          <div class="py-1" style="border-bottom: 1px solid #dedede"></div>
+          <div class="input-group pt-2 px-3 justify-content-end align-items-center">
+            <a href="/admin/orders/index" class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Invoice">
+              Back To Order
+            </a>
+            <?php if($order->status == 3 && $order->invoice->id): ?>
+            <a href="<?php echo e(route('view-invoice', [$order->invoice->id])); ?>" class="btn py-1 btn-outline-secondary btn-sm">
+              View Invoice
+            </a>
+            <?php endif; ?>
+            <?php if($order->status === 2): ?>
+            <button class="btn px-3 py-1 btn-outline-secondary btn-sm dropdown-toggle"
+              id="submit-order-items" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Finish
+            </button>
+            <?php elseif($order->status === 3): ?>
+            <a href="<?php echo e(route('allow-order-editting', [$order->id])); ?>"
+              class="btn px-3 py-1 btn-outline-secondary btn-sm">Allow edit</a>
+            <?php endif; ?>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item active" href="#" data-bs-target="#cashPaymentModal" data-bs-toggle="modal">Cash Payment</a></li>
+              <li><a class="dropdown-item" href="#">Debit Card</a></li>
+              <li><a class="dropdown-item" href="#">Transfer</a></li>
+              <li><a class="dropdown-item" href="#">Credit Sales</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
 
-  </div>
-
-  <table class="mt-3 w-100   table-hover">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>category</th>
-        <th>Product</th>
-        <th>price</th>
-        <th>Unit</th>
-        <th>Quantity</th>
-        <th>Notes</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-
-      <?php
-      $counter = 0;
-      ?>
-      <?php if(isset($order->orderItems) && count($order->orderItems)): ?>
-      <?php $__currentLoopData = $order->orderItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $orderItem): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-      <form action="<?php echo e(route('update-orderitem-input')); ?>" method="post">
-        <?php echo csrf_field(); ?>
-        <input type="hidden" name="orderitem_id" value="<?php echo e($orderItem->id); ?>">
-
-        <tr>
-          <td><?php echo e(++$counter); ?></td>
-          <td>
-            <input value="<?php echo e($orderItem->category->cat_name ?? 'N/A'); ?>" style="width: 150px; border:none;">
-          </td>
-
-          <td data-bs-toggle="tooltip" data-bs-title="">
-            <input value="<?php echo e($orderItem->product->name ?? 'N/A'); ?>" style="width: 160px; border:none;">
-          </td>
-          <td>
-            <input value="<?php echo e($orderItem->unit->name ?? 'N/A'); ?>" name="unit" style="width: 100px; border:none;">
-          </td>
-          <td><input type="text" name="price" value="<?php echo e($orderItem->price); ?>" style="width: 120px; border:none;"></td>
-          <td>
-            <input type="number" name="quantity" value="<?php echo e(old('quantity', $orderItem->quantity)); ?>" id="quantity" style="width: 110px">
-          </td>
-          <td><input type="text" name="notes" value="<?php echo e($orderItem->notes); ?>"></td>
-          <td>
-            <div class="d-flex btn-group">
-              <button type="submit" class="btn btn-sm py-1 btn-outline-secondary" title="Update">
-                <i class="fas fa-save"></i>
-              </button>
-              <button type="button" class="btn btn-sm py-1 btn-outline-secondary" title="Copy">
-                <i class="fas fa-copy"></i>
-              </button>
-              <a href="<?php echo e(route('destroy-store-input-entry', $orderItem->id)); ?>"
-                class="btn btn-sm py-1 btn-outline-secondary delete-entry"
-                data-entry-id="<?php echo e($orderItem->id); ?>"
-                data-product-name="<?php echo e($orderItem->product->name); ?>"
-                onclick="return confirmDelete(this)" title="Delete">
-                <i class="fas fa-trash"></i>
-              </a>
-            </div>
-          </td>
-        </tr>
-      </form>
-      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-      <?php else: ?>
-      <tr>
-        <td colspan="7">No order item has been added yet</td>
-      </tr>
-      <?php endif; ?>
-      
-      
-      <form action="<?php echo e(route('save-orderitem-info' ,$order->id)); ?>" method="post">
-        <?php echo csrf_field(); ?>
-        <input type="hidden" name="order" value="<?php echo e($order->id); ?>">
-
-        <table class="table-secondary ">
-          <tr class=" px-3 py-1">
-            <td><?php echo e(++$counter); ?></td>
-            <td>
-              <select name="category" style="width: 150px" id="category">
-                <option value="">Select a category</option>
-                <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <option value="<?php echo e($category->id); ?>"><?php echo e($category->cat_name); ?></option>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-              </select>
-            </td>
-            <td>
-              <select id="product" name="product" class="" style="width: 160px" disabled>
-                <option value="">Select a product</option>
-              </select>
-            </td>
-            <td>
-              <input type="text" class="" id="price" name="price" readonly placeholder="Price" style="width: 120px">
-            </td>
-            <td>
-              <input type="text" class="" id="unit" name="unit" readonly placeholder="Unit" style="width: 100px">
-              <input type="hidden" name="unit_id" id="unit_id">
-            </td>
-            <td>
-              <input type="number" name="quantity" required id="quantity" style="width: 110px" placeholder="Quantity" style="width: 100px">
-            </td>
-
-            <td>
-              <input type="text" name="notes" id="notes">
-            </td>
-
-            <td>
-              <div class="btn-group">
-                <button type="submit" class="btn btn-sm btn-outline-primary" title="Save">
-                  <i class="fas fa-save"></i>
-                </button>
-                <button type="reset" class="btn btn-sm btn-outline-secondary" title="Reset">
-                  <i class="fas fa-undo"></i>
-                </button>
+    <div class="col col-7 pb-3 pt-3 px-4">
+      <!-- Products display -->
+      <div class="row d-flex gap-1" id="product-list">
+        <?php if(isset($products) && count($products)): ?>
+        <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <div class="col col-2 productlist p-0"
+          style="border-radius: 5px;border: 2px solid <?php echo e(in_array($product->id, $Ois) ? '#007bff' : '#f7f5f5'); ?>"
+          data-category="<?php echo e($product->category_id); ?>">
+          <form action="/admin/orderItems/store/<?php echo e($order->id); ?>" method="POST">
+            <?php echo csrf_field(); ?>
+            <input type="hidden" name="product_id" value="<?php echo e($product->id); ?>">
+            <input type="hidden" name="order_id" value="<?php echo e($order->id); ?>">
+            <button type="submit" class="product-item">
+              <div class="productlistimg-container">
+                <div class="productlistimg"
+                  style="background-image: url('<?php echo e($product->image ? asset('assets/admin/uploads/images/products/' . $product->image) : asset('assets/admin/images/default-product.png')); ?>');">
+                </div>
+                <div class="price-overlay">
+                  <h5 class="price-display"><?php echo e($product->sale_price); ?></h5>
+                </div>
               </div>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </tbody>
-
-  </table>
-
-  <div class="input-group pt-2 px-3 justify-content-end">
-    <a  href="/admin/orders/index" class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Bach to Order">
-      Bach to Order
-    </a>
-    
-    <a class="btn px-3 py-1 btn-outline-secondary btn-sm" href="<?php echo e(route('add-invoices-orderItem', $order->id)); ?>" title="Confirm Order">
-     Confirm Order
-    </a>
-    <a href="<?php echo e(route('cancel-order-info', $order->id)); ?>" class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Order">
-      Cancel Order
-    </a>
+              <div class="productlistcontent">
+                <h5 class="mt-1"><?php echo e($product->name); ?></h5>
+                <?php if(($quantities[$product->id] ?? 0) > 0): ?>
+                <p class="mb-3 quantity-display">Qty:<?php echo e($quantities[$product->id] ?? 0); ?></p>
+                <?php endif; ?>
+              </div>
+            </button>
+          </form>
+        </div>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        <?php endif; ?>
+      </div>
+    </div>
   </div>
-</fieldset>
+</div>
+
+<!-- Cash Payment modal -->
+<div class="modal fade" id="cashPaymentModal" aria-hidden="true" aria-labelledby="cashPaymentModalLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <h1 class="modal-title fs-5 mt-2 ps-3" id="cashPaymentModalLabel" style="border-bottom: 1px solid #dedede">Cash Payment</h1>
+      <form id="cash-payment-form" action="<?php echo e(route('payments.cash.store')); ?>" method="POST">
+        <?php echo csrf_field(); ?>
+        <input type="hidden" name="order_id" value="<?php echo e($order->id); ?>">
+        <div class="modal-body">
+          <div class="input-group sm mb-1">
+            <label class="input-group-text" for="amount">Amount</label>
+            <input type="number" step="0.01" class="form-control sm" name="amount" id="amount" value="<?php echo e($totalPrice); ?>" required readonly>
+          </div>
+          <div class="input-group sm mb-1">
+            <label class="input-group-text" for="vatAmount">Vat Amount</label>
+            <input type="number" step="0.01" class="form-control sm" name="vat_amount" id="vatAmount" value="<?php echo e($vatAmount); ?>" required readonly>
+          </div>
+          <div class="input-group sm mb-1">
+            <label class="input-group-text" for="total_amount">Total Amount</label>
+            <input type="number" step="0.01" class="form-control sm" name="total_amount" id="total_amount" value="<?php echo e($totalAmount); ?>" required readonly>
+          </div>
+          <div class="input-group sm mb-1">
+            <label class="input-group-text" for="paid">Paid</label>
+            <input type="number" step="0.01" class="form-control sm" name="paid" id="paid" value="<?php echo e($totalAmount); ?>" required>
+          </div>
+          <div class="input-group sm mb-1">
+            <label class="input-group-text" for="remaining">Remaining</label>
+            <input type="number" step="0.01" class="form-control sm" name="remaining" id="remaining" value="0" required readonly>
+          </div>
+
+          <div class="input-group pt-2 px-3 mt-2 justify-content-end" style="border-top: 1px solid #dedede">
+            <button type="button" class="btn px-3 py-1 btn-outline-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn px-3 py-1 btn-primary btn-sm">Confirm</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script>
-  $(document).ready(function() {
-    // عند تغيير الفئة
-    $('#category').change(function() {
-      var categoryId = $(this).val();
-      var Url = "<?php echo e(route('get-products-by-category', ['categoryId' => ':categoryId'])); ?>";
-      Url = Url.replace(':categoryId', categoryId);
-      console.log(categoryId, Url);
-
-      if (categoryId) {
-        // طلب Ajax لاسترجاع المنتجات
-        $.ajax({
-          url: Url,
-          type: "GET",
-          dataType: 'json',
-          success: function(data) {
-            console.log(data);
-            $('#product').empty().append('<option value="">Select a product</option>');
-            $.each(data, function(key, product) {
-              $('#product').append('<option value="' + product.id + '" data-price="' + product.sale_price + '" data-unit-id="' + product.unit.id + '" data-unit-name="' + product.unit.name + '">' + product.name + '</option>');
-            });
-            $('#product').prop('disabled', false);
-          },
-          error: function(xhr, status, error) {
-            console.error('Error:', error);
-          }
-        });
-      } else {
-        $('#product').empty().append('<option value="">Select a product</option>').prop('disabled', true);
-        $('#price').val('');
-        $('#unit').val('');
-        $('#unit_id').val('');
-      }
+  document.addEventListener('DOMContentLoaded', function() {
+    // Filter products by category
+    $('#category-select').change(function() {
+      const selectedCategoryId = $(this).val();
+      $('.productlist').each(function() {
+        const productCategoryId = $(this).data('category');
+        if (selectedCategoryId === "" || productCategoryId == selectedCategoryId) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
     });
 
-    // عند تغيير المنتج
-    $('#product').change(function() {
-      var selectedProduct = $(this).find(':selected');
-      var price = selectedProduct.data('price');
-      var unitId = selectedProduct.data('unit-id'); // الحصول على unit_id
-      var unitName = selectedProduct.data('unit-name'); // الحصول على unit_name
-      $('#price').val(price);
-      $('#unit').val(unitName); // تعبئة حقل الوحدة بـ unit_name
-      $('#unit_id').val(unitId); // تعبئة حقل unit_id المخفي
-    });
+    // Initialize modal behavior
+    const cashPaymentModal = document.getElementById('cashPaymentModal');
+    if (cashPaymentModal) {
+      cashPaymentModal.addEventListener('shown.bs.modal', function() {
+        const paidInput = document.getElementById('paid');
+        const totalAmount = parseFloat(document.getElementById('total_amount').value);
+
+        // Set paid amount to total amount
+        paidInput.value = totalAmount.toFixed(2);
+
+        // Calculate remaining amount
+        updateRemaining();
+
+        // Focus on paid input and select all text
+        paidInput.focus();
+        paidInput.select();
+      });
+    }
+
+    // Update remaining amount when paid amount changes
+    const paidInput = document.getElementById('paid');
+    if (paidInput) {
+      paidInput.addEventListener('input', updateRemaining);
+    }
+
+    function updateRemaining() {
+      const totalAmount = parseFloat(document.getElementById('total_amount').value);
+      const paid = parseFloat(document.getElementById('paid').value) || 0;
+      const remaining = totalAmount - paid;
+      document.getElementById('remaining').value = remaining.toFixed(2);
+    }
   });
 </script>
-
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\kashear_project\resources\views/admin/orderitem/create.blade.php ENDPATH**/ ?>

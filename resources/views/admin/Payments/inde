@@ -1,526 +1,199 @@
-namespace App\Http\Controllers;
+@extends('layouts.admin')
 
-use Illuminate\Http\Request;
-use App\Models\Payment;
-use App\Models\Order;
-use App\Models\PaymentMethod;
-use Illuminate\Support\Facades\DB;
+@section('extra-links')
+<link rel="stylesheet" href="{{ asset('assets/admin/css/orderitem.css') }}">
 
-class PaymentController extends Controller
-{
-    // عرض صفحة الدفع
-    public function create($orderId)
-    {
-        $order = Order::with('customer')->findOrFail($orderId);
-        $paymentMethods = PaymentMethod::where('is_active', 1)->get(); // جلب طرق الدفع النشطة
-        return view('payments.create', compact('order', 'paymentMethods'));
-    }
-
-    // حفظ الدفع
-    public function store(Request $request, $orderId)
-    {
-        DB::beginTransaction();
-        try {
-            // التحقق من صحة البيانات
-            $request->validate([
-                'payment_method_id' => 'required|exists:payment_methods,id',
-                'amount' => 'required|numeric|min:0',
-                'reference' => 'required|string',
-            ]);
-
-            // إنشاء الدفع
-            $payment = Payment::create([
-                'order_id' => $orderId,
-                'payment_method_id' => $request->payment_method_id,
-                'amount' => $request->amount,
-                'date' => now(),
-                'status' => 1, // ناجح
-                'reference' => $request->reference,
-            ]);
-
-            // تحديث حالة الطلب
-            $order = Order::findOrFail($orderId);
-            $order->update(['status' => 'paid']);
-
-            DB::commit();
-
-            return redirect()->route('orders.show', $orderId)
-                ->with('success', 'تم تأكيد الدفع بنجاح.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()
-                ->with('error', 'حدث خطأ أثناء تأكيد الدفع: ' . $e->getMessage())
-                ->withInput();
-        }
-    }
-}
-
-
-<div class="order-details">
-  <h3>معلومات الطلب</h3>
-  <p>رقم الطلب: <strong>#{{ $order->id }}</strong></p>
-  <p>الإجمالي: <strong>{{ $order->total_amount }} جنيه</strong></p>
-  <p>الضريبة: <strong>{{ $order->vat_amount }} جنيه</strong></p>
-  <p>الإجمالي النهائي: <strong>{{ $order->total_amount + $order->vat_amount }} جنيه</strong></p>
-  <p>حالة الطلب: <strong>{{ $order->status }}</strong></p>
-</div>
-
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\Models\Payment;
-use App\Models\Order;
-use App\Models\PaymentMethod;
-use Illuminate\Support\Facades\DB;
-
-class PaymentController extends Controller
-{
-    // عرض صفحة الدفع
-    public function create($orderId)
-    {
-        $order = Order::with('customer')->findOrFail($orderId);
-        $paymentMethods = PaymentMethod::where('is_active', 1)->get(); // جلب طرق الدفع النشطة
-        return view('payments.create', compact('order', 'paymentMethods'));
-    }
-
-    // حفظ الدفع
-    public function store(Request $request, $orderId)
-    {
-        DB::beginTransaction();
-        try {
-            // التحقق من صحة البيانات
-            $request->validate([
-                'payment_method_id' => 'required|exists:payment_methods,id',
-                'amount' => 'required|numeric|min:0',
-                'reference' => 'required|string',
-            ]);
-
-            // إنشاء الدفع
-            $payment = Payment::create([
-                'order_id' => $orderId,
-                'payment_method_id' => $request->payment_method_id,
-                'amount' => $request->amount,
-                'date' => now(),
-                'status' => 1, // ناجح
-                'reference' => $request->reference,
-            ]);
-
-            // تحديث حالة الطلب
-            $order = Order::findOrFail($orderId);
-            $order->update(['status' => 'paid']);
-
-            DB::commit();
-
-            return redirect()->route('orders.show', $orderId)
-                ->with('success', 'تم تأكيد الدفع بنجاح.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()
-                ->with('error', 'حدث خطأ أثناء تأكيد الدفع: ' . $e->getMessage())
-                ->withInput();
-        }
-    }
-}
-
-
-INSERT INTO accounts (reference, from_account, to_account, value)
-VALUES ('فاتورة مبيعات', 2, 1, 500.00);
-
-
-$paymentData = [
-    'OrderID' => null, // لا يوجد طلب مرتبط
-    'PaymentMethod' => 1, // نقدي
-    'Amount' => 100, // المبلغ المدفوع
-    'Date' => now(), // تاريخ الدفع
-    'Status' => 1, // ناجح
-    'from' => 1, // الحساب الذي تم السحب منه (الخزنة)
-    'to' => 3, // الحساب الذي تم الإيداع فيه (الموظف)
-    'reference' => 'سند سلفة', // المرجع
-];
-
-$payment = Payment::create($paymentData);
-
-Account::create([
-    'reference' => 'سند سلفة',
-    'from' => 1, // الحساب الذي تم السحب منه (الخزنة)
-    'to' => 3, // الحساب الذي تم الإيداع فيه (الموظف)
-    'value' => 100, // قيمة العملية
-    'date' => now(), // تاريخ العملية
-]);
-
-
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\Models\Payment;
-use App\Models\Order;
-use App\Models\PaymentMethod;
-use Illuminate\Support\Facades\DB;
-
-class PaymentController extends Controller
-{
-    // عرض صفحة اختيار طريقة الدفع
-    public function showPaymentMethods($orderId)
-    {
-        $order = Order::findOrFail($orderId);
-        $paymentMethods = PaymentMethod::where('is_active', 1)->get();
-        return view('payments.methods', compact('order', 'paymentMethods'));
-    }
-
-    // معالجة الدفع
-    public function processPayment(Request $request, $orderId)
-    {
-        DB::beginTransaction();
-        try {
-            // التحقق من صحة البيانات
-            $request->validate([
-                'payment_method_id' => 'required|exists:payment_methods,id',
-                'amount' => 'required|numeric|min:0',
-            ]);
-
-            // جلب طريقة الدفع
-            $paymentMethod = PaymentMethod::findOrFail($request->payment_method_id);
-
-            // معالجة الدفع
-            $paymentStatus = $this->handlePayment($paymentMethod->name, $request->amount);
-
-            // إنشاء الدفع
-            $payment = Payment::create([
-                'order_id' => $orderId,
-                'payment_method_id' => $paymentMethod->id,
-                'amount' => $request->amount,
-                'status' => $paymentStatus ? 1 : 0, // 1 = ناجح، 0 = فاشل
-                'reference' => 'فاتورة مبيعات #' . $orderId,
-            ]);
-
-            // تحديث حالة الطلب
-            $order = Order::findOrFail($orderId);
-            $order->update(['status' => $paymentStatus ? 'paid' : 'pending']);
-
-            DB::commit();
-
-            return redirect()->route('orders.show', $orderId)
-                ->with('success', $paymentStatus ? 'تم الدفع بنجاح.' : 'فشل الدفع.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()
-                ->with('error', 'حدث خطأ أثناء معالجة الدفع: ' . $e->getMessage())
-                ->withInput();
-        }
-    }
-
-    // معالجة الدفع (وهمي)
-    private function handlePayment($method, $amount)
-    {
-        // يمكن استبدال هذا الجزء باتصال حقيقي ببوابة الدفع
-        if ($method === 'نقدي') {
-            return true; // الدفع ناجح
-        } elseif ($method === 'بطاقة' || $method === 'محفظة إلكترونية') {
-            // محاكاة اتصال ببوابة الدفع
-            return rand(0, 1) === 1; // نجاح أو فشل عشوائي
-        }
-        return false;
-    }
-}
-
-
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <h1>اختر طريقة الدفع للطلب #{{ $order->id }}</h1>
-
-    <form action="{{ route('payments.process', $order->id) }}" method="POST">
-        @csrf
-        <div class="form-group">
-            <label for="payment_method_id">طريقة الدفع:</label>
-            <select name="payment_method_id" id="payment_method_id" class="form-control" required>
-                @foreach ($paymentMethods as $method)
-                    <option value="{{ $method->id }}">{{ $method->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="amount">المبلغ المدفوع:</label>
-            <input type="number" name="amount" id="amount" class="form-control" value="{{ $order->total_amount }}" required>
-        </div>
-        <button type="submit" class="btn btn-primary">تأكيد الدفع</button>
-    </form>
-</div>
 @endsection
+@section('contents')
+<h1 class="mt-3 pb-2 " style="border-bottom: 1px solid #dedede"> Add Order Items
+</h1>
+<div class="container ">
+  <div class="row mt-3  d-flex gap-3">
+    <div class="col col-4 ">
+      <div class="row">
+        <div class="col col-12">
+          <!-- قائمة الفئات -->
+          <select class="form-select form-control mt-2" id="category-select">
+            <option selected value="">All category</option>
+            @foreach ($categories as $category)
+            <option value="{{ $category->id }}">{{ $category->cat_name }}</option>
+            @endforeach
+          </select>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col col-12">
+          <table class="table" id="selected-products">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Meal</th>
+                <th scope="col">Gty</th>
+                <th scope="col">U.Price</th>
+                <th scope="col">T.Price</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- سيتم إضافة الصفوف هنا عبر JavaScript -->
+            </tbody>
+          </table>
+
+          <!-- عرض الإجمالي الكلي -->
+          <div class="total-price mt-3">
+            <h4>Total Price: <span id="total-price">0</span></h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-7 pb-3 pt-3">
+      <!-- عرض المنتجات -->
+      <div class="row d-flex gap-3" id="product-list">
+        @if (isset($products) && count($products))
+        @foreach ($products as $product)
+        <div class="col col-2 product-item" data-id="{{ $product->id }}" data-name="{{ $product->name }}" data-price="{{ $product->sale_price }}" data-category="{{ $product->category_id }}">
+          <div class="productlist">
+            <div class="productlistimg">
+              <img src="{{ asset('assets/admin/uploads/images/products/' . $product->image) }}">
+            </div>
+            <div class="productlistcontent">
+              <h5 class="mb-1 mt-1">{{ $product->name }}</h5>
+              <p class="mb-3 quantity-display">gty: 0</p>
+            </div>
+            <!-- السعر هنا -->
+            <div class="price-overlay">
+              <h5 class="price-display">{{ $product->sale_price }}</h5>
+            </div>
+          </div>
+        </div>
+        @endforeach
+        @endif
+      </div>
+
+      <!-- -->
 
 
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\Models\Payment;
-use App\Models\Order;
-use App\Models\PaymentMethod;
-use Illuminate\Support\Facades\DB;
-
-class PaymentController extends Controller
-{
-    // عرض صفحة الدفع
-    public function create($orderId)
-    {
-        $order = Order::with('customer')->findOrFail($orderId);
-        $paymentMethods = PaymentMethod::where('is_active', 1)->get(); // جلب طرق الدفع النشطة
-        return view('payments.create', compact('order', 'paymentMethods'));
-    }
-
-    // حفظ الدفع
-    public function store(Request $request, $orderId)
-    {
-        DB::beginTransaction();
-        try {
-            // التحقق من صحة البيانات
-            $request->validate([
-                'payment_method_id' => 'required|exists:payment_methods,id',
-                'amount' => 'required|numeric|min:0',
-                'reference' => 'required|string',
-            ]);
-
-            // إنشاء الدفع
-            $payment = Payment::create([
-                'order_id' => $orderId,
-                'payment_method_id' => $request->payment_method_id,
-                'amount' => $request->amount,
-                'date' => now(),
-                'status' => 1, // ناجح
-                'reference' => $request->reference,
-            ]);
-
-            // تحديث حالة الطلب
-            $order = Order::findOrFail($orderId);
-            $order->update(['status' => 'paid']);
-
-            DB::commit();
-
-            return redirect()->route('orders.show', $orderId)
-                ->with('success', 'تم تأكيد الدفع بنجاح.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()
-                ->with('error', 'حدث خطأ أثناء تأكيد الدفع: ' . $e->getMessage())
-                ->withInput();
-        }
-    }
-}
 
 
 
 
-namespace App\Models;
+    </div>
+  </div>
 
-use Illuminate\Database\Eloquent\Model;
+  <script>
+    // إضافة رسالة إذا لم يتم العثور على منتجات
+    $('#category-select').change(function() {
+      const selectedCategoryId = $(this).val();
+      let foundProducts = false;
 
-class SalesInvoice extends Model
-{
-    protected $fillable = [
-        'order_id', 'serial_number_order', 'client_id', 'invoice_number',
-        'invoice_date', 'vat_number', 'due_date', 'payment_date',
-        'amount', 'vat_amount', 'total_amount', 'status', 'type', 'created_by',
-    ];
+      $('.product-item').each(function() {
+        const productCategoryId = $(this).data('category');
 
-    /**
-     * Generate a unique invoice number.
-     *
-     * @return string
-     */
-    public static function generateNumber()
-    {
-        // الحصول على آخر فاتورة تم إدخالها
-        $lastInvoice = self::latest('id')->first();
-
-        // إذا كانت هناك فواتير موجودة، نأخذ آخر رقم فاتورة ونضيف 1
-        if ($lastInvoice) {
-            $lastNumber = $lastInvoice->invoice_number;
-            $nextNumber = (int) $lastNumber + 1;
+        if (selectedCategoryId === "" || productCategoryId == selectedCategoryId) {
+          $(this).show();
+          foundProducts = true;
         } else {
-            // إذا لم تكن هناك فواتير، نبدأ برقم معين (مثل 1000)
-            $nextNumber = 0001;
+          $(this).hide();
+        }
+      });
+
+      // إظهار رسالة إذا لم يتم العثور على منتجات
+      if (!foundProducts && selectedCategoryId !== "") {
+        alert('No products found in this category.');
+      }
+    });
+    // إضافة منتجات محددة
+    $(document).ready(function() {
+      // مصفوفة لتخزين المنتجات المحددة
+      let selectedProducts = [];
+
+      // حدث النقر على عنصر منتج
+      $('.product-item').click(function() {
+        const productId = $(this).data('id');
+        const productName = $(this).data('name');
+        const productPrice = $(this).data('price');
+
+        // التحقق مما إذا كان المنتج موجودًا بالفعل في المصفوفة
+        const existingProduct = selectedProducts.find(item => item.id === productId);
+
+        if (existingProduct) {
+          // إذا كان المنتج موجودًا، قم بزيادة الكمية
+          existingProduct.quantity += 1;
+        } else {
+          // إذا لم يكن المنتج موجودًا، قم بإضافته
+          selectedProducts.push({
+            id: productId,
+            name: productName,
+            price: productPrice,
+            quantity: 1
+          });
         }
 
-        // إرجاع الرقم الجديد
-        return str_pad($nextNumber, 8, '0', STR_PAD_LEFT); // لجعل الرقم مكونًا من 8 أرقام (مثال: 00001000)
-    }
-}
+        // تحديث الجدول وعرض الكمية والإجمالي الكلي
+        updateTable();
+        updateQuantityDisplay(productId, existingProduct ? existingProduct.quantity : 1);
+        updateTotalPrice();
 
+        // تمييز العنصر المحدد
+        $(this).toggleClass('selected');
+      });
 
+      // تحديث الجدول
+      function updateTable() {
+        const tbody = $('#selected-products tbody');
+        tbody.empty(); // مسح المحتوى الحالي
 
-<?php
+        selectedProducts.forEach((product, index) => {
+          const totalPrice = product.price * product.quantity;
 
-namespace App\Http\Controllers\Admin;
+          const row = `
+                    <tr data-id="${product.id}">
+                        <th scope="row">${index + 1}</th>
+                        <td>${product.name}</td>
+                        <td>${product.quantity}</td>
+                        <td>${product.price}</td>
+                        <td>${totalPrice}</td>
+                        <td>
+                          <button class="btn btn-sm py-0 remove-item" > <i class="fa fa-trash text-danger"></i></button>
+                            
+                        </td>
+                    </tr>
+                `;
+          tbody.append(row);
+        });
+      }
 
-use App\Models\InvoiceItem;
-use Illuminate\Http\Request;
-use Illuminate\Database\QueryException;
-use Exception;
-use App\Models\Order;
-use App\Models\Payment;
-use App\Models\SalesInvoice;
+      // تحديث عرض الكمية في كل منتج
+      function updateQuantityDisplay(productId, quantity) {
+        $(`.product-item[data-id="${productId}"] .quantity-display`).text(`gty: ${quantity}`);
+      }
 
-class PaymentsController
-{
+      // تحديث الإجمالي الكلي
+      function updateTotalPrice() {
+        let totalPrice = 0;
+        selectedProducts.forEach(product => {
+          totalPrice += product.price * product.quantity;
+        });
+        $('#total-price').text(totalPrice);
+      }
 
-    /**confirmPayment
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+      // حدث النقر على زر الحذف
+      $(document).on('click', '.remove-item', function() {
+        const productId = $(this).closest('tr').data('id');
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        // إزالة المنتج من المصفوفة
+        selectedProducts = selectedProducts.filter(item => item.id !== productId);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function cashStore(Request $request, $orderId)
-    {
+        // تحديث الجدول وعرض الكمية والإجمالي الكلي
+        updateTable();
+        updateQuantityDisplay(productId, 0); // إعادة تعيين الكمية إلى 0
+        updateTotalPrice();
 
-        // store invoice
-        $order = Order::find($orderId);
-        try {
-          // إنشاء الفاتورة
-          $invoice = SalesInvoice::create([
-              'order_id' => $orderId,
-              'serial_number_order' => $request->serial_number,
-              'client_id'           => $request->client_id,
-              'invoice_number'      => SalesInvoice::generateNumber(),
-              'invoice_date'        => $request->invoice_date,
-              'vat_number'          => $request->vat_number,
-              'due_date'            => $request->due_date,
-              'payment_date'        => $request->payment_date,
-              'amount'              => $request->amount,
-              'vat_amount'          => $request->vat_amount,
-              'total_amount'        => $request->total_amount,
-              'status'              => $request->amount >= $request->total_amount ? 1 : 0,
-              'type'                => 'sales', // حالة الفاتورة
-              'created_by'          => auth()->user()->id,
-          ]);
+        // // إزالة التمييز من العنصر
+        // $(`.product-item[data-id="${productId}"]`).removeClass('selected');
+      });
+    });
+  </script>
 
-          // جلب أصناف الطلب المرتبطة بالطلب
-          $orderItems = OrderItem::where('order_id', $orderId)
-              ->with(['product', 'category', 'unit'])
-              ->get();
-
-          // التأكد من وجود أصناف
-          if ($orderItems->isEmpty()) {
-              return redirect()->back()
-                  ->with('error', 'لا توجد أصناف في الطلب.')
-                  ->withInput();
-          }
-
-          // إضافة أصناف الفاتورة
-          foreach ($orderItems as $item) {
-              InvoiceItem::create([
-                  'category_id' => $item->category_id,
-                  'product_id'  => $item->product_id,
-                  'invoice_id' => $invoice->id,
-                  'quantity'    => $item->quantity,
-                  'unit_id'    => $item->unit_id,
-                  'price'       => $item->price,
-                  'notes'      => $item->notes,
-                  'created_by' => auth()->user()->id,
-              ]);
-          }
-        $order = Order::find($orderId);
-        try {
-            $invoice = SalesInvoice::create([
-                'order_id' => $orderId,
-                'invoice_number' => SalesInvoice::generateNumber(),
-                'invoice_date' => date('Y-m-d'),
-                'due_date' => date('Y-m-d'),
-                'payment_method' => '1',
-                'client_id' => 1,
-                'amount' => $order->amount,
-                'vat'   => $order->vat,
-                'tatal' => $order->total,
-            ]);
-
-            // foreach ($order->items as $item) {
-            //     InvoiceItem::create([
-            //         'invoice_id' => $order->id,
-
-            //         'invoice_id' => $invoice->id,
-            //         'product_id',
-            //         'qty',
-            //         'unit',
-            //         'unit_price'
-            //     ]);
-            // }
-
-            foreach ($order->items as $item) {
-                $item->invoice_id = $invoice->id;
-                $item->save();
-            }
-        } catch (QueryException $e) {
-        }
-
-        // store payment
-        // update order status
-        try {
-            // إنشاء الدفع
-            $payment = Payment::create([
-                'order_id'          => $orderId,
-                'invoice_id'        => $orderId,
-                'payment_method_id' => '1',
-                'amount'            => $request->amount,
-                'payment_date'      => now(),
-                'status'            => 1, // ناجح
-                'from_account'      => 1, // الحساب الذي تم السحب منه (الخزنة)
-                'to_account'        => 3, // الحساب الذي تم الإيداع فيه (الموظف)
-                'Note'              => 'سند سلفة', // المرجع
-                'created_by'        => auth()->user()->id,
-            ]);
-
-            // تحديث حالة الطلب
-            $order = Order::findOrFail($orderId);
-            $order->update(['status' => '4']); // تم الدفع
-            return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
-                ->withInput();
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-}
+  @endsection

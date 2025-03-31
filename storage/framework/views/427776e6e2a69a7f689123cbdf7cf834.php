@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('contents'); ?>
 <div class="container-fluid">
   <div class="row">
@@ -60,8 +58,8 @@
                   <form action="/admin/orders/store" method="POST">
                     <?php echo csrf_field(); ?>
                     <div class="input-group sm mb-2">
-                      <label class="input-group-text" for="serial_number">Order SN</label>
-                      <input type="number" class="form-control sm" name="serial_number" id="serial_number" value="<?php echo e($order_SN); ?>">
+                      <label class="input-group-text" for="order_sn">Order SN</label>
+                      <input type="number" class="form-control sm" name="order_sn" id="order_sn" value="<?php echo e($order_SN); ?>">
                       <label class="input-group-text" for="customer_id"> Client</label>
                       <select class="form-select  form-control sm py-0" name="customer_id" id="customer_id">
                         <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -118,7 +116,7 @@
             <?php $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <tr>
               <td><?php echo e(++$counter); ?></td>
-              <td><?php echo e($order->serial_number); ?></td>
+              <td><?php echo e($order->order_sn); ?></td>
               <td><?php echo e(@$order->customer->name); ?></td> <!-- اسم العميل -->
               <td><?php echo e($order->order_date); ?></td>
               <td>
@@ -140,13 +138,13 @@
               <td>
                 <?php if($order->status == 1 || $order->status == 2  ): ?>
                 <a class="btn btn-sm py-0 p-0" data-bs-toggle="tooltip" title="Add order item"
-                  href="<?php echo e(route('add-orderitem-input-entry', [$order->id])); ?>"><i
+                  href="<?php echo e(route('add-orderitem', [$order->id])); ?>"><i
                     class="fa fa-square-plus text-success"></i></a>
                     <a class="btn btn-sm py-0" href="<?php echo e(route('edit-order-info', $order->id)); ?>"><i
                     class="fa fa-edit text-primary"></i></a>
                     <a class="btn btn-sm py-0" onclick="if(!confirm('You are about to Archive a order, are you sure!?.')){return false}"
-                  title="Archive  order and related Information" href="<?php echo e(route('destroy-order-info', $order->id)); ?>"><i
-                    class="fa fa-trash text-danger"></i></a>
+                  title="Archive  order and related Information" href="<?php echo e(route('destroy-order-info', $order->id)); ?>">
+                  <i class="fa fa-trash text-danger"></i></a>
                 <?php endif; ?>
                 <a class="btn btn-sm py-0" href="<?php echo e(route('view-order-info', $order->id)); ?>"><i
                     class="fas fa-eye text-success" title="View Details"></i></a>

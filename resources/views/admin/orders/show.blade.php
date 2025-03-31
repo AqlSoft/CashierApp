@@ -8,8 +8,8 @@
         <div class="col-lg-12 col-sm-12">
           <div class="bulk border-dark p-0 m-1">
             <div class="row m-0 mb-1  border-bottom border-dark-50 pb-1 ">
-              <div class="col col-3  "> serial_number  : </div>
-              <div class="col col-9 ">{{ $order->serial_number }}</div>
+              <div class="col col-3  "> Order SN  : </div>
+              <div class="col col-9 ">{{ $order->order_sn }}</div>
             </div>
             <div class="row m-0 mb-1  border-bottom border-dark-50 pb-1">
               <div class="col col-3   "> Order Date  : </div>
