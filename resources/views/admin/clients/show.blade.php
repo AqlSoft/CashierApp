@@ -5,7 +5,7 @@
   <h2 class="mt-4 pb-2" style="border-bottom: 1px solid #dedede"><i class="fas fa-info-circle px-1"></i>Client Details</h2>
     <fieldset class="mt-2 ms-0 mb-0  shadow-sm">
       <div class="row mt-2">
-        <div class="col-lg-12 col-sm-12">
+        <div class="col-lg-6 col-sm-6">
           <div class="bulk border-dark p-0 m-1">
             <div class="row m-0 mb-1  border-bottom border-dark-50  ">
               <div class="col col-3  "> Vat Number  : </div>

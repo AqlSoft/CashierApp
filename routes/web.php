@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\OrdersItemsController;
 use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\SalesInvoiceController;
 use App\Http\Controllers\Admin\PaymentsController;
+use App\Http\Controllers\Admin\SettingsController;
 
 // Auth::routes();
 // // Auth::routes(['register' => false]);
@@ -79,16 +80,25 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
   // invoices routes
   Route::prefix('invoices')->group(function () {
-    Route::get('/create/{id}',        [SalesInvoiceController::class, 'create'])->name('add-invoices-orderItem');
+    Route::get('/view/{id}',          [SalesInvoiceController::class, 'view'])->name('view-invoice');
+    // Route::get('/create/{id}',      [SalesInvoiceController::class, 'create'])->name('add-invoices');
     Route::get('/print-invoice/{id}', [SalesInvoiceController::class, 'printInvoice'])->name('print-invoice');
   });
 
-  // invoices routes
+  // payments routes
   Route::prefix('payments')->group(function () {
     Route::post('/cash/store',       [PaymentsController::class, 'cashStore'])->name('payments.cash.store');
-    Route::post('/store',            [PaymentsController::class, 'store'])->name('save-invoices-orderitem-info');
-    Route::get('/edit/{id}',         [PaymentsController::class, 'edit'])->name('edit-invoices-orderitem-info');
-    Route::post('/update',           [PaymentsController::class, 'update'])->name('update-invoices-orderitem-input');
-    Route::get('/destroy/{id}',      [PaymentsController::class, 'destroy'])->name('destroy-invoices-orderitem');
+    // Route::post('/store',            [PaymentsController::class, 'store'])->name('save-invoices-orderitem-info');
+    // Route::get('/edit/{id}',         [PaymentsController::class, 'edit'])->name('edit-invoices-orderitem-info');
+    // Route::post('/update',           [PaymentsController::class, 'update'])->name('update-invoices-orderitem-input');
+    // Route::get('/destroy/{id}',      [PaymentsController::class, 'destroy'])->name('destroy-invoices-orderitem');
   });
+
+    // general settings routes
+    Route::prefix('settings')->group(function () {
+      Route::get('/index',            [SettingsController::class, 'index'])->name('home-setting');
+      Route::put('/update/{id}',      [SettingsController::class, 'update'] )->name('admin.settings.update');
+      
+    });
+
 });

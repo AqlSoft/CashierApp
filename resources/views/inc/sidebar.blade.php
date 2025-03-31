@@ -153,8 +153,9 @@
         data-bs-parent="#sidebarAccordion">
         <ul class="btn-toggle-nav list-unstyled fw-normal small">
           <li>
-            <a href="">
-              <i class="fa-solid fa-gear"></i> &nbsp; System Settings
+          <a href="/admin/settings/index"
+              class="rounded {{ Request::is('/admin/settings/index') ? 'active' : '' }}">
+              <i class="fa-solid fa-cubes"></i> &nbsp; setting
             </a>
           </li>
           <li>
