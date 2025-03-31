@@ -130,7 +130,7 @@
 
     <div class="col col-7 pb-3 pt-3 px-4">
       <!-- Products display -->
-      <div class="row d-flex gap-2" id="product-list">
+      <div class="row d-flex gap-1" id="product-list">
         <?php if(isset($products) && count($products)): ?>
         <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div class="col col-2 productlist p-0"
