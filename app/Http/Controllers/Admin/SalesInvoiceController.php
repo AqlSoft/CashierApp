@@ -7,93 +7,81 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Admin;
-use App\Models\SalesInvoice;
-use App\Models\InvoiceItem;
+use App\Models\Setting;
+
 
 class SalesInvoiceController  extends Controller
 {
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(string $id)
-    {
-        $order = Order::with(['orderItems.product', 'orderItems.unit', 'orderItems.order'])->find($id);
-        $invoices =  SalesInvoice::all();
-      
-        // accounts
-        $accounts = Account::all();
-        $amount = $order->orderItems->sum(function ($item) {
-            return $item->price * $item->quantity;
-        });
+  /**
+   * Show the form for creating a new resource.
+   */
+  public function create(string $id)
+  {
+    $order = Order::with('orderItems.product')->findOrFail($id);
 
-        // حساب Vat Amount (افترض أن الضريبة 15%)
-        $vatAmount = $amount * 0.15;
+    $total_price = 0;
 
-        // حساب Total Amount
-        $totalAmount = $amount + $vatAmount;
-        // create new invoice Number
-         $invoiceNumber = SalesInvoice::generateNumber();
-        $vars = [
-            'accounts'      => $accounts,
-            'order'         => $order,
-            'status'        => Order::getStatusList(),
-            'amount'        => $amount,
-            'vatAmount'     => $vatAmount,
-            'totalAmount'   => $totalAmount,
-            'invoiceNumber' => $invoiceNumber,
-            'invoices'    =>$invoices
-        ];
-        return view('admin.invoices.create', $vars);
+    foreach ($order->orderItems as $item) {
+
+      $total_price += $item->quantity * $item->price;
     }
+    // حساب الضريبة والمبلغ الإجمالي
+    $vat_rate = 0.15; // نسبة الضريبة (15%)
+    $vat_amount = $total_price * $vat_rate;
+    $total_amount = $total_price + $vat_amount;
+
+    $vars = [
+      'order'            => $order,
+      'total_price'    => $total_price,
+      'vat_rate'        => $vat_rate,
+      'total_amount'   => $total_amount,
+    
+      'settings'      =>   Setting::all(),
+    ];
+    return view('admin.invoices.create', $vars);
+  }
 
 
-    public function printInvoice($id)
-    {
-      
-        // البحث عن الفاتورة باستخدام المعرف
-        // $invoice = SalesInvoice::findOrFail($id);
+  public function printInvoice($id)
+  {
 
-        return view('admin.invoices.print');
-      
-    }
+    // البحث عن الفاتورة باستخدام المعرف
+    // $invoice = SalesInvoice::findOrFail($id);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        
-    }
+    return view('admin.invoices.print');
+  }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-      
-    }
+  /**
+   * Store a newly created resource in storage.
+   */
+  public function store(Request $request) {}
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+  /**
+   * Display the specified resource.
+   */
+  public function show(string $id) {}
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+  /**
+   * Show the form for editing the specified resource.
+   */
+  public function edit(string $id)
+  {
+    //
+  }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+  /**
+   * Update the specified resource in storage.
+   */
+  public function update(Request $request, string $id)
+  {
+    //
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   */
+  public function destroy(string $id)
+  {
+    //
+  }
 }

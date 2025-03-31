@@ -36,12 +36,52 @@ class PaymentsController
      */
     public function cashStore(Request $request)
     {
+      $id=$request->order_id;
+      $order = Order::with('orderItems.product' ,'customer')->findOrFail($id);
+  
+      // حساب  المبالغ
+      $totalPrice = 0;
+  
+      foreach ($order->orderItems as $item) {
+        $totalPrice += $item->quantity * $item->price;
+      }
+  
+      // حساب الضريبة والمبلغ الإجمالي
+      $vatRate = 0.15; // نسبة الضريبة (15%)
+      $vatAmount = $totalPrice * $vatRate;
+      $totalAmount = $totalPrice + $vatAmount;
   
         try{
+              // إنشاء الفاتورة
+              $invoice = SalesInvoice::create([
+                'order_id'            => $id,
+                'order_sn'            => $order->order_sn,
+                'invoice_number'      => SalesInvoice::generateNumber(),
+                'client_id'           => $order->customer_id,
+                'invoice_date'        => date('Y-m-d'),
+                'vat_number'          => $order->customer->vat_number,
+                'due_date'            => date('Y-m-d'),
+                'payment_method'      => '1',
+                'payment_date'        => date('Y-m-d'),
+                'amount'              => $totalPrice,
+                'vat_amount'          => $vatAmount,
+                'total_amount'        => $totalAmount,
+                'status'              => $totalPrice >= $totalAmount ? 1 : 0,// حالة الفاتورة
+                'type'                => 'sales', 
+                'created_by'          => auth()->user()->id,
+            ]);
+          
+            // تحديث أصناف الطلب المرتبطة بالطلب
+         OrderItem::where('order_id', $id)->update([
+                'invoice_id' => $invoice->id,
+                'updated_at' => now(),
+                'updated_by' => auth()->user()->id,
+            ]);
+
             // إنشاء الدفع
             $payment = Payment::create([
                 'order_id'          => $request->order_id,
-                // 'invoice_id'        => $invoice->id,
+                'invoice_id'        => $invoice->id,
                 'payment_method'    => '1',
                 // 'amount_from'       => $request->amount_from,
                 // 'amount_to'         => $request->amount_to,
@@ -56,8 +96,8 @@ class PaymentsController
             // تحديث حالة الطلب
             Order::where('id', $request->order_id)->update([
                 'status'           => '3',
-                'delivery_method'  =>1, //Takeout 
-                 'wait_no'         => Order::generateWaitNo($request->order_id), 
+                'delivery_method'  =>1, //سفري 
+                'wait_no'         => Order::generateWaitNo($request->order_id), 
                 'updated_at'       => now(),
                 'updated_by'       => auth()->user()->id,
             ]); // تم الدفع
