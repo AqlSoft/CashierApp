@@ -18,7 +18,8 @@ class SalesInvoiceController  extends Controller
     public function create(string $id)
     {
         $order = Order::with(['orderItems.product', 'orderItems.unit', 'orderItems.order'])->find($id);
-
+        $invoices =  SalesInvoice::all();
+      
         // accounts
         $accounts = Account::all();
         $amount = $order->orderItems->sum(function ($item) {
@@ -40,11 +41,21 @@ class SalesInvoiceController  extends Controller
             'vatAmount'     => $vatAmount,
             'totalAmount'   => $totalAmount,
             'invoiceNumber' => $invoiceNumber,
+            'invoices'    =>$invoices
         ];
         return view('admin.invoices.create', $vars);
     }
 
 
+    public function printInvoice($id)
+    {
+      
+        // البحث عن الفاتورة باستخدام المعرف
+        // $invoice = SalesInvoice::findOrFail($id);
+
+        return view('admin.invoices.print');
+      
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -59,7 +70,7 @@ class SalesInvoiceController  extends Controller
      */
     public function show(string $id)
     {
-        //
+      
     }
 
     /**

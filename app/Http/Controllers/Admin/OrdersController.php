@@ -20,12 +20,13 @@ class OrdersController extends Controller
         $products  = Product::all();
         $customers = Party::where('type', 'customer')->get();
         $defaultCustomer = Party::where([['type', '=', 'customer'],  ['is_default', '=', 1],  ])->first();
-        $order_SN = Order::generateNumber();
+        $order_SN = Order::generateSerialNumber();
       $vars = [
          'products'         => $products,
           'orders'          => $orders,
           'customers'       =>$customers,
           'order_SN'        =>$order_SN,
+          'status' => Order::getStatusList(),
           'defaultCustomer' =>$defaultCustomer,
           'admins'   => Admin::all()
         ];
@@ -85,7 +86,7 @@ class OrdersController extends Controller
       $order = Order::find($id);
       $vars = [
           'order'  =>$order,
-          'status' => static::$status,
+          'status' => Order::getStatusList(),
       ];
       return view('admin.orders.edit', $vars);
     }
@@ -101,12 +102,26 @@ class OrdersController extends Controller
           ]);
 
           return redirect()->back()->with('success', 'Order Updated successfully');
-      } catch (Exception $e) {
+      } catch (\Exception $e) {
           return redirect()->back()->withInput()->with('error', 'Error updating Order because of: ' . $e->getMessage());
       }
 
     }
 
+    public function cancel( $id)
+    {
+      $status = Order::find($id);
+      try {
+          $status->update([
+            'status'           => 0  ,
+            'updated_by'       => auth()->user()->id  ,
+          ]);
+
+          return redirect()->route('display-order-all')->with('success', 'Order cancel successfully');
+      } catch (\Exception $e) {
+          return redirect()->back()->withInput()->with('error', 'Error cancel Order because of: ' . $e->getMessage());
+      }
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -120,7 +135,7 @@ class OrdersController extends Controller
             }
             $order->delete();
             return redirect()->back()->with(['success' => 'Order  Removed Successfully']);
-        } catch (Exception $err) {
+        } catch (\Exception $err) {
             return redirect()->back()->with(['error' => 'Order can not be Removed due to: ' . $err]);
         }
     }

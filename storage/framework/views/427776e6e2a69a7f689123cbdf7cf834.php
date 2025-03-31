@@ -123,29 +123,44 @@
               <td><?php echo e($order->order_date); ?></td>
               <td>
                 <?php if($order->status == 1): ?>
-                <span class="badge bg-primary">New</span>
+                <span class="badge bg-primary"><?php echo e($status[$order->status]); ?></span>
                 <?php elseif($order->status == 2): ?>
-                <span class="badge bg-warning">In Progress</span>
+                <span class="badge bg-warning"><?php echo e($status[$order->status]); ?></span>
+                <?php elseif($order->status == 3): ?>
+                <span class="badge bg-secondary"><?php echo e($status[$order->status]); ?></span>
+                <?php elseif($order->status == 4): ?>
+                <span class="badge bg-info"><?php echo e($status[$order->status]); ?></span>
+                <?php elseif($order->status == 5): ?>
+                <span class="badge bg-success"><?php echo e($status[$order->status]); ?></span>
                 <?php else: ?>
-                <span class="badge bg-success">Completed</span>
+                <span class="badge bg-danger"><?php echo e($status[$order->status]); ?></span>
                 <?php endif; ?>
               </td>
 
               <td>
-                <?php if($order->status == 1 || $order->status == 2): ?>
+                <?php if($order->status == 1 || $order->status == 2  ): ?>
                 <a class="btn btn-sm py-0 p-0" data-bs-toggle="tooltip" title="Add order item"
                   href="<?php echo e(route('add-orderitem-input-entry', [$order->id])); ?>"><i
                     class="fa fa-square-plus text-success"></i></a>
+                    <a class="btn btn-sm py-0" href="<?php echo e(route('edit-order-info', $order->id)); ?>"><i
+                    class="fa fa-edit text-primary"></i></a>
+                    <a class="btn btn-sm py-0" onclick="if(!confirm('You are about to Archive a order, are you sure!?.')){return false}"
+                  title="Archive  order and related Information" href="<?php echo e(route('destroy-order-info', $order->id)); ?>"><i
+                    class="fa fa-trash text-danger"></i></a>
                 <?php endif; ?>
                 <a class="btn btn-sm py-0" href="<?php echo e(route('view-order-info', $order->id)); ?>"><i
                     class="fas fa-eye text-success" title="View Details"></i></a>
-                <a class="btn btn-sm py-0" href="<?php echo e(route('edit-order-info', $order->id)); ?>"><i
-                    class="fa fa-edit text-primary"></i></a>
+                    <?php if($order->status == 5): ?>
                 <a class="btn btn-sm py-0 p-0" data-bs-toggle="tooltip" title="print order"
                   href="#"><i class="fa fa-print text-secondary"></i></a>
-                <a class="btn btn-sm py-0" onclick="if(!confirm('You are about to delete a order, are you sure!?.')){return false}"
-                  title="Delete order and related Information" href="<?php echo e(route('destroy-order-info', $order->id)); ?>"><i
+                  <?php endif; ?>
+                  <?php if($order->status ==0): ?>
+                  <a class="btn btn-sm py-0" onclick="if(!confirm('You are about to Archive a order, are you sure!?.')){return false}"
+                  title="Archive  order and related Information" href="<?php echo e(route('destroy-order-info', $order->id)); ?>"><i
                     class="fa fa-trash text-danger"></i></a>
+                  <?php endif; ?>
+
+              
 
               </td>
             </tr>
