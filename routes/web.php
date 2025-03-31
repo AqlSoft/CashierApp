@@ -80,7 +80,8 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
   // invoices routes
   Route::prefix('invoices')->group(function () {
-    Route::get('/create/{id}',        [SalesInvoiceController::class, 'create'])->name('add-invoices');
+    Route::get('/view/{id}',          [SalesInvoiceController::class, 'view'])->name('view-invoice');
+    // Route::get('/create/{id}',      [SalesInvoiceController::class, 'create'])->name('add-invoices');
     Route::get('/print-invoice/{id}', [SalesInvoiceController::class, 'printInvoice'])->name('print-invoice');
   });
 

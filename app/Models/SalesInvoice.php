@@ -77,4 +77,9 @@ class SalesInvoice extends Model
   {
     return $this->belongsTo(Order::class, 'order_id');
   }
+  // علاقة واحدة إلى واحدة مع Client
+public function customer()
+{
+    return $this->belongsTo(Party::class, 'customer_id');
+}
 }

@@ -105,9 +105,11 @@
             <a href="/admin/orders/index" class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Invoice">
               Back To Order
             </a>
-            <a href="<?php echo e(route('add-invoices', $order->id)); ?>" class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Cancel Invoice">
-              Invoice
+            <?php if($order->status == 3 && $order->invoice->id): ?>
+            <a href="<?php echo e(route('view-invoice', [$order->invoice->id])); ?>" class="btn py-1 btn-outline-secondary btn-sm">
+              View Invoice
             </a>
+            <?php endif; ?>
             <?php if($order->status === 2): ?>
             <button class="btn px-3 py-1 btn-outline-secondary btn-sm dropdown-toggle"
               id="submit-order-items" type="button" data-bs-toggle="dropdown" aria-expanded="false">

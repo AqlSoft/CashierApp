@@ -120,4 +120,8 @@ protected $dates=['deleted_at'];
     
         return $waitNo;
     }
+    public function invoice()
+{
+    return $this->hasOne(SalesInvoice::class, 'order_id');
+}
 }
