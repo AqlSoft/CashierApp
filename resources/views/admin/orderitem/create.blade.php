@@ -1,8 +1,12 @@
 @extends('layouts.admin')
 
 @section('extra-links')
+<<<<<<< HEAD
 <link rel="stylesheet" href="{{ asset('assets/admin/css/orderitem.css') }}">
 
+=======
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/orderitem.css') }}">
+>>>>>>> 0cee93b3e83506057ed8f885ee469ae4c8cd3897
 @endsection
 
 @section('contents')
