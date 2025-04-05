@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\SalesInvoiceController;
 use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\MonyBoxesController;
+use App\Http\Controllers\Admin\ShiftsController;
 
 // Auth::routes();
 // // Auth::routes(['register' => false]);
@@ -88,10 +90,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
   // payments routes
   Route::prefix('payments')->group(function () {
     Route::post('/cash/store',       [PaymentsController::class, 'cashStore'])->name('payments.cash.store');
-    // Route::post('/store',            [PaymentsController::class, 'store'])->name('save-invoices-orderitem-info');
-    // Route::get('/edit/{id}',         [PaymentsController::class, 'edit'])->name('edit-invoices-orderitem-info');
-    // Route::post('/update',           [PaymentsController::class, 'update'])->name('update-invoices-orderitem-input');
-    // Route::get('/destroy/{id}',      [PaymentsController::class, 'destroy'])->name('destroy-invoices-orderitem');
+    
   });
 
     // general settings routes
@@ -100,5 +99,22 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
       Route::put('/update/{id}',      [SettingsController::class, 'update'] )->name('admin.settings.update');
       
     });
+        // MonyBox routes
+    Route::prefix('monyBoxes')->group(function () {
+      Route::get('/index',        [MonyBoxesController::class, 'index'])->name('all-Mony-box');
+      Route::post('/store',       [MonyBoxesController::class, 'store'])->name('store-Mony-box');
+
+          
+        });
+
+        // sales-shifts routes
+    Route::prefix('sales-shifts')->group(function () {
+      Route::get('/index',          [ShiftsController::class, 'index'])->name('all-sales-shifts');
+      Route::post('/store',         [ShiftsController::class, 'store'])->name('store-sales-shifts');
+      Route::get('/{shift}/close', [ShiftsController::class, 'close'])->name('shifts.close');
+
+          
+        });
+    
 
 });

@@ -4,6 +4,48 @@
     <span class="fs-5 fw-semibold">CashSys Home</span>
   </a>
   <ul class="list-unstyled ps-0" id="sidebarAccordion">
+  <li class="mb-1">
+      <button
+        class="btn btn-toggle d-inline-flex align-items-center "
+        data-bs-toggle="collapse" data-bs-target="#Settings-collapse1"
+        aria-expanded="">
+        <i class="fa-solid fa-cog"></i> &nbsp; General Settings
+      </button>
+      <div class="collapse" id="Settings-collapse1"
+        data-bs-parent="#sidebarAccordion">
+        <ul class="btn-toggle-nav list-unstyled fw-normal small">
+          <li>
+          <a href="/admin/settings/index"
+              class="rounded <?php echo e(Request::is('/admin/settings/index') ? 'active' : ''); ?>">
+              <i class="fa-solid fa-cubes"></i> &nbsp; setting
+            </a>
+          </li>
+          <li>
+          <a href="/admin/monyBoxes/index"
+              class="rounded <?php echo e(Request::is('/admin/monyBoxes/index') ? 'active' : ''); ?>">
+              <i class="fa-solid fa-cubes"></i> &nbsp; MonyBox
+            </a>
+          </li>
+          <li>
+          <a href="/admin/sales-shifts/index"
+              class="rounded <?php echo e(Request::is('/admin/sales-shifts/index') ? 'active' : ''); ?>">
+              <i class="fa-solid fa-cubes"></i> &nbsp; Shifts
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <i class="fa-solid fa-credit-card"></i> &nbsp; Payment Methods
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <i class="fa-solid fa-user-shield"></i> &nbsp; Roles
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+    </li>
     <!-- Orders -->
     <li class="mb-1">
       <button
@@ -142,44 +184,6 @@
         </ul>
       </div>
     </li>
-    <li class="mb-1">
-      <button
-        class="btn btn-toggle d-inline-flex align-items-center "
-        data-bs-toggle="collapse" data-bs-target="#Settings-collapse1"
-        aria-expanded="">
-        <i class="fa-solid fa-cog"></i> &nbsp; Settings
-      </button>
-      <div class="collapse" id="Settings-collapse1"
-        data-bs-parent="#sidebarAccordion">
-        <ul class="btn-toggle-nav list-unstyled fw-normal small">
-          <li>
-          <a href="/admin/settings/index"
-              class="rounded <?php echo e(Request::is('/admin/settings/index') ? 'active' : ''); ?>">
-              <i class="fa-solid fa-cubes"></i> &nbsp; setting
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <i class="fa-solid fa-weight-hanging"></i> &nbsp; Units
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <i class="fa-solid fa-credit-card"></i> &nbsp; Payment Methods
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <i class="fa-solid fa-user-shield"></i> &nbsp; Roles
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <i class="fa-solid fa-tags"></i> &nbsp; Categories
-            </a>
-          </li>
-        </ul>
-      </div>
-    </li>
+  
   </ul>
 </div><?php /**PATH C:\wamp64\www\kashear_project\resources\views/inc/sidebar.blade.php ENDPATH**/ ?>

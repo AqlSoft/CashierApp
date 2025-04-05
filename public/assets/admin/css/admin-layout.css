@@ -61,10 +61,14 @@
     
     box-shadow: 0 0 0.3rem 0.05rem rgba(0, 0, 0, 0.15);
 }
-
+.header-border{
+  border-bottom: 1px solid #dedede;
+  width:900px;
+}
 /* تنسيقات الجدول */
 .table {
     margin-bottom: 0;
+    width: 900px;
 }
 
 .table th {
