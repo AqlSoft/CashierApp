@@ -1,16 +1,7 @@
 @extends('layouts.admin')
 
 @section('extra-links')
-<<<<<<< HEAD
-<<<<<<< HEAD
 <link rel="stylesheet" href="{{ asset('assets/admin/css/orderitem.css') }}">
-
-=======
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/orderitem.css') }}">
->>>>>>> 0cee93b3e83506057ed8f885ee469ae4c8cd3897
-=======
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/orderitem.css') }}">
->>>>>>> d69a692e81b6f1885ad195ad40f91036c2e5539a
 @endsection
 
 @section('contents')
@@ -259,16 +250,8 @@
                     // Calculate remaining amount
                     updateRemaining();
 
-<<<<<<< HEAD
-    function updateRemaining() {
-      const totalAmount = parseFloat(document.getElementById('total_amount').value);
-      const paid = parseFloat(document.getElementById('paid').value) || 0;
-      const remaining = totalAmount - paid;
-      document.getElementById('remaining').value = remaining.toFixed(2);
-    }
-  });
-</script>
-=======
+
+
                     // Focus on paid input and select all text
                     paidInput.focus();
                     paidInput.select();
@@ -289,5 +272,5 @@
             }
         });
     </script>
->>>>>>> d69a692e81b6f1885ad195ad40f91036c2e5539a
+
 @endsection

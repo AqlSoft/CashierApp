@@ -69,22 +69,36 @@ class MonyBoxesController
      */
     public function edit(string $id)
     {
-        //
+      $m_box= MonyBox::find($id);
+      $vars=[
+       'm_box'   =>$m_box,
+      ];
+       return view('admin.monyboxes.edit' ,$vars);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, MonyBox $monyBox): RedirectResponse
     {
-        //
+      $monyBox->update([
+           'name'              => $request->name,
+          'last_isal_exhcange' => $request->last_isal_exhcange,
+          'opening_balance'    => $request->opening_balance,
+          'last_isal_collect'  => $request->last_isal_collect,
+          'date'               => $request->date,
+        'updated_by' => auth()->user()->id
+    ]);
+
+    return redirect()->back()->with('success', 'Shift updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(MonyBox $monyBox): RedirectResponse
     {
-        //
+        $monyBox->delete();
+        return redirect()->back()->with('success', 'MonyBox deleted successfully');
     }
 }

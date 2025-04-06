@@ -41,7 +41,7 @@
                     </select>
 
                     <label class="input-group-text" for="opening_balance">Opening Balance</label>
-                    <input type="number" class=" form-control sm " name="opening_balance" id="order_date">
+                    <input type="number" class=" form-control sm " name="opening_balance" id="opening_balance">
                   </div>
                   <div class="input-group sm mt-2">
                     <label class="input-group-text" for="monybox_id"> MonyBoxes</label>
@@ -107,11 +107,14 @@
               <a href="" class="btn btn-sm btn-info">
                 <i class="fas fa-eye"></i>
               </a>
-              <a href="" class="btn btn-sm btn-warning">
+              <a href="<?php echo e(route('edit-shift-info',  $shift)); ?>" class="btn btn-sm btn-warning">
                 <i class="fas fa-edit"></i>
               </a>
+              <a href="<?php echo e(route('destroy-shift-info', $shift)); ?>" class="btn btn-sm btn-danger">
+                <i class="fas  fa-trash"></i>
+              </a>
               <?php if($shift->status == 'Active'): ?>
-              <a href="<?php echo e(route('shifts.close', $shift->id)); ?>" class="btn btn-sm btn-danger">
+              <a href="<?php echo e(route('shifts.close', $shift->id)); ?>" class="btn btn-sm btn-dark">
 
                 <i class="fas fa-lock"></i> Close
 

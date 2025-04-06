@@ -93,17 +93,40 @@ class ShiftsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id): View
     {
-        //
+      // الحصول على المستخدمين الذين ليس لديهم شفت نشط
+          $adminsWithNoActiveShift = Admin::whereDoesntHave('shifts', function($query) {
+            $query->where('status', true);
+        })->get();
+
+        $shift = Shift::with(['monybox', 'admin', 'creator'])->find($id);
+    
+        $vars=[
+          'shift'   =>$shift,
+          'admins' => $adminsWithNoActiveShift,
+          'monyBoxes'   => MonyBox::all()
+       ];
+        return view('admin.shifts.edit', $vars);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Shift $shift): RedirectResponse
     {
-        //
+      
+      $shift->update([
+        'monybox_id'      => $request->monybox_id,
+        'admin_id'        => $request->admin_id,
+        'opening_balance' => $request->opening_balance,
+        'start_time'      => $request->start_time,
+        'notes'           => $request->notes,
+        // 'status'          => $request->status,
+        'updated_by' => auth()->user()->id
+    ]);
+
+    return redirect()->back()->with('success', 'Shift updated successfully');
     }
 
     public function close(Shift $shift): RedirectResponse
@@ -119,8 +142,10 @@ class ShiftsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Shift $shift): RedirectResponse
     {
-        //
+        $shift->delete();
+
+        return redirect()->back()->with('success', 'Shift deleted successfully');
     }
 }

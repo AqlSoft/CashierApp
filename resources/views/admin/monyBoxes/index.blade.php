@@ -42,7 +42,7 @@
                       <button type="button" class="input-group-text text-start">Active</button>
                     </div>
                     <div class="input-group d-flex sm mt-2 justify-content-end" style="border-top: 1px solid #aaa">
-                      <button type="submit" class="py-0 btn btn-primary p-3 mt-2">Save Order</button>
+                      <button type="submit" class="py-0 btn btn-primary p-3 mt-2">Save MonyBox</button>
                       <button type="reset" class="py-0 btn btn-secondary p-3 mt-2" id="add-item">reset</button>
                     </div>
                   </form>
@@ -62,7 +62,7 @@
                             <th>Date</th>
                             <th>Last Exchange</th>
                             <th>Last Collection</th>
-  
+
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -81,13 +81,13 @@
 
               <td>  <span class="badge bg-{{ $m_box->status == 'Active' ? 'success' : 'danger' }}">{{$m_box->status}}</td>
               <td>
-                <a class="btn btn-sm py-0" href=""><i
-                    class="fas fa-eye text-success" title="View Details"></i></a>
-                <a class="btn btn-sm py-0" href="">
-                  <i class="fa fa-edit text-primary"></i></a>
-                <a class="btn btn-sm py-0" onclick="if(!confirm('You are about to delete a order, are you sure!?.')){return false}"
-                  title="Delete order and related Information" href=""><i
-                    class="fa fa-trash text-danger"></i></a>
+                <a class="btn btn-sm btn-info py-0" href=""><i
+                    class="fas fa-eye " title="View Details"></i></a>
+                <a class="btn btn-sm btn-warning py-0" href="{{ route('edit-monyBox-info', $m_box->id) }}">
+                  <i class="fa fa-edit "></i></a>
+                <a class="btn btn-sm py-0 btn-danger" onclick="if(!confirm('You are about to delete a order, are you sure!?.')){return false}"
+                  title="Delete order and related Information" href="{{ route('destroy-monyBox-info', $m_box->id) }}"><i
+                    class="fa fa-trash "></i></a>
 
               </td>
             
