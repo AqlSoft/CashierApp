@@ -38,16 +38,16 @@
                 <p>Arabic</p>
 
             </header>
-            <div class="container-fluid pt-5">
+            <div class="container-fluid py-5 mb-5">
                 <div class="container mt-3">
                     @if (session('success'))
-                    <div class="alert alert-sm alert-success py-1 mt-2">
-                        {{ session('success') }}
-                    </div>
+                        <div class="alert alert-sm alert-success py-1 mt-2">
+                            {{ session('success') }}
+                        </div>
                     @elseif (session('error'))
-                    <div class="alert alert-sm alert-danger py-1 mt-2">
-                        {{ session('error') }}
-                    </div>
+                        <div class="alert alert-sm alert-danger py-1 mt-2">
+                            {{ session('error') }}
+                        </div>
                     @endif
                     @yield('contents')
                 </div>
@@ -56,8 +56,12 @@
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/js/all.min.js"
         integrity="sha512-1JkMy1LR9bTo3psH+H4SV5bO2dFylgOy+UJhMus1zF4VEFuZVu5lsi4I6iIndE4N9p01z1554ZDcvMSjMaqCBQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -68,7 +72,8 @@
         document.addEventListener('DOMContentLoaded', function() {
 
             const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl), {
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(
+                tooltipTriggerEl), {
                 placement: 'bottom'
             })
         })
