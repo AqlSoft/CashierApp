@@ -50,7 +50,8 @@
 .card {
   /* background-color:#eee; */
   background-color:#f5f5f5;
-    transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  width:900px;
 }
 
 .card.border-0 {
@@ -61,10 +62,14 @@
     
     box-shadow: 0 0 0.3rem 0.05rem rgba(0, 0, 0, 0.15);
 }
-
+.header-border{
+  border-bottom: 1px solid #dedede;
+  width:900px;
+}
 /* تنسيقات الجدول */
 .table {
     margin-bottom: 0;
+    width: 900px;
 }
 
 .table th {

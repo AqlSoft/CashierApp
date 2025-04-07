@@ -20,7 +20,7 @@ class Admin extends Authenticatable
         'userName',
         'email',
         'password',
-        'roles_name',
+        'role_name',
         'status',
         'last_login_at',
         'last_login_ip',
@@ -49,8 +49,23 @@ class Admin extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function profile()
+    {
+        return $this->hasOne(AdminProfile::class, 'admin_id');
+    }
+
     public static function currentUser()
     {
         return Auth::user()->id;
+    }
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class, 'admin_id');
+    }
+
+    public function activeShift()
+    {
+        return $this->hasOne(Shift::class, 'admin_id')
+            ->where('status', true);
     }
 }

@@ -11,31 +11,31 @@
         </h1>
         <!-- هنا سيتم اضافة العملاء -->
         <div class="row">
-        <div class="col col col-12 pt-3">
-                <div class="card card-body">
-                  <form action="/admin/clients/store" method="POST">
-                    @csrf
-                    <div class="input-group sm mb-2">
-                      <label class="input-group-text" for="vat_number">Vat Number</label>
-                      <input type="number" class="form-control sm" name="vat_number" id="vat_number" >
-                      <label class="input-group-text" for="name">Client name</label>
-                      <input type="text" class="form-control sm" name="name" id="name">
-                      <label class="input-group-text" for="phone">Phone Number</label>
-                      <input  type="number"   class=" form-control sm " name="phone" id="phone">
-                      <label class="input-group-text" for="address">Address</label>
-                      <input type="text" class="form-control sm" name="address" id="address">
-                      <button type="submit" class="py-0 btn btn-primary" >Save Client</button>
-                      <button type="reset" class="py-0 btn btn-secondary" id="add-item" >reset</button>
-                    </div>
-                  
-                    <div class="input-group d-flex sm mt-2 justify-content-end" >
-                    
-                    </div>
-                  </form>
+          <div class="col col col-12 pt-3">
+            <div class="card card-body">
+              <form action="/admin/clients/store" method="POST">
+                @csrf
+                <div class="input-group sm mb-2">
+                  <label class="input-group-text" for="vat_number">Vat Number</label>
+                  <input type="number" class="form-control sm" name="vat_number" id="vat_number">
+                  <label class="input-group-text" for="name">Client name</label>
+                  <input type="text" class="form-control sm" name="name" id="name">
+                  <label class="input-group-text" for="phone">Phone Number</label>
+                  <input type="number" class=" form-control sm " name="phone" id="phone">
+                  <label class="input-group-text" for="address">Address</label>
+                  <input type="text" class="form-control sm" name="address" id="address">
+                  <button type="submit" class="py-0 btn btn-primary">Save Client</button>
+                  <button type="reset" class="py-0 btn btn-secondary" id="add-item">reset</button>
                 </div>
-              </div>
-            <div class="py-2" style="border-bottom: 1px solid #dedede"></div>
-      
+
+                <div class="input-group d-flex sm mt-2 justify-content-end">
+
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="py-2" style="border-bottom: 1px solid #dedede"></div>
+
         </div>
         <!-- هنا سيتم عرض العملاء -->
         <table class="table table-striped  mt-2">
@@ -59,7 +59,7 @@
               <td>{{ ++$counter }}</td>
               <td>{{ $client->vat_number}}</td>
               <td>{{ $client->name}}</td>
-              <td>{{ $client->phone }}</td> 
+              <td>{{ $client->phone }}</td>
               <td>{{ $client->address }}</td>
               <td>
                 <a class="btn btn-sm py-0" href="{{ route('view-client-info', $client->id) }}"><i
@@ -84,5 +84,4 @@
     </div>
   </div>
 </div>
-
 @endsection
