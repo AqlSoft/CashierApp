@@ -1,7 +1,9 @@
 @extends('layouts.admin')
+@section('header-links')
+    <li class="breadcrumb-item"><a href="#">Account</a></li>
+    <li class="breadcrumb-item active" aria-current="page">View Profile</li>
+@endsection
 @section('contents')
-
-
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-8">

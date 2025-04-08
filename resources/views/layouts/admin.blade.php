@@ -34,8 +34,13 @@
         @include('inc.sidebar')
         <div id="content">
             <header id="main-header" class="">
-              
-                  <p>Arabic</p>
+            <nav aria-label="breadcrumb">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                        @yield('header-links')
+                    </ul>
+                </nav>
+                  <!-- <p>Arabic</p> -->
               
             </header>
             <div class="container-fluid pt-5">

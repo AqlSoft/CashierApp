@@ -86,11 +86,8 @@ header#main-header {
   position: fixed;
   z-index: 99999;
   background: linear-gradient(#fff, #dcdcdc);
-  padding-left:990px;
   padding-top:20px;
 }
-
-
 
 /*===============================================
 ============== Sidebar Styles ===================
