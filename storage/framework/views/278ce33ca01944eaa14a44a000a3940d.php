@@ -1,119 +1,6 @@
 
 <?php $__env->startSection('contents'); ?>
-<style>
-  :root {
-    --primary-color: #3498db;
-    --secondary-color: #f8f9fa;
-    --success-color: #28a745;
-    --border-color: #dee2e6;
-  }
 
-  .nav-tabs {
-    border-bottom: 4px solid #dee2e6;
-    position: relative;
-  }
-
-  .nav-tabs .nav-link {
-    color: #495057;
-    border: none;
-    margin-right: 5px;
-    padding: 10px 20px;
-    font-weight: 500;
-    position: relative;
-    background-color: transparent;
-  }
-
-  .nav-tabs .nav-link:hover {
-    color: #212529;
-  }
-
-  .nav-tabs .nav-link.active {
-    color: #000;
-    /* font-weight: 600; */
-    background-color: transparent;
-  }
-
-  .nav-tabs .nav-link.active::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background-color: #000;
-  }
-
-  .tab-content {
-    padding: 20px;
-    border-top: none;
-  }
-
-
-
-  .profile-container {
-    /* max-width: 700px;
-            margin: 30px auto; */
-    /* background: white; */
-    /* border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); */
-    /* padding: 30px; */
-    /* border-bottom: 1px solid var(--border-color); */
-
-  }
-
-  .profile-header {
-    text-align: left;
-    margin-bottom: 10px;
-    color: #2c3e50;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 15px;
-  }
-
-  .profile-picture {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 5px solid white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 15px;
-  }
-
-  .form-label {
-    font-weight: 600;
-    color: #495057;
-  }
-
-  .form-control:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
-  }
-
-  .btn-upload {
-    background-color: var(--secondary-color);
-    color: var(--primary-color);
-    border: 1px dashed var(--primary-color);
-
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 12px;
-    margin-top: -10px;
-    padding: 5px;
-  }
-
-  .btn-upload:hover {
-    background-color: var(--primary-color);
-    color: white;
-  }
-
-  .action-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-  }
-</style>
 
 <div class="container-fluid">
   <div class="row">
@@ -163,8 +50,8 @@
 
                   <div class="row">
                     <div class="col col-5 fw-bold">User Name:</div>
-                    <div class="col col-7 ">
-                      <input type="text" class="form-control sm py-0 text-start" name="userName" value="<?php echo e(old('userName', $admin->userName)); ?>"
+                    <div class="col col-7 text-start ">
+                      <input type="text" class="form-control sm py-0 " name="userName" value="<?php echo e(old('userName', $admin->userName)); ?>"
                         onchange="this.form.submit()" style="border:none;background-color:transparent;">
                     </div>
                   </div>
@@ -177,8 +64,8 @@
                   <?php echo method_field('PUT'); ?>
 
                   <div class="row">
-                    <div class="col col-4">Job Title:</div>
-                    <div class="col col-8">
+                    <div class="col col-5 fw-bold">Job Title:</div>
+                    <div class="col col-7">
                       <input type="text" name="job_title" class="form-control sm py-0" value="<?php echo e(old('job_title', $admin->job_title)); ?>"
                         onchange="this.form.submit()" style="border:none;background-color:transparent;">
                     </div>
@@ -191,8 +78,8 @@
                   <?php echo method_field('PUT'); ?>
 
                   <div class="row">
-                    <div class="col col-6">Email:</div>
-                    <div class="col col-6">
+                    <div class="col col-4 fw-bold">Email:</div>
+                    <div class="col col-8">
                       <input type="text" class="form-control sm py-0" name="email" value="<?php echo e(old('email', $admin->email)); ?>"
                         onchange="this.form.submit()" style="border:none;background-color:transparent;">
                     </div>

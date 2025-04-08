@@ -8,8 +8,8 @@
       </a>
     </div>
     <a href="<?php echo e(route('view-profile' ,\Illuminate\Support\Facades\Auth::user()->id)); ?>" class="profile mb-2">
-      <img src="<?php echo e(asset('assets/admin/uploads/images/avatar/avatar-04.jpg')); ?>" alt="avatar" />
-      <div class="profile-info mt-1">
+    <img src="<?php echo e(asset('assets/admin/uploads/images/avatar/avatar-04.jpg')); ?>" alt="Profile Picture" class="profile-picture">
+      <div class="profile-info ">
         <h6 class="info-title"><?php echo e(\Illuminate\Support\Facades\Auth::user()->userName); ?></h6>
         <span class="sub-title"><?php echo e(\Illuminate\Support\Facades\Auth::user()->job_title); ?></span>
       </div>

@@ -29,12 +29,7 @@ a{
 .profile .profile-info{
   text-align: center;
 }
-.profile img{
-width:80px;
-height:80px;
-border-radius:40px;
-border:2px solid #000;
-}
+
 .profile-info .info-title{
 font-weight: bold;
 font-size:.9rem;
@@ -42,7 +37,7 @@ text-transform:uppercase;
 
 }
 .profile-info .sub-title{
-  font-size:.8rem;
+  font-size:.9rem;
   margin:-5px;
   color:#1c1e21;
   }

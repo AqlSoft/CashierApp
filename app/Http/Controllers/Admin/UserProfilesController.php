@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use App\Models\Admin;
+use Symfony\Component\HttpFoundation\RedirectResponse as HttpFoundationRedirectResponse;
 
 class UserProfilesController
 {
@@ -60,9 +61,17 @@ class UserProfilesController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id):RedirectResponse
     {
-        //
+      $admin = Admin::findOrFail($id);
+    
+      // تحديد الحقل الذي تم تعديله
+      $field = array_key_first($request->except('_token', '_method'));
+      
+      // تحديث الحقل المحدد فقط
+      $admin->update([$field => $request->input($field)]);
+      
+      return back()->with('success', 'تم تحديث البيانات بنجاح');
     }
 
     /**
