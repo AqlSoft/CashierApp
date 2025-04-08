@@ -41,14 +41,15 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
 
   // Admins Routes
-  Route::get('/list',               [AdminsController::class, 'index'])->name('admin-list');
-  Route::get('/create',             [AdminsController::class, 'create'])->name('admin-new-create');
-  Route::post('/store',             [AdminsController::class, 'store'])->name('store-admin-info');
-  Route::get('/edit/{id}',          [AdminsController::class, 'edit'])->name('edit-admin-info');
-  Route::put('/update',             [AdminsController::class, 'update'])->name('update-admin-info');
-  Route::get('/display/{id}',       [AdminsController::class, 'show'])->name('display-admin-info');
-  Route::delete('/destroy/{id}',    [AdminsController::class, 'destroy'])->name('destroy-admin-info');
-
+  Route::prefix('admins')->group(function () {
+    Route::get('/list',               [AdminsController::class, 'index'])->name('admin-list');
+    Route::get('/create',             [AdminsController::class, 'create'])->name('admin-new-create');
+    Route::post('/store',             [AdminsController::class, 'store'])->name('store-admin-info');
+    Route::get('/edit/{id}',          [AdminsController::class, 'edit'])->name('edit-admin-info');
+    Route::put('/update',             [AdminsController::class, 'update'])->name('update-admin-info');
+    Route::get('/display/{id}',       [AdminsController::class, 'show'])->name('display-admin-info');
+    Route::delete('/destroy/{id}',    [AdminsController::class, 'destroy'])->name('destroy-admin-info');
+  });
   // Products Routes
   Route::prefix('products')->group(function () {
     Route::get('/index',        [ProductsController::class, 'index'])->name('display-product-all');

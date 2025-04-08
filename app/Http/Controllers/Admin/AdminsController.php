@@ -81,6 +81,7 @@ class AdminsController
         //
         $vars = [
             'admin' => Admin::find($id),
+            'roles' => Admin::$roles,
         ];
         return view('admin.admins.edit', $vars);
     }

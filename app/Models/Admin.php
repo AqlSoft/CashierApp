@@ -35,6 +35,25 @@ class Admin extends Authenticatable
         'remember_token',
     ];
 
+    public static $roles = [
+        'super_admin',
+        'supervisor',
+        'admin',
+        'cashier',
+        'driver',
+        'worker',
+    ];
+
+    public function role()
+    {
+        $ra = explode('_', $this->role_name);
+        $r = '';
+        foreach ($ra as $key => $value) {
+            $r .= ucfirst($value) . ' ';
+        }
+        return trim($r);
+    }
+
     public function edit(array $arr)
     {
         foreach ($arr as $key => $value) {
