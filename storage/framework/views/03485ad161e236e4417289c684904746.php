@@ -34,8 +34,13 @@
         <?php echo $__env->make('inc.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <div id="content">
             <header id="main-header" class="">
-              
-                  <p>Arabic</p>
+            <nav aria-label="breadcrumb">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                        <?php echo $__env->yieldContent('header-links'); ?>
+                    </ul>
+                </nav>
+                  <!-- <p>Arabic</p> -->
               
             </header>
             <div class="container-fluid pt-5">

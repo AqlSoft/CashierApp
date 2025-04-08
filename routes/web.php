@@ -15,6 +15,9 @@ use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\MonyBoxesController;
 use App\Http\Controllers\Admin\ShiftsController;
+use App\Http\Controllers\Admin\UserProfilesController;
+
+
 
 // Auth::routes();
 // // Auth::routes(['register' => false]);
@@ -116,6 +119,35 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/edit/{id}',    [MonyBoxesController::class, 'edit'])->name('edit-monyBox-info');
     Route::get('/destroy/{id}', [MonyBoxesController::class, 'destroy'])->name('destroy-monyBox-info');
   });
+  // general settings routes
+  Route::prefix('settings')->group(function () {
+    Route::get('/index',            [SettingsController::class, 'index'])->name('home-setting');
+    Route::put('/update/{id}',      [SettingsController::class, 'update'])->name('admin.settings.update');
+  });
+  // MonyBox routes
+  Route::prefix('monyBoxes')->group(function () {
+    Route::get('/index',        [MonyBoxesController::class, 'index'])->name('all-Mony-box');
+    Route::post('/store',       [MonyBoxesController::class, 'store'])->name('store-Mony-box');
+    Route::post('/update',      [MonyBoxesController::class, 'update'])->name('update-monyBox-info');
+    Route::get('/edit/{id}',    [MonyBoxesController::class, 'edit'])->name('edit-monyBox-info');
+    Route::get('/destroy/{id}', [MonyBoxesController::class, 'destroy'])->name('destroy-monyBox-info');
+  });
+
+  // sales-shifts routes
+  Route::prefix('sales-shifts')->group(function () {
+    Route::get('/index',          [ShiftsController::class, 'index'])->name('all-sales-shifts');
+    Route::post('/store',         [ShiftsController::class, 'store'])->name('store-sales-shifts');
+    Route::get('/close/{shift}',  [ShiftsController::class, 'close'])->name('shifts.close');
+    Route::post('/update',        [ShiftsController::class, 'update'])->name('update-shift-info');
+    Route::get('/edit/{id}',     [ShiftsController::class, 'edit'])->name('edit-shift-info');
+    Route::get('/destroy/{id}',  [ShiftsController::class, 'destroy'])->name('destroy-shift-info');
+  });
+  // users routes
+  Route::prefix('users')->group(function () {
+    Route::get('/profile/{id}',        [UserProfilesController::class, 'view'])->name('view-profile');
+    Route::put('/update/{id}',         [UserProfilesController::class, 'update'])->name('admins.update');
+  });
+
 
   // sales-shifts routes
   Route::prefix('sales-shifts')->group(function () {

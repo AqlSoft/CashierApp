@@ -37,6 +37,14 @@
 
                 <p>Arabic</p>
 
+                <nav aria-label="breadcrumb">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                        @yield('header-links')
+                    </ul>
+                </nav>
+                <!-- <p>Arabic</p> -->
+
             </header>
             <div class="container-fluid py-5 mb-5">
                 <div class="container mt-3">

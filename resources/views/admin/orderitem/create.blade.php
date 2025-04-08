@@ -23,6 +23,7 @@
             @empty
             @endforelse
         </div>
+        
     </h1>
 
     <div class="container">

@@ -17,8 +17,7 @@
         <!-- هنا سيتم اضافة الشفتات -->
         <div class="col col-12 collapse  pt-3" id="addShiftForm">
           <div class="row">
-            <div
-              class="col ">
+            <div class="col ">
               <div class="card card-body">
                 <form action="/admin/sales-shifts/store" method="POST">
                   @csrf
@@ -113,7 +112,7 @@
                 <i class="fas  fa-trash"></i>
               </a>
               @if($shift->status == 'Active')
-              <a href="{{ route('shifts.close', $shift->id) }}" class="btn btn-sm btn-dark">
+              <a href="{{ route('shifts.close', $shift->id) }}" class="btn btn-sm btn-secondary">
 
                 <i class="fas fa-lock"></i> Close
 
