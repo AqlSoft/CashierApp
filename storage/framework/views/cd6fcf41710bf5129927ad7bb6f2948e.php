@@ -21,6 +21,7 @@
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
             <?php endif; ?>
         </div>
+        
     </h1>
 
     <div class="container">

@@ -14,6 +14,9 @@ use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\MonyBoxesController;
 use App\Http\Controllers\Admin\ShiftsController;
+use App\Http\Controllers\Admin\UserProfilesController;
+
+
 
 // Auth::routes();
 // // Auth::routes(['register' => false]);
@@ -117,6 +120,13 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
       Route::post('/update',        [ShiftsController::class, 'update'])->name('update-shift-info');
       Route::get('/edit/{id}',     [ShiftsController::class, 'edit'])->name('edit-shift-info');
       Route::get('/destroy/{id}',  [ShiftsController::class, 'destroy'])->name('destroy-shift-info');
+          
+        });
+          // users routes
+    Route::prefix('users')->group(function () {
+      Route::get('/profile/{id}',        [UserProfilesController::class, 'view'])->name('view-profile');
+      Route::put('/update/{id}',      [UserProfilesController::class, 'update'] )->name('admins.update');
+    
           
         });
     

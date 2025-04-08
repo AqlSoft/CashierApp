@@ -1,10 +1,23 @@
 <div class="main-sidebar flex-shrink-0">
-  <a href="/" class="sidebar-brand d-flex align-items-center gap-1">
-    <div class="restaurant-icon">🏪</div>
-    <span class="fs-5 fw-semibold">CashSys Home</span>
-  </a>
+
+  <div class="sidebar-header d-flex align-items-center justify-content-center flex-column">
+    <div class="logo mt-3 mb-2">
+      <a href="/" class=" d-flex align-items-center gap-1">
+        <span class="restaurant-icon">🏪</span>
+        <span class="fs-5 fw-semibold text-dark">Cashier App</span>
+      </a>
+    </div>
+    <a href="{{route('view-profile' ,\Illuminate\Support\Facades\Auth::user()->id)}}" class="profile mb-2">
+      <img src="{{asset('assets/admin/uploads/images/avatar/avatar-04.jpg')}}" alt="avatar" />
+      <div class="profile-info mt-1">
+        <h6 class="info-title">{{ \Illuminate\Support\Facades\Auth::user()->userName }}</h6>
+        <span class="sub-title">{{ \Illuminate\Support\Facades\Auth::user()->job_title }}</span>
+      </div>
+
+    </a>
+  </div>
   <ul class="list-unstyled ps-0" id="sidebarAccordion">
-  <li class="mb-1">
+    <li class="mb-1">
       <button
         class="btn btn-toggle d-inline-flex align-items-center "
         data-bs-toggle="collapse" data-bs-target="#Settings-collapse1"
@@ -15,19 +28,19 @@
         data-bs-parent="#sidebarAccordion">
         <ul class="btn-toggle-nav list-unstyled fw-normal small">
           <li>
-          <a href="/admin/settings/index"
+            <a href="/admin/settings/index"
               class="rounded {{ Request::is('/admin/settings/index') ? 'active' : '' }}">
               <i class="fa-solid fa-cubes"></i> &nbsp; setting
             </a>
           </li>
           <li>
-          <a href="/admin/monyBoxes/index"
+            <a href="/admin/monyBoxes/index"
               class="rounded {{ Request::is('/admin/monyBoxes/index') ? 'active' : '' }}">
               <i class="fa-solid fa-cubes"></i> &nbsp; MonyBox
             </a>
           </li>
           <li>
-          <a href="/admin/sales-shifts/index"
+            <a href="/admin/sales-shifts/index"
               class="rounded {{ Request::is('/admin/sales-shifts/index') ? 'active' : '' }}">
               <i class="fa-solid fa-cubes"></i> &nbsp; Shifts
             </a>
@@ -42,7 +55,7 @@
               <i class="fa-solid fa-user-shield"></i> &nbsp; Roles
             </a>
           </li>
-          
+
         </ul>
       </div>
     </li>
@@ -63,7 +76,7 @@
             </a>
           </li>
           <li>
-          <a href="/admin/orders/index"
+            <a href="/admin/orders/index"
               class="rounded {{ Request::is('/admin/orders/index') ? 'active' : '' }}">
               <i class="fa-solid fa-cubes"></i> &nbsp; Orders
             </a>
@@ -165,11 +178,11 @@
             </a>
           </li>
           <li>
-          <a href="/admin/clients/index"
+            <a href="/admin/clients/index"
               class="rounded {{ Request::is('/admin/clients/index') ? 'active' : '' }}">
               <i class="fa-solid fa-cubes"></i> &nbsp; Clients
             </a>
-        
+
           </li>
           <li>
             <a href="">
@@ -184,6 +197,6 @@
         </ul>
       </div>
     </li>
-  
+
   </ul>
 </div>

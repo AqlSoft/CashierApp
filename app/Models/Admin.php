@@ -20,7 +20,7 @@ class Admin extends Authenticatable
         'userName',
         'email',
         'password',
-        'roles_name',
+        'job_title',
         'status',
         'last_login_at',
         'last_login_ip',
