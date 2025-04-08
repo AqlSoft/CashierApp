@@ -38,7 +38,7 @@
                     <i class="fas fa-camera me-2"></i>Change Photo
                   </label>
                 </div>
-                <small class="text-muted">JPEG or PNG, max 2MB</small>
+                <small class="text-muted ">JPEG or PNG, max 2MB</small>
               </div>
             </div>
             <!-- Personal Information Section -->
@@ -97,12 +97,12 @@
           <div class="col col-12">
             <div class="selected-products-container" style="font-size: 14px;">
               <!-- Header Row -->
-              <div class="row g-0 border-bottom py-2  fw-bold align-items-center">
-                <div class="col-1 text-center fw-bold fs-6">#</div>
-                <div class="col-3 fw-bold fs-6">Session Name</div>
-                <div class="col-3 text-center fw-bold fs-6">Start Time</div>
-                <div class="col-3 text-center fw-bold fs-6">End Time</div>
-                <div class="col-2 text-center fw-bold fs-6">Status</div>
+              <div class="row g-0 border-bottom py-2  fw-bold align-items-center table-header">
+                <div class="col-1 text-center fw-bold">#</div>
+                <div class="col-3 fw-bold">Session Name</div>
+                <div class="col-3 text-center fw-bold">Start Time</div>
+                <div class="col-3 text-center fw-bold">End Time</div>
+                <div class="col-2 text-center fw-bold">Status</div>
 
               </div>
 

@@ -125,7 +125,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
           // users routes
     Route::prefix('users')->group(function () {
       Route::get('/profile/{id}',        [UserProfilesController::class, 'view'])->name('view-profile');
-      Route::put('/update/{id}',      [UserProfilesController::class, 'update'] )->name('admins.update');
+      Route::put('/update/{id}',         [UserProfilesController::class, 'update'] )->name('admins.update');
     
           
         });

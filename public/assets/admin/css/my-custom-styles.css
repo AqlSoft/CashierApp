@@ -227,7 +227,7 @@ header#main-header {
     left: 0;
     width: 100%;
     height: 4px;
-    background-color: #000;
+    background-color: rgb(148, 200, 240);;;
   }
 
   .tab-content {
@@ -288,4 +288,9 @@ header#main-header {
     justify-content: flex-end;
     gap: 10px;
     margin-top: 20px;
+  }
+
+  .table-header{
+    background: linear-gradient(#fff, #dcdcdc);
+    padding-top: 20px;
   }
