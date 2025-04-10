@@ -20,7 +20,7 @@ class Admin extends Authenticatable
         'userName',
         'email',
         'password',
-        'roles_name',
+        'job_title',
         'status',
         'last_login_at',
         'last_login_ip',
@@ -34,6 +34,25 @@ class Admin extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public static $roles = [
+        'super_admin',
+        'supervisor',
+        'admin',
+        'cashier',
+        'driver',
+        'worker',
+    ];
+
+    public function role()
+    {
+        $ra = explode('_', $this->role_name);
+        $r = '';
+        foreach ($ra as $key => $value) {
+            $r .= ucfirst($value) . ' ';
+        }
+        return trim($r);
+    }
 
     public function edit(array $arr)
     {
@@ -49,8 +68,23 @@ class Admin extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function profile()
+    {
+        return $this->hasOne(AdminProfile::class, 'admin_id');
+    }
+
     public static function currentUser()
     {
         return Auth::user()->id;
+    }
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class, 'admin_id');
+    }
+
+    public function activeShift()
+    {
+        return $this->hasOne(Shift::class, 'admin_id')
+            ->where('status', true);
     }
 }
