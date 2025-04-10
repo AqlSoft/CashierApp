@@ -1,29 +1,129 @@
 @extends('layouts.admin')
-
 @section('extra-links')
 <link rel="stylesheet" href="{{ asset('assets/admin/css/orderitem.css') }}">
 @endsection
-
 @section('contents')
-
-    <h1 class="mt-3 pb-2 d-flex" style="border-bottom: 1px solid #dedede">
-        Add Order Items <a href="{{ route('fast-creqate-order') }}" class="py-0 mx-2 d-flex align-items-center"><i
-                data-bs-toggle="tooltip" title="Add New order" class="fa fa-plus py-0"></i> New</a>
-        <div class="row gap-1 mx-4">
-            @forelse ($orders as $pendingOrder)
-                @if ($pendingOrder->wait_no == 'new')
-                    <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
-                        title="Order SN - {{ $pendingOrder->order_sn }}"
-                        class="col col-auto btn btn-sm btn-info sm">{{ $pendingOrder->wait_no }}</a>
-                @else
-                    <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
-                        title="Order SN - {{ $pendingOrder->order_sn }}"
-                        class="col col-auto btn btn-sm btn-outline-secondary sm">{{ $pendingOrder->wait_no }}</a>
-                @endif
-            @empty
-            @endforelse
-        </div>
+<style>
+    /* تخصيص السلايدر */
+    .orders-slider-container {
+        position: relative;
+        width: auto;
+        overflow: hidden;
+        padding: 0 50px;
         
+    }
+    
+    .owl-carousel {
+        width: 100%;
+    }
+    
+    .owl-stage {
+        display: flex;
+        align-items: center;
+    }
+    
+    .owl-item {
+        width: auto !important;
+        flex-shrink: 0;
+        padding: 0 5px;
+    }
+    
+    /* تخصيص أسهم التنقل */
+    .owl-nav {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+    
+    .owl-nav button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.7) !important;
+        color: white !important;
+        border: none !important;
+        width: 40px;
+        height: 40px;
+        border-radius: 50% !important;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        pointer-events: all;
+        z-index: 1000;
+    }
+    
+    .owl-nav button.owl-prev {
+        left: 0;
+    }
+    
+    .owl-nav button.owl-next {
+        right: 0;
+    }
+    
+    .owl-nav button span {
+        font-size: 28px;
+        line-height: 0.6;
+        position: relative;
+    }
+    
+    .order-btn {
+        margin: 0 5px;
+        white-space: nowrap;
+        min-width: 50px;
+    }
+  
+
+.owl-prev{
+    background: red;
+    position: absolute;
+    margin-left: -50px;
+    margin-top: 14px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    padding-top: 5px;
+}
+.owl-next {
+    background: red;
+    margin-left: 700px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-top: -40px;
+    z-index: 1000;
+}
+
+</style>
+    <h1 class="mt-3 pb-2 d-flex align-items-center" style="border-bottom: 1px solid #dedede">
+        Add Order Items 
+        <a href="{{ route('fast-creqate-order') }}" class="py-0 mx-2 d-flex align-items-center">
+            <i data-bs-toggle="tooltip" title="Add New order" class="fa fa-plus py-0"></i> New
+        </a>
+        
+        <!-- السلايدر المعدل -->
+        <div class="orders-slider-container " style="width: 75%;">
+            <div class="owl-carousel owl-theme">
+                @forelse ($orders as $pendingOrder)
+                    <div class="item">
+                        @if ($pendingOrder->wait_no == 'new')
+                            <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
+                               title="Order SN - {{ $pendingOrder->order_sn }}"
+                               class="btn btn-sm btn-info order-btn">{{ $pendingOrder->wait_no }}</a>
+                        @else
+                            <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
+                               title="Order SN - {{ $pendingOrder->order_sn }}"
+                               class="btn btn-sm btn-outline-secondary order-btn">{{ $pendingOrder->wait_no }}</a>
+                        @endif
+                    </div>
+                @empty
+                    <div class="item">
+                        <span class="btn btn-sm btn-light order-btn">No orders</span>
+                    </div>
+                @endforelse
+            </div>
+        </div>
     </h1>
 
     <div class="container">
@@ -222,8 +322,33 @@
             </div>
         </div>
     </div>
-
+  
     <script>
+        $(document).ready(function(){
+            // تهيئة Owl Carousel مع إعدادات محسنة
+            $('.owl-carousel').owlCarousel({
+                loop: true,
+                margin: -15,
+                nav: true,
+                dots: false,
+                responsive: {
+                    0: { items: 3 },
+                    576: { items: 5 },
+                    768: { items: 8 },
+                    992: { items: 12 }
+                },
+                navText: [
+                    '<span aria-hidden="true">&laquo;</span>',
+                    '<span aria-hidden="true">&raquo;</span>'
+                ],
+                navContainer: '.orders-slider-container',
+                navClass: ['owl-prev', 'owl-next']
+            });
+            
+            // يمكنك إضافة هذا للتحقق من أن السلايدر يعمل
+            console.log('Owl Carousel initialized:', $('.owl-carousel').owlCarousel());
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             // Filter products by category
             $('#category-select').change(function() {
