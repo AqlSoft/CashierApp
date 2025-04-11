@@ -8,7 +8,9 @@ use App\Models\Country;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log; // Add this line
 use Illuminate\Support\Facades\Hash;
+
 
 class AdminsController
 {
@@ -104,5 +106,42 @@ class AdminsController
         } catch (Exception $err) {
             return redirect()->back()->withError('مش عارفين بس مالك وماله بتحذفه ليه؟');
         }
+    }
+
+    public function searchByUsername(Request $request)
+    {
+        $query = null == $request->search_query ?
+            Admin::with('profile')->get() :
+            Admin::where('userName', 'LIKE', '%' . trim($request->search_query) . '%')->with('profile');
+        // trying to get All Admins who has name like $name
+        $admins = $query->get();
+
+        return view('admin.admins.search.list', compact('admins'));
+    }
+
+    public function searchByEmail(Request $request)
+    {
+        $query = null == $request->search_query ?
+            Admin::with('profile')->get() :
+            Admin::where('email', 'LIKE', '%' . trim($request->search_query) . '%')->with('profile');
+        // trying to get All Admins who has name like $name
+        $admins = $query->get();
+
+        return view('admin.admins.search.list', compact('admins'));
+    }
+
+    public function searchByIdNumber(Request $request)
+    {
+
+
+        $query = null == $request->search_query ?
+            AdminProfile::all() :
+            AdminProfile::where('id_number', 'LIKE', '%' . trim($request->search_query) . '%');
+        // trying to get All Admins who has name like $name
+        $profiles = $query->pluck('admin_id')->get();
+        //$admins');
+        //$admins = Admin::whereIn('id', $profiles)->with('admin')->get();
+
+        return $profiles; //view('admin.admins.search.list', compact('admins'));
     }
 }
