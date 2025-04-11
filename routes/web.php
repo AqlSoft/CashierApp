@@ -42,13 +42,17 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
   // Admins Routes
   Route::prefix('admins')->group(function () {
-    Route::get('/list',               [AdminsController::class, 'index'])->name('admin-list');
-    Route::get('/create',             [AdminsController::class, 'create'])->name('admin-new-create');
-    Route::post('/store',             [AdminsController::class, 'store'])->name('store-admin-info');
-    Route::get('/edit/{id}',          [AdminsController::class, 'edit'])->name('edit-admin-info');
-    Route::put('/update',             [AdminsController::class, 'update'])->name('update-admin-info');
-    Route::get('/display/{id}',       [AdminsController::class, 'show'])->name('display-admin-info');
-    Route::delete('/destroy/{id}',    [AdminsController::class, 'destroy'])->name('destroy-admin-info');
+    Route::get('/list',                         [AdminsController::class, 'index'])->name('admin-list');
+    Route::get('/create',                       [AdminsController::class, 'create'])->name('admin-new-create');
+    Route::post('/store',                       [AdminsController::class, 'store'])->name('store-admin-info');
+    Route::get('/edit/{id}',                    [AdminsController::class, 'edit'])->name('edit-admin-info');
+    Route::put('/update',                       [AdminsController::class, 'update'])->name('update-admin-info');
+    Route::get('/display/{id}',                 [AdminsController::class, 'show'])->name('display-admin-info');
+    Route::delete('/destroy/{id}',              [AdminsController::class, 'destroy'])->name('destroy-admin-info');
+    Route::get('/search/admins/by/username',    [AdminsController::class, 'searchByUsername'])->name('search-admins-by-username');
+    Route::get('/search/admins/by/email',       [AdminsController::class, 'searchByEmail'])->name('search-admins-by-email');
+    Route::get('/search/admins/by/phone',       [AdminsController::class, 'searchByPhone'])->name('search-admins-by-phone');
+    Route::get('/search/admins/by/id/number',   [AdminsController::class, 'searchByIdNumber'])->name('search-admins-by-id-number');
   });
   // Products Routes
   Route::prefix('products')->group(function () {

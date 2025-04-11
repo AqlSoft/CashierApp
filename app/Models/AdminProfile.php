@@ -16,6 +16,7 @@ class AdminProfile extends Model
         'phone',
         'country',
         'city',
+        'id_number',
         'phone',
         'address',
         'image',
