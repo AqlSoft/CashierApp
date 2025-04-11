@@ -1,36 +1,69 @@
 @extends('layouts.admin')
 
 @section('extra-links')
-<link rel="stylesheet" href="{{ asset('assets/admin/css/orderitem.css') }}">
+    {{-- Include your custom CSS for order items --}}
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/orderitem.css') }}">
+    {{-- Include Swiper CSS from CDN --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 @endsection
 
 @section('contents')
-
-    <h1 class="mt-3 pb-2 d-flex" style="border-bottom: 1px solid #dedede">
-        Add Order Items <a href="{{ route('fast-creqate-order') }}" class="py-0 mx-2 d-flex align-items-center"><i
-                data-bs-toggle="tooltip" title="Add New order" class="fa fa-plus py-0"></i> New</a>
-        <div class="row gap-1 mx-4">
-            @forelse ($orders as $pendingOrder)
-                @if ($pendingOrder->wait_no == 'new')
-                    <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
-                        title="Order SN - {{ $pendingOrder->order_sn }}"
-                        class="col col-auto btn btn-sm btn-info sm">{{ $pendingOrder->wait_no }}</a>
-                @else
-                    <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
-                        title="Order SN - {{ $pendingOrder->order_sn }}"
-                        class="col col-auto btn btn-sm btn-outline-secondary sm">{{ $pendingOrder->wait_no }}</a>
-                @endif
-            @empty
-            @endforelse
+    {{-- Header Row with Flexbox --}}
+    <div class="title-slider-header">
+        {{-- Left Part (30%) --}}
+        <div class="title-new-section">
+        <h1>Add Order Items</h1>
+        @if(isset($shift) && $shift->status == 'Active')
+    <a href="{{ route('fast-create-order', $shift->id) }}" >
+        <i class="fas fa-plus"></i> New 
+    </a>
+@else
+    <button class="btn btn-secondary" disabled>
+        <i class="fas fa-plus"></i> No Active Shift
+    </button>
+@endif
         </div>
-    </h1>
 
+        {{-- Right Part (70%) --}}
+        <div class="slider-section">
+            <div class="order-slider-container">
+                <div class="swiper order-slider">
+                    <div class="swiper-wrapper">
+                        @forelse ($orders as $pendingOrder)
+                            <div class="swiper-slide"> {{-- Each item must be inside swiper-slide --}}
+                                @if ($pendingOrder->wait_no == 'new')
+                                    <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
+                                        title="Order SN - {{ $pendingOrder->order_sn }}"
+                                        class="btn btn-sm btn-info">
+                                        {{ $pendingOrder->wait_no }}
+                                    </a>
+                                @else
+                                    <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
+                                        title="Order SN - {{ $pendingOrder->order_sn }}"
+                                        class="btn btn-sm btn-outline-secondary">
+                                        {{ $pendingOrder->wait_no }}
+                                    </a>
+                                @endif
+                            </div>
+                        @empty
+                            {{-- Optional: You can add a placeholder slide if the list is empty --}}
+                            {{-- <div class="swiper-slide"><span class="text-muted">No pending orders</span></div> --}}
+                        @endforelse
+                    </div>
+                </div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Rest of your page content --}}
     <div class="container">
         <div class="row mt-3 d-flex gap-3">
             <div class="col col-4">
+                {{-- Left Column Content (Category select, Order Items list) --}}
                 <div class="row">
                     <div class="col col-12">
-                        <!-- Category list -->
                         <select class="form-select form-control mt-2" id="category-select">
                             <option selected value="">All category</option>
                             @foreach ($categories as $category)
@@ -42,8 +75,7 @@
                 <div class="row mt-2">
                     <div class="col col-12">
                         <div class="selected-products-container" style="font-size: 14px;">
-                            <!-- Header Row -->
-                            <div class="row g-0 border-bottom py-2  fw-bold align-items-center">
+                            <div class="row g-0 border-bottom py-2 fw-bold align-items-center">
                                 <div class="col-1 text-center fw-bold fs-6">#</div>
                                 <div class="col-3 ps-2 fw-bold fs-6">Meal</div>
                                 <div class="col-2 text-center fw-bold fs-6">Qty</div>
@@ -52,11 +84,9 @@
                                 <div class="col-2 text-center fw-bold fs-6">Action</div>
                             </div>
 
-                            <!-- Items Rows -->
                             @foreach ($order->orderItems as $oItem)
                                 <div class="row g-0 border-bottom py-2 align-items-center">
-                                    <form action="{{ route('update-orderitem') }}" method="post"
-                                        class="d-flex align-items-center w-100">
+                                    <form action="{{ route('update-orderitem') }}" method="post" class="d-flex align-items-center w-100 p-0">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $oItem->id }}">
 
@@ -70,12 +100,12 @@
                                         </div>
 
                                         <div class="col-2 text-center fs-6">
-                                            <input type="number" name="price" value="{{ old('price', $oItem->price) }}"
+                                            <input type="number" step="0.01" name="price" value="{{ old('price', $oItem->price) }}"
                                                 style="width: 70px; border: 1px solid #dedede; padding: 2px 5px;"
                                                 class="text-center fs-6">
                                         </div>
 
-                                        <div class="col-2 text-end fs-6">{{ $oItem->quantity * $oItem->price }}</div>
+                                        <div class="col-2 text-end fs-6">{{ number_format($oItem->quantity * $oItem->price, 2) }}</div> {{-- Added number_format --}}
 
                                         <div class="col-2 text-center fs-6">
                                             <div class="d-flex justify-content-center gap-1">
@@ -96,16 +126,15 @@
                             @endforeach
                         </div>
 
-
                         <div class="py-1" style="border-bottom: 1px solid #dedede"></div>
-                        <!-- Display total price -->
-                        <div class="total-price mt-2">
-                            <h4>Total Price: <span id="total-price">{{ $totalPrice }}</span></h4>
+                        <div class="total-price mt-2 d-flex justify-content-between align-items-center">
+                            <h4>Total Price:</h4>
+                            <h4><span id="total-price">{{ number_format($totalPrice, 2) }}</span></h4> {{-- Added number_format --}}
                         </div>
                         <div class="py-1" style="border-bottom: 1px solid #dedede"></div>
-                        <div class="input-group pt-2 px-3 justify-content-end align-items-center">
+                        <div class="input-group pt-2 px-3 justify-content-end align-items-center gap-2"> {{-- Added gap --}}
                             <a href="/admin/orders/index" class="btn px-3 py-1 btn-outline-secondary btn-sm"
-                                title="Cancel Invoice">
+                                title="Back To Order List">
                                 Back To Order
                             </a>
                             @if ($order->status == 3 && $order->invoice)
@@ -115,35 +144,37 @@
                                 </a>
                             @endif
                             @if ($order->status === 2)
-                                <button class="btn px-3 py-1 btn-outline-secondary btn-sm dropdown-toggle"
-                                    id="submit-order-items" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Finish
-                                </button>
+                                <div class="dropdown"> {{-- Wrap dropdown elements --}}
+                                    <button class="btn px-3 py-1 btn-outline-secondary btn-sm dropdown-toggle"
+                                        id="submit-order-items" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Finish
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" data-bs-target="#cashPaymentModal"
+                                                data-bs-toggle="modal">Cash Payment</a></li>
+                                        {{-- Add other payment methods if needed --}}
+                                        {{-- <li><a class="dropdown-item" href="#">Debit Card</a></li> --}}
+                                        {{-- <li><a class="dropdown-item" href="#">Transfer</a></li> --}}
+                                        {{-- <li><a class="dropdown-item" href="#">Credit Sales</a></li> --}}
+                                    </ul>
+                                </div>
                             @elseif($order->status === 3)
                                 <a href="{{ route('allow-order-editting', [$order->id]) }}"
                                     class="btn px-3 py-1 btn-outline-secondary btn-sm">Allow edit</a>
                             @endif
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item active" href="#" data-bs-target="#cashPaymentModal"
-                                        data-bs-toggle="modal">Cash Payment</a></li>
-                                <li><a class="dropdown-item" href="#">Debit Card</a></li>
-                                <li><a class="dropdown-item" href="#">Transfer</a></li>
-                                <li><a class="dropdown-item" href="#">Credit Sales</a></li>
-                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="col col-7 pb-3 pt-3 px-4">
-                <!-- Products display -->
                 <div class="row d-flex gap-1" id="product-list">
                     @if (isset($products) && count($products))
                         @foreach ($products as $product)
                             <div class="col col-2 productlist p-0"
                                 style="border-radius: 6px;border: 2px solid {{ in_array($product->id, $Ois) ? '#007bff' : '#f7f5f5' }}"
                                 data-category="{{ $product->category_id }}">
-                                <form action="/admin/orderItems/store/{{ $order->id }}" method="POST">
+                                <form action="/admin/orderItems/store/{{ $order->id }}" method="POST" class="m-0"> {{-- Removed margin from form --}}
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     <input type="hidden" name="order_id" value="{{ $order->id }}">
@@ -153,7 +184,7 @@
                                                 style="background-image: url('{{ $product->image ? asset('assets/admin/uploads/images/products/' . $product->image) : asset('assets/admin/images/default-product.png') }}');">
                                             </div>
                                             <div class="price-overlay">
-                                                <h5 class="price-display">{{ $product->sale_price }}</h5>
+                                                <h5 class="price-display">{{ number_format($product->sale_price, 2) }}</h5> {{-- Added number_format --}}
                                             </div>
                                         </div>
                                         <div class="productlistcontent">
@@ -174,103 +205,141 @@
         </div>
     </div>
 
-    <!-- Cash Payment modal -->
     <div class="modal fade" id="cashPaymentModal" aria-hidden="true" aria-labelledby="cashPaymentModalLabel"
         tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
-                <h1 class="modal-title fs-5 mt-2 ps-3" id="cashPaymentModalLabel"
-                    style="border-bottom: 1px solid #dedede">Cash Payment</h1>
-                <form id="cash-payment-form" action="{{ route('payments.cash.store') }}" method="POST">
+                <div class="modal-header" style="padding: 0.5rem 1rem; border-bottom: 1px solid #dedede;"> {{-- Use modal-header for better structure --}}
+                    <h1 class="modal-title fs-5" id="cashPaymentModalLabel">Cash Payment</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                 <form id="cash-payment-form" action="{{ route('payments.cash.store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="order_id" value="{{ $order->id }}">
                     <div class="modal-body">
-                        <div class="input-group sm mb-1">
-                            <label class="input-group-text" for="amount">Amount</label>
-                            <input type="number" step="0.01" class="form-control sm" name="amount" id="amount"
-                                value="{{ $totalPrice }}" required readonly>
+                        <div class="input-group input-group-sm mb-2"> {{-- Use input-group-sm and consistent margin --}}
+                            <span class="input-group-text" style="width: 110px;">Amount</span> {{-- Use span and fixed width for alignment --}}
+                            <input type="number" step="0.01" class="form-control text-end" name="amount" id="amount"
+                                value="{{ number_format($totalPrice, 2, '.', '') }}" required readonly>
                         </div>
-                        <div class="input-group sm mb-1">
-                            <label class="input-group-text" for="vatAmount">Vat Amount</label>
-                            <input type="number" step="0.01" class="form-control sm" name="vat_amount"
-                                id="vatAmount" value="{{ $vatAmount }}" required readonly>
+                        <div class="input-group input-group-sm mb-2">
+                            <span class="input-group-text" style="width: 110px;">Vat Amount</span>
+                            <input type="number" step="0.01" class="form-control text-end" name="vat_amount"
+                                id="vatAmount" value="{{ number_format($vatAmount, 2, '.', '') }}" required readonly>
                         </div>
-                        <div class="input-group sm mb-1">
-                            <label class="input-group-text" for="total_amount">Total Amount</label>
-                            <input type="number" step="0.01" class="form-control sm" name="total_amount"
-                                id="total_amount" value="{{ $totalAmount }}" required readonly>
+                        <div class="input-group input-group-sm mb-2">
+                            <span class="input-group-text" style="width: 110px;">Total Amount</span>
+                            <input type="number" step="0.01" class="form-control text-end fw-bold" name="total_amount"
+                                id="total_amount" value="{{ number_format($totalAmount, 2, '.', '') }}" required readonly>
                         </div>
-                        <div class="input-group sm mb-1">
-                            <label class="input-group-text" for="paid">Paid</label>
-                            <input type="number" step="0.01" class="form-control sm" name="paid" id="paid"
-                                value="{{ $totalAmount }}" required>
+                        <hr class="my-2"> {{-- Separator --}}
+                        <div class="input-group input-group-sm mb-2">
+                             <span class="input-group-text" style="width: 110px;">Paid</span>
+                            <input type="number" step="0.01" class="form-control text-end" name="paid" id="paid"
+                                value="{{ number_format($totalAmount, 2, '.', '') }}" required>
                         </div>
-                        <div class="input-group sm mb-1">
-                            <label class="input-group-text" for="remaining">Remaining</label>
-                            <input type="number" step="0.01" class="form-control sm" name="remaining"
-                                id="remaining" value="0" required readonly>
+                        <div class="input-group input-group-sm mb-1">
+                            <span class="input-group-text" style="width: 110px;">Remaining</span>
+                            <input type="number" step="0.01" class="form-control text-end" name="remaining"
+                                id="remaining" value="0.00" required readonly>
                         </div>
-
-                        <div class="input-group pt-2 px-3 mt-2 justify-content-end" style="border-top: 1px solid #dedede">
-                            <button type="button" class="btn px-3 py-1 btn-outline-secondary btn-sm"
-                                data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn px-3 py-1 btn-primary btn-sm">Confirm</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer" style="border-top: 1px solid #dedede; padding: 0.5rem;"> {{-- Use modal-footer --}}
+                        <button type="button" class="btn px-3 py-1 btn-outline-secondary btn-sm"
+                            data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn px-3 py-1 btn-primary btn-sm">Confirm</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
+    {{-- Include Swiper JS library - Use defer to load after HTML parsing --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    {{-- Your Custom JavaScript --}}
     <script>
+        // Wrap all JS in DOMContentLoaded to ensure elements are loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Filter products by category
-            $('#category-select').change(function() {
-                const selectedCategoryId = $(this).val();
-                $('.productlist').each(function() {
-                    const productCategoryId = $(this).data('category');
-                    if (selectedCategoryId === "" || productCategoryId == selectedCategoryId) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
+
+            // --- Swiper Initialization ---
+            const swiper = new Swiper('.order-slider', {
+                // direction: 'horizontal', // Default
+                loop: false,
+                slidesPerView: 'auto', // Crucial for variable width items
+                spaceBetween: 8, // Space between buttons
+                navigation: {
+                    nextEl: '.order-slider-container .swiper-button-next',
+                    prevEl: '.order-slider-container .swiper-button-prev',
+                    disabledClass: 'swiper-button-disabled', // Class for disabled state styling
+                },
+                allowTouchMove: true,
+                grabCursor: true,
+                freeMode: false, // Prevent free scrolling, snap to slides
+                passiveListeners: true, // Improve touch scroll performance
             });
 
-            // Initialize modal behavior
-            const cashPaymentModal = document.getElementById('cashPaymentModal');
-            if (cashPaymentModal) {
-                cashPaymentModal.addEventListener('shown.bs.modal', function() {
-                    const paidInput = document.getElementById('paid');
-                    const totalAmount = parseFloat(document.getElementById('total_amount').value);
+            // --- Category Filtering ---
+            const categorySelect = document.getElementById('category-select');
+            const productList = document.querySelectorAll('.productlist');
 
-                    // Set paid amount to total amount
+            if(categorySelect){
+                categorySelect.addEventListener('change', function() {
+                    const selectedCategoryId = this.value;
+                    productList.forEach(function(product) {
+                        const productCategoryId = product.dataset.category;
+                        if (selectedCategoryId === "" || productCategoryId == selectedCategoryId) {
+                            product.style.display = ''; // Show element (reset display)
+                        } else {
+                            product.style.display = 'none'; // Hide element
+                        }
+                    });
+                });
+            }
+
+
+            // --- Cash Payment Modal Logic ---
+            const cashPaymentModal = document.getElementById('cashPaymentModal');
+            const paidInput = document.getElementById('paid');
+            const totalAmountInput = document.getElementById('total_amount'); // Renamed for clarity
+            const remainingInput = document.getElementById('remaining'); // Renamed for clarity
+
+             function updateRemaining() {
+                 // Ensure inputs exist before accessing value
+                 if (!totalAmountInput || !paidInput || !remainingInput) return;
+
+                 const totalAmount = parseFloat(totalAmountInput.value) || 0;
+                 const paid = parseFloat(paidInput.value) || 0;
+                 const remaining = totalAmount - paid;
+                 remainingInput.value = remaining.toFixed(2);
+             }
+
+            if (cashPaymentModal && paidInput && totalAmountInput && remainingInput) {
+                cashPaymentModal.addEventListener('shown.bs.modal', function() {
+                    const totalAmount = parseFloat(totalAmountInput.value) || 0;
+
+                    // Set paid amount to total amount initially
                     paidInput.value = totalAmount.toFixed(2);
 
-                    // Calculate remaining amount
+                    // Calculate remaining amount initially
                     updateRemaining();
-
-
 
                     // Focus on paid input and select all text
                     paidInput.focus();
                     paidInput.select();
                 });
-            }
 
-            // Update remaining amount when paid amount changes
-            const paidInput = document.getElementById('paid');
-            if (paidInput) {
+                // Update remaining amount when paid amount changes
                 paidInput.addEventListener('input', updateRemaining);
             }
 
-            function updateRemaining() {
-                const totalAmount = parseFloat(document.getElementById('total_amount').value);
-                const paid = parseFloat(document.getElementById('paid').value) || 0;
-                const remaining = totalAmount - paid;
-                document.getElementById('remaining').value = remaining.toFixed(2);
-            }
-        });
+             // Initialize Bootstrap tooltips (if you use them elsewhere)
+             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+             })
+
+        }); // End DOMContentLoaded
     </script>
 
 @endsection

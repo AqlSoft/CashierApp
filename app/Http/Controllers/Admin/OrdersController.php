@@ -8,6 +8,7 @@ use App\Models\Admin;
 use App\Models\Product;
 use App\Models\Party;
 use App\Models\User;
+use App\Models\Shift;
 
 class OrdersController extends Controller
 {
@@ -48,11 +49,13 @@ class OrdersController extends Controller
     }
   }
 
-  public function fastCreate()
+  public function fastCreateOrder($shift_id)
   {
+    $shift = Shift::findOrFail($shift_id);
     try {
       $order = Order::create([
         'order_sn'        => Order::generateSerialNumber(),
+        'shift_id'        =>$shift->id,
         'order_date'      => now(),
         'wait_no'      => 'new',
         'customer_id'     => 1, // customer_id هو العميل المحدد

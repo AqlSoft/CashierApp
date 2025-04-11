@@ -20,12 +20,20 @@ class OrdersItemsController extends Controller
 
   public function create(string $id)
   {
-    $orders = Order::all();
 
-    $order = Order::with('orderItems.product')->findOrFail($id);
-    // $order->status = 2;
-    // $order->save();
+    // 1. احصل على الطلب مع العلاقات
+    $order = Order::with(['shift', 'orderItems.product'])->findOrFail($id);
 
+    // 2. تحقق من وجود الشفت المرتبط
+    if (!$order->shift) {
+        return redirect()->back()
+               ->with('error', 'لا يوجد شفت مرتبط بهذا الطلب');
+    }
+
+    $shift = $order->shift;
+
+    // 3. الآن يمكنك استخدام shift_id بأمان
+    $orders = Order::where('shift_id', $shift->id)->get();
 
     // حساب الكميات والمبالغ
     $quantities = [];
@@ -54,6 +62,7 @@ class OrdersItemsController extends Controller
       'totalAmount' => $totalAmount,
       'remaining'   => $totalAmount, // المبلغ المتبقي
       'status'      => Order::getStatusList(),
+      'shift'    => $shift, 
     ];
 
     return view('admin.orderitem.create', $vars);

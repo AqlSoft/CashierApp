@@ -21,6 +21,7 @@ class Order extends Model
     'notes',
     'status',
     'wait_no',
+    'shift_id',
     'created_by',
     'updated_by',
 ];
@@ -94,6 +95,12 @@ protected $dates=['deleted_at'];
     {
         return $this->hasMany(OrderItem::class, 'order_id');
     } 
+
+public function shift()
+{
+    return $this->belongsTo(Shift::class ,'shift_id');
+}
+
 
     
 /**

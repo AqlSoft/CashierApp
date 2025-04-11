@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\MonyBoxesController;
 use App\Http\Controllers\Admin\ShiftsController;
+use App\Http\Controllers\Admin\UserProfilesController;
 
 // Auth::routes();
 // // Auth::routes(['register' => false]);
@@ -60,10 +61,10 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/destroy/{id}', [ProductsController::class, 'destroy'])->name('destroy-product-info');
   });
 
-  // orders Routes
+  // orders Routes 
   Route::prefix('orders')->group(function () {
     Route::get('/index',              [OrdersController::class, 'index'])->name('display-order-all');
-    Route::get('/fast/create',        [OrdersController::class, 'fastCreate'])->name('fast-creqate-order');
+    Route::get('/fast/creater/{shift_id}',        [OrdersController::class, 'fastCreateOrder'])->name('fast-create-order');
     Route::post('/store',             [OrdersController::class, 'store'])->name('store-new-order');
     Route::get('/display/{id}',       [OrdersController::class, 'show'])->name('view-order-info');
     Route::post('/update',            [OrdersController::class, 'update'])->name('update-order-info');
@@ -117,6 +118,12 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/destroy/{id}', [MonyBoxesController::class, 'destroy'])->name('destroy-monyBox-info');
   });
 
+    // users routes
+    Route::prefix('users')->group(function () {
+      Route::get('/profile/{id}',        [UserProfilesController::class, 'view'])->name('view-profile');
+      Route::put('/update/{id}',         [UserProfilesController::class, 'update'])->name('admins.update');
+    });
+  
   // sales-shifts routes
   Route::prefix('sales-shifts')->group(function () {
     Route::get('/index',          [ShiftsController::class, 'index'])->name('all-sales-shifts');

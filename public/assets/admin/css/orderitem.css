@@ -121,3 +121,111 @@ border: 1px solid #dedede;
     -webkit-appearance: none;
     margin: 0;
   }
+  /*  section  Slider  */
+        /* Basic Reset/Defaults */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        /* Container for Title and Slider Flex Layout */
+        .title-slider-header {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #dee2e6; 
+            padding-bottom: 0.5rem;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        /* Left side: Title and New Button */
+        .title-new-section {
+            flex: 0 0 30%; 
+            display: flex;
+            align-items: center;
+            padding-right: 15px;
+            overflow: hidden;
+        }
+        .title-new-section h1 {
+            margin-bottom: 0;
+            margin-right: 0.75rem;
+            font-size: 1.5rem; 
+            white-space: nowrap; 
+            text-overflow: ellipsis; 
+            overflow: hidden; 
+            flex-shrink: 1;
+        }
+        .title-new-section a {
+             font-size: 1rem; 
+             white-space: nowrap;
+             flex-shrink: 0; 
+             display: inline-flex; 
+             align-items: center;
+        }
+         .title-new-section a i {
+             margin-right: 0.25rem;
+         }
+
+        /* Right side: Slider Container */
+        .slider-section {
+            flex: 1 1 70%; 
+            min-width: 0; 
+            overflow: hidden; 
+            margin-left:-80px;
+        }
+
+        /* Swiper Slider Container Styles */
+        .order-slider-container {
+            position: relative;
+            width: 100%;
+            padding: 0 35px; 
+        }
+
+        /* Swiper main element */
+        .order-slider {
+             width: 100%; 
+             overflow: hidden; 
+        }
+
+        /* Individual slides (buttons) */
+        .order-slider .swiper-slide {
+            width: auto !important; 
+        }
+
+        /* Arrow Styles */
+        .order-slider-container .swiper-button-next,
+        .order-slider-container .swiper-button-prev {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px; 
+            margin-top: 0;
+            background-color: rgba(248, 249, 250, 0.8);
+            border-radius: 50%;
+            color: #0d6efd; 
+            z-index: 10;
+            transition: opacity 0.2s ease-in-out;
+            border: 1px solid #dee2e6; 
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+        }
+        .order-slider-container .swiper-button-prev { left: 5px; } 
+        .order-slider-container .swiper-button-next { right: 5px; } 
+        .order-slider-container .swiper-button-next::after,
+        .order-slider-container .swiper-button-prev::after {
+            font-size: 12px; 
+            font-weight: bold;
+        }
+        .order-slider-container .swiper-button-disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Main page content container */
+        .container {
+            /
+             padding-left: 15px;
+             padding-right: 15px;
+        }

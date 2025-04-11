@@ -1,8 +1,21 @@
 <div class="main-sidebar flex-shrink-0">
-    <a href="/" class="sidebar-brand d-flex align-items-center gap-1">
-        <div class="restaurant-icon">🏪</div>
-        <span class="fs-5 fw-semibold">CashSys Home</span>
+<div class=" d-flex align-items-center justify-content-center flex-column">
+    <div class="logo mt-3 mb-2">
+        <a href="/" class=" d-flex align-items-center gap-1">
+            <span class="restaurant-icon">🏪</span>
+            <span class="fs-5 fw-semibold text-dark">Cashier App</span>
+        </a>
+    </div>
+    <a href="{{ route('view-profile', \Illuminate\Support\Facades\Auth::user()->id) }}" class="profile mb-2">
+        <img src="{{ asset('assets/admin/uploads/images/avatar/avatar-04.jpg') }}" alt="Profile Picture"
+            class="profile-picture">
+        <div class="profile-info ">
+            <h6 class="info-title">{{ \Illuminate\Support\Facades\Auth::user()->userName }}</h6>
+            <span class="sub-title">{{ \Illuminate\Support\Facades\Auth::user()->job_title }}</span>
+        </div>
+
     </a>
+</div>
     <ul class="list-unstyled ps-0" id="sidebarAccordion">
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
@@ -54,7 +67,7 @@
                     <li>
                         <a href="/admin/sales-shifts/index"
                             class="rounded {{ Request::is('/admin/sales-shifts/index') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; Shifts
+                            <i class="fa-solid fa-cubes"></i> &nbsp; Sessions
                         </a>
                     </li>
                     <li>

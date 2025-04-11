@@ -105,9 +105,5 @@
   </div>
 
 </div>
-<script>
-  var date = $('.fc-datepicker').datepicker({
-    dateFormat: 'yy-mm-dd'
-  }).val();
-</script>
+
 @endsection

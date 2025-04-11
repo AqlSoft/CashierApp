@@ -7,18 +7,17 @@
     <div class="col-md-12">
       <div id="products-container">
 
-        <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede"> Shift List
+        <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede"> sessions List
           <a class="ms-3 add-icon" data-bs-toggle="collapse" data-bs-target="#addShiftForm" aria-expanded="false"
             aria-controls="addShiftForm">
-            <i data-bs-toggle="tooltip" title="Add New Shift" class="fa fa-plus"></i>
+            <i data-bs-toggle="tooltip" title="Add New session" class="fa fa-plus"></i>
           </a>
         </h1>
 
         <!-- هنا سيتم اضافة الشفتات -->
         <div class="col col-12 collapse  pt-3" id="addShiftForm">
           <div class="row">
-            <div
-              class="col ">
+            <div class="col ">
               <div class="card card-body">
                 <form action="/admin/sales-shifts/store" method="POST">
                   @csrf
@@ -113,7 +112,7 @@
                 <i class="fas  fa-trash"></i>
               </a>
               @if($shift->status == 'Active')
-              <a href="{{ route('shifts.close', $shift->id) }}" class="btn btn-sm btn-dark">
+              <a href="{{ route('shifts.close', $shift->id) }}" class="btn btn-sm btn-secondary">
 
                 <i class="fas fa-lock"></i> Close
 
