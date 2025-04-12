@@ -14,8 +14,10 @@ use App\Http\Controllers\Admin\SalesInvoiceController;
 use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\MonyBoxesController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ShiftsController;
 use App\Http\Controllers\Admin\UserProfilesController;
+use App\Http\Controllers\Admin\RoleController;
 
 // Auth::routes();
 // // Auth::routes(['register' => false]);
@@ -55,14 +57,39 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/search/admins/by/phone',       [AdminsController::class, 'searchByPhone'])->name('search-admins-by-phone');
     Route::get('/search/admins/by/id/number',   [AdminsController::class, 'searchByIdNumber'])->name('search-admins-by-id-number');
   });
+
+  // Roles Routes
+  Route::prefix('roles')->group(function () {
+    Route::get('/list',                         [RoleController::class, 'index'])->name('roles-list');
+    Route::get('/create',                       [RoleController::class, 'create'])->name('create-new-role');
+    Route::post('/store',                       [RoleController::class, 'store'])->name('store-role-info');
+    Route::get('/edit/{id}',                    [RoleController::class, 'edit'])->name('edit-role-info');
+    Route::put('/update',                       [RoleController::class, 'update'])->name('update-role-info');
+    Route::get('/display/{id}',                 [RoleController::class, 'show'])->name('display-role-info');
+    Route::delete('/destroy/{id}',              [RoleController::class, 'destroy'])->name('destroy-role-info');
+    Route::get('/search/roles/by/name',         [RoleController::class, 'searchByname'])->name('search-roles-by-name');
+  });
+
+  // Permissions Routes
+  Route::prefix('permissions')->group(function () {
+    Route::get('/list',                         [PermissionController::class, 'index'])->name('permissions-list');
+    Route::get('/create',                       [PermissionController::class, 'create'])->name('create-new-permission');
+    Route::post('/store',                       [PermissionController::class, 'store'])->name('store-permission-info');
+    Route::get('/edit/{id}',                    [PermissionController::class, 'edit'])->name('edit-permission-info');
+    Route::put('/update',                       [PermissionController::class, 'update'])->name('update-permission-info');
+    Route::get('/display/{id}',                 [PermissionController::class, 'show'])->name('display-permission-info');
+    Route::delete('/destroy/{id}',              [PermissionController::class, 'destroy'])->name('destroy-permission-info');
+    Route::get('/search/permissions/by/name',   [PermissionController::class, 'searchByname'])->name('search-permissions-by-name');
+  });
+
   // Products Routes
   Route::prefix('products')->group(function () {
-    Route::get('/index',        [ProductsController::class, 'index'])->name('display-product-all');
-    Route::post('/store',       [ProductsController::class, 'store'])->name('store-new-product');
-    Route::get('/display/{id}', [ProductsController::class, 'show'])->name('view-product-info');
-    Route::post('/update',      [ProductsController::class, 'update'])->name('update-product-info');
-    Route::get('/edit/{id}',    [ProductsController::class, 'edit'])->name('edit-product-info');
-    Route::get('/destroy/{id}', [ProductsController::class, 'destroy'])->name('destroy-product-info');
+    Route::get('/index',                        [ProductsController::class, 'index'])->name('display-product-all');
+    Route::post('/store',                       [ProductsController::class, 'store'])->name('store-new-product');
+    Route::get('/display/{id}',                 [ProductsController::class, 'show'])->name('view-product-info');
+    Route::post('/update',                      [ProductsController::class, 'update'])->name('update-product-info');
+    Route::get('/edit/{id}',                    [ProductsController::class, 'edit'])->name('edit-product-info');
+    Route::get('/destroy/{id}',                 [ProductsController::class, 'destroy'])->name('destroy-product-info');
   });
 
   // orders Routes 
@@ -122,12 +149,12 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/destroy/{id}', [MonyBoxesController::class, 'destroy'])->name('destroy-monyBox-info');
   });
 
-    // users routes
-    Route::prefix('users')->group(function () {
-      Route::get('/profile/{id}',        [UserProfilesController::class, 'view'])->name('view-profile');
-      Route::put('/update/{id}',         [UserProfilesController::class, 'update'])->name('admins.update');
-    });
-  
+  // users routes
+  Route::prefix('users')->group(function () {
+    Route::get('/profile/{id}',        [UserProfilesController::class, 'view'])->name('view-profile');
+    Route::put('/update/{id}',         [UserProfilesController::class, 'update'])->name('admins.update');
+  });
+
   // sales-shifts routes
   Route::prefix('sales-shifts')->group(function () {
     Route::get('/index',          [ShiftsController::class, 'index'])->name('all-sales-shifts');

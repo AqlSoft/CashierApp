@@ -89,10 +89,10 @@
                         </div>
                     </a>
 
-                    <a class="col col-4 setting-item text-secondary" href="">
+                    <a class="col col-4 setting-item text-secondary" href="{{route('roles-list')}}">
                         <div class="row pt-3">
                             <div class="col item-text">
-                                <p class="my-0"><i class="fa-solid fa-credit-card  px-2"></i>Payment Methods</p>
+                                <p class="my-0"><i class="fa-solid fa-credit-card  px-2"></i>Roles</p>
                                 <small> Display Payment Methods</small>
                             </div>
                         </div>

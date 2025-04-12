@@ -1,21 +1,21 @@
 <div class="main-sidebar flex-shrink-0">
-<div class=" d-flex align-items-center justify-content-center flex-column">
-    <div class="logo mt-3 mb-2">
-        <a href="/" class=" d-flex align-items-center gap-1">
-            <span class="restaurant-icon">🏪</span>
-            <span class="fs-5 fw-semibold text-dark">Cashier App</span>
+    <div class=" d-flex align-items-center justify-content-center flex-column">
+        <div class="logo mt-3 mb-2">
+            <a href="/" class=" d-flex align-items-center gap-1">
+                <span class="restaurant-icon">🏪</span>
+                <span class="fs-5 fw-semibold text-dark">Cashier App</span>
+            </a>
+        </div>
+        <a href="<?php echo e(route('view-profile', \Illuminate\Support\Facades\Auth::user()->id)); ?>" class="profile mb-2">
+            <img src="<?php echo e(asset('assets/admin/uploads/images/avatar/avatar-04.jpg')); ?>" alt="Profile Picture"
+                class="profile-picture">
+            <div class="profile-info ">
+                <h6 class="info-title"><?php echo e(\Illuminate\Support\Facades\Auth::user()->userName); ?></h6>
+                <span class="sub-title"><?php echo e(\Illuminate\Support\Facades\Auth::user()->job_title); ?></span>
+            </div>
+
         </a>
     </div>
-    <a href="<?php echo e(route('view-profile', \Illuminate\Support\Facades\Auth::user()->id)); ?>" class="profile mb-2">
-        <img src="<?php echo e(asset('assets/admin/uploads/images/avatar/avatar-04.jpg')); ?>" alt="Profile Picture"
-            class="profile-picture">
-        <div class="profile-info ">
-            <h6 class="info-title"><?php echo e(\Illuminate\Support\Facades\Auth::user()->userName); ?></h6>
-            <span class="sub-title"><?php echo e(\Illuminate\Support\Facades\Auth::user()->job_title); ?></span>
-        </div>
-
-    </a>
-</div>
     <ul class="list-unstyled ps-0" id="sidebarAccordion">
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
@@ -23,13 +23,20 @@
                 <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('Dashboard')); ?>
 
             </button>
-            <div class="collapse <?php echo e(request()->is(['admin/admins*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : ''); ?>"
+            <div class="collapse <?php echo e(request()->is(['admin/admins*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : ''); ?>"
                 id="dashboard-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
                         <a href="<?php echo e(route('admin-list')); ?>"
                             class="rounded <?php echo e(Request::is('/admin/settings/index') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Admins List')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('roles-list')); ?>"
+                            class="rounded <?php echo e(Request::is('/admin/roles*') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Roles List')); ?>
 
                         </a>
                     </li>
@@ -216,5 +223,4 @@
         </li>
 
     </ul>
-</div>
-<?php /**PATH C:\wamp64\www\CashierApp\resources\views/inc/sidebar.blade.php ENDPATH**/ ?>
+</div><?php /**PATH C:\wamp64\www\CashierApp\resources\views/inc/sidebar.blade.php ENDPATH**/ ?>

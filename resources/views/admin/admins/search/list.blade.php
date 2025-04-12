@@ -33,7 +33,6 @@
                         href="{{ route('destroy-admin-info', $admin->id) }}"><i
                             class="fa fa-trash text-danger"></i></a>
                 </form>
-
             </td>
         </tr>
         @empty
@@ -41,6 +40,5 @@
             <td colspan="7">No Admins maches your query .</td>
         </tr>
         @endforelse
-
     </tbody>
 </table>
