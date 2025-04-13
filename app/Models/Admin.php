@@ -92,4 +92,51 @@ class Admin extends Authenticatable
     {
         return $this->belongsToMany(Role::class, 'admin_roles', 'admin_id', 'role_id');
     }
+    public function permissions()
+    {
+        return $this->hasManyThrough(
+            RolePermission::class,
+            AdminRole::class,
+            'admin_id', // Foreign key on AdminRole table
+            'role_id',  // Foreign key on RolePermission table
+            'id',       // Local key on Admin table
+            'role_id'   // Local key on AdminRole table
+        );
+    }
+
+    // check if admin has a specific permission by it's name
+    /**
+     * Check if admin has a specific permission by permission name
+     *
+     * @param string $permissionName
+     * @return bool
+     */
+    public function hasPermission($permissionName)
+    {
+        return $this->permissions()
+            ->whereHas('permission', function($query) use ($permissionName) {
+                $query->where('name', $permissionName);
+            })
+            ->exists();
+    }
+
+    public function hasRole($role)
+    {
+        return $this->roles()->where('role_id', $role)->exists();
+    }
+
+    public function hasAnyRole($roles)
+    {
+        return $this->roles()->whereIn('role_id', $roles)->exists();
+    }
+
+    public function hasAnyPermission($permissions)
+    {
+        return $this->permissions()->whereIn('permission_id', $permissions)->exists();
+    }
+
+    public function hasAllPermissions($permissions)
+    {
+        return $this->permissions()->whereIn('permission_id', $permissions)->exists();
+    }
 }

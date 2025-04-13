@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\AdminProfile;
 use App\Models\Country;
 use App\Models\Role;
+use App\Models\RolePermission;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -83,8 +84,10 @@ class AdminsController
     {
         //
         $vars = [
+
             'admin' => Admin::where('id', $id)->with('profile')->with('roles')->first(),
             'roles' => Role::all(),
+            'adminPermissions' => Admin::where('id', $id)->with('permissions')->first()->permissions
         ];
         return view('admin.admins.edit', $vars);
     }

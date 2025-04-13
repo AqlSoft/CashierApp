@@ -160,33 +160,38 @@
             const role_id = $('#role_id').val();
             $('.permission').click(function() {
                 let url = '';
-                var rp = $(this).data('is-role-permission');
                 const button = $(this); // حفظ المرجع للزر الحالي
+                const rp = button.data('is-role-permission');
 
                 if (!rp) {
                     url = "{{ route('attach-permission-to-role', ['000']) }}".replace('000', role_id);
                 } else {
                     url = "{{ route('detach-permission-from-role', ['000']) }}".replace('000', role_id);
                 }
-
                 $.ajax({
                     url: url,
                     type: 'POST',
                     data: {
                         role_id: role_id,
-                        rolePermission_id: button.data('rolePermission_id') ?? null,
                         permission_id: button.data('permission_id'),
                         _token: '{{ csrf_token() }}'
                     },
-                    success: function(response) {
-                        $('#message').removeClass('alert-danger').addClass('alert-success').text(response.message).show();
-                        if (response.action == 'attach') {
-                            button.removeClass('btn-outline-secondary').addClass('btn-success');
-                            button.data('is-role-permission', 1); // تحديث حالة البيانات
-                        } else if (response.action == 'detach') {
-                            button.removeClass('btn-success').addClass('btn-outline-secondary');
-                            button.data('is-role-permission', 0); // تحديث حالة البيانات
-                        }
+                    success:  function(response) {
+                        setTimeout(() => {
+                            if (response.action == 'attach') {
+                                $('#message').attr('class', 'alert alert-success').text(response.message).show();
+                                button.removeClass('btn-outline-secondary').addClass('btn-success');
+                                button.data('is-role-permission', 1); // تحديث حالة البيانات
+                            } else if (response.action == 'detach') {
+                                console.log(response)
+                                $('#message').attr('class', 'alert alert-info').text(response.message).show();
+                                button.removeClass('btn-success').addClass('btn-outline-secondary');
+                                button.data('is-role-permission', 0); // تحديث حالة البيانات
+                            }
+                        }, 100);
+                        setTimeout(() => {
+                            $('#message').slideUp(300);
+                        }, 2000);
                     },
                     error: function(error) {
                         $('#message').removeClass('alert-success').addClass('alert-danger').text(error.message).show();

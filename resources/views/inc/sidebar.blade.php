@@ -51,6 +51,7 @@
                 </ul>
             </div>
         </li>
+        @if (Auth::user()->hasPermission('display-orders-list'))
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
                 data-bs-target="#Settings-collapse1" aria-expanded="">
@@ -90,6 +91,8 @@
                 </ul>
             </div>
         </li>
+        @endif
+        
         <!-- Orders -->
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"

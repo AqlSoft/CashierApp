@@ -182,7 +182,7 @@
                                             @forelse($roles as $role)
                                             <div class="col col-md-6">
                                                 <div class="form-check form-switch">
-                                                    <input class="form-check-input" {{ $admin->roles->contains($role->id) ? 'checked' : '' }} type="checkbox" role="switch" id="switch_{{ $role->id }}" name="roles[]" value="{{ $role->id }}">
+                                                    <input class="admin-role form-check-input" {{ $admin->roles->contains($role->id) ? 'checked' : '' }} type="checkbox" role="switch" id="switch_{{ $role->id }}" name="roles[]" value="{{ $role->id }}">
                                                     <label class="form-check-label" for="switch_{{ $role->id }}">{{ $role->name }}</label>
                                                 </div>
                                             </div>
@@ -195,7 +195,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="admin-permissions" role="tabpanel" aria-labelledby="admin-permissions" tabindex="0">Admin Permissions</div>
+                    {{-- --------------------------------------------------------------- --}}
+                    {{------------------------------- Admin Permissions -------------------}}
+                    {{-- --------------------------------------------------------------- --}}
+                    <div class="tab-pane fade" id="admin-permissions" role="tabpanel" aria-labelledby="admin-permissions" tabindex="0">
+                        Admin Permissions
+                        <div class="row">
+                            @forelse($admin->permissions as $ap)
+                            <div class="mb-2">
+                                <div class=" border rounded px-3 py-2">
+                                <div class="fw-bold" {{ $admin->hasPermission($ap->id) ? 'checked' : '' }}>
+                                    {{ $ap->permission->parseName() }} [ <span class="text-success">{{ ucfirst($ap->permission->module) }} </span>]
+                                </div>
+                                <div class="permissionBrief">
+                                    {{ $ap->permission->brief }}
+                                </div>
+                                </div>
+                            </div>
+                            @empty
+                            <p>No permissions found</p>
+                            @endforelse
+                        </div>
+                    </div>
 
                 </div>
 
@@ -207,15 +228,13 @@
 <script>
     $(document).ready(function() {
         const adminId = $('#admin_id').val();
-        $('.form-check-input').change(function() {
+        $('.admin-role.form-check-input').change(function() {
             let url = '';
             if ($(this).is(':checked')) {
                 url = "{{ route('attach-role-to-admin', ['000']) }}".replace('000', adminId);
             } else {
                 url = "{{ route('detach-role-from-admin', ['000']) }}".replace('000', adminId);
             }
-            console.log(url);
-            console.log($(this).val());
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -224,9 +243,10 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    console.log(response);
-                    // عرض رسالة النجاح
                     $('#message').removeClass('alert-danger').addClass('alert-success').text(response.message).show();
+                    setTimeout(() => {
+                        $('#message').slideUp(300);
+                    }, 2000);
                 },
                 error: function(error) {
                     console.log(error);
