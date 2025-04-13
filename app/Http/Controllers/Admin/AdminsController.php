@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Admin;
 use App\Models\AdminProfile;
 use App\Models\Country;
+use App\Models\Role;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -83,7 +84,7 @@ class AdminsController
         //
         $vars = [
             'admin' => Admin::find($id),
-            'roles' => Admin::$roles,
+            'roles' => Role::all(),
         ];
         return view('admin.admins.edit', $vars);
     }

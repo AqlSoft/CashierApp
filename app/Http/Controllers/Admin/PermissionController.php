@@ -49,7 +49,7 @@ class PermissionController extends Controller
         try {
             Permission::create($validated);
             //return $validated;
-            return redirect()->back()->withSuccess('Permission Created Successfully!');
+            return redirect()->back()->withInput()->withSuccess('Permission Created Successfully!');
         } catch (Exception $e) {
             return redirect()->back()->withInput()->withError('An error occurred during registration because: ' . $e->getMessage());
         }

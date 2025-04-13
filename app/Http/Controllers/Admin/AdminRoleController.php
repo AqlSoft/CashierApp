@@ -26,40 +26,18 @@ class AdminRoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function attach(Request $request, $id)
     {
-        //
+        return 'attaching' . $request->role_id;
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(AdminRole $adminRole)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(AdminRole $adminRole)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, AdminRole $adminRole)
-    {
-        //
-    }
+ 
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AdminRole $adminRole)
+    public function detach(Request $request, $id)
     {
-        //
+        return 'detaching' . $request->role_id;
     }
 }

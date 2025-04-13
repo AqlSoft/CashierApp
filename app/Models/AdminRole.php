@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class AdminRole extends Model
 {
     //
+    public $timestamps = true;
     protected $table = 'admin_roles';
-    protected $fillable = ['admin_id', 'role_id'];
+    protected $fillable = ['admin_id', 'role_id', 'created_by', 'updated_by'];
 
+    protected $dates = ['created_at', 'updated_at'];
     public function admin()
     {
         return $this->belongsTo(Admin::class, 'admin_id');

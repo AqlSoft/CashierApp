@@ -97,11 +97,11 @@
                             </div>
                         </div>
                     </a>
-                    <a class="col col-4 setting-item text-secondary" href="">
+                    <a class="col col-4 setting-item text-secondary" href="{{route('permissions-list')}}">
                         <div class="row pt-3">
                             <div class="col item-text">
-                                <p class="my-0"><i class="fa-solid fa-tags  px-2"></i>Categories</p>
-                                <small> Display All Categoriess</small>
+                                <p class="my-0"><i class="fa-solid fa-tags  px-2"></i>Permission</p>
+                                <small> Display Permission List</small>
                             </div>
                         </div>
                     </a>

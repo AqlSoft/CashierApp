@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\Admin\AdminsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -70,6 +71,12 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/search/roles/by/name',         [RoleController::class, 'searchByname'])->name('search-roles-by-name');
   });
 
+  // Admin Roles Routes
+  Route::prefix('admin-roles')->group(function () {
+    Route::post('/attach/{id}',                 [AdminRoleController::class, 'attach'])->name('attach-role-to-admin');
+    Route::post('/detach/{id}',                 [AdminRoleController::class, 'detach'])->name('detach-role-from-admin');
+  });
+
   // Permissions Routes
   Route::prefix('permissions')->group(function () {
     Route::get('/list',                         [PermissionController::class, 'index'])->name('permissions-list');
@@ -94,74 +101,75 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
   // orders Routes 
   Route::prefix('orders')->group(function () {
-    Route::get('/index',              [OrdersController::class, 'index'])->name('display-order-all');
+    Route::get('/index',                          [OrdersController::class, 'index'])->name('display-order-all');
     Route::get('/fast/creater/{shift_id}',        [OrdersController::class, 'fastCreateOrder'])->name('fast-create-order');
-    Route::post('/store',             [OrdersController::class, 'store'])->name('store-new-order');
-    Route::get('/display/{id}',       [OrdersController::class, 'show'])->name('view-order-info');
-    Route::post('/update',            [OrdersController::class, 'update'])->name('update-order-info');
-    Route::get('/edit/{id}',          [OrdersController::class, 'edit'])->name('edit-order-info');
-    Route::get('/destroy/{id}',       [OrdersController::class, 'destroy'])->name('destroy-order-info');
-    Route::get('/cancel/{id}',        [OrdersController::class, 'cancel'])->name('cancel-order-info');
-    Route::get('/allow/edit/{id}',    [OrdersController::class, 'allowEdit'])->name('allow-order-editting');
+    Route::post('/store',                         [OrdersController::class, 'store'])->name('store-new-order');
+    Route::get('/display/{id}',                   [OrdersController::class, 'show'])->name('view-order-info');
+    Route::post('/update',                        [OrdersController::class, 'update'])->name('update-order-info');
+    Route::get('/edit/{id}',                      [OrdersController::class, 'edit'])->name('edit-order-info');
+    Route::get('/destroy/{id}',                   [OrdersController::class, 'destroy'])->name('destroy-order-info');
+    Route::get('/cancel/{id}',                    [OrdersController::class, 'cancel'])->name('cancel-order-info');
+    Route::get('/allow/edit/{id}',                [OrdersController::class, 'allowEdit'])->name('allow-order-editting');
   });
 
+  // Orders & Meals
   Route::prefix('orderItems')->group(function () {
-    Route::get('/create/{id}',       [OrdersItemsController::class, 'create'])->name('add-orderitem');
-    Route::post('/store/{id}',       [OrdersItemsController::class, 'store'])->name('save-orderitem-info');
-    // Route::get('/edit/{id}',         [OrdersItemsController::class, 'edit'])->name('edit-orderitem-info');
-    Route::post('/update',           [OrdersItemsController::class, 'update'])->name('update-orderitem');
-    Route::get('/destroy/{id}',      [OrdersItemsController::class, 'destroy'])->name('destroy-oItem-info');
+    Route::get('/create/{id}',                    [OrdersItemsController::class, 'create'])->name('add-orderitem');
+    Route::post('/store/{id}',                    [OrdersItemsController::class, 'store'])->name('save-orderitem-info');
+    // Route::get('/edit/{id}',               [OrdersItemsController::class, 'edit'])->name('edit-orderitem-info');
+    Route::post('/update',                        [OrdersItemsController::class, 'update'])->name('update-orderitem');
+    Route::get('/destroy/{id}',                   [OrdersItemsController::class, 'destroy'])->name('destroy-oItem-info');
   });
 
   // clients Routes
   Route::prefix('clients')->group(function () {
-    Route::get('/index',        [ClientsController::class, 'index'])->name('display-client-all');
-    Route::post('/store',       [ClientsController::class, 'store'])->name('store-new-client');
-    Route::get('/display/{id}', [ClientsController::class, 'show'])->name('view-client-info');
-    Route::post('/update',      [ClientsController::class, 'update'])->name('update-client-info');
-    Route::get('/edit/{id}',    [ClientsController::class, 'edit'])->name('edit-client-info');
-    Route::get('/destroy/{id}', [ClientsController::class, 'destroy'])->name('destroy-client-info');
+    Route::get('/index',                          [ClientsController::class, 'index'])->name('display-client-all');
+    Route::post('/store',                         [ClientsController::class, 'store'])->name('store-new-client');
+    Route::get('/display/{id}',                    [ClientsController::class, 'show'])->name('view-client-info');
+    Route::post('/update',                        [ClientsController::class, 'update'])->name('update-client-info');
+    Route::get('/edit/{id}',                       [ClientsController::class, 'edit'])->name('edit-client-info');
+    Route::get('/destroy/{id}',                    [ClientsController::class, 'destroy'])->name('destroy-client-info');
   });
 
   // invoices routes
   Route::prefix('invoices')->group(function () {
-    Route::get('/view/{id}',          [SalesInvoiceController::class, 'view'])->name('view-invoice');
+    Route::get('/view/{id}',                      [SalesInvoiceController::class, 'view'])->name('view-invoice');
     // Route::get('/create/{id}',      [SalesInvoiceController::class, 'create'])->name('add-invoices');
-    Route::get('/print-invoice/{id}', [SalesInvoiceController::class, 'printInvoice'])->name('print-invoice');
+    Route::get('/print-invoice/{id}',             [SalesInvoiceController::class, 'printInvoice'])->name('print-invoice');
   });
 
   // payments routes
   Route::prefix('payments')->group(function () {
-    Route::post('/cash/store',       [PaymentsController::class, 'cashStore'])->name('payments.cash.store');
+    Route::post('/cash/store',                   [PaymentsController::class, 'cashStore'])->name('payments.cash.store');
   });
 
   // general settings routes
   Route::prefix('settings')->group(function () {
-    Route::get('/index',            [SettingsController::class, 'index'])->name('home-setting');
-    Route::put('/update/{id}',      [SettingsController::class, 'update'])->name('admin.settings.update');
+    Route::get('/index',                          [SettingsController::class, 'index'])->name('home-setting');
+    Route::put('/update/{id}',                     [SettingsController::class, 'update'])->name('admin.settings.update');
   });
   // MonyBox routes
   Route::prefix('monyBoxes')->group(function () {
-    Route::get('/index',        [MonyBoxesController::class, 'index'])->name('all-Mony-box');
-    Route::post('/store',       [MonyBoxesController::class, 'store'])->name('store-Mony-box');
-    Route::post('/update',      [MonyBoxesController::class, 'update'])->name('update-monyBox-info');
-    Route::get('/edit/{id}',    [MonyBoxesController::class, 'edit'])->name('edit-monyBox-info');
-    Route::get('/destroy/{id}', [MonyBoxesController::class, 'destroy'])->name('destroy-monyBox-info');
+    Route::get('/index',                          [MonyBoxesController::class, 'index'])->name('all-Mony-box');
+    Route::post('/store',                         [MonyBoxesController::class, 'store'])->name('store-Mony-box');
+    Route::post('/update',                        [MonyBoxesController::class, 'update'])->name('update-monyBox-info');
+    Route::get('/edit/{id}',                        [MonyBoxesController::class, 'edit'])->name('edit-monyBox-info');
+    Route::get('/destroy/{id}',                     [MonyBoxesController::class, 'destroy'])->name('destroy-monyBox-info');
   });
 
   // users routes
   Route::prefix('users')->group(function () {
-    Route::get('/profile/{id}',        [UserProfilesController::class, 'view'])->name('view-profile');
-    Route::put('/update/{id}',         [UserProfilesController::class, 'update'])->name('admins.update');
+    Route::get('/profile/{id}',                    [UserProfilesController::class, 'view'])->name('view-profile');
+    Route::put('/update/{id}',                     [UserProfilesController::class, 'update'])->name('admins.update');
   });
 
   // sales-shifts routes
   Route::prefix('sales-shifts')->group(function () {
-    Route::get('/index',          [ShiftsController::class, 'index'])->name('all-sales-shifts');
-    Route::post('/store',         [ShiftsController::class, 'store'])->name('store-sales-shifts');
-    Route::get('/close/{shift}',  [ShiftsController::class, 'close'])->name('shifts.close');
-    Route::post('/update',        [ShiftsController::class, 'update'])->name('update-shift-info');
-    Route::get('/edit/{id}',     [ShiftsController::class, 'edit'])->name('edit-shift-info');
-    Route::get('/destroy/{id}',  [ShiftsController::class, 'destroy'])->name('destroy-shift-info');
+    Route::get('/index',                            [ShiftsController::class, 'index'])->name('all-sales-shifts');
+    Route::post('/store',                           [ShiftsController::class, 'store'])->name('store-sales-shifts');
+    Route::get('/close/{shift}',                    [ShiftsController::class, 'close'])->name('shifts.close');
+    Route::post('/update',                          [ShiftsController::class, 'update'])->name('update-shift-info');
+    Route::get('/edit/{id}',                        [ShiftsController::class, 'edit'])->name('edit-shift-info');
+    Route::get('/destroy/{id}',                     [ShiftsController::class, 'destroy'])->name('destroy-shift-info');
   });
 });

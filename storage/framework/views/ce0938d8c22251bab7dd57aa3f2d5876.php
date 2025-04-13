@@ -85,6 +85,7 @@
                                     class="fas fa-eye text-success" title="View Details"></i></a>
                             <a class="btn btn-sm py-0" href="<?php echo e(route('edit-admin-info', $admin->id)); ?>"><i
                                     class="fa fa-edit text-primary"></i></a>
+                            
                             <button class="btn btn-sm py-0"
                                 onclick="if(!confirm('You are about to delete a order, are you sure!?.')){return false}"
                                 title="Delete order and related Information"
