@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ShiftsController;
 use App\Http\Controllers\Admin\UserProfilesController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\RolePermissionController;
 
 // Auth::routes();
 // // Auth::routes(['register' => false]);
@@ -87,6 +88,12 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/display/{id}',                 [PermissionController::class, 'show'])->name('display-permission-info');
     Route::delete('/destroy/{id}',              [PermissionController::class, 'destroy'])->name('destroy-permission-info');
     Route::get('/search/permissions/by/name',   [PermissionController::class, 'searchByname'])->name('search-permissions-by-name');
+  });
+
+  // Role Permissions Routes
+  Route::prefix('role-permissions')->group(function () {
+    Route::post('/attach/{id}',                 [RolePermissionController::class, 'attach'])->name('attach-permission-to-role');
+    Route::post('/detach/{id}',                 [RolePermissionController::class, 'detach'])->name('detach-permission-from-role');
   });
 
   // Products Routes

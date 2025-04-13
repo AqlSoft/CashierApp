@@ -4,6 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             <div id="products-container">
+
                 <ul class="nav nav-tabs my-2" id="myTab" role="tablist">
                     <li class="nav-item">
                         <button class="nav-link" id="role-admins-tab" data-bs-toggle="tab" data-bs-target="#role-admins"
@@ -19,6 +20,7 @@
                             type="button" role="tab" aria-controls="admin-permissions" aria-selected="false">Permissions</button>
                     </li>
                 </ul>
+
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="edit-admin-info" role="tabpanel" aria-labelledby="edit-admin-info" tabindex="0">
                         <div class="row">
@@ -33,7 +35,7 @@
                                         <div class="card-body">
                                             @csrf
                                             @method('put')
-        
+
                                             <div class="input-group sm mb-2">
                                                 <label class="input-group-text" for="userName">User Name</label>
                                                 <input type="text" class=" form-control sm " name="userName" id="userName"
@@ -54,7 +56,7 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                             @enderror
-        
+
                                             <div class="input-group sm mb-2">
                                                 <label class="input-group-text" for="role_name">{{ __('Role') }}</label>
                                                 <select class="form-select sm" name="role_name" id="role_name"
@@ -71,7 +73,7 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                             @enderror
-        
+
                                         </div>
                                         <div class="card-footer d-flex justify-content-end">
                                             <button type=submit class="btn py-0 btn-outline-primary"><i
@@ -81,7 +83,7 @@
                                     </form>
                                 </div>
                             </div>
-        
+
                             {{-- Change Password --}}
                             <div class="col col-4 mb-3 p-1">
                                 <div class="card w-100">
@@ -119,7 +121,7 @@
                                     </form>
                                 </div>
                             </div>
-        
+
                             {{-- Profile Legal Info --}}
                             <div class="col col-6 mb-3 p-1">
                                 <div class="card w-100">
@@ -132,7 +134,7 @@
                                         <div class="card-body">
                                             @csrf
                                             @method('put')
-        
+
                                             <div class="input-group sm mb-2">
                                                 <label class="input-group-text" for="first_name">First Name</label>
                                                 <input type="text" class="form-control sm" name="first_name"
@@ -165,21 +167,22 @@
                                 </div>
                             </div>
 
-                            {{-- Profile Legal Info --}}
+                            {{-- Admin Roles Assignment --}}
                             <div class="col col-12 mb-3 p-1">
                                 <div class="card w-100">
                                     <div class="card-header">
                                         <h5 class="card-title py-2">
-                                            {{ __('Admin Roles') }}
+                                            {{ __('Admin Roles Assignment') }}
                                         </h5>
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
+
                                             <input type="hidden" name="admin_id" id="admin_id" value="{{ $admin->id }}">
                                             @forelse($roles as $role)
                                             <div class="col col-md-6">
                                                 <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" role="switch" id="switch_{{ $role->id }}" name="roles[]" value="{{ $role->id }}">
+                                                    <input class="form-check-input" {{ $admin->roles->contains($role->id) ? 'checked' : '' }} type="checkbox" role="switch" id="switch_{{ $role->id }}" name="roles[]" value="{{ $role->id }}">
                                                     <label class="form-check-label" for="switch_{{ $role->id }}">{{ $role->name }}</label>
                                                 </div>
                                             </div>
@@ -193,25 +196,26 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="admin-permissions" role="tabpanel" aria-labelledby="admin-permissions" tabindex="0">Admin Permissions</div>
-                    <div class="tab-pane fade" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">...</div>
+
                 </div>
-                
+
             </div>
         </div>
     </div>
+    <div id="message" class="alert" style="display: none;"></div>
 </div>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         const adminId = $('#admin_id').val();
-        $('.form-check-input').change(function () {
-            let url='';
-            if($(this).is(':checked')) {
+        $('.form-check-input').change(function() {
+            let url = '';
+            if ($(this).is(':checked')) {
                 url = "{{ route('attach-role-to-admin', ['000']) }}".replace('000', adminId);
             } else {
                 url = "{{ route('detach-role-from-admin', ['000']) }}".replace('000', adminId);
             }
-            console.log(url);   
-            console.log($(this).val());   
+            console.log(url);
+            console.log($(this).val());
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -219,14 +223,16 @@
                     role_id: $(this).val(),
                     _token: '{{ csrf_token() }}'
                 },
-                success: function (response) {
+                success: function(response) {
                     console.log(response);
+                    // عرض رسالة النجاح
+                    $('#message').removeClass('alert-danger').addClass('alert-success').text(response.message).show();
                 },
-                error: function (error) {
+                error: function(error) {
                     console.log(error);
                 }
             });
-        }); 
+        });
     });
 </script>
 @endsection

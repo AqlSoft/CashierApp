@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin;
+use App\Models\Permission;
 use App\Models\Role;
 use Exception;
 use Illuminate\Http\Request;
@@ -58,8 +59,9 @@ class RoleController extends Controller
     public function show(String $id)
     {
         //
-        $role = Role::find($id);
-        return view('admin.roles.display', compact('role'));
+        $role = Role::with('admins', 'permissions')->find($id);
+        $permissions = Permission::select('id', 'module', 'name', 'brief', 'status')->get()->groupBy('module');
+        return view('admin.roles.display', compact('role', 'permissions'));
     }
 
     /**

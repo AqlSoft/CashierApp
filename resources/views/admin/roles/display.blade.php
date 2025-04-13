@@ -25,7 +25,7 @@
         </li>
         <li class="nav-item">
             <button class="nav-link" id="role-admins-tab" data-bs-toggle="tab" data-bs-target="#role-admins"
-                type="button" role="tab" aria-controls="role-admins" aria-selected="false">Role Admins</button>
+                type="button" role="tab" aria-controls="role-admins" aria-selected="false">Attached To:</button>
         </li>
         <li class="nav-item">
             <button class="nav-link" id="role-permissions-tab" data-bs-toggle="tab" data-bs-target="#role-permissions"
@@ -34,9 +34,8 @@
 
     </ul>
 
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="basic-info" role="tabpanel"
-            aria-labelledby="basic-info-tab">
+    <div class="tab-content" id="roleInfo">
+        <div class="tab-pane fade show active" id="basic-info" role="tabpanel" aria-labelledby="basic-info-tab">
             <div class="row">
                 <div class="col col-12 mb-3 p-1">
                     <h4 class="btn btn-outline-secondary mb-3">Edit Role Basic Info</h4>
@@ -92,19 +91,108 @@
                         @csrf
                         @method('delete')
 
-                        <div class="input-group sm mb-2">"
-                            input
+                        <div class="input-group sm mb-2">
+                            <input type="text" class="form-control" name="name" id="name" required placeholder="Role Name">
+                            @error('name')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
+                    </form>
                 </div>
             </div>
-            <div class="tab-pane fade" id="role-admins" role="tabpanel"
-                aria-labelledby="role-admins-tab">
-                Role Admins
-            </div>
-            <div class="tab-pane fade" id="role-permissions" role="tabpanel"
-                aria-labelledby="role-permissions-tab">
-                Role Permissions
+        </div>
+        <div class="tab-pane fade" id="role-admins" role="tabpanel" aria-labelledby="role-admins-tab">
+            <div class="row">
+                <div class="col col-12 mb-3 p-1">
+                    <h4 class="btn btn-outline-secondary mb-3">Attached To</h4>
+                    <ul>
+                        @foreach($role->admins as $admin)
+                        {{$loop->iteration}}
+                        <li>{{ $admin->profile->full_name()}}</li>
+                        @endforeach
+                    </ul>
+
+                </div>
             </div>
         </div>
+        <div class="tab-pane fade" id="role-permissions" role="tabpanel" aria-labelledby="role-permissions-tab">
+            <div class="row">
+                <div class="col col-12 mb-3 p-1">
+                    <h4 class="btn btn-outline-secondary mb-3">Role Permissions</h4>
+                    <div class="accordion accordion-flush" id="permissionsAccordion">
+                        <input type="hidden" id="role_id" value="{{ $role->id }}">
+                        @forelse ($permissions as $module => $group)
+                        <div class="accordion-item shadow-sm rounded ">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed py-2 fw-bold {{$loop->first ? 'rounded-top' : ''}} {{$loop->last ? 'rounded-bottom' : ''}}" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{$module}}" aria-expanded="false" aria-controls="flush-collapse{{$module}}">
+                                    {{ ucwords(str_replace('-', ' ', $module)) }}
+                                </button>
+                            </h2>
+                            <div id="flush-collapse{{$module}}" class="accordion-collapse collapse" data-bs-parent="#permissionsAccordion">
+                                <div class="accordion-body">
+                                    <div class="row gap-0">
+                                        @foreach ($group as $permission)
+                                        <div class="col col-md-4 mb-2 px-1">
+                                            <div class="permission btn w-100 btn-{{ $role->permissions->contains($permission->id) ? 'success' : 'outline-secondary' }}"
+                                                data-permission_id="{{ $permission->id }}"
+                                                data-is-role-permission="{{ $role->permissions->contains($permission->id) ? 1 : 0 }}">
+                                                {{$permission->parseName()}}
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @empty
+                        <div>No permissions has been added yet, Add your application .</div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="message" class="alert" style="display: none;"></div>
     </div>
+    <script>
+        $(document).ready(function() {
+            const role_id = $('#role_id').val();
+            $('.permission').click(function() {
+                let url = '';
+                var rp = $(this).data('is-role-permission');
+                const button = $(this); // حفظ المرجع للزر الحالي
+
+                if (!rp) {
+                    url = "{{ route('attach-permission-to-role', ['000']) }}".replace('000', role_id);
+                } else {
+                    url = "{{ route('detach-permission-from-role', ['000']) }}".replace('000', role_id);
+                }
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        role_id: role_id,
+                        rolePermission_id: button.data('rolePermission_id') ?? null,
+                        permission_id: button.data('permission_id'),
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        $('#message').removeClass('alert-danger').addClass('alert-success').text(response.message).show();
+                        if (response.action == 'attach') {
+                            button.removeClass('btn-outline-secondary').addClass('btn-success');
+                            button.data('is-role-permission', 1); // تحديث حالة البيانات
+                        } else if (response.action == 'detach') {
+                            button.removeClass('btn-success').addClass('btn-outline-secondary');
+                            button.data('is-role-permission', 0); // تحديث حالة البيانات
+                        }
+                    },
+                    error: function(error) {
+                        $('#message').removeClass('alert-success').addClass('alert-danger').text(error.message).show();
+                    }
+                });
+            });
+        });
+    </script>
     @endsection

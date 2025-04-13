@@ -1,4 +1,12 @@
 @extends('layouts.admin')
+
+@section('title', 'Roles List')
+
+@section('header-links')
+<li class="breadcrumb-item"><a href="#">Admins</a></li>
+<li class="breadcrumb-item active" aria-current="page">Roles List</li>
+@endsection
+
 @section('contents')
 <div class="container-fluid">
     <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
@@ -110,26 +118,5 @@
 <!-- Modals -->
 <!-- Create new role modal -->
 
-<script>
-    const getData = async (el, id) => {
-        const search_query = el.value.length !== 0 && el.value !== '' ? el.value : null;
-        if (search_query) {
-            $.ajax({
-                url: el.dataset.url,
-                type: 'GET',
-                data: {
-                    search_query: el.value
-                },
-                success: (users) => {
-                    console.log(users)
-                    $(id).html(users);
-                },
-                error: (xhr, status, error) => {
 
-                    console.log(error);
-                }
-            })
-        }
-    }
-</script>
 @endsection

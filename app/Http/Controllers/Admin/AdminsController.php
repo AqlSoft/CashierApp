@@ -83,7 +83,7 @@ class AdminsController
     {
         //
         $vars = [
-            'admin' => Admin::find($id),
+            'admin' => Admin::where('id', $id)->with('profile')->with('roles')->first(),
             'roles' => Role::all(),
         ];
         return view('admin.admins.edit', $vars);
