@@ -176,7 +176,7 @@
                         permission_id: button.data('permission_id'),
                         _token: '{{ csrf_token() }}'
                     },
-                    success:  function(response) {
+                    success: function(response) {
                         setTimeout(() => {
                             if (response.action == 'attach') {
                                 $('#message').attr('class', 'alert alert-success').text(response.message).show();
@@ -200,4 +200,5 @@
             });
         });
     </script>
+
     @endsection

@@ -59,6 +59,7 @@ class RoleController extends Controller
     public function show(String $id)
     {
         //
+        event(new \App\Events\TestBroadcast('Hello from Reverb!'));
         $role = Role::with('admins', 'permissions')->find($id);
         $permissions = Permission::select('id', 'module', 'name', 'brief', 'status')->get()->groupBy('module');
         return view('admin.roles.display', compact('role', 'permissions'));
