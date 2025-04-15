@@ -19,6 +19,22 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('ce366b8b3640b0beefc0', {
+            cluster: 'ap2'
+        });
+
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function(data) {
+            alert(JSON.stringify(data));
+        });
+    </script>
+
+    <!-- <script src="{{ asset('assets/admin/js/app.main.js') }}"></script> -->
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
     <!-- Custom styles for this template -->
@@ -35,7 +51,7 @@
         <div id="content">
             <header id="main-header" class="">
 
-            <nav aria-label="breadcrumb">
+                <nav aria-label="breadcrumb">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
                         @yield('header-links')
@@ -46,13 +62,13 @@
             <div class="container-fluid py-5 mb-5">
                 <div class="container mt-3">
                     @if (session('success'))
-                        <div class="alert alert-sm alert-success py-1 mt-2">
-                            {{ session('success') }}
-                        </div>
+                    <div class="alert alert-sm alert-success py-1 mt-2">
+                        {{ session('success') }}
+                    </div>
                     @elseif (session('error'))
-                        <div class="alert alert-sm alert-danger py-1 mt-2">
-                            {{ session('error') }}
-                        </div>
+                    <div class="alert alert-sm alert-danger py-1 mt-2">
+                        {{ session('error') }}
+                    </div>
                     @endif
                     @yield('contents')
                 </div>
@@ -71,8 +87,7 @@
         integrity="sha512-1JkMy1LR9bTo3psH+H4SV5bO2dFylgOy+UJhMus1zF4VEFuZVu5lsi4I6iIndE4N9p01z1554ZDcvMSjMaqCBQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- <script src="{{ asset('assets/admin/js/sidebar.js') }}"></script> -->
-    <!-- <script src="{{ asset('assets/admin/js/app.main.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/color.modes.js') }}"></script> -->
+    <!--<script src="{{ asset('assets/admin/js/color.modes.js') }}"></script> -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 

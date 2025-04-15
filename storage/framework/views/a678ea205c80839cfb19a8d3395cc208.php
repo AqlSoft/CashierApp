@@ -19,6 +19,22 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('ce366b8b3640b0beefc0', {
+            cluster: 'ap2'
+        });
+
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function(data) {
+            alert(JSON.stringify(data));
+        });
+    </script>
+
+    <!-- <script src="<?php echo e(asset('assets/admin/js/app.main.js')); ?>"></script> -->
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
     <!-- Custom styles for this template -->
@@ -31,11 +47,11 @@
 <body>
 
     <div class="admin-wrapper">
-        <?php echo $__env->make('inc.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <?php echo $__env->make('inc.sidebar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
         <div id="content">
             <header id="main-header" class="">
 
-            <nav aria-label="breadcrumb">
+                <nav aria-label="breadcrumb">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
                         <?php echo $__env->yieldContent('header-links'); ?>
@@ -46,15 +62,15 @@
             <div class="container-fluid py-5 mb-5">
                 <div class="container mt-3">
                     <?php if(session('success')): ?>
-                        <div class="alert alert-sm alert-success py-1 mt-2">
-                            <?php echo e(session('success')); ?>
+                    <div class="alert alert-sm alert-success py-1 mt-2">
+                        <?php echo e(session('success')); ?>
 
-                        </div>
+                    </div>
                     <?php elseif(session('error')): ?>
-                        <div class="alert alert-sm alert-danger py-1 mt-2">
-                            <?php echo e(session('error')); ?>
+                    <div class="alert alert-sm alert-danger py-1 mt-2">
+                        <?php echo e(session('error')); ?>
 
-                        </div>
+                    </div>
                     <?php endif; ?>
                     <?php echo $__env->yieldContent('contents'); ?>
                 </div>
@@ -73,8 +89,7 @@
         integrity="sha512-1JkMy1LR9bTo3psH+H4SV5bO2dFylgOy+UJhMus1zF4VEFuZVu5lsi4I6iIndE4N9p01z1554ZDcvMSjMaqCBQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- <script src="<?php echo e(asset('assets/admin/js/sidebar.js')); ?>"></script> -->
-    <!-- <script src="<?php echo e(asset('assets/admin/js/app.main.js')); ?>"></script>
-    <script src="<?php echo e(asset('assets/admin/js/color.modes.js')); ?>"></script> -->
+    <!--<script src="<?php echo e(asset('assets/admin/js/color.modes.js')); ?>"></script> -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -87,5 +102,4 @@
     </script>
 </body>
 
-</html>
-<?php /**PATH C:\wamp64\www\CashierApp\resources\views/layouts/admin.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\wamp64\www\CashierApp\resources\views/layouts/admin.blade.php ENDPATH**/ ?>
