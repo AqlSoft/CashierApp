@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\MonyBoxesController;
 use App\Http\Controllers\Admin\ShiftsController;
 use App\Http\Controllers\Admin\UserProfilesController;
+use App\Http\Controllers\Admin\KitchenController;
+
 
 // Auth::routes();
 // // Auth::routes(['register' => false]);
@@ -137,4 +139,16 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/edit/{id}',     [ShiftsController::class, 'edit'])->name('edit-shift-info');
     Route::get('/destroy/{id}',  [ShiftsController::class, 'destroy'])->name('destroy-shift-info');
   });
+
+  // route kitchen
+
+Route::prefix('kitchen')->group(function () {
+Route::get('/dashboard',              [KitchenController::class, 'index'])->name('admin.kitchen.dashboard');
+// Route::post('/order/{order}/pick', [KitchenController::class, 'pickOrder'])->name('kitchen.order.pick');
+Route::post('/order/{order}/pick',     [KitchenController::class, 'pickOrder'])->name('admin.kitchen.order.pick');
+Route::post('/order/{order}/complete', [KitchenController::class, 'completeOrder'])->name('admin.kitchen.order.complete');
+Route::get('/sse/kitchen-orders', [KitchenController::class, 'streamKitchenOrders']);
+ Route::get('/admin/kitchen/orders/list', [KitchenController::class, 'getOrderList'])->name('admin.kitchen.orders.list');
+});
+  
 });

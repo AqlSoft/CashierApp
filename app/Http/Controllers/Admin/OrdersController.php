@@ -82,7 +82,7 @@ class OrdersController extends Controller
         'customer_id'     => $request->customer_id, // customer_id هو العميل المحدد
         'notes'           => $request->notes,
         'status'          => $request->status !== null ? $request->status : 1, // إذا لم يتم تحديد الحالة، افترض أنها غير نشطة
-        'created_by'      => User::currentUser(), // المستخدم الحالي
+        'created_by'      => auth()->user()->id, // المستخدم الحالي
       ]);
 
       return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');

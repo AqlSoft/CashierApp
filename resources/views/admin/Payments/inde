@@ -1,44 +1,122 @@
-<!-- Items Rows -->
-@foreach ($admin->shifts as $shift)
-    <div class="row g-0 border-bottom py-2 align-items-center">
-        <div class="col-1 text-center fs-6">{{ $loop->iteration }}</div>
-        <div class="col-3 ps-2 fs-6">{{ $shift->monybox->name }}</div>
-        <div class="col-3 text-center fs-6">{{ $shift->start_time->format('d/m/Y H:i') }}</div>
-        <div class="col-3 text-center fs-6">
-            @if ($shift->end_time)
-                {{ $shift->end_time->format('d/m/Y H:i') }}
-            @else
-                <span class="btn btn-sm btn-warning">In Progress</span>
-            @endif
-        </div>
-        <div class="col-2 text-center fs-6">
-            @if ($shift->status == 'Active')
-                <span class="btn btn-sm btn-success">Active</span>
-                @php $hasActiveShift = true; @endphp
-            @else
-                <span class="btn btn-sm btn-secondary">Closed</span>
-            @endif
-            
-            @if($shift->status == 'Active')
-                <a href="{{ route('fast-create-order', ['shift_id' => $shift->id]) }}" class="btn btn-sm btn-info">
-                    <i title="Add New Order" class="fa fa-plus"></i>
-                </a>
-            @endif
-        </div>
-    </div>
-@endendforeach
+@extends('layouts.admin')
+@section('contents')
 
-<!-- رابط New في أعلى الصفحة -->
-<h1 class="mt-3 pb-2 d-flex align-items-center" style="border-bottom: 1px solid #dedede">
-    Add Order Items 
-    @if(isset($hasActiveShift) && $hasActiveShift)
-        <a href="{{ route('fast-create-order', ['shift_id' => $admin->shifts->where('status', 'Active')->first()->id]) }}" 
-           class="py-0 mx-2 d-flex align-items-center">
-            <i data-bs-toggle="tooltip" title="Add New order" class="fa fa-plus py-0"></i> New
-        </a>
-    @else
-        <span class="py-0 mx-2 d-flex align-items-center text-muted" title="No active shift">
-            <i class="fa fa-plus py-0"></i> New (Not Available)
-        </span>
+<div class="container">
+    @if (session('modal_order_id'))
+        <script>
+            $(document).ready(function() {
+                $('#orderDetailsModal{{ session('modal_order_id') }}').modal('show');
+            });
+        </script>
     @endif
-</h1>
+
+    @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
+    <!-- @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif -->
+
+    @if (!$orders->isEmpty())
+        <div class="row mt-2 sm">
+            <div class="col col-8">
+                <div class="selected-products-container" style="font-size: 14px;">
+                    <div class="row g-0 border-bottom py-2 fw-bold align-items-center">
+                        <div class="col-1 text-center fw-bold">#</div>
+                        <div class="col-3 fw-bold">Nait No</div>
+                        <div class="col-3 text-center fw-bold">Create Date</div>
+                        <div class="col-2 text-center fw-bold">Action</div>
+                    </div>
+
+                    @foreach ($orders as $order)
+                        <div class="row g-0 border-bottom py-2 align-items-center" id="order-row-{{ $order->id }}">
+                            <div class="col-1 text-center fs-6">{{ $loop->iteration }}</div>
+                            <div class="col-3 ps-2 fs-6">{{ $order->wait_no }}</div>
+                            <div class="col-3 text-center fs-6"> {{ $order->invoice ? $order->invoice->created_at->format('Y-m-d H:i') : 'لا يوجد تاريخ فاتورة' }}</div>
+                            <div class="col-3 text-center fs-6">
+                                @if ($order->status != \App\Models\Order::STATUS_IN_PROGRESS && $order->status != \App\Models\Order::STATUS_COMPLETED)
+                                    <form method="POST" action="{{ route('admin.kitchen.order.pick', $order->id) }}">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success btn-sm "
+                                                onclick="return confirm('هل أنت متأكد أنك تريد اختيار هذا الطلب؟')">
+                                            Print
+                                        </button>
+                                    </form>
+                                @elseif ($order->status == \App\Models\Order::STATUS_IN_PROGRESS)
+                                    <form method="POST" action="{{ route('admin.kitchen.order.complete', $order->id) }}">
+                                        @csrf
+                                        <button type="submit" class="btn btn-warning btn-sm" 
+                                                onclick="return confirm('هل أنت متأكد أنك تريد إكمال هذا الطلب؟')">
+                                            In Progress 
+                                        </button>
+                                    </form>
+                                    <button class="btn btn-info btn-sm" data-bs-target="#orderDetailsModal{{ $order->id }}" data-bs-toggle="modal">عرض</button>
+                                @elseif ($order->status == \App\Models\Order::STATUS_COMPLETED)
+                                    <button class="btn btn-secondary btn-sm" disabled>Completed</button>
+                                @endif
+
+                                <div class="modal fade" id="orderDetailsModal{{ $order->id }}" tabindex="-1" aria-labelledby="orderDetailsModalLabel{{ $order->id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered ">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="padding: 0.5rem 1rem; border-bottom: 1px solid #dedede;">
+                                                <h1 class="modal-title fs-5" id="orderDetailsModalLabel{{ $order->id }}">Order Details</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>تفاصيل الطلب رقم: {{ $order->id }}</p>
+                                                 @include('admin.kitchen.partials.order-details')
+                                                </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                                                <button type="button" class="btn btn-primary">طباعة</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @else
+        <div class="alert alert-info mb-0">
+            No Orders found
+        </div>
+    @endif
+</div>
+
+<script>
+    $(document).ready(function() {
+        if (typeof EventSource !== 'undefined') {
+            var eventSource = new EventSource('/sse/kitchen-orders');
+
+            eventSource.onmessage = function(event) {
+                var data = JSON.parse(event.data);
+                if (data.event === 'order.updated') {
+                    // تحديث قائمة الطلبات بناءً على البيانات الواردة
+                    $.ajax({
+                        url: '/admin/kitchen/orders/list', // مسار لإرجاع قائمة الطلبات المحدثة كـ HTML جزئي
+                        type: 'GET',
+                        success: function(response) {
+                            $('#order-list-container').html(response);
+                        },
+                        error: function(error) {
+                            console.error('Error fetching updated order list:', error);
+                        }
+                    });
+                }
+            };
+
+            eventSource.onerror = function(error) {
+                console.error('SSE connection error:', error);
+                eventSource.close();
+            };
+        } else {
+            console.log('SSE غير مدعوم في هذا المتصفح.');
+        }
+    });
+</script>
+
+@endsection

@@ -108,8 +108,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="">
-                            <i class="fa-solid fa-file-invoice-dollar"></i> &nbsp; Sales Invoice
+                    <a href="/admin/kitchen/dashboard"
+                            class="rounded <?php echo e(Request::is('/admin/kitchen/dashboard') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; kitchen
                         </a>
                     </li>
                     <li>

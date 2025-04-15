@@ -9,6 +9,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
   use SoftDeletes; // تفعيل Soft Delete
+  // تعريف الثوابت في النموذج
+    const  STATUS_NEW = 1;
+    const STATUS_IN_PROGRESS = 2;
+    const STATUS_PENDING = 3;
+    const STATUS_ON_DELIVERY = 4;
+    const STATUS_COMPLETED = 5;
+    const STATUS_CANCELED = 0;
+  public static function getStatuses()
+  {
+    return [
+      self::STATUS_NEW => 'New',
+      self::STATUS_IN_PROGRESS => 'In_Progress',
+      self::STATUS_PENDING => 'Pending',
+      self::STATUS_ON_DELIVERY => 'On Delivery',
+      self::STATUS_COMPLETED => 'Completed',
+      self::STATUS_CANCELED => 'Canceled'
+  ];
+  
+  }
 
   public $timestamps = true;
 
@@ -24,6 +43,8 @@ class Order extends Model
     'shift_id',
     'created_by',
     'updated_by',
+    'prepared_by',
+    'preparation_started_at'
 ];
 protected $dates=['deleted_at'];
   /**
@@ -32,6 +53,16 @@ protected $dates=['deleted_at'];
      * @return string
      */
   
+  public function preparedBy()
+  {
+      return $this->belongsTo(Admin::class, 'prepared_by');
+  }
+
+  public function scopeAvailable($query)
+  {
+      return $query->whereIn('status', [self::STATUS_NEW, self::STATUS_IN_PROGRESS])
+                  ->orderBy('created_at', 'asc');
+  }
      public static function generateSerialNumber()
      {
          // الحصول على آخر سريال نمبر تم إنشاؤه
@@ -65,9 +96,9 @@ protected $dates=['deleted_at'];
       0 => 'Canceled',
   ];
   protected static $delivery_method = [
-    1 => 'Takeout',
+    1 => 'Delivery',
     2 => 'Local ',
-    3 => 'Delivery',
+    3 => 'Takeout',
   
 ];
 
