@@ -21,7 +21,7 @@
                   <?php echo csrf_field(); ?>
                   <div class="input-group sm mb-2">
                     <label class="input-group-text" for="start_time">Start Time</label>
-                    <input type="date" class="form-control sm" name="start_time" id="start_time" value="<?php echo e(date('Y-m-d')); ?>" placeholder="YYYY-MM-DD">
+                    <input type="datetime" class="form-control sm" name="start_time" id="start_time" value="<?php echo e(date('Y-m-d')); ?>" placeholder="YYYY-MM-DD">
                     <!-- <label class="input-group-text" for="start_time">End Time</label>
                       <input type="date" class="form-control sm" name="end_time" id="end_time"> -->
                     <label class="input-group-text" for="admin_id"> Admins</label>
@@ -130,9 +130,9 @@
 
 </div>
 <script>
-  var date = $('.fc-datepicker').datepicker({
-    dateFormat: 'yy-mm-dd'
-  }).val();
+  // var date = $('.fc-datepicker').datepicker({
+  //   dateFormat: 'yy-mm-dd'
+  // }).val();
 </script>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/shifts/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/shifts/index.blade.php ENDPATH**/ ?>

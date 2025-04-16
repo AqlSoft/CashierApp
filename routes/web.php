@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\OrdersItemsController;
 use App\Http\Controllers\Admin\ClientsController;
+use App\Http\Controllers\Admin\MonitorsController;
 use App\Http\Controllers\Admin\SalesInvoiceController;
 use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\SettingsController;
@@ -104,6 +105,15 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::post('/update',                      [ProductsController::class, 'update'])->name('update-product-info');
     Route::get('/edit/{id}',                    [ProductsController::class, 'edit'])->name('edit-product-info');
     Route::get('/destroy/{id}',                 [ProductsController::class, 'destroy'])->name('destroy-product-info');
+  });
+
+  // Monitors  Routes
+  Route::prefix('monitors')->group(function () {
+    Route::get('/waiting-hall',                 [MonitorsController::class, 'waitingHall'])->name('monitors-waiting-hall');
+    Route::get('/restaurant-hall',              [MonitorsController::class, 'restaurantHall'])->name('monitors-restaurant-hall');
+    Route::get('/kitchen-processing-area',      [MonitorsController::class, 'kitchenProcessingArea'])->name('monitors-kitchen-processing-area');
+    Route::get('/meals-state',                  [MonitorsController::class, 'mealsState'])->name('monitors-meals-state');
+    Route::get('/advertisment-displays',        [MonitorsController::class, 'advertismentDisplays'])->name('monitors-advertisment-displays');
   });
 
   // orders Routes 
