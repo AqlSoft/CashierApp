@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad
+class ComposerStaticInite63924743c0eb7bd02f234d567c7744d
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -594,15 +594,48 @@ class ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad
     );
 
     public static $classMap = array (
+        'App\\Events\\MessageSenr' => __DIR__ . '/../..' . '/app/Events/MessageSenr.php',
+        'App\\Events\\OrderUpdated' => __DIR__ . '/../..' . '/app/Events/OrderUpdated.php',
+        'App\\Events\\TestBroadcast' => __DIR__ . '/../..' . '/app/Events/TestBroadcast.php',
+        'App\\Http\\Controllers\\Admin\\AdminRoleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminRoleController.php',
+        'App\\Http\\Controllers\\Admin\\AdminsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminsController.php',
+        'App\\Http\\Controllers\\Admin\\ClientsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/ClientsController.php',
         'App\\Http\\Controllers\\Admin\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Controller.php',
         'App\\Http\\Controllers\\Admin\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/HomeController.php',
         'App\\Http\\Controllers\\Admin\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/LoginController.php',
+        'App\\Http\\Controllers\\Admin\\PaymentsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/PaymentsController.php',
+        'App\\Http\\Controllers\\Admin\\PermissionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/PermissionController.php',
         'App\\Http\\Controllers\\Admin\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/RegisterController.php',
+        'App\\Http\\Controllers\\Admin\\RoleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/RoleController.php',
+        'App\\Http\\Controllers\\Admin\\RolePermissionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/RolePermissionController.php',
+        'App\\Http\\Controllers\\Admin\\SalesInvoiceController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/SalesInvoiceController.php',
+        'App\\Http\\Controllers\\Admin\\SettingsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/SettingsController.php',
+        'App\\Http\\Controllers\\Admin\\ShiftsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/ShiftsController.php',
         'App\\Http\\Requests\\LoginRequest' => __DIR__ . '/../..' . '/app/Http/Requests/LoginRequest.php',
+        'App\\Listeners\\SendOrderUpdateNotification' => __DIR__ . '/../..' . '/app/Listeners/SendOrderUpdateNotification.php',
         'App\\Models\\Account' => __DIR__ . '/../..' . '/app/Models/Account.php',
         'App\\Models\\Admin' => __DIR__ . '/../..' . '/app/Models/Admin.php',
+        'App\\Models\\AdminProfile' => __DIR__ . '/../..' . '/app/Models/AdminProfile.php',
+        'App\\Models\\AdminRole' => __DIR__ . '/../..' . '/app/Models/AdminRole.php',
+        'App\\Models\\Country' => __DIR__ . '/../..' . '/app/Models/Country.php',
+        'App\\Models\\ItemCategroy' => __DIR__ . '/../..' . '/app/Models/ItemCategroy.php',
+        'App\\Models\\MonyBox' => __DIR__ . '/../..' . '/app/Models/MonyBox.php',
+        'App\\Models\\Order' => __DIR__ . '/../..' . '/app/Models/Order.php',
+        'App\\Models\\OrderItem' => __DIR__ . '/../..' . '/app/Models/OrderItem.php',
+        'App\\Models\\Party' => __DIR__ . '/../..' . '/app/Models/Party.php',
+        'App\\Models\\Payment' => __DIR__ . '/../..' . '/app/Models/Payment.php',
+        'App\\Models\\PaymentMethod' => __DIR__ . '/../..' . '/app/Models/PaymentMethod.php',
+        'App\\Models\\Permission' => __DIR__ . '/../..' . '/app/Models/Permission.php',
+        'App\\Models\\Product' => __DIR__ . '/../..' . '/app/Models/Product.php',
+        'App\\Models\\Role' => __DIR__ . '/../..' . '/app/Models/Role.php',
+        'App\\Models\\RolePermission' => __DIR__ . '/../..' . '/app/Models/RolePermission.php',
+        'App\\Models\\SalesInvoice' => __DIR__ . '/../..' . '/app/Models/SalesInvoice.php',
+        'App\\Models\\Setting' => __DIR__ . '/../..' . '/app/Models/Setting.php',
+        'App\\Models\\Shift' => __DIR__ . '/../..' . '/app/Models/Shift.php',
+        'App\\Models\\Unit' => __DIR__ . '/../..' . '/app/Models/Unit.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
+        'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
         'Brick\\Math\\BigInteger' => __DIR__ . '/..' . '/brick/math/src/BigInteger.php',
@@ -4470,6 +4503,7 @@ class ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad
         'PHPUnit\\Metadata\\Group' => __DIR__ . '/..' . '/phpunit/phpunit/src/Metadata/Group.php',
         'PHPUnit\\Metadata\\IgnoreDeprecations' => __DIR__ . '/..' . '/phpunit/phpunit/src/Metadata/IgnoreDeprecations.php',
         'PHPUnit\\Metadata\\IgnorePhpunitDeprecations' => __DIR__ . '/..' . '/phpunit/phpunit/src/Metadata/IgnorePhpunitDeprecations.php',
+        'PHPUnit\\Metadata\\InvalidAttributeException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Metadata/Exception/InvalidAttributeException.php',
         'PHPUnit\\Metadata\\InvalidVersionRequirementException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Metadata/Exception/InvalidVersionRequirementException.php',
         'PHPUnit\\Metadata\\Metadata' => __DIR__ . '/..' . '/phpunit/phpunit/src/Metadata/Metadata.php',
         'PHPUnit\\Metadata\\MetadataCollection' => __DIR__ . '/..' . '/phpunit/phpunit/src/Metadata/MetadataCollection.php',
@@ -6912,9 +6946,9 @@ class ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite63924743c0eb7bd02f234d567c7744d::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite63924743c0eb7bd02f234d567c7744d::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInite63924743c0eb7bd02f234d567c7744d::$classMap;
 
         }, null, ClassLoader::class);
     }

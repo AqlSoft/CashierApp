@@ -18,13 +18,10 @@ use App\Http\Controllers\Admin\MonyBoxesController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ShiftsController;
 use App\Http\Controllers\Admin\UserProfilesController;
-<<<<<<< HEAD
 use App\Http\Controllers\Admin\KitchenController;
-
-=======
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
->>>>>>> eed05a9be445e4a30ba15ee6a244cba6b4229c96
+
 
 // Auth::routes();
 // // Auth::routes(['register' => false]);

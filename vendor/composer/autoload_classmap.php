@@ -6,38 +6,29 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-<<<<<<< HEAD
-    'App\\Events\\KitchenOrderUpdated' => $baseDir . '/app/Events/KitchenOrderUpdated.php',
-=======
     'App\\Events\\MessageSenr' => $baseDir . '/app/Events/MessageSenr.php',
+    'App\\Events\\OrderUpdated' => $baseDir . '/app/Events/OrderUpdated.php',
     'App\\Events\\TestBroadcast' => $baseDir . '/app/Events/TestBroadcast.php',
     'App\\Http\\Controllers\\Admin\\AdminRoleController' => $baseDir . '/app/Http/Controllers/Admin/AdminRoleController.php',
->>>>>>> eed05a9be445e4a30ba15ee6a244cba6b4229c96
     'App\\Http\\Controllers\\Admin\\AdminsController' => $baseDir . '/app/Http/Controllers/Admin/AdminsController.php',
     'App\\Http\\Controllers\\Admin\\ClientsController' => $baseDir . '/app/Http/Controllers/Admin/ClientsController.php',
     'App\\Http\\Controllers\\Admin\\Controller' => $baseDir . '/app/Http/Controllers/Admin/Controller.php',
     'App\\Http\\Controllers\\Admin\\HomeController' => $baseDir . '/app/Http/Controllers/Admin/HomeController.php',
     'App\\Http\\Controllers\\Admin\\LoginController' => $baseDir . '/app/Http/Controllers/Admin/LoginController.php',
     'App\\Http\\Controllers\\Admin\\PaymentsController' => $baseDir . '/app/Http/Controllers/Admin/PaymentsController.php',
-<<<<<<< HEAD
-    'App\\Http\\Controllers\\Admin\\RegisterController' => $baseDir . '/app/Http/Controllers/Admin/RegisterController.php',
-=======
     'App\\Http\\Controllers\\Admin\\PermissionController' => $baseDir . '/app/Http/Controllers/Admin/PermissionController.php',
     'App\\Http\\Controllers\\Admin\\RegisterController' => $baseDir . '/app/Http/Controllers/Admin/RegisterController.php',
     'App\\Http\\Controllers\\Admin\\RoleController' => $baseDir . '/app/Http/Controllers/Admin/RoleController.php',
     'App\\Http\\Controllers\\Admin\\RolePermissionController' => $baseDir . '/app/Http/Controllers/Admin/RolePermissionController.php',
->>>>>>> eed05a9be445e4a30ba15ee6a244cba6b4229c96
     'App\\Http\\Controllers\\Admin\\SalesInvoiceController' => $baseDir . '/app/Http/Controllers/Admin/SalesInvoiceController.php',
     'App\\Http\\Controllers\\Admin\\SettingsController' => $baseDir . '/app/Http/Controllers/Admin/SettingsController.php',
     'App\\Http\\Controllers\\Admin\\ShiftsController' => $baseDir . '/app/Http/Controllers/Admin/ShiftsController.php',
     'App\\Http\\Requests\\LoginRequest' => $baseDir . '/app/Http/Requests/LoginRequest.php',
+    'App\\Listeners\\SendOrderUpdateNotification' => $baseDir . '/app/Listeners/SendOrderUpdateNotification.php',
     'App\\Models\\Account' => $baseDir . '/app/Models/Account.php',
     'App\\Models\\Admin' => $baseDir . '/app/Models/Admin.php',
     'App\\Models\\AdminProfile' => $baseDir . '/app/Models/AdminProfile.php',
-<<<<<<< HEAD
-=======
     'App\\Models\\AdminRole' => $baseDir . '/app/Models/AdminRole.php',
->>>>>>> eed05a9be445e4a30ba15ee6a244cba6b4229c96
     'App\\Models\\Country' => $baseDir . '/app/Models/Country.php',
     'App\\Models\\ItemCategroy' => $baseDir . '/app/Models/ItemCategroy.php',
     'App\\Models\\MonyBox' => $baseDir . '/app/Models/MonyBox.php',
@@ -46,20 +37,17 @@ return array(
     'App\\Models\\Party' => $baseDir . '/app/Models/Party.php',
     'App\\Models\\Payment' => $baseDir . '/app/Models/Payment.php',
     'App\\Models\\PaymentMethod' => $baseDir . '/app/Models/PaymentMethod.php',
-<<<<<<< HEAD
-    'App\\Models\\Product' => $baseDir . '/app/Models/Product.php',
-=======
     'App\\Models\\Permission' => $baseDir . '/app/Models/Permission.php',
     'App\\Models\\Product' => $baseDir . '/app/Models/Product.php',
     'App\\Models\\Role' => $baseDir . '/app/Models/Role.php',
     'App\\Models\\RolePermission' => $baseDir . '/app/Models/RolePermission.php',
->>>>>>> eed05a9be445e4a30ba15ee6a244cba6b4229c96
     'App\\Models\\SalesInvoice' => $baseDir . '/app/Models/SalesInvoice.php',
     'App\\Models\\Setting' => $baseDir . '/app/Models/Setting.php',
     'App\\Models\\Shift' => $baseDir . '/app/Models/Shift.php',
     'App\\Models\\Unit' => $baseDir . '/app/Models/Unit.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
+    'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Brick\\Math\\BigDecimal' => $vendorDir . '/brick/math/src/BigDecimal.php',
     'Brick\\Math\\BigInteger' => $vendorDir . '/brick/math/src/BigInteger.php',
@@ -3927,6 +3915,7 @@ return array(
     'PHPUnit\\Metadata\\Group' => $vendorDir . '/phpunit/phpunit/src/Metadata/Group.php',
     'PHPUnit\\Metadata\\IgnoreDeprecations' => $vendorDir . '/phpunit/phpunit/src/Metadata/IgnoreDeprecations.php',
     'PHPUnit\\Metadata\\IgnorePhpunitDeprecations' => $vendorDir . '/phpunit/phpunit/src/Metadata/IgnorePhpunitDeprecations.php',
+    'PHPUnit\\Metadata\\InvalidAttributeException' => $vendorDir . '/phpunit/phpunit/src/Metadata/Exception/InvalidAttributeException.php',
     'PHPUnit\\Metadata\\InvalidVersionRequirementException' => $vendorDir . '/phpunit/phpunit/src/Metadata/Exception/InvalidVersionRequirementException.php',
     'PHPUnit\\Metadata\\Metadata' => $vendorDir . '/phpunit/phpunit/src/Metadata/Metadata.php',
     'PHPUnit\\Metadata\\MetadataCollection' => $vendorDir . '/phpunit/phpunit/src/Metadata/MetadataCollection.php',
