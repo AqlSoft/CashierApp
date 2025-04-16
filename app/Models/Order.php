@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-<<<<<<< HEAD
   use SoftDeletes; // تفعيل Soft Delete
   // تعريف الثوابت في النموذج
     const  STATUS_NEW = 1;
@@ -29,15 +28,12 @@ class Order extends Model
   ];
   
   }
-=======
-    use SoftDeletes; // تفعيل Soft Delete
->>>>>>> 668de8cb0935c188643c3e3feaaf2020693744a6
 
     public $timestamps = true;
 
     protected $table = "orders";
 
-<<<<<<< HEAD
+
   protected $fillable = [
     'order_sn',
     'order_date',
@@ -52,27 +48,11 @@ class Order extends Model
     'preparation_started_at'
 ];
 protected $dates=['deleted_at'];
-  /**
-=======
-    protected $fillable = [
-        'order_sn',
-        'order_date',
-        'customer_id',
-        'notes',
-        'status',
-        'wait_no',
-        'shift_id',
-        'created_by',
-        'updated_by',
-    ];
-    protected $dates = ['deleted_at'];
-    /**
->>>>>>> 668de8cb0935c188643c3e3feaaf2020693744a6
-     * Generate a unique invoice number.
+
+     /* Generate a unique invoice number.
      *
      * @return string
      */
-<<<<<<< HEAD
   
   public function preparedBy()
   {
@@ -122,55 +102,6 @@ protected $dates=['deleted_at'];
     3 => 'Takeout',
   
 ];
-=======
-
-    public static function generateSerialNumber()
-    {
-        // الحصول على آخر سريال نمبر تم إنشاؤه
-        $lastSerial = self::orderBy('id', 'desc')->first();
-
-        if ($lastSerial) {
-            // إذا كان هناك سريال نمبر سابق، نأخذه ونضيف 1
-            $lastNumber = (int) $lastSerial->order_sn;
-            $nextNumber = $lastNumber + 1;
-        } else {
-            // إذا لم يكن هناك سريال نمبر سابق، نبدأ من رقم معين (مثل 1)
-            $nextNumber = 1;
-        }
-
-        // التأكد من أن الرقم الجديد غير مستخدم مسبقًا (للتأكد من عدم التكرار)
-        while (self::where('order_sn', $nextNumber)->exists()) {
-            $nextNumber++;
-        }
-
-        // إرجاع الرقم الجديد مع تنسيق مكون من 8 أرقام (مثال: 00000001)
-        return str_pad($nextNumber, 8, '0', STR_PAD_LEFT);
-    }
-
-    // قائمة الحالات
-    protected static $status = [
-        1 => 'New',
-        2 => 'In Progress',
-        3 => 'Pending',
-        4 => 'Processing',
-        5 => 'On Delivery',
-        6 => 'Completed',
-        7 => 'Rated',
-        0 => 'Canceled',
-    ];
-    protected static $delivery_method = [
-        1 => 'Takeout',
-        2 => 'Local ',
-        3 => 'Delivery',
-
-    ];
-
-    // دالة للحصول على قائمة الحالات
-    public static function getStatusList()
-    {
-        return self::$status;
-    }
->>>>>>> 668de8cb0935c188643c3e3feaaf2020693744a6
 
     public function creator()
     {
