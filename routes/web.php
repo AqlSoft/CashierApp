@@ -3,7 +3,6 @@
 use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\Admin\AdminsController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\HomeController;
@@ -44,7 +43,6 @@ Route::middleware('guest:admin')->prefix('admin')->group(function () {
 Route::middleware('auth:admin')->prefix('admin')->group(function () {
   Route::post('/logout',      [LoginController::class, 'logout'])->name('admin.logout');
   Route::get('/dashboard',    [HomeController::class, 'index'])->name('admin-dashboard');
-
 
   // Admins Routes
   Route::prefix('admins')->group(function () {
@@ -133,7 +131,6 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
   Route::prefix('orderItems')->group(function () {
     Route::get('/create/{id}',                    [OrdersItemsController::class, 'create'])->name('add-orderitem');
     Route::post('/store/{id}',                    [OrdersItemsController::class, 'store'])->name('save-orderitem-info');
-    // Route::get('/edit/{id}',               [OrdersItemsController::class, 'edit'])->name('edit-orderitem-info');
     Route::post('/update',                        [OrdersItemsController::class, 'update'])->name('update-orderitem');
     Route::get('/destroy/{id}',                   [OrdersItemsController::class, 'destroy'])->name('destroy-oItem-info');
   });
@@ -151,7 +148,6 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
   // invoices routes
   Route::prefix('invoices')->group(function () {
     Route::get('/view/{id}',                      [SalesInvoiceController::class, 'view'])->name('view-invoice');
-    // Route::get('/create/{id}',      [SalesInvoiceController::class, 'create'])->name('add-invoices');
     Route::get('/print-invoice/{id}',             [SalesInvoiceController::class, 'printInvoice'])->name('print-invoice');
   });
 
