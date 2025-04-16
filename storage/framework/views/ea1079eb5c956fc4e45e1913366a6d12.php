@@ -42,7 +42,7 @@
                     </li>
                     <li>
                         <a href="/admin/stats/home" class="rounded <?php echo e(Request::is('/stats/home') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Satistics')); ?>
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Statistics')); ?>
 
                         </a>
                     </li>
@@ -56,7 +56,53 @@
                 </ul>
             </div>
         </li>
-        <?php if(Auth::user()->hasPermission('display-orders-list')): ?>
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
+                data-bs-target="#monitors" aria-expanded="">
+                <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('Active Monitors')); ?>
+
+            </button>
+            <div class="collapse <?php echo e(request()->is(['admin/admins*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : ''); ?>"
+                id="monitors" data-bs-parent="#sidebarAccordion">
+                <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    <li>
+                        <a href="<?php echo e(route('monitors-waiting-hall')); ?>"
+                            class="rounded <?php echo e(Request::is('/admin/monitors/waiting/hall') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Waiting Hall')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('monitors-restaurant-hall')); ?>"
+                            class="rounded <?php echo e(Request::is('/admin/monitors/restaurant/hall') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Restaurant Hall')); ?>
+
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a href="<?php echo e(route('monitors-kitchen-processing-area')); ?>"
+                            class="rounded <?php echo e(Request::is('/admin/monitors/kitchen') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Kitchen')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('monitors-meals-state')); ?>" class="rounded <?php echo e(Request::is('/stats/home') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Meals State')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('monitors-advertisment-displays')); ?>"
+                            class="rounded <?php echo e(Request::is('/admin/sales/active/sessions') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('ADS Monitors')); ?>
+
+                        </a>
+                    </li> -->
+                </ul>
+            </div>
+        </li>
+
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
                 data-bs-target="#Settings-collapse1" aria-expanded="">
@@ -96,8 +142,8 @@
                 </ul>
             </div>
         </li>
-        <?php endif; ?>
-        
+
+
         <!-- Orders -->
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"

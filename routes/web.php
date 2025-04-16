@@ -3,7 +3,6 @@
 use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\Admin\AdminsController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\HomeController;
@@ -11,6 +10,7 @@ use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\OrdersItemsController;
 use App\Http\Controllers\Admin\ClientsController;
+use App\Http\Controllers\Admin\MonitorsController;
 use App\Http\Controllers\Admin\SalesInvoiceController;
 use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\SettingsController;
@@ -45,7 +45,6 @@ Route::middleware('guest:admin')->prefix('admin')->group(function () {
 Route::middleware('auth:admin')->prefix('admin')->group(function () {
   Route::post('/logout',      [LoginController::class, 'logout'])->name('admin.logout');
   Route::get('/dashboard',    [HomeController::class, 'index'])->name('admin-dashboard');
-
 
   // Admins Routes
   Route::prefix('admins')->group(function () {
@@ -108,6 +107,15 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/destroy/{id}',                 [ProductsController::class, 'destroy'])->name('destroy-product-info');
   });
 
+  // Monitors  Routes
+  Route::prefix('monitors')->group(function () {
+    Route::get('/waiting-hall',                 [MonitorsController::class, 'waitingHall'])->name('monitors-waiting-hall');
+    Route::get('/restaurant-hall',              [MonitorsController::class, 'restaurantHall'])->name('monitors-restaurant-hall');
+    Route::get('/kitchen-processing-area',      [MonitorsController::class, 'kitchenProcessingArea'])->name('monitors-kitchen-processing-area');
+    Route::get('/meals-state',                  [MonitorsController::class, 'mealsState'])->name('monitors-meals-state');
+    Route::get('/advertisment-displays',        [MonitorsController::class, 'advertismentDisplays'])->name('monitors-advertisment-displays');
+  });
+
   // orders Routes 
   Route::prefix('orders')->group(function () {
     Route::get('/index',                          [OrdersController::class, 'index'])->name('display-order-all');
@@ -125,7 +133,6 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
   Route::prefix('orderItems')->group(function () {
     Route::get('/create/{id}',                    [OrdersItemsController::class, 'create'])->name('add-orderitem');
     Route::post('/store/{id}',                    [OrdersItemsController::class, 'store'])->name('save-orderitem-info');
-    // Route::get('/edit/{id}',               [OrdersItemsController::class, 'edit'])->name('edit-orderitem-info');
     Route::post('/update',                        [OrdersItemsController::class, 'update'])->name('update-orderitem');
     Route::get('/destroy/{id}',                   [OrdersItemsController::class, 'destroy'])->name('destroy-oItem-info');
   });
@@ -143,7 +150,6 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
   // invoices routes
   Route::prefix('invoices')->group(function () {
     Route::get('/view/{id}',                      [SalesInvoiceController::class, 'view'])->name('view-invoice');
-    // Route::get('/create/{id}',      [SalesInvoiceController::class, 'create'])->name('add-invoices');
     Route::get('/print-invoice/{id}',             [SalesInvoiceController::class, 'printInvoice'])->name('print-invoice');
   });
 

@@ -468,5 +468,9 @@ unset($__errorArgs, $__bag); ?>
     }
 </script>
 <?php $__env->stopSection(); ?>
+<<<<<<< HEAD
 >>>>>>> eed05a9be445e4a30ba15ee6a244cba6b4229c96
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/admins/index.blade.php ENDPATH**/ ?>
+=======
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/admins/index.blade.php ENDPATH**/ ?>
+>>>>>>> 668de8cb0935c188643c3e3feaaf2020693744a6

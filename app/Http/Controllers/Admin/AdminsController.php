@@ -37,6 +37,7 @@ class AdminsController
 
     public function store(Request $request)
     {
+
         //return $request->all();
         $validated = $request->validate([
             'first_name'    => 'required|string|min:3|max:50',
@@ -45,22 +46,23 @@ class AdminsController
             'email'         => 'required|string|email|max:255|unique:admins',
             'password'      => 'required|string|min:8|confirmed',
         ]);
-
-        //return $validated;
+        // return $validated;
 
         $validated['created_by'] = Admin::currentUser();
         $validated['updated_by'] = Admin::currentUser();
         $validated['status'] = 1;
 
-
         DB::beginTransaction(); // Transaction start moved earlier
         try {
+            return $validated;
             $admin = Admin::create($validated);
 
             AdminProfile::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
-                'admin_id' => $admin->id
+                'admin_id' => $admin->id,
+                'country' => 150,
+                'id_number' => $request->id_number,
             ]);
 
             DB::commit();
