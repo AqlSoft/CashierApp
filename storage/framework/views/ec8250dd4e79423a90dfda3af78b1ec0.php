@@ -31,7 +31,7 @@ Kitchen Display
                             <form method="POST" action="<?php echo e(route('admin.kitchen.order.pick', $order->id)); ?>">
                                 <?php echo csrf_field(); ?>
                                 <button type="submit" class="btn btn-warning btn-sm mt-2"
-                                        onclick="return confirm('هل أنت متأكد أنك تريد اختيار هذا الطلب وطباعته؟')">
+                                        onclick="return confirm('Are you sure you want to select this order and print it?')">
                                     Print & Process
                                 </button>
                             </form>
@@ -74,7 +74,7 @@ Kitchen Display
                             <form method="POST" action="<?php echo e(route('admin.kitchen.order.complete', $order->id)); ?>">
                                 <?php echo csrf_field(); ?>
                                 <button type="submit" class="btn btn-info btn-sm mt-2"
-                                        onclick="return confirm('هل أنت متأكد أنك تريد إكمال هذا الطلب ؟')">
+                                   onclick="return confirm('Are you sure you want to complete this order?')">
                                         In Progress 
                                 </button>
                             </form>
