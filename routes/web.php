@@ -191,7 +191,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
   // route kitchen
 
 Route::prefix('kitchen')->group(function () {
-Route::get('/dashboard',              [KitchenController::class, 'index'])->name('admin.kitchen.dashboard');
+Route::get('/display',              [KitchenController::class, 'index'])->name('admin.kitchen.kitchen');
 // Route::post('/order/{order}/pick', [KitchenController::class, 'pickOrder'])->name('kitchen.order.pick');
 Route::post('/order/{order}/pick',     [KitchenController::class, 'pickOrder'])->name('admin.kitchen.order.pick');
 Route::post('/order/{order}/complete', [KitchenController::class, 'completeOrder'])->name('admin.kitchen.order.complete');

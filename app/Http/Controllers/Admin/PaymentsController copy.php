@@ -95,7 +95,8 @@ class PaymentsController
             // تحديث حالة الطلب
             $order->update([
                 'status' => '3',
-                'updated_at' => now(),
+                'processing_time' =>now(),
+                'updated_at'     => now(),
                 'updated_by' => auth()->user()->id,
             ]); // تم الدفع
 

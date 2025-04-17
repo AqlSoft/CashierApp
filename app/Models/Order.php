@@ -44,8 +44,8 @@ class Order extends Model
     'shift_id',
     'created_by',
     'updated_by',
-    'prepared_by',
-    'preparation_started_at'
+    'processing_by',
+    'processing_time'
 ];
 protected $dates=['deleted_at'];
 
@@ -102,7 +102,11 @@ protected $dates=['deleted_at'];
     3 => 'Takeout',
   
 ];
-
+public static function getStatusList()
+{
+    return self::$status;
+}
+  
     public function creator()
     {
         return $this->belongsTo(Admin::class, 'created_by', 'id');

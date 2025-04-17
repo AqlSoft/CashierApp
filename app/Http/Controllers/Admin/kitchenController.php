@@ -12,7 +12,7 @@ class KitchenController extends Controller
   public function index()
   {
       $orders = Order::whereHas('invoice')
-                    ->where('status', '!=', Order::STATUS_COMPLETED)
+                    // ->where('status', '!=', Order::STATUS_COMPLETED)
                     ->orderBy(function ($query) {
                         $query->select('created_at')
                               ->from('sales_invoices')
@@ -22,7 +22,7 @@ class KitchenController extends Controller
                     }, 'asc')
                     ->get();
 
-      return view('admin.kitchen.dashboard', compact('orders'));
+      return view('admin.kitchen.kitchen', compact('orders'));
   }
 
   public function streamKitchenOrders(): StreamedResponse
@@ -50,7 +50,7 @@ class KitchenController extends Controller
   public function getOrderList()
   {
       $orders = Order::whereHas('invoice')
-                    ->where('status', '!=', Order::STATUS_COMPLETED)
+                    // ->where('status', '!=', Order::STATUS_COMPLETED)
                     ->orderBy(function ($query) {
                         $query->select('created_at')
                               ->from('sales_invoices')
@@ -67,15 +67,15 @@ class KitchenController extends Controller
     {
         if ($order->status != Order::STATUS_IN_PROGRESS && $order->status != Order::STATUS_COMPLETED) {
             $order->status = Order::STATUS_IN_PROGRESS;
-            $order->prepared_by = auth()->id(); // أو أي طريقة لتحديد الشيف
-            $order->preparation_started_at = now();
+            $order->processing_by = auth()->id(); // أو أي طريقة لتحديد الشيف
+            $order->processing_time = now();
             $order->save();
             event(new OrderUpdated($order)); // بث الحدث بعد التحديث
 
-            return Redirect()->route('admin.kitchen.dashboard')->with('modal_order_id', $order->id);
+            return Redirect()->route('admin.kitchen.kitchen')->with('modal_order_id', $order->id);
         }
 
-        return Redirect()->route('admin.kitchen.dashboard')->with('error', 'لا يمكن اختيار هذا الطلب.');
+        return Redirect()->route('admin.kitchen.kitchen')->with('error', 'لا يمكن اختيار هذا الطلب.');
     }
 
     public function completeOrder(Order $order)
@@ -83,13 +83,14 @@ class KitchenController extends Controller
         if ($order->status == Order::STATUS_IN_PROGRESS) {
             $order->status = Order::STATUS_COMPLETED;
             $order->updated_at = date('Y-m-d'); // يمكنك إضافة حقل لوقت الإكمال
+            $order->updated_by = auth()->id(); // أو أي طريقة لتحديد الشيف
             $order->save();
             event(new OrderUpdated($order)); // بث الحدث بعد التحديث
 
-            return Redirect()->route('admin.kitchen.dashboard')->with('success', 'تم إكمال الطلب بنجاح!');
+            return Redirect()->route('admin.kitchen.kitchen')->with('success', 'تم إكمال الطلب بنجاح!');
         }
 
-        return Redirect()->route('admin.kitchen.dashboard')->with('error', 'لا يمكن إكمال هذا الطلب.');
+        return Redirect()->route('admin.kitchen.kitchen')->with('error', 'لا يمكن إكمال هذا الطلب.');
     }
 
 

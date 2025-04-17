@@ -79,6 +79,12 @@
 
                         </a>
                     </li>
+                    <li>
+                    <a href="/admin/kitchen/display"
+                            class="rounded <?php echo e(Request::is('/admin/kitchen/display') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp;<?php echo e(__('Kitchen')); ?> 
+                        </a>
+                    </li>
                     <!-- <li>
                         <a href="<?php echo e(route('monitors-kitchen-processing-area')); ?>"
                             class="rounded <?php echo e(Request::is('/admin/monitors/kitchen') ? 'active' : ''); ?>">
@@ -163,12 +169,7 @@
                             <i class="fa-solid fa-cubes"></i> &nbsp; Orders
                         </a>
                     </li>
-                    <li>
-                    <a href="/admin/kitchen/dashboard"
-                            class="rounded <?php echo e(Request::is('/admin/kitchen/dashboard') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; kitchen
-                        </a>
-                    </li>
+                
                     <li>
                         <a href="">
                             <i class="fa-solid fa-cog"></i> &nbsp; Settings
