@@ -56,7 +56,7 @@
                 data-bs-target="#monitors" aria-expanded="">
                 <i class="fa-solid fa-cog"></i> &nbsp; {{ __('Active Monitors') }}
             </button>
-            <div class="collapse {{ request()->is(['admin/admins*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : '' }}"
+            <div class="collapse {{ request()->is(['admin/monitors*']) ? 'show' : '' }}"
                 id="monitors" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
@@ -153,7 +153,7 @@
                         </a>
                     </li>
                     <li>
-                    <a href="/admin/kitchen/dashboard"
+                        <a href="/admin/kitchen/dashboard"
                             class="rounded {{ Request::is('/admin/kitchen/dashboard') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; kitchen
                         </a>

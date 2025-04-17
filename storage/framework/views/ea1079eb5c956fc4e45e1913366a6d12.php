@@ -62,7 +62,7 @@
                 <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('Active Monitors')); ?>
 
             </button>
-            <div class="collapse <?php echo e(request()->is(['admin/admins*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : ''); ?>"
+            <div class="collapse <?php echo e(request()->is(['admin/monitors*']) ? 'show' : ''); ?>"
                 id="monitors" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
@@ -164,7 +164,7 @@
                         </a>
                     </li>
                     <li>
-                    <a href="/admin/kitchen/dashboard"
+                        <a href="/admin/kitchen/dashboard"
                             class="rounded <?php echo e(Request::is('/admin/kitchen/dashboard') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; kitchen
                         </a>

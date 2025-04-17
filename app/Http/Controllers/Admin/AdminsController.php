@@ -54,7 +54,7 @@ class AdminsController
 
         DB::beginTransaction(); // Transaction start moved earlier
         try {
-            return $validated;
+            //return $validated;
             $admin = Admin::create($validated);
 
             AdminProfile::create([
