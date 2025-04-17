@@ -79,6 +79,7 @@ Kitchen Display
                             <div class="mt-2 text-secondary small">
                             Est. to Processing: <?php echo e(is_numeric($order->processing_time) ? $order->processing_time.' minutes' : 'N/A'); ?>
 
+
                             </div>
                         </div>
                     </div>
