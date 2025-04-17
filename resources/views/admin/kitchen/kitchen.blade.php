@@ -24,8 +24,8 @@ Kitchen Display
                     <div class="card mb-1 shadow-sm border-warning   rounded border w-100">
                         <div class="card-body">
                             <h4 class="card-title">#{{ $order->wait_no }}</h4>
-                            <div class="small text-muted">Created: {{ @$order->created_at->format('H:i') }}</div>
-                            <form method="POST" action="{{ route('admin.kitchen.order.pick', $order->id) }}">
+                            <div class="small text-muted">Created: {{ $order->created_at->format('H:i') }}</div>
+                                <form method="POST" action="{{ route('admin.kitchen.order.pick', $order->id) }}">
                                 @csrf
                                 <button type="submit" class="btn btn-warning btn-sm mt-2"
                                         onclick="return confirm('Are you sure you want to select this order and print it?')">
@@ -33,8 +33,9 @@ Kitchen Display
                                 </button>
                             </form>
                             <div class="mt-2 text-secondary small">
-                            Est. to Processing: {{ is_numeric($order->processing_time) ? $order->processing_time.' minutes' : 'N/A' }}
+                            Est. to Processing: {{ \Carbon\Carbon::parse($order->processing_time)->format('H:i') }} minutes
                             </div>
+                        
                         </div>
                     </div>
                     <div class="modal fade" id="orderDetailsModal{{ $order->id }}" tabindex="-1" aria-labelledby="orderDetailsModalLabel{{ $order->id }}" aria-hidden="true">
@@ -76,7 +77,8 @@ Kitchen Display
                                 </button>
                             </form>
                             <div class="mt-2 text-secondary small">
-                            Est. to Processing: {{ is_numeric($order->processing_time) ? $order->processing_time.' minutes' : 'N/A' }}
+                            Est. to Processing: {{ \Carbon\Carbon::parse($order->processing_time)->format('H:i') }} minutes
+
                             </div>
                         </div>
                     </div>
@@ -114,7 +116,7 @@ Kitchen Display
                             <div class="small text-muted">Started: {{ $order->updated_at->format('H:i') }}</div>
                             <div class="mt-2">
                                 <span class="badge bg-primary">
-                                    {{ \App\Models\Order::getStatusList()[$order->status] ?? '' }}
+                                    {{ \App\Models\Order::getStatuses()[$order->status] ?? '' }}
                                 </span>
                             </div>
                             <div class="mt-2 text-secondary small">

@@ -9,6 +9,26 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
   use SoftDeletes; // تفعيل Soft Delete
+  public $timestamps = true;
+
+  protected $table = "orders";
+
+
+protected $fillable = [
+  'order_sn',
+  'order_date',
+  'customer_id',
+  'notes',
+  'status',
+  'wait_no',
+  'shift_id',
+  'created_by',
+  'updated_by',
+  'processing_by',
+  'processing_time'
+];
+protected $dates=['deleted_at'];
+
   // تعريف الثوابت في النموذج
     const  STATUS_NEW = 1;
     const STATUS_IN_PROGRESS = 2;
@@ -28,27 +48,9 @@ class Order extends Model
   ];
   
   }
-
-    public $timestamps = true;
-
-    protected $table = "orders";
-
-
-  protected $fillable = [
-    'order_sn',
-    'order_date',
-    'customer_id',
-    'notes',
-    'status',
-    'wait_no',
-    'shift_id',
-    'created_by',
-    'updated_by',
-    'processing_by',
-    'processing_time'
+  protected $casts = [
+    'processing_time' => 'datetime',
 ];
-protected $dates=['deleted_at'];
-
      /* Generate a unique invoice number.
      *
      * @return string
@@ -59,11 +61,7 @@ protected $dates=['deleted_at'];
       return $this->belongsTo(Admin::class, 'prepared_by');
   }
 
-  public function scopeAvailable($query)
-  {
-      return $query->whereIn('status', [self::STATUS_NEW, self::STATUS_IN_PROGRESS])
-                  ->orderBy('created_at', 'asc');
-  }
+
      public static function generateSerialNumber()
      {
          // الحصول على آخر سريال نمبر تم إنشاؤه
@@ -88,24 +86,24 @@ protected $dates=['deleted_at'];
      }
 
     // قائمة الحالات
-    protected static $status = [
-      1 => 'New',
-      2 => 'In Progress',
-      3 => 'Pending',
-      4 => 'On Delivery',
-      5 => 'Completed',
-      0 => 'Canceled',
-  ];
+  //   protected static $status = [
+  //     1 => 'New',
+  //     2 => 'In Progress',
+  //     3 => 'Pending',
+  //     4 => 'On Delivery',
+  //     5 => 'Completed',
+  //     0 => 'Canceled',
+  // ];
   protected static $delivery_method = [
     1 => 'Delivery',
     2 => 'Local ',
     3 => 'Takeout',
   
 ];
-public static function getStatusList()
-{
-    return self::$status;
-}
+// public static function getStatusList()
+// {
+//     return self::$status;
+// }
   
     public function creator()
     {
