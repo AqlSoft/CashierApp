@@ -71,6 +71,8 @@ class KitchenController extends Controller
             $order->status = Order::ORDER_IN_PROGRESS;
             $order->processing_by = Admin::currentUser(); // أو أي طريقة لتحديد الشيف
             $order->processing_time = now();
+            $order->updated_at = now(); // يمكنك إضافة حقل لوقت الإكمال
+            $order->updated_by = auth()->id(); // أو أي طريقة لتحديد الشيف
             $order->save();
             event(new OrderUpdated($order)); // بث الحدث بعد التحديث
 

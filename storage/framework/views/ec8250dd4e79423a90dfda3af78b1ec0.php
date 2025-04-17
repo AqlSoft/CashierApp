@@ -23,10 +23,7 @@ Kitchen Display
                     <div class="card mb-1 shadow-sm border-warning   rounded border w-100">
                         <div class="card-body">
                             <h4 class="card-title">#<?php echo e($order->wait_no); ?></h4>
-                            <div class="small text-muted">Created: <?php echo e($order->created_at->format('H:i')); ?></div>
-                            <div class="mt-2 text-secondary small">
-                                Est. to Processing: <?php echo e($order->processing_time); ?> minutes
-                            </div>
+                            <div class="small text-muted">Created: <?php echo e(@$order->created_at->format('H:i')); ?></div>
                             <form method="POST" action="<?php echo e(route('admin.kitchen.order.pick', $order->id)); ?>">
                                 <?php echo csrf_field(); ?>
                                 <button type="submit" class="btn btn-warning btn-sm mt-2"
@@ -34,6 +31,10 @@ Kitchen Display
                                     Print & Process
                                 </button>
                             </form>
+                            <div class="mt-2 text-secondary small">
+                            Est. to Processing: <?php echo e(is_numeric($order->processing_time) ? $order->processing_time.' minutes' : 'N/A'); ?>
+
+                            </div>
                         </div>
                     </div>
                     <div class="modal fade" id="orderDetailsModal<?php echo e($order->id); ?>" tabindex="-1" aria-labelledby="orderDetailsModalLabel<?php echo e($order->id); ?>" aria-hidden="true">
@@ -67,9 +68,6 @@ Kitchen Display
                         <div class="card-body">
                             <h4 class="card-title">#<?php echo e($order->wait_no); ?></h4>
                             <div class="small text-muted">Created: <?php echo e($order->created_at->format('H:i')); ?></div>
-                            <div class="mt-2 text-secondary small">
-                                Est. to Processing: <?php echo e($order->processing_time); ?> minutes
-                            </div>
                             <form method="POST" action="<?php echo e(route('admin.kitchen.order.complete', $order->id)); ?>">
                                 <?php echo csrf_field(); ?>
                                 <button type="submit" class="btn btn-info btn-sm mt-2"
@@ -77,6 +75,10 @@ Kitchen Display
                                         In Progress 
                                 </button>
                             </form>
+                            <div class="mt-2 text-secondary small">
+                            Est. to Processing: <?php echo e(is_numeric($order->processing_time) ? $order->processing_time.' minutes' : 'N/A'); ?>
+
+                            </div>
                         </div>
                     </div>
                     <div class="modal fade" id="orderDetailsModal<?php echo e($order->id); ?>" tabindex="-1" aria-labelledby="orderDetailsModalLabel<?php echo e($order->id); ?>" aria-hidden="true">
