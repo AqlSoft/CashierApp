@@ -82,7 +82,7 @@ class KitchenController extends Controller
     {
         if ($order->status == Order::STATUS_IN_PROGRESS) {
             $order->status = Order::STATUS_COMPLETED;
-            $order->updated_at = date('Y-m-d'); // يمكنك إضافة حقل لوقت الإكمال
+            $order->updated_at = now(); // يمكنك إضافة حقل لوقت الإكمال
             $order->updated_by = auth()->id(); // أو أي طريقة لتحديد الشيف
             $order->save();
             event(new OrderUpdated($order)); // بث الحدث بعد التحديث

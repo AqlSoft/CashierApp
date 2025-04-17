@@ -91,8 +91,10 @@ class PaymentsController
                 'status' => '3', // تم الدفع
                 'delivery_method' => 1,
                 'wait_no' => Order::generateWaitNo($request->order_id),
+                'processing_time' =>now(),
                 'updated_at' => now(),
                 'updated_by' => auth()->user()->id,
+
             ]);
     
             // إعادة التوجيه مع بيانات الفاتورة

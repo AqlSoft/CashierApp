@@ -30,7 +30,7 @@ Kitchen Display
                             </div>
                             <form method="POST" action="{{ route('admin.kitchen.order.pick', $order->id) }}">
                                 @csrf
-                                <button type="submit" class="btn btn-success btn-sm mt-2"
+                                <button type="submit" class="btn btn-warning btn-sm mt-2"
                                         onclick="return confirm('هل أنت متأكد أنك تريد اختيار هذا الطلب وطباعته؟')">
                                     Print & Process
                                 </button>
@@ -73,7 +73,7 @@ Kitchen Display
                             </div>
                             <form method="POST" action="{{ route('admin.kitchen.order.complete', $order->id) }}">
                                 @csrf
-                                <button type="submit" class="btn btn-warning btn-sm mt-2"
+                                <button type="submit" class="btn btn-info btn-sm mt-2"
                                         onclick="return confirm('هل أنت متأكد أنك تريد إكمال هذا الطلب ؟')">
                                         In Progress 
                                 </button>
