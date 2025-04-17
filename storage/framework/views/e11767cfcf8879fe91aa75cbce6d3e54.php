@@ -31,15 +31,15 @@
       </div>
       <div class="col-2 fw-bold fs-6">Status: </div>
       <div class="col-3 ps-2 text-start  fs-6">
-        <?php if($order->status != \App\Models\Order::STATUS_IN_PROGRESS && $order->status != \App\Models\Order::STATUS_COMPLETED): ?>
+        <?php if($order->status != \App\Models\Order::ORDER_PENDING && $order->status != \App\Models\Order::ORDER_COMPLETED): ?>
         <span class="text-success btn-sm ">
           Print
         </span>
-        <?php elseif($order->status == \App\Models\Order::STATUS_IN_PROGRESS): ?>
+        <?php elseif($order->status == \App\Models\Order::ORDER_IN_PROGRESS): ?>
         <span class="text-warning btn-sm">
           In Progress
         </span>
-        <?php elseif($order->status == \App\Models\Order::STATUS_COMPLETED): ?>
+        <?php elseif($order->status == \App\Models\Order::ORDER_COMPLETED): ?>
         <span class="text-secondary btn-sm">Completed</span>
         <?php endif; ?>
       </div>

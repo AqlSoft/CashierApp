@@ -25,6 +25,10 @@
                         <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
                             type="button" role="tab" aria-controls="contact" aria-selected="false">Tab Three</button>
                     </li>
+                    <form action="{{route('admin.logout')}}" class="nav-item" method="POST">
+                        @csrf
+                        <button type="submit" class="nav-link">Logout</button>
+                    </form>
                 </ul>
 
                 <!-- محتوى التبويبات -->
