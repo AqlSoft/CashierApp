@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('contents'); ?>
 
 <div class="container">
@@ -16,7 +15,7 @@
     <?php endif; ?>
 
     <div id="order-list-container">
-        <?php echo $__env->make('admin.kitchen.partials.order_list', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?> 
+        <?php echo $__env->make('admin.kitchen.partials.order_list', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?> 
     </div>
 </div>
 
@@ -53,4 +52,4 @@
 </script>
 
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/kitchen/dashboard.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/kitchen/dashboard.blade.php ENDPATH**/ ?>
