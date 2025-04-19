@@ -24,13 +24,13 @@ class OrdersController extends Controller
     $defaultCustomer = Party::where([['type', '=', 'customer'],  ['is_default', '=', 1],])->first();
     $order_SN = Order::generateSerialNumber();
     $vars = [
-      'products'         => $products,
+      'products'        => $products,
       'orders'          => $orders,
       'customers'       => $customers,
       'order_SN'        => $order_SN,
-      'status' => Order::getStatusList(),
+      'status'          => Order::getStatusList(),
       'defaultCustomer' => $defaultCustomer,
-      'admins'   => Admin::all()
+      'admins'          => Admin::all()
     ];
     return view('admin.orders.index', $vars);
   }
@@ -40,6 +40,7 @@ class OrdersController extends Controller
   {
     $order = Order::find($id);
     try {
+      
       $order->status = 2;
       $order->update();
       return redirect()->back()->with('success', 'تم اتاحة الطلب للتعديل بنجاح.');
@@ -55,12 +56,12 @@ class OrdersController extends Controller
     try {
       $order = Order::create([
         'order_sn'        => Order::generateSerialNumber(),
-        'shift_id'        =>$shift->id,
+        'shift_id'        => $shift->id,
         'order_date'      => now(),
-        'wait_no'      => 'new',
+        'wait_no'         => 'new',
         'customer_id'     => 1, // customer_id هو العميل المحدد
         'status'          => 2, // إذا لم يتم تحديد الحالة، افترض أنها غير نشطة
-        'created_by'      => Admin::currentUser(), // المستخدم الحالي
+        'created_by'      => Admin::current()->id, // المستخدم الحالي
       ]);
 
       return redirect()->route('add-orderitem', [$order->id])->with('success', 'تم انشاء عميل جديد بنجاح.');
@@ -82,7 +83,7 @@ class OrdersController extends Controller
         'customer_id'     => $request->customer_id, // customer_id هو العميل المحدد
         'notes'           => $request->notes,
         'status'          => $request->status !== null ? $request->status : 1, // إذا لم يتم تحديد الحالة، افترض أنها غير نشطة
-        'created_by'      => auth()->user()->id, // المستخدم الحالي
+        'created_by'      => Admin::current()->id, // المستخدم الحالي
       ]);
 
       return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
@@ -130,7 +131,7 @@ class OrdersController extends Controller
     try {
       $status->update([
         'status'           => $request->status,
-        'updated_by'       => User::currentUser(),
+        'updated_by'       => Admin::currentUser(),
       ]);
 
       return redirect()->back()->with('success', 'Order Updated successfully');
@@ -145,7 +146,7 @@ class OrdersController extends Controller
     try {
       $status->update([
         'status'           => 0,
-        'updated_by'       => User::currentUser(),
+        'updated_by'       => Admin::currentUser(),
       ]);
 
       return redirect()->route('display-order-all')->with('success', 'Order cancel successfully');

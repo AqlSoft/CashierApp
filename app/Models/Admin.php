@@ -77,6 +77,12 @@ class Admin extends Authenticatable
     {
         return Auth::user()->id;
     }
+
+    public static function current()
+    {
+        return Auth::user();
+    }
+    
     public function shifts()
     {
         return $this->hasMany(Shift::class, 'admin_id');

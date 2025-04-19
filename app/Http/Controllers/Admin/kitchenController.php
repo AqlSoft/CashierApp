@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use App\Events\OrderUpdated;
+use App\Models\Admin;
+
 class KitchenController extends Controller
 {
   public function index()
@@ -65,9 +67,9 @@ class KitchenController extends Controller
 
   public function pickOrder(Request $request, Order $order)
     {
-        if ($order->status != Order::STATUS_IN_PROGRESS && $order->status != Order::STATUS_COMPLETED) {
-            $order->status = Order::STATUS_IN_PROGRESS;
-            $order->processing_by = auth()->id(); // أو أي طريقة لتحديد الشيف
+        if ($order->status != Order::ORDER_IN_PROGRESS && $order->status != Order::ORDER_COMPLETED) {
+            $order->status = Order::ORDER_IN_PROGRESS;
+            $order->processing_by = Admin::currentUser(); // أو أي طريقة لتحديد الشيف
             $order->processing_time = now();
             $order->updated_at = now(); // يمكنك إضافة حقل لوقت الإكمال
             $order->updated_by = auth()->id(); // أو أي طريقة لتحديد الشيف
@@ -82,10 +84,10 @@ class KitchenController extends Controller
 
     public function completeOrder(Order $order)
     {
-        if ($order->status == Order::STATUS_IN_PROGRESS) {
-            $order->status = Order::STATUS_COMPLETED;
+        if ($order->status == Order::ORDER_IN_PROGRESS) {
+            $order->status = Order::ORDER_COMPLETED;
             $order->updated_at = now(); // يمكنك إضافة حقل لوقت الإكمال
-            $order->updated_by = auth()->id(); // أو أي طريقة لتحديد الشيف
+            $order->updated_by = Admin::currentUser(); // أو أي طريقة لتحديد الشيف
             $order->save();
             event(new OrderUpdated($order)); // بث الحدث بعد التحديث
 

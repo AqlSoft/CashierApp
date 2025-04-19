@@ -9,26 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
   use SoftDeletes; // تفعيل Soft Delete
-  public $timestamps = true;
-
-  protected $table = "orders";
-
-
-protected $fillable = [
-  'order_sn',
-  'order_date',
-  'customer_id',
-  'notes',
-  'status',
-  'wait_no',
-  'shift_id',
-  'created_by',
-  'updated_by',
-  'processing_by',
-  'processing_time'
-];
-protected $dates=['deleted_at'];
-
   // تعريف الثوابت في النموذج
     const  STATUS_NEW = 1;
     const STATUS_IN_PROGRESS = 2;
@@ -48,20 +28,41 @@ protected $dates=['deleted_at'];
   ];
   
   }
-  protected $casts = [
-    'processing_time' => 'datetime',
+
+    public $timestamps = true;
+
+    protected $table = "orders";
+
+
+  protected $fillable = [
+    'order_sn',
+    'order_date',
+    'customer_id',
+    'notes',
+    'status',
+    'wait_no',
+    'shift_id',
+    'created_by',
+    'updated_by',
+    'processing_by',
+    'processing_time'
 ];
+protected $dates=['deleted_at'];
+
      /* Generate a unique invoice number.
      *
-     * @return string
+     * Belongs to relationship with Admin (prepared by).
      */
-  
-  public function preparedBy()
+    public function preparedBy()
+    {
+        return $this->belongsTo(Admin::class, 'prepared_by');
+    }
+
+  public function scopeAvailable($query)
   {
-      return $this->belongsTo(Admin::class, 'prepared_by');
+      return $query->whereIn('status', [self::STATUS_NEW, self::STATUS_IN_PROGRESS])
+                  ->orderBy('created_at', 'asc');
   }
-
-
      public static function generateSerialNumber()
      {
          // الحصول على آخر سريال نمبر تم إنشاؤه
@@ -86,50 +87,78 @@ protected $dates=['deleted_at'];
      }
 
     // قائمة الحالات
-  //   protected static $status = [
-  //     1 => 'New',
-  //     2 => 'In Progress',
-  //     3 => 'Pending',
-  //     4 => 'On Delivery',
-  //     5 => 'Completed',
-  //     0 => 'Canceled',
-  // ];
+    protected static $status = [
+      1 => 'New',
+      2 => 'In Progress',
+      3 => 'Pending',
+      4 => 'On Delivery',
+      5 => 'Completed',
+      0 => 'Canceled',
+  ];
   protected static $delivery_method = [
     1 => 'Delivery',
     2 => 'Local ',
     3 => 'Takeout',
   
 ];
-// public static function getStatusList()
-// {
-//     return self::$status;
-// }
+public static function getStatusList()
+{
+    return self::$status;
+}
   
+    /**
+     * علاقة الطلب مع الموظف (Admin) الذي قام بإنشاء الطلب.
+     *
+     * Belongs to relationship with Admin (created by).
+     */
     public function creator()
     {
         return $this->belongsTo(Admin::class, 'created_by', 'id');
     }
+
+    /**
+     * علاقة الطلب مع الموظف (Admin) الذي قام بتعديل الطلب.
+     *
+     * Belongs to relationship with Admin (updated by).
+     */
     public function editor()
     {
         return $this->belongsTo(Admin::class, 'updated_by', 'id');
     }
-    /* علاقة مع العميل (Party)*/
+
+    /**
+     * علاقة الطلب مع العميل (Party).
+     *
+     * Belongs to relationship with Party.
+     */
     public function customer()
     {
         return $this->belongsTo(Party::class, 'customer_id');
     }
 
+    /**
+     * علاقة واحد إلى متعدد بين الطلب وعناصر الطلب (OrderItem)
+     * تسترجع جميع العناصر المرتبطة بهذا الطلب.
+     *
+     * One-to-many relationship with OrderItem.
+     * Returns all items related to this order.
+     */
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class, 'order_id');
     }
 
+    /**
+     * علاقة الطلب مع الشفت (Shift) الذي تم خلاله الطلب.
+     * تسترجع الشفت المرتبط بالطلب.
+     *
+     * Belongs to relationship with Shift.
+     * Returns the shift related to this order.
+     */
     public function shift()
     {
         return $this->belongsTo(Shift::class, 'shift_id');
     }
-
-
 
     /**
      * Generate a unique wait_no for the order item.
@@ -155,6 +184,14 @@ protected $dates=['deleted_at'];
 
         return $waitNo;
     }
+    
+    /**
+     * علاقة واحد إلى واحد بين الطلب والفاتورة (SalesInvoice) الخاصة به.
+     * تسترجع الفاتورة المرتبطة بهذا الطلب.
+     *
+     * One-to-one relationship with SalesInvoice.
+     * Returns the invoice related to this order.
+     */
     public function invoice()
     {
         return $this->hasOne(SalesInvoice::class, 'order_id');

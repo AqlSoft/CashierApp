@@ -20,7 +20,7 @@ Kitchen Display
         <div class="col-md-4">
             <div class="bg-warning bg-opacity-25 rounded p-3 h-100">
                 <h3 class="mb-3 text-warning">Pending</h3>
-                @forelse($orders->where('status', \App\Models\Order::STATUS_PENDING) as $order)
+                @forelse($orders->where('status', \App\Models\Order::ORDER_PENDING) as $order)
                     <div class="card mb-1 shadow-sm border-warning   rounded border w-100">
                         <div class="card-body">
                             <h4 class="card-title">#{{ $order->wait_no }}</h4>
@@ -64,7 +64,7 @@ Kitchen Display
         <div class="col-md-4">
             <div class="bg-info bg-opacity-25 rounded p-3 h-100">
                 <h3 class="mb-3 text-info">Processing</h3>
-                @forelse($orders->where('status', \App\Models\Order::STATUS_IN_PROGRESS) as $order)
+                @forelse($orders->where('status', \App\Models\Order::ORDER_IN_PROGRESS) as $order)
                     <div class="card mb-1 shadow-sm border-info   rounded border w-100">
                         <div class="card-body">
                             <h4 class="card-title">#{{ $order->wait_no }}</h4>
@@ -108,7 +108,7 @@ Kitchen Display
         <div class="col-md-4">
             <div class="bg-primary bg-opacity-25 rounded p-3 h-100">
                 <h3 class="mb-3 text-primary">On-Delivery</h3>
-                @forelse($orders->where('status', \App\Models\Order::STATUS_COMPLETED) as $order)
+                @forelse($orders->where('status', \App\Models\Order::ORDER_COMPLETED) as $order)
                     <div class="card mb-3 shadow-sm border-primary border-2 w-100">
                         <div class="card-body">
                             <h4 class="card-title">#{{ $order->wait_no }}</h4>
