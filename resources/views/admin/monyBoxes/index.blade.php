@@ -28,7 +28,7 @@
                       
                   
                       <label class="input-group-text" for="date"> Date</label>
-                      <input type="text" value="{{ date('Y-m-d') }}" placeholder="YYYY-MM-DD" class="fc-datepicker form-control sm " name="date" id="date">
+                      <input type="datetime-local" value="date('Y-m-d') }}" placeholder="YYYY-MM-DD" class="fc-datepicker form-control sm " name="date" id="date">
                     </div>
                     <div class="input-group sm mt-2">
                       <label class="input-group-text" for="last_isal_exhcange">Last Exhcange</label>

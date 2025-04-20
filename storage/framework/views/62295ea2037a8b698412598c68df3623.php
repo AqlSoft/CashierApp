@@ -26,7 +26,7 @@
                       
                   
                       <label class="input-group-text" for="date"> Date</label>
-                      <input type="text" value="<?php echo e(date('Y-m-d')); ?>" placeholder="YYYY-MM-DD" class="fc-datepicker form-control sm " name="date" id="date">
+                      <input type="datetime-local" value="<?php echo e(date('Y-m-d')); ?>" placeholder="YYYY-MM-DD" class="fc-datepicker form-control sm " name="date" id="date">
                     </div>
                     <div class="input-group sm mt-2">
                       <label class="input-group-text" for="last_isal_exhcange">Last Exhcange</label>
@@ -105,4 +105,4 @@
 </div>
 
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/monyboxes/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/monyboxes/index.blade.php ENDPATH**/ ?>
