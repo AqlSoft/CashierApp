@@ -56,7 +56,7 @@ Kitchen Display
                         </div>
                     </div>
                 @empty
-                    <div class="text-muted">No Pending Orders</div>
+                    <div class="text-muted  alert alert-warning">No Pending Orders</div>
                 @endforelse
             </div>
         </div>
@@ -82,25 +82,9 @@ Kitchen Display
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="modal fade" id="orderDetailsModal{{ $order->id }}" tabindex="-1" aria-labelledby="orderDetailsModalLabel{{ $order->id }}" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered ">
-                            <div class="modal-content">
-                                <div class="modal-header" style="padding: 0.5rem 1rem; border-bottom: 1px solid #dedede;">
-                                    <h1 class="modal-title fs-5" id="orderDetailsModalLabel{{ $order->id }}">Order Details</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    @include('admin.kitchen.partials.order-details')
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-                                    <button type="button" class="btn btn-primary">طباعة</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
+                  
                 @empty
-                    <div class="text-muted">No Processing Orders</div>
+                    <div class="text-muted alert alert-info">No Processing Orders</div>
                 @endforelse
             </div>
         </div>
@@ -131,7 +115,7 @@ Kitchen Display
                         </div>
                     </div>
                 @empty
-                    <div class="text-muted">No Orders On-Delivery</div>
+                    <div class="text-muted  alert alert-primary">No Orders On-Delivery</div>
                 @endforelse
             </div>
         </div>
