@@ -128,7 +128,6 @@ class Order extends Model
         1 => 'Delivery',
         2 => 'Local ',
         3 => 'Takeaway',
-    
     ];
 
     /**
@@ -206,16 +205,28 @@ class Order extends Model
         // الحصول على رقم الطلب (order_sn)
         $order = self::find($orderId);
 
+
         if (!$order) {
             throw new \Exception('الطلب غير موجود.');
         }
 
-
+        $prefix = '';
+        switch ($order->delivery_method) {
+            case 1:
+                $prefix = 'DVR';
+                break;
+            case 2:
+                $prefix = 'LOC';
+                break;
+            case 3:
+                $prefix = 'TWY';
+                break;
+        }
         $orderSn = $order->order_sn;
         $lastFourDigits = substr($orderSn, -4);
 
 
-        $waitNo = 'OUT' . $lastFourDigits;
+        $waitNo = $prefix . $lastFourDigits;
 
         return $waitNo;
     }
