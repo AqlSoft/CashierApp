@@ -23,6 +23,7 @@
                 <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('Dashboard')); ?>
 
             </button>
+            
             <div class="collapse <?php echo e(request()->is(['admin/admins*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : ''); ?>"
                 id="dashboard-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
@@ -62,7 +63,7 @@
                 <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('Active Monitors')); ?>
 
             </button>
-            <div class="collapse <?php echo e(request()->is(['admin/admins*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : ''); ?>"
+            <div class="collapse <?php echo e(request()->is(['admin/monitors*']) ? 'show' : ''); ?>"
                 id="monitors" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>

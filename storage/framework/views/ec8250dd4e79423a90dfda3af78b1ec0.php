@@ -4,13 +4,7 @@ Kitchen Display
 
 <?php $__env->startSection('contents'); ?>
 <div class="container-fluid py-4">
-<?php if(session('modal_order_id')): ?>
-        <script>
-            $(document).ready(function() {
-                $('#orderDetailsModal<?php echo e(session('modal_order_id')); ?>').modal('show');
-            });
-        </script>
-    <?php endif; ?>
+
 
     <?php if(session('error')): ?>
         <div class="alert alert-danger"><?php echo e(session('error')); ?></div>
@@ -59,6 +53,13 @@ Kitchen Display
                 <?php endif; ?>
             </div>
         </div>
+        <?php if(session('modal_order_id')): ?>
+        <script>
+            $(document).ready(function() {
+                $('#orderDetailsModal<?php echo e(session('modal_order_id')); ?>').modal('show');
+            });
+        </script>
+        <?php endif; ?>
 
         <div class="col-md-4">
             <div class=" box-border bg-opacity-25 rounded p-3 h-100">
@@ -133,7 +134,7 @@ Kitchen Display
   .head-border{
   border-bottom: 1px solid #dedede;
 
-}
+    }
     .card-title {
         font-size: 1.5rem;
         font-weight: bold;
@@ -163,34 +164,34 @@ Kitchen Display
     }
 </style>
 <script>
-    $(document).ready(function() {
-        if (typeof EventSource !== 'undefined') {
-            var eventSource = new EventSource('/sse/kitchen-orders');
+    // $(document).ready(function() {
+    //     if (typeof EventSource !== 'undefined') {
+    //         var eventSource = new EventSource('/sse/kitchen-orders');
 
-            eventSource.onmessage = function(event) {
-                var data = JSON.parse(event.data);
-                if (data.event === 'order.updated') {
-                    // تحديث قائمة الطلبات بناءً على البيانات الواردة
-                    $.ajax({
-                        url: '/admin/kitchen/orders/list', // مسار لإرجاع قائمة الطلبات المحدثة كـ HTML جزئي
-                        type: 'GET',
-                        success: function(response) {
-                            $('#order-list-container').html(response);
-                        },
-                        error: function(error) {
-                            console.error('Error fetching updated order list:', error);
-                        }
-                    });
-                }
-            };
+    //         eventSource.onmessage = function(event) {
+    //             var data = JSON.parse(event.data);
+    //             if (data.event === 'order.updated') {
+    //                 // تحديث قائمة الطلبات بناءً على البيانات الواردة
+    //                 $.ajax({
+    //                     url: '/admin/kitchen/orders/list', // مسار لإرجاع قائمة الطلبات المحدثة كـ HTML جزئي
+    //                     type: 'GET',
+    //                     success: function(response) {
+    //                         $('#order-list-container').html(response);
+    //                     },
+    //                     error: function(error) {
+    //                         console.error('Error fetching updated order list:', error);
+    //                     }
+    //                 });
+    //             }
+    //         };
 
-            eventSource.onerror = function(error) {
-                console.error('SSE connection error:', error);
-                eventSource.close();
-            };
-        } else {
-            console.log('SSE غير مدعوم في هذا المتصفح.');
-        }
-    });
+    //         eventSource.onerror = function(error) {
+    //             console.error('SSE connection error:', error);
+    //             eventSource.close();
+    //         };
+    //     } else {
+    //         console.log('SSE غير مدعوم في هذا المتصفح.');
+    //     }
+    // });
 </script>
 <?php echo $__env->make('layouts.monitors', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/kitchen/kitchen.blade.php ENDPATH**/ ?>

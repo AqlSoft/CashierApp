@@ -82,6 +82,7 @@ class OrdersController extends Controller
         'order_date'      => $request->order_date,
         'customer_id'     => $request->customer_id, // customer_id هو العميل المحدد
         'notes'           => $request->notes,
+        'delivery_method' => $request->delivery_method ?? 1,
         'status'          => $request->status !== null ? $request->status : 1, // إذا لم يتم تحديد الحالة، افترض أنها غير نشطة
         'created_by'      => Admin::current()->id, // المستخدم الحالي
       ]);

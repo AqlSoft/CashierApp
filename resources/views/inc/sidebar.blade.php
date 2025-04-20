@@ -22,6 +22,7 @@
                 data-bs-target="#dashboard-collapse1" aria-expanded="">
                 <i class="fa-solid fa-cog"></i> &nbsp; {{ __('Dashboard') }}
             </button>
+            
             <div class="collapse {{ request()->is(['admin/admins*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : '' }}"
                 id="dashboard-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
@@ -56,7 +57,7 @@
                 data-bs-target="#monitors" aria-expanded="">
                 <i class="fa-solid fa-cog"></i> &nbsp; {{ __('Active Monitors') }}
             </button>
-            <div class="collapse {{ request()->is(['admin/admins*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : '' }}"
+            <div class="collapse {{ request()->is(['admin/monitors*']) ? 'show' : '' }}"
                 id="monitors" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
