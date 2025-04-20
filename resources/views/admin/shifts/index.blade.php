@@ -23,7 +23,7 @@
                   @csrf
                   <div class="input-group sm mb-2">
                     <label class="input-group-text" for="start_time">Start Time</label>
-                    <input type="datetime" class="form-control sm" name="start_time" id="start_time" value="{{ date('Y-m-d') }}" placeholder="YYYY-MM-DD">
+                    <input type="datetime-local" class="form-control sm" name="start_time" id="start_time" value="{{ date('Y-m-d') }}" placeholder="YYYY-MM-DD">
                     <!-- <label class="input-group-text" for="start_time">End Time</label>
                       <input type="date" class="form-control sm" name="end_time" id="end_time"> -->
                     <label class="input-group-text" for="admin_id"> Admins</label>
