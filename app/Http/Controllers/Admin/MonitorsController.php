@@ -9,19 +9,30 @@ class MonitorsController
     //
     public function waitingHall()
     {
-        // جلب الطلبات ذات الحالات المطلوبة فقط حسب القائمة الجديدة
         $orders = Order::with('customer')
-            ->whereIn('status', [3, 4, 5]) // 3: Pending, 4: Processing, 5: On Delivery
-            ->orderByRaw("FIELD(status, 3, 4, 5)") // ترتيب الأعمدة: Pending, Processing, On-Delivery
+            ->whereIn('status', [
+                Order::ORDER_PENDING,      // 3
+                Order::ORDER_IN_PROGRESS,  // 4
+                Order::ORDER_ON_DELIVERY   // 5
+            ])
+            ->orderByRaw("FIELD(status, ?, ?, ?)", [
+                Order::ORDER_PENDING,
+                Order::ORDER_IN_PROGRESS,
+                Order::ORDER_ON_DELIVERY
+            ])
             ->orderBy('updated_at')
             ->get();
-
+    
         return view('admin.monitors.waiting', compact('orders'));
     }
-
     public function restaurantHall()
     {
-        return view('admin.monitors.restaurant-hall');
+      $orders = Order::with(['table', 'orderItems.product'])
+      ->where('delivery_method', 3) 
+      // ->whereNotIn('status', ['completed', 'cancelled'])
+      ->orderBy('created_at', 'desc')
+      ->get();
+        return view('admin.monitors.restaurant-hall',compact('orders'));
     }
 
     public function kitchenProcessingArea()

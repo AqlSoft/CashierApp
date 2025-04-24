@@ -62,6 +62,7 @@ class OrdersItemsController extends Controller
       'totalAmount' => $totalAmount,
       'remaining'   => $totalAmount, // المبلغ المتبقي
       'status'      => Order::getStatusList(),
+      'delivery_method' =>     Order::GetDeliveryMethod(),
       'shift'    => $shift, 
     ];
 

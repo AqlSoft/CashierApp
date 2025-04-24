@@ -32,6 +32,8 @@ class Order extends Model
         'status',
         'wait_no',
         'shift_id',
+        'table_id',
+        'delivery_method',
         'created_by',
         'updated_by',
         'processing_by',
@@ -130,6 +132,9 @@ class Order extends Model
         3 => 'Takeaway',
     ];
 
+    public static function GetDeliveryMethod(){
+        return self::$delivery_method;
+    }
     /**
      * Returns a list of order statuses.
      *
@@ -182,7 +187,7 @@ class Order extends Model
         return $this->hasMany(OrderItem::class, 'order_id');
     }
 
-    /**
+    /** 
      * علاقة الطلب مع الشفت (Shift) الذي تم خلاله الطلب.
      * تسترجع الشفت المرتبط بالطلب.
      *
@@ -197,39 +202,28 @@ class Order extends Model
     /**
      * Generate a unique wait_no for the order item.
      *
+     * ؟
      * @param int $orderId
      * @return string
      */
-    public static function generateWaitNo($orderId)
+    protected function generateValidWaitNo($orderId, $deliveryMethod)
     {
-        // الحصول على رقم الطلب (order_sn)
-        $order = self::find($orderId);
-
-
-        if (!$order) {
-            throw new \Exception('الطلب غير موجود.');
-        }
-
-        $prefix = '';
-        switch ($order->delivery_method) {
-            case 1:
-                $prefix = 'DVR';
-                break;
-            case 2:
-                $prefix = 'LOC';
-                break;
-            case 3:
-                $prefix = 'TWY';
-                break;
-        }
-        $orderSn = $order->order_sn;
-        $lastFourDigits = substr($orderSn, -4);
-
-
-        $waitNo = $prefix . $lastFourDigits;
-
-        return $waitNo;
+        $order = Order::find($orderId);
+        $validMethods = [1, 2, 3];
+        
+        $method = in_array((int)$deliveryMethod, $validMethods) 
+            ? (int)$deliveryMethod 
+            : 1; // Default to 1 if invalid
+    
+        $prefix = [
+            1 => 'DVR',
+            2 => 'LOC',
+            3 => 'TWY'
+        ][$method];
+    
+        return $prefix . substr(str_pad($order->order_sn, 4, '0', STR_PAD_LEFT), -4);
     }
+
     
     /**
      * علاقة واحد إلى واحد بين الطلب والفاتورة (SalesInvoice) الخاصة به.
@@ -242,4 +236,9 @@ class Order extends Model
     {
         return $this->hasOne(SalesInvoice::class, 'order_id');
     }
+
+    public function table()
+{
+    return $this->belongsTo(Table::class,'table_id');
+}
 }

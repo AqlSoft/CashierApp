@@ -89,8 +89,9 @@ class PaymentsController
             // تحديث حالة الطلب
             $order->update([
                 'status' => '3', // تم الدفع
-                'delivery_method' => 1,
-                'wait_no' => Order::generateWaitNo($request->order_id),
+                'delivery_method' => $request->delivery_method,
+                'wait_no' => Order::generateValidWaitNo($id, $request->delivery_method),
+                // 'wait_no' => Order::generateWaitNo($id),
                 'processing_time' =>now(),
                 'updated_at' => now(),
                 'updated_by' => auth()->user()->id,

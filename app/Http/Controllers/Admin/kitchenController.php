@@ -64,23 +64,25 @@ class KitchenController extends Controller
 
       return view('admin.kitchen.partials.order_list', compact('orders'));
   }
-
   public function pickOrder(Request $request, Order $order)
-    {
-        if ($order->status != Order::ORDER_IN_PROGRESS && $order->status != Order::ORDER_ON_DELIVERY) {
-            $order->status = Order::ORDER_IN_PROGRESS;
-            $order->processing_by = Admin::currentUser(); // أو أي طريقة لتحديد الشيف
-            $order->processing_time = now();
-            $order->updated_at = now(); // يمكنك إضافة حقل لوقت الإكمال
-            $order->updated_by = auth()->id(); // أو أي طريقة لتحديد الشيف
-            $order->save();
-            event(new OrderUpdated($order)); // بث الحدث بعد التحديث
+  {
+      if ($order->status != Order::ORDER_IN_PROGRESS && $order->status != Order::ORDER_ON_DELIVERY) {
+          $order->status = Order::ORDER_IN_PROGRESS;
+          $order->processing_by = Admin::currentUser();
+          $order->processing_time = now();
+          $order->updated_at = now();
+          $order->updated_by = Admin::currentUser();
+          $order->save();
+          event(new OrderUpdated($order));
+  
+          return Redirect()->route('admin.kitchen.kitchen')
+                 ->with('modal_order_id', $order->id);
+      }
+  
+      return Redirect()->route('admin.kitchen.kitchen')
+             ->with('error', 'Cannot take this order.');
+  }
 
-            return Redirect()->route('admin.kitchen.kitchen')->with('modal_order_id', $order->id);
-        }
-
-        return Redirect()->route('admin.kitchen.kitchen')->with('error', 'لا يمكن اختيار هذا الطلب.');
-    }
 
     public function completeOrder(Order $order)
     {
