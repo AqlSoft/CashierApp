@@ -19,9 +19,7 @@ Kitchen Display
                 onclick="
                 if(confirm('Are you sure you want to select this order?')) {
                     document.getElementById('pickOrderForm<?php echo e($order->id); ?>').submit();
-                    $('#orderDetailsModal<?php echo e($order->id); ?>').modal('show');
-                }
-            ">
+                    $('#orderDetailsModal<?php echo e($order->id); ?>').modal('show');  }  ">
                 Take Order
               </button>
             </form>
@@ -53,8 +51,6 @@ Kitchen Display
         <?php endif; ?>
       </div>
     </div>
-
-
     <div class="col-md-4">
       <div class=" box-border bg-opacity-25 rounded p-3 h-100">
         <h3 class="mb-3 text-black  head-border   pb-1">Processing</h3>
@@ -123,7 +119,7 @@ Kitchen Display
 
 <style>
   .box-border {
-    border: 0.5pt solid #dee2e6;
+    border: 1pt solid #dee2e6;
   }
 
   .head-border {

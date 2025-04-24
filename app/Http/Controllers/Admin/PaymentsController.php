@@ -86,10 +86,22 @@ class PaymentsController
                 'created_by' => auth()->user()->id,
             ]);
     
+            if ($request->delivery_method == '1') {
+                $request->validate([
+                    'client_phone_number' => 'required',
+                ]);
+            } else if ($request->delivery_method == '3') {
+                $request->validate([
+                    'table_number' => 'required',
+                ]);
+            }
+
             // تحديث حالة الطلب
             $order->update([
                 'status' => '3', // تم الدفع
+                'table_number' => $request->table_number ?? null,
                 'delivery_method' => $request->delivery_method,
+                'client_phone_number' => $request->client_phone_number ?? null,
                 'wait_no' => Order::generateValidWaitNo($id, $request->delivery_method),
                 // 'wait_no' => Order::generateWaitNo($id),
                 'processing_time' =>now(),
