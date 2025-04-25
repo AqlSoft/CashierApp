@@ -8,6 +8,15 @@
 @endsection
 
 @section('contents')
+<style>
+/* Optional: Add some styling for the table status */
+.text-danger {
+    color: #dc3545;
+}
+.text-success {
+    color: #28a745;
+}
+</style>
 {{-- Header Row with Flexbox --}}
 <div class="title-slider-header">
   {{-- Left Part (30%) --}}
@@ -34,13 +43,25 @@
             @if ($pendingOrder->wait_no == 'new')
             <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
               title="Order SN - {{ $pendingOrder->order_sn }}"
+              class="btn btn-sm btn-danger">
+              {{ $pendingOrder->wait_no }}
+            </a>
+            @elseif($pendingOrder->delivery_method == 1)
+            <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
+              title="Order SN - {{ $pendingOrder->order_sn }}"
+              class="btn btn-sm btn-success">
+              {{ $pendingOrder->wait_no }}
+            </a>
+            @elseif($pendingOrder->delivery_method == 2)
+            <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
+              title="Order SN - {{ $pendingOrder->order_sn }}"
               class="btn btn-sm btn-info">
               {{ $pendingOrder->wait_no }}
             </a>
-            @else
+            @elseif($pendingOrder->delivery_method == 3)
             <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
               title="Order SN - {{ $pendingOrder->order_sn }}"
-              class="btn btn-sm btn-outline-secondary">
+              class="btn btn-sm btn-warning">
               {{ $pendingOrder->wait_no }}
             </a>
             @endif
@@ -56,7 +77,44 @@
     </div>
   </div>
 </div>
-
+{{-- add Client modal--}}
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true"
+  aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-sm ">
+    <form action="/admin/clients/store" method="POST">
+      @csrf
+      <div class="modal-content">
+        <h1 class="modal-title fs-5 mt-2  ps-3" id="exampleModalToggleLabel"
+          style="border-bottom: 1px solid #dedede">Add New Client </h1>
+        <div class="modal-body">
+          <div class="input-group sm mb-2">
+            <label class="input-group-text" for="vat_number">Vat Number</label>
+            <input type="number" class="form-control sm" name="vat_number" id="vat_number">
+          </div>
+          <div class="input-group sm mb-2">
+            <label class="input-group-text" for="name">Client name</label>
+            <input type="text" class="form-control sm" name="name" id="name">
+          </div>
+          <div class="input-group sm mb-2">
+            <label class="input-group-text" for="phone">Phone Number</label>
+            <input type="number" class=" form-control sm " name="phone" id="phone">
+          </div>
+          <div class="input-group sm mb-2">
+            <label class="input-group-text" for="address">Address</label>
+            <input type="text" class="form-control sm" name="address" id="address">
+          </div>
+          <div class="input-group pt-2 px-3 mt-2 justify-content-end "
+            style="border-top: 1px solid #dedede">
+            <button type="button" class="btn px-3 py-1 btn-outline-secondary btn-sm"
+              data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn px-3 py-1 btn-primary btn-sm">Save
+              Client</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 {{-- Rest of your page content --}}
 <div class="container">
   <div class="row mt-3 d-flex gap-3">
@@ -73,27 +131,56 @@
         </div>
       </div>
       <div class="row mt-2">
+      
         <div class="col col-12">
-          <div class="button-group">
-            <button class="btn">Delivery</button>
-            <button class="btn">Local</button>
-            <button class="btn active">Takeaway</button>
-          </div>
-          {{-- table Number --}}
-          <div class="input-group">
-            <label class="input-group-text" for="table_number">Table Number</label>
-            <input class="form-control" type="number" name="table_number" id="table_number" value="">
-          </div>
-          <div class="input-group">
-            <label class="input-group-text" for="delivery_id"> Delivery Agent</label>
-            <select class="form-control" name="delivery_id" id="delivery_id" value="">
-              @forelse ($del_agents as $agent)
-              <option value="{{ $agent->id }}">{{ $agent->userName }}</option>
-              @empty
-              <option value="">No Delivery Agents</option>
-              @endforelse
+        {{-- Delivery Method Buttons --}}
+        <div class="button-group mb-2 sm">
+            <button type="button" class="btn sm delivery-method-btn active" data-method="3">Takeaway</button>
+            <button type="button" class="btn sm delivery-method-btn" data-method="2">Local</button>
+            <button type="button" class="btn sm delivery-method-btn" data-method="1">Delivery</button>
+            <input type="hidden" name="delivery_method" id="delivery_method" value="3">
+        </div>
+        {{-- Table Number (Visible for Local only) --}}
+        <div class="input-group sm mb-2" id="table_number_group" style="display:none;">
+            <label class="input-group-text" for="table_id">Table Number</label>
+            <select class="form-control sm py-0" name="table_id" id="table_id" required>
+                <option value="">Select Table</option>
+                @foreach($tables as $table)
+                <option value="{{ $table->id }}" 
+                        class="{{ $table->is_occupied ? 'text-danger' : 'text-success' }}"
+                        {{ $table->is_occupied ? 'disabled' : '' }}>
+                    {{ $table->number }} ({{ $table->is_occupied ? 'Occupied' : 'Available' }})
+                </option>
+                @endforeach
             </select>
-          </div>
+        </div>
+        {{-- Delivery Agent (Visible for Delivery only) --}}
+        
+        <div class="input-group sm mb-2" id="delivery_agent_group" style="display:none;">
+            <label class="input-group-text" for="delivery_id">Delivery Agent</label>
+            <select class="form-select form-control sm py-0" name="delivery_id" id="delivery_id" required>
+                <option value="">Select Agent</option>
+                @foreach($del_agents as $agent)
+                <option value="{{ $agent->id }}">{{ $agent->userName }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- Client  (Visible for Delivery only) --}}
+        <div class="input-group sm mb-2" id="client_name_group">
+            <label class="input-group-text" for="client_name_group">Client</label>
+            <select class="form-select form-control sm py-0" name="customer_id" id="customer_id">
+                @foreach ($customers as $customer)
+                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                @endforeach
+            </select>
+            <label class="input-group-text" for="customer_id">
+                <a class="btn btn-sm py-0" href="#" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
+                    <i class="fa-solid fa-user-plus" title="View Details"></i>
+                </a>
+            </label>
+        </div>
+          <div class="py-1" style="border-bottom: 1px solid #dedede"></div>
           <div class="selected-products-container" style="font-size: 14px;">
             <div class="row g-0 border-bottom py-2 fw-bold align-items-center">
               <div class="col-1 text-center fw-bold fs-6">#</div>
@@ -106,7 +193,7 @@
 
             @foreach ($order->orderItems as $oItem)
             <div class="row g-0 border-bottom py-2 align-items-center">
-             
+
               <form action="{{ route('update-orderitem') }}" method="post" class="d-flex align-items-center w-100 p-0">
                 @csrf
                 <input type="hidden" name="id" value="{{ $oItem->id }}">
@@ -255,21 +342,7 @@
             <input type="number" step="0.01" class="form-control text-end fw-bold" name="total_amount"
               id="total_amount" value="{{ number_format($totalAmount, 2, '.', '') }}" required readonly>
           </div>
-          <div class="input-group input-group-sm mb-3">
-    <span class="input-group-text" style="width: 110px;"></span>delivery method</span>
-    <select class="form-select" name="delivery_method" required>
-        <option value="" disabled {{ !old('delivery_method') ? 'selected' : '' }}>اختر طريقة التوصيل</option>
-        @foreach(\App\Models\Order::GetDeliveryMethod() as $key => $value)
-            <option value="{{ $key }}" 
-                {{ old('delivery_method', $order->delivery_method ?? '') == $key ? 'selected' : '' }}>
-                {{ $value }}
-            </option>
-        @endforeach
-    </select>
-    <!-- @error('delivery_method')
-        <div class="invalid-feedback d-block">{{ $message }}</div>
-    @enderror -->
-</div>
+      
           <hr class="my-2"> {{-- Separator --}}
           <div class="input-group input-group-sm mb-2">
             <span class="input-group-text" style="width: 110px;">Paid</span>
@@ -379,5 +452,119 @@
 
   }); // End DOMContentLoaded
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deliveryMethodBtns = document.querySelectorAll('.delivery-method-btn');
+    const tableNumberGroup = document.getElementById('table_number_group');
+    const deliveryAgentGroup = document.getElementById('delivery_agent_group');
+    const clientGroup = document.getElementById('client_group');
+    const deliveryMethodInput = document.getElementById('delivery_method');
+
+  
+     // تنفيذ الإجراءات مباشرة عند التحميل
+     function initDeliveryMethod() {
+        const defaultMethod = '3'; // القيمة الافتراضية لـ Takeaway
+        setActiveButton(defaultMethod);
+        updateFieldsVisibility(defaultMethod);
+        deliveryMethodInput.value = defaultMethod;
+    }
+
+    // استدعاء الدالة عند التحميل
+    initDeliveryMethod();
+
+    deliveryMethodBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const method = this.getAttribute('data-method');
+            setActiveButton(method);
+            updateFieldsVisibility(method);
+            deliveryMethodInput.value = method;
+        });
+    });
+
+    function setActiveButton(method) {
+        deliveryMethodBtns.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-method') === method) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    function updateFieldsVisibility(method) {
+        // Takeaway (3)
+        if (method === '3') {
+            tableNumberGroup.style.display = 'none';
+            deliveryAgentGroup.style.display = 'none';
+            clientGroup.style.display = 'none';
+        } 
+        // Local (2)
+        else if (method === '2') {
+            tableNumberGroup.style.display = 'flex';
+            deliveryAgentGroup.style.display = 'none';
+            clientGroup.style.display = 'flex';
+        } 
+        // Delivery (1)
+        else if (method === '1') {
+            tableNumberGroup.style.display = 'none';
+            deliveryAgentGroup.style.display = 'flex';
+            clientGroup.style.display = 'flex';
+        }
+    }
+});
+// *****************
+document.addEventListener('DOMContentLoaded', function() {
+    const deliveryMethodBtns = document.querySelectorAll('.delivery-method-btn');
+    const deliveryMethodInput = document.getElementById('delivery_method');
+    const tableNumberGroup = document.getElementById('table_number_group');
+    const deliveryAgentGroup = document.getElementById('delivery_agent_group');
+    const clientNameGroup = document.getElementById('client_name_group');
+
+    // Initialize with Takeaway (3) as default
+    updateFieldsVisibility(3);
+
+    deliveryMethodBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const method = this.getAttribute('data-method');
+            setActiveButton(method);
+            updateFieldsVisibility(method);
+            deliveryMethodInput.value = method;
+        });
+    });
+
+    function setActiveButton(method) {
+        deliveryMethodBtns.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-method') === method) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    function updateFieldsVisibility(method) {
+        // Reset all
+        tableNumberGroup.style.display = 'none';
+        deliveryAgentGroup.style.display = 'none';
+        clientNameGroup.style.display = 'none';
+        
+        // Takeaway (3) - Hide all
+        if (method === '3') {
+            // No fields to show
+        } 
+        // Local (2) - Show table number
+        else if (method === '2') {
+            tableNumberGroup.style.display = 'flex';
+        } 
+        // Delivery (1) - Show delivery agent and client phone
+        else if (method === '1') {
+            deliveryAgentGroup.style.display = 'flex';
+            clientNameGroup.style.display = 'flex';
+        }
+    }
+});
+
+</script>
+
+
 
 @endsection

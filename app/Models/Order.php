@@ -38,7 +38,8 @@ class Order extends Model
         'created_by',
         'updated_by',
         'processing_by',
-        'processing_time'
+        'processing_time',
+        'started_processing_at'
     ];
     
     public static function getStatuses()

@@ -11,6 +11,9 @@ use App\Models\Admin;
 use App\Models\Product;
 use App\Models\ItemCategroy;
 use App\Models\Role;
+use App\Models\Party;
+use App\Models\Table;
+
 
 class OrdersItemsController extends Controller
 {
@@ -59,6 +62,7 @@ class OrdersItemsController extends Controller
       'order'       => $order,
       'orders'       => $orders,
       'products'    => Product::all(),
+      'tables'    => Table::all(),
       'categories'  => ItemCategroy::all(),
       'Ois'         => OrderItem::where('order_id', $id)->pluck('product_id')->toArray(),
       'quantities'  => $quantities,
@@ -68,6 +72,7 @@ class OrdersItemsController extends Controller
       'remaining'   => $totalAmount, // المبلغ المتبقي
       'status'      => Order::getStatusList(),
       'delivery_method' =>     Order::GetDeliveryMethod(),
+      'customers' => Party::where('type', 'customer')->get(),
       'shift'    => $shift, 
     ];
 

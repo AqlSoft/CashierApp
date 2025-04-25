@@ -6,6 +6,15 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('contents'); ?>
+<style>
+/* Optional: Add some styling for the table status */
+.text-danger {
+    color: #dc3545;
+}
+.text-success {
+    color: #28a745;
+}
+</style>
 
 <div class="title-slider-header">
   
@@ -32,14 +41,28 @@
             <?php if($pendingOrder->wait_no == 'new'): ?>
             <a href="<?php echo e(route('add-orderitem', [$pendingOrder->id])); ?>"
               title="Order SN - <?php echo e($pendingOrder->order_sn); ?>"
+              class="btn btn-sm btn-danger">
+              <?php echo e($pendingOrder->wait_no); ?>
+
+            </a>
+            <?php elseif($pendingOrder->delivery_method == 1): ?>
+            <a href="<?php echo e(route('add-orderitem', [$pendingOrder->id])); ?>"
+              title="Order SN - <?php echo e($pendingOrder->order_sn); ?>"
+              class="btn btn-sm btn-success">
+              <?php echo e($pendingOrder->wait_no); ?>
+
+            </a>
+            <?php elseif($pendingOrder->delivery_method == 2): ?>
+            <a href="<?php echo e(route('add-orderitem', [$pendingOrder->id])); ?>"
+              title="Order SN - <?php echo e($pendingOrder->order_sn); ?>"
               class="btn btn-sm btn-info">
               <?php echo e($pendingOrder->wait_no); ?>
 
             </a>
-            <?php else: ?>
+            <?php elseif($pendingOrder->delivery_method == 3): ?>
             <a href="<?php echo e(route('add-orderitem', [$pendingOrder->id])); ?>"
               title="Order SN - <?php echo e($pendingOrder->order_sn); ?>"
-              class="btn btn-sm btn-outline-secondary">
+              class="btn btn-sm btn-warning">
               <?php echo e($pendingOrder->wait_no); ?>
 
             </a>
@@ -57,6 +80,43 @@
   </div>
 </div>
 
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true"
+  aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-sm ">
+    <form action="/admin/clients/store" method="POST">
+      <?php echo csrf_field(); ?>
+      <div class="modal-content">
+        <h1 class="modal-title fs-5 mt-2  ps-3" id="exampleModalToggleLabel"
+          style="border-bottom: 1px solid #dedede">Add New Client </h1>
+        <div class="modal-body">
+          <div class="input-group sm mb-2">
+            <label class="input-group-text" for="vat_number">Vat Number</label>
+            <input type="number" class="form-control sm" name="vat_number" id="vat_number">
+          </div>
+          <div class="input-group sm mb-2">
+            <label class="input-group-text" for="name">Client name</label>
+            <input type="text" class="form-control sm" name="name" id="name">
+          </div>
+          <div class="input-group sm mb-2">
+            <label class="input-group-text" for="phone">Phone Number</label>
+            <input type="number" class=" form-control sm " name="phone" id="phone">
+          </div>
+          <div class="input-group sm mb-2">
+            <label class="input-group-text" for="address">Address</label>
+            <input type="text" class="form-control sm" name="address" id="address">
+          </div>
+          <div class="input-group pt-2 px-3 mt-2 justify-content-end "
+            style="border-top: 1px solid #dedede">
+            <button type="button" class="btn px-3 py-1 btn-outline-secondary btn-sm"
+              data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn px-3 py-1 btn-primary btn-sm">Save
+              Client</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 
 <div class="container">
   <div class="row mt-3 d-flex gap-3">
@@ -73,27 +133,56 @@
         </div>
       </div>
       <div class="row mt-2">
+      
         <div class="col col-12">
-          <div class="button-group">
-            <button class="btn">Delivery</button>
-            <button class="btn">Local</button>
-            <button class="btn active">Takeaway</button>
-          </div>
-          
-          <div class="input-group">
-            <label class="input-group-text" for="table_number">Table Number</label>
-            <input class="form-control" type="number" name="table_number" id="table_number" value="">
-          </div>
-          <div class="input-group">
-            <label class="input-group-text" for="delivery_id"> Delivery Agent</label>
-            <select class="form-control" name="delivery_id" id="delivery_id" value="">
-              <?php $__empty_1 = true; $__currentLoopData = $del_agents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $agent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-              <option value="<?php echo e($agent->id); ?>"><?php echo e($agent->userName); ?></option>
-              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-              <option value="">No Delivery Agents</option>
-              <?php endif; ?>
+        
+        <div class="button-group mb-2 sm">
+            <button type="button" class="btn sm delivery-method-btn active" data-method="3">Takeaway</button>
+            <button type="button" class="btn sm delivery-method-btn" data-method="2">Local</button>
+            <button type="button" class="btn sm delivery-method-btn" data-method="1">Delivery</button>
+            <input type="hidden" name="delivery_method" id="delivery_method" value="3">
+        </div>
+        
+        <div class="input-group sm mb-2" id="table_number_group" style="display:none;">
+            <label class="input-group-text" for="table_id">Table Number</label>
+            <select class="form-control sm py-0" name="table_id" id="table_id" required>
+                <option value="">Select Table</option>
+                <?php $__currentLoopData = $tables; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $table): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($table->id); ?>" 
+                        class="<?php echo e($table->is_occupied ? 'text-danger' : 'text-success'); ?>"
+                        <?php echo e($table->is_occupied ? 'disabled' : ''); ?>>
+                    <?php echo e($table->number); ?> (<?php echo e($table->is_occupied ? 'Occupied' : 'Available'); ?>)
+                </option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
-          </div>
+        </div>
+        
+        
+        <div class="input-group sm mb-2" id="delivery_agent_group" style="display:none;">
+            <label class="input-group-text" for="delivery_id">Delivery Agent</label>
+            <select class="form-select form-control sm py-0" name="delivery_id" id="delivery_id" required>
+                <option value="">Select Agent</option>
+                <?php $__currentLoopData = $del_agents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $agent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($agent->id); ?>"><?php echo e($agent->userName); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </select>
+        </div>
+
+        
+        <div class="input-group sm mb-2" id="client_name_group">
+            <label class="input-group-text" for="client_name_group">Client</label>
+            <select class="form-select form-control sm py-0" name="customer_id" id="customer_id">
+                <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($customer->id); ?>"><?php echo e($customer->name); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </select>
+            <label class="input-group-text" for="customer_id">
+                <a class="btn btn-sm py-0" href="#" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
+                    <i class="fa-solid fa-user-plus" title="View Details"></i>
+                </a>
+            </label>
+        </div>
+          <div class="py-1" style="border-bottom: 1px solid #dedede"></div>
           <div class="selected-products-container" style="font-size: 14px;">
             <div class="row g-0 border-bottom py-2 fw-bold align-items-center">
               <div class="col-1 text-center fw-bold fs-6">#</div>
@@ -106,7 +195,7 @@
 
             <?php $__currentLoopData = $order->orderItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $oItem): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="row g-0 border-bottom py-2 align-items-center">
-             
+
               <form action="<?php echo e(route('update-orderitem')); ?>" method="post" class="d-flex align-items-center w-100 p-0">
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="id" value="<?php echo e($oItem->id); ?>">
@@ -256,29 +345,7 @@
             <input type="number" step="0.01" class="form-control text-end fw-bold" name="total_amount"
               id="total_amount" value="<?php echo e(number_format($totalAmount, 2, '.', '')); ?>" required readonly>
           </div>
-          <div class="input-group input-group-sm mb-3">
-    <span class="input-group-text" style="width: 110px;"></span>delivery method</span>
-    <select class="form-select" name="delivery_method" required>
-        <option value="" disabled <?php echo e(!old('delivery_method') ? 'selected' : ''); ?>>اختر طريقة التوصيل</option>
-        <?php $__currentLoopData = \App\Models\Order::GetDeliveryMethod(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <option value="<?php echo e($key); ?>" 
-                <?php echo e(old('delivery_method', $order->delivery_method ?? '') == $key ? 'selected' : ''); ?>>
-                <?php echo e($value); ?>
-
-            </option>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-    </select>
-    <!-- <?php $__errorArgs = ['delivery_method'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-        <div class="invalid-feedback d-block"><?php echo e($message); ?></div>
-    <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?> -->
-</div>
+      
           <hr class="my-2"> 
           <div class="input-group input-group-sm mb-2">
             <span class="input-group-text" style="width: 110px;">Paid</span>
@@ -388,6 +455,120 @@ unset($__errorArgs, $__bag); ?> -->
 
   }); // End DOMContentLoaded
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deliveryMethodBtns = document.querySelectorAll('.delivery-method-btn');
+    const tableNumberGroup = document.getElementById('table_number_group');
+    const deliveryAgentGroup = document.getElementById('delivery_agent_group');
+    const clientGroup = document.getElementById('client_group');
+    const deliveryMethodInput = document.getElementById('delivery_method');
+
+  
+     // تنفيذ الإجراءات مباشرة عند التحميل
+     function initDeliveryMethod() {
+        const defaultMethod = '3'; // القيمة الافتراضية لـ Takeaway
+        setActiveButton(defaultMethod);
+        updateFieldsVisibility(defaultMethod);
+        deliveryMethodInput.value = defaultMethod;
+    }
+
+    // استدعاء الدالة عند التحميل
+    initDeliveryMethod();
+
+    deliveryMethodBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const method = this.getAttribute('data-method');
+            setActiveButton(method);
+            updateFieldsVisibility(method);
+            deliveryMethodInput.value = method;
+        });
+    });
+
+    function setActiveButton(method) {
+        deliveryMethodBtns.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-method') === method) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    function updateFieldsVisibility(method) {
+        // Takeaway (3)
+        if (method === '3') {
+            tableNumberGroup.style.display = 'none';
+            deliveryAgentGroup.style.display = 'none';
+            clientGroup.style.display = 'none';
+        } 
+        // Local (2)
+        else if (method === '2') {
+            tableNumberGroup.style.display = 'flex';
+            deliveryAgentGroup.style.display = 'none';
+            clientGroup.style.display = 'flex';
+        } 
+        // Delivery (1)
+        else if (method === '1') {
+            tableNumberGroup.style.display = 'none';
+            deliveryAgentGroup.style.display = 'flex';
+            clientGroup.style.display = 'flex';
+        }
+    }
+});
+// *****************
+document.addEventListener('DOMContentLoaded', function() {
+    const deliveryMethodBtns = document.querySelectorAll('.delivery-method-btn');
+    const deliveryMethodInput = document.getElementById('delivery_method');
+    const tableNumberGroup = document.getElementById('table_number_group');
+    const deliveryAgentGroup = document.getElementById('delivery_agent_group');
+    const clientNameGroup = document.getElementById('client_name_group');
+
+    // Initialize with Takeaway (3) as default
+    updateFieldsVisibility(3);
+
+    deliveryMethodBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const method = this.getAttribute('data-method');
+            setActiveButton(method);
+            updateFieldsVisibility(method);
+            deliveryMethodInput.value = method;
+        });
+    });
+
+    function setActiveButton(method) {
+        deliveryMethodBtns.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-method') === method) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    function updateFieldsVisibility(method) {
+        // Reset all
+        tableNumberGroup.style.display = 'none';
+        deliveryAgentGroup.style.display = 'none';
+        clientNameGroup.style.display = 'none';
+        
+        // Takeaway (3) - Hide all
+        if (method === '3') {
+            // No fields to show
+        } 
+        // Local (2) - Show table number
+        else if (method === '2') {
+            tableNumberGroup.style.display = 'flex';
+        } 
+        // Delivery (1) - Show delivery agent and client phone
+        else if (method === '1') {
+            deliveryAgentGroup.style.display = 'flex';
+            clientNameGroup.style.display = 'flex';
+        }
+    }
+});
+
+</script>
+
+
 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/orderitem/create.blade.php ENDPATH**/ ?>

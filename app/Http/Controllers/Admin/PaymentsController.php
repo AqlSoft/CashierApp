@@ -10,6 +10,8 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\SalesInvoice;
 use App\Models\OrderItem;
+use App\Models\Table;
+
 
 
 class PaymentsController
@@ -41,8 +43,11 @@ class PaymentsController
     
         // حساب المبالغ
         $totalPrice = 0;
+        $time_proesss='';
         foreach ($order->orderItems as $item) {
             $totalPrice += $item->quantity * $item->price;
+            $time_proesss=$item->product->processing_time;
+
         }
     
         $vatAmount = 0.15;
@@ -96,29 +101,32 @@ class PaymentsController
                 ]);
             }
 
-            // تحديث حالة الطلب
-            $order->update([
-                'status' => '3', // تم الدفع
-                'table_number' => $request->table_number ?? null,
-                'delivery_method' => $request->delivery_method,
-                'client_phone_number' => $request->client_phone_number ?? null,
-                'wait_no' => Order::generateValidWaitNo($id, $request->delivery_method),
-                // 'wait_no' => Order::generateWaitNo($id),
-                'processing_time' =>now(),
-                'updated_at' => now(),
-                'updated_by' => auth()->user()->id,
+          // تحديث حالة الطلب
+        $order->update([
+            'status' => Order::ORDER_COMPLETED, // تم الدفع
+            'table_id' => $request->delivery_method == 2 ? $request->table_number : null,
+            'delivery_method' => $request->delivery_method,
+            'delivery_agent_id' => $request->delivery_method == 1 ? $request->delivery_id : null,
+            'client_phone' => $request->delivery_method == 1 ? $request->client_phone_number : null,
+            'wait_no' => Order::generateValidWaitNo($id, $request->delivery_method),
+            'processing_time' => $time_process,
+            'updated_at' => now(),
+            'updated_by' => auth()->id(),
+        ]);
 
-            ]);
-    
-            // إعادة التوجيه مع بيانات الفاتورة
-            return redirect()->route('view-invoice', $invoice->id)
-                   ->with('success', 'تم الدفع وإنشاء الفاتورة بنجاح.');
-    
-        } catch (\Exception $e) {
-            return redirect()->back()
-                   ->with('error', 'حدث خطأ: ' . $e->getMessage())
-                   ->withInput();
+        // إذا كانت الطاولة محجوزة (للطلب المحلي)
+        if ($request->delivery_method == 2 && $request->table_number) {
+            Table::where('id', $request->table_number)->update(['is_occupied' => true]);
         }
+
+        return redirect()->route('view-invoice', $invoice->id)
+               ->with('success', 'تم الدفع وإنشاء الفاتورة بنجاح.');
+
+    } catch (\Exception $e) {
+        return redirect()->back()
+               ->with('error', 'حدث خطأ: ' . $e->getMessage())
+               ->withInput();
+    }
     }
 
     /**
