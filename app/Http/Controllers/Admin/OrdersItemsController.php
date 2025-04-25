@@ -10,6 +10,7 @@ use App\Models\OrderItem;
 use App\Models\Admin;
 use App\Models\Product;
 use App\Models\ItemCategroy;
+use App\Models\Role;
 
 class OrdersItemsController extends Controller
 {
@@ -30,7 +31,8 @@ class OrdersItemsController extends Controller
                ->with('error', 'لا يوجد شفت مرتبط بهذا الطلب');
     }
 
-    $deliveries = Admin::whereHasRole('delivery')->get();
+    // delivery
+    $del_agents = Role::where(['name' => 'delivery'])->first()->admins;
 
     $shift = $order->shift;
 
@@ -53,6 +55,7 @@ class OrdersItemsController extends Controller
 
     // البيانات المرسلة إلى الواجهة
     $vars = [
+      'del_agents' => $del_agents,
       'order'       => $order,
       'orders'       => $orders,
       'products'    => Product::all(),

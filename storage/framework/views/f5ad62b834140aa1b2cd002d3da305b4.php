@@ -85,8 +85,14 @@
             <input class="form-control" type="number" name="table_number" id="table_number" value="">
           </div>
           <div class="input-group">
-            <label class="input-group-text" for="client_phone_number"> Phone Number</label>
-            <input class="form-control" type="text" name="client_phone_number" id="client_phone_number" value="">
+            <label class="input-group-text" for="delivery_id"> Delivery Agent</label>
+            <select class="form-control" name="delivery_id" id="delivery_id" value="">
+              <?php $__empty_1 = true; $__currentLoopData = $del_agents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $agent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+              <option value="<?php echo e($agent->id); ?>"><?php echo e($agent->userName); ?></option>
+              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+              <option value="">No Delivery Agents</option>
+              <?php endif; ?>
+            </select>
           </div>
           <div class="selected-products-container" style="font-size: 14px;">
             <div class="row g-0 border-bottom py-2 fw-bold align-items-center">
