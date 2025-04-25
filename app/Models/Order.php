@@ -34,6 +34,7 @@ class Order extends Model
         'shift_id',
         'table_id',
         'delivery_method',
+        'client_phone_number',
         'created_by',
         'updated_by',
         'processing_by',

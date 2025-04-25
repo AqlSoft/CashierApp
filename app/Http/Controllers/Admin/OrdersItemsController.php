@@ -30,6 +30,8 @@ class OrdersItemsController extends Controller
                ->with('error', 'لا يوجد شفت مرتبط بهذا الطلب');
     }
 
+    $deliveries = Admin::whereHasRole('delivery')->get();
+
     $shift = $order->shift;
 
     // 3. الآن يمكنك استخدام shift_id بأمان

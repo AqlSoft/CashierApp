@@ -74,6 +74,20 @@
       </div>
       <div class="row mt-2">
         <div class="col col-12">
+          <div class="button-group">
+            <button class="btn">Delivery</button>
+            <button class="btn">Local</button>
+            <button class="btn active">Takeaway</button>
+          </div>
+          {{-- table Number --}}
+          <div class="input-group">
+            <label class="input-group-text" for="table_number">Table Number</label>
+            <input class="form-control" type="number" name="table_number" id="table_number" value="">
+          </div>
+          <div class="input-group">
+            <label class="input-group-text" for="client_phone_number"> Phone Number</label>
+            <input class="form-control" type="text" name="client_phone_number" id="client_phone_number" value="">
+          </div>
           <div class="selected-products-container" style="font-size: 14px;">
             <div class="row g-0 border-bottom py-2 fw-bold align-items-center">
               <div class="col-1 text-center fw-bold fs-6">#</div>
@@ -86,6 +100,7 @@
 
             @foreach ($order->orderItems as $oItem)
             <div class="row g-0 border-bottom py-2 align-items-center">
+             
               <form action="{{ route('update-orderitem') }}" method="post" class="d-flex align-items-center w-100 p-0">
                 @csrf
                 <input type="hidden" name="id" value="{{ $oItem->id }}">
@@ -98,6 +113,8 @@
                     style="width: 50px; border: 1px solid #dedede; padding: 2px 5px;"
                     class="text-center fs-6">
                 </div>
+
+
 
                 <div class="col-2 text-center fs-6">
                   <input type="number" step="0.01" name="price" value="{{ old('price', $oItem->price) }}"
