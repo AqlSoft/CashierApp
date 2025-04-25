@@ -85,8 +85,14 @@
             <input class="form-control" type="number" name="table_number" id="table_number" value="">
           </div>
           <div class="input-group">
-            <label class="input-group-text" for="client_phone_number"> Phone Number</label>
-            <input class="form-control" type="text" name="client_phone_number" id="client_phone_number" value="">
+            <label class="input-group-text" for="delivery_id"> Delivery Agent</label>
+            <select class="form-control" name="delivery_id" id="delivery_id" value="">
+              @forelse ($del_agents as $agent)
+              <option value="{{ $agent->id }}">{{ $agent->userName }}</option>
+              @empty
+              <option value="">No Delivery Agents</option>
+              @endforelse
+            </select>
           </div>
           <div class="selected-products-container" style="font-size: 14px;">
             <div class="row g-0 border-bottom py-2 fw-bold align-items-center">
