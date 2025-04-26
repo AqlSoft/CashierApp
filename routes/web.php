@@ -127,6 +127,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/destroy/{id}',                   [OrdersController::class, 'destroy'])->name('destroy-order-info');
     Route::get('/cancel/{id}',                    [OrdersController::class, 'cancel'])->name('cancel-order-info');
     Route::get('/allow/edit/{id}',                [OrdersController::class, 'allowEdit'])->name('allow-order-editting');
+    Route::get('/change/method/{id}/{m}',         [OrdersController::class, 'changeDelMethod'])->name('change-order-delivery-method');
   });
 
   // Orders & Meals
@@ -191,13 +192,12 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
   // route kitchen
 
-Route::prefix('kitchen')->group(function () {
-Route::get('/display',              [KitchenController::class, 'index'])->name('admin.kitchen.kitchen');
-// Route::post('/order/{order}/pick', [KitchenController::class, 'pickOrder'])->name('kitchen.order.pick');
-Route::post('/order/{order}/pick',     [KitchenController::class, 'pickOrder'])->name('admin.kitchen.order.pick');
-Route::post('/order/{order}/complete', [KitchenController::class, 'completeOrder'])->name('admin.kitchen.order.complete');
-Route::get('/sse/kitchen-orders', [KitchenController::class, 'streamKitchenOrders']);
- Route::get('/admin/kitchen/orders/list', [KitchenController::class, 'getOrderList'])->name('admin.kitchen.orders.list');
-});
-  
+  Route::prefix('kitchen')->group(function () {
+    Route::get('/display',              [KitchenController::class, 'index'])->name('admin.kitchen.kitchen');
+    // Route::post('/order/{order}/pick', [KitchenController::class, 'pickOrder'])->name('kitchen.order.pick');
+    Route::post('/order/{order}/pick',     [KitchenController::class, 'pickOrder'])->name('admin.kitchen.order.pick');
+    Route::post('/order/{order}/complete', [KitchenController::class, 'completeOrder'])->name('admin.kitchen.order.complete');
+    Route::get('/sse/kitchen-orders', [KitchenController::class, 'streamKitchenOrders']);
+    Route::get('/admin/kitchen/orders/list', [KitchenController::class, 'getOrderList'])->name('admin.kitchen.orders.list');
+  });
 });

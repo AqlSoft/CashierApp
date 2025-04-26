@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
     use SoftDeletes; // تفعيل Soft Delete
-    
+
     // تعريف الثوابت في النموذج
     const ORDER_JUST_CREATED    = 1;
     const ORDER_EDITING         = 2;
@@ -41,7 +41,7 @@ class Order extends Model
         'processing_time',
         'started_processing_at'
     ];
-    
+
     public static function getStatuses()
     {
         return [
@@ -56,7 +56,7 @@ class Order extends Model
         ];
     }
 
-    protected $dates=[
+    protected $dates = [
         'deleted_at',
         'created_at',
         'updated_at',
@@ -66,7 +66,7 @@ class Order extends Model
     ];
 
 
-  
+
     /**
      * علاقة الطلب مع الموظف (Admin) الذي قام بتحضير الطلب.
      *
@@ -86,7 +86,7 @@ class Order extends Model
     public function scopeAvailable($query)
     {
         return $query->whereIn('status', [self::ORDER_JUST_CREATED, self::ORDER_IN_PROGRESS])
-                    ->orderBy('created_at', 'asc');
+            ->orderBy('created_at', 'asc');
     }
 
     /**
@@ -98,7 +98,7 @@ class Order extends Model
     {
         // الحصول على آخر سريال نمبر تم إنشاؤه
         $lastSerial = self::orderBy('id', 'desc')->first();
-    
+
         if ($lastSerial) {
             // إذا كان هناك سريال نمبر سابق، نأخذه ونضيف 1
             $lastNumber = (int) $lastSerial->order_sn;
@@ -107,12 +107,12 @@ class Order extends Model
             // إذا لم يكن هناك سريال نمبر سابق، نبدأ من رقم معين (مثل 1)
             $nextNumber = 1;
         }
-    
+
         // التأكد من أن الرقم الجديد غير مستخدم مسبقًا (للتأكد من عدم التكرار)
         while (self::where('order_sn', $nextNumber)->exists()) {
             $nextNumber++;
         }
-    
+
         // إرجاع الرقم الجديد مع تنسيق مكون من 8 أرقام (مثال: 00000001)
         return str_pad($nextNumber, 8, '0', STR_PAD_LEFT);
     }
@@ -133,8 +133,9 @@ class Order extends Model
         2 => 'Local ',
         3 => 'Delivery',
     ];
-    
-    public static function GetDeliveryMethod(){
+
+    public static function GetDeliveryMethod()
+    {
         return self::$delivery_method;
     }
     /**
@@ -146,7 +147,7 @@ class Order extends Model
     {
         return self::$status;
     }
-  
+
     /**
      * علاقة الطلب مع الموظف (Admin) الذي قام بإنشاء الطلب.
      *
@@ -212,21 +213,21 @@ class Order extends Model
     {
         $order = Order::find($orderId);
         $validMethods = [1, 2, 3];
-        
-        $method = in_array((int)$deliveryMethod, $validMethods) 
-            ? (int)$deliveryMethod 
+
+        $method = in_array((int)$deliveryMethod, $validMethods)
+            ? (int)$deliveryMethod
             : 1; // Default to 1 if invalid
-    
+
         $prefix = [
-            1 => 'DVR',
+            1 => 'TWY',
             2 => 'LOC',
-            3 => 'TWY'
+            3 => 'DVR',
         ][$method];
-    
+
         return $prefix . substr(str_pad($order->order_sn, 4, '0', STR_PAD_LEFT), -4);
     }
 
-    
+
     /**
      * علاقة واحد إلى واحد بين الطلب والفاتورة (SalesInvoice) الخاصة به.
      * تسترجع الفاتورة المرتبطة بهذا الطلب.
@@ -240,7 +241,7 @@ class Order extends Model
     }
 
     public function table()
-{
-    return $this->belongsTo(Table::class,'table_id');
-}
+    {
+        return $this->belongsTo(Table::class, 'table_id');
+    }
 }

@@ -40,7 +40,7 @@ class OrdersController extends Controller
   {
     $order = Order::find($id);
     try {
-      
+
       $order->status = 2;
       $order->update();
       return redirect()->back()->with('success', 'تم اتاحة الطلب للتعديل بنجاح.');
@@ -50,40 +50,56 @@ class OrdersController extends Controller
     }
   }
 
+  public function changeDelMethod($id, $m)
+  {
+    $order = Order::find($id);
+    try {
+      $order->delivery_method = $m;
+      $order->wait_no = Order::generateValidWaitNo($order->id, $m);
+      $order->update();
+
+      return redirect()->back();
+    } catch (\Exception $e) {
+      return redirect()->back()
+        ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
+        ->withInput();
+    }
+  }
+
   public function fastCreateOrder($shift_id)
   {
-      $shift = Shift::findOrFail($shift_id);
-      
-      // التحقق من وجود طلب بحالة "new" مسبقاً
-      $existingNewOrder = Order::where('shift_id', $shift->id)
-                             ->where('wait_no', 'new')
-                             ->first(); // تغيير exists() إلى first()
-      
-      if ($existingNewOrder) {
-          return redirect()->route('add-orderitem', [$existingNewOrder->id])
-                         ->with('error', 'يوجد طلب جديد بالفعل، لا يمكن إنشاء طلب آخر حتى يتم معالجة الطلب الحالي');
-      }
-      
-      try {
-          $order = Order::create([
-              'order_sn'        => Order::generateSerialNumber(),
-              'shift_id'        => $shift->id,
-              'order_date'      => now(),
-              'wait_no'         => 'new',
-              'customer_id'     => 1,
-              'status'          => Order::ORDER_JUST_CREATED,
-              'created_by'      => Admin::current()->id,
-              'processing_time' => '00:30:00',
-          ]);
-      
-          return redirect()->route('add-orderitem', [$order->id])
-                         ->with('success', 'تم إنشاء طلب جديد بنجاح');
-      
-      } catch (\Exception $e) {
-          return redirect()->back()
-                         ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
-                         ->withInput();
-      }
+    $shift = Shift::findOrFail($shift_id);
+
+    // التحقق من وجود طلب بحالة "new" مسبقاً
+    $existingNewOrder = Order::where('shift_id', $shift->id)
+      ->where('wait_no', 'new')
+      ->first(); // تغيير exists() إلى first()
+
+    if ($existingNewOrder) {
+      return redirect()->route('add-orderitem', [$existingNewOrder->id])
+        ->with('error', 'يوجد طلب جديد بالفعل، لا يمكن إنشاء طلب آخر حتى يتم معالجة الطلب الحالي');
+    }
+
+    try {
+      $order = Order::create([
+        'order_sn'        => Order::generateSerialNumber(),
+        'shift_id'        => $shift->id,
+        'order_date'      => now(),
+        'customer_id'     => 1,
+        'status'          => Order::ORDER_JUST_CREATED,
+        'created_by'      => Admin::current()->id,
+
+      ]);
+      $order->wait_no = Order::generateValidWaitNo($order->id, 3);
+      $order->update();
+
+      return redirect()->route('add-orderitem', [$order->id])
+        ->with('success', 'تم إنشاء طلب جديد بنجاح');
+    } catch (\Exception $e) {
+      return redirect()->back()
+        ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
+        ->withInput();
+    }
   }
 
   // حفظ الطلب الجديد
