@@ -71,7 +71,8 @@ class OrdersItemsController extends Controller
       'totalAmount' => $totalAmount,
       'remaining'   => $totalAmount, // المبلغ المتبقي
       'status'      => Order::getStatusList(),
-      'delivery_method' =>     Order::GetDeliveryMethod(),
+      'currentMethod' => $order->delivery_method ?? 3, 
+      'deliveryMethods' =>     Order::GetDeliveryMethod(),
       'customers' => Party::where('type', 'customer')->get(),
       'shift'    => $shift, 
     ];
@@ -79,7 +80,20 @@ class OrdersItemsController extends Controller
     return view('admin.orderitem.create', $vars);
   }
 
-
+  public function updateDeliveryMethod(Request $request)
+  {
+      $request->validate([
+          'order_id' => 'required|exists:orders,id',
+          'selected_method' => 'required|in:1,2,3'
+      ]);
+      
+      $order = Order::find($request->order_id);
+      $order->update([
+          'delivery_method' => $request->selected_method
+      ]);
+      
+      return redirect()->route('add-orderitem', $order->id);
+  }
 
   // حفظ  عناصر الطلب الجديد
   public function store(Request $request, $orderId)

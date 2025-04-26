@@ -129,9 +129,9 @@ class Order extends Model
         7 => 'Rated',
     ];
     protected static $delivery_method = [
-        1 => 'Delivery',
+        1 => 'Takeaway',
         2 => 'Local ',
-        3 => 'Takeaway',
+        3 => 'Delivery',
     ];
     
     public static function GetDeliveryMethod(){

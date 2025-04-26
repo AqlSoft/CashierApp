@@ -108,34 +108,29 @@
         <div class="col col-12">
           
             
-            <div class="button-group mb-2 sm">
-              <?php
-                $deliveryMethods = [
-                  3 => 'Takeaway',
-                  2 => 'Local',
-                  1 => 'Delivery'
-                ];
-                $currentMethod = $order->delivery_method ?? 3;
-              ?>
-              
-              <?php $__currentLoopData = $deliveryMethods; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <button type="button" 
-                        class="btn sm delivery-method-btn <?php echo e($currentMethod == $value ? 'active' : ''); ?>" 
-                        data-method="<?php echo e($value); ?>"
-                        onclick="document.getElementById('delivery_method').value = '<?php echo e($value); ?>'; updateFieldsVisibility('<?php echo e($value); ?>')">
-                  <?php echo e($label); ?>
+        <form method="POST" action="<?php echo e(route('update.delivery.method')); ?>">
+    <?php echo csrf_field(); ?>
+    <input type="hidden" name="order_id" value="<?php echo e($order->id); ?>">
+    
+    <div class="button-group mb-2 sm">
+        <?php $__currentLoopData = $deliveryMethods; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <button type="submit"
+                    name="selected_method"
+                    value="<?php echo e($value); ?>"
+                    class="btn sm delivery-method-btn <?php echo e($currentMethod == $value ? 'active' : ''); ?>">
+                <?php echo e($label); ?>
 
-                </button>
-              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-              <input type="hidden" name="delivery_method" id="delivery_method" value="<?php echo e($currentMethod); ?>">
-            </div>
-            
-            
-            <div class="input-group sm mb-2" id="table_number_group" style="display: <?php echo e($currentMethod == 2 ? 'flex' : 'none'); ?>;">
-              <label class="input-group-text" for="table_id">Table Number</label>
-              <select class="form-control sm py-0" name="table_id" id="table_id_select" <?php echo e($currentMethod == 2 ? 'required' : ''); ?>>
-                <option value="">Select Table</option>
-                <?php $__currentLoopData = $tables; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $table): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            </button>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </div>
+</form>
+
+<?php if($currentMethod == 2): ?>
+    <div class="input-group sm mb-2">
+        <label class="input-group-text">Table Number</label>
+        <select class="form-control sm py-0" name="table_id" required>
+            <option value="">Select Table</option>
+            <?php $__currentLoopData = $tables; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $table): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option value="<?php echo e($table->id); ?>" 
                         class="<?php echo e($table->is_occupied ? 'text-danger' : 'text-success'); ?>"
                         <?php echo e($table->is_occupied ? 'disabled' : ''); ?>
@@ -144,13 +139,14 @@
                   <?php echo e($table->number); ?> (<?php echo e($table->is_occupied ? 'Occupied' : 'Available'); ?>)
                 </option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-              </select>
-            </div>
-            
-            
-            <div class="input-group sm mb-2" id="delivery_agent_group" style="display: <?php echo e($currentMethod == 1 ? 'flex' : 'none'); ?>;">
-              <label class="input-group-text" for="delivery_id">Delivery Agent</label>
-              <select class="form-select form-control sm py-0" name="delivery_id" id="delivery_id_select" <?php echo e($currentMethod == 1 ? 'required' : ''); ?>>
+        </select>
+    </div>
+<?php endif; ?>
+
+<?php if($currentMethod == 3): ?>
+    <div class="input-group sm mb-2">
+        <label class="input-group-text">Delivery Agent</label>
+        <select class="form-select form-control sm py-0" name="delivery_id" id="delivery_id_select" <?php echo e($currentMethod == 1 ? 'required' : ''); ?>>
             
                 <option value="">Select Agent</option>
                 <?php $__currentLoopData = $del_agents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $agent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -160,25 +156,26 @@
                 </option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               </select>
-            </div>
+    </div>
+    
+    <div class="input-group sm mb-2">
+        <label class="input-group-text">Client</label>
+        <select class="form-control sm py-0" name="customer_id" required>
+            <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($customer->id); ?>" <?php echo e($order->customer_id == $customer->id ? 'selected' : ''); ?>>
+                <?php echo e($customer->name); ?>
 
-            
-            <div class="input-group sm mb-2" id="client_name_group"  style="display: <?php echo e($currentMethod == 1 ? 'flex' : 'none'); ?>;">
-              <label class="input-group-text" for="client_name_group">Client</label>
-              <select class="form-select form-control sm py-0" name="customer_id" id="customer_id_select" <?php echo e($currentMethod == 1 ? 'required' : ''); ?>>
-                <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                  <option value="<?php echo e($customer->id); ?>" <?php echo e(($order->customer_id == $customer->id) ? 'selected' : ''); ?>>
-                    <?php echo e($customer->name); ?>
-
-                  </option>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-              </select>
-              <label class="input-group-text" for="customer_id">
+            </option>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </select>
+        <label class="input-group-text" for="customer_id">
                 <a class="btn btn-sm py-0" href="#" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
                   <i class="fa-solid fa-user-plus" title="View Details"></i>
                 </a>
               </label>
-            </div>
+    </div>
+<?php endif; ?>
+          
             
             
             <div class="py-1" style="border-bottom: 1px solid #dedede"></div>
@@ -444,21 +441,21 @@ document.addEventListener('DOMContentLoaded', function() {
       return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 
-    // Function to update fields visibility (called from PHP onclick)
+//     // Function to update fields visibility (called from PHP onclick)
   
-window.updateFieldsVisibility = function(method) {
-    // تحديث العرض
-    document.getElementById('table_number_group').style.display = method === '2' ? 'flex' : 'none';
-    document.getElementById('delivery_agent_group').style.display = method === '1' ? 'flex' : 'none';
-    document.getElementById('client_name_group').style.display = method === '1' ? 'flex' : 'none';
+// window.updateFieldsVisibility = function(method) {
+//     // تحديث العرض
+//     document.getElementById('table_number_group').style.display = method === '2' ? 'flex' : 'none';
+//     document.getElementById('delivery_agent_group').style.display = method === '1' ? 'flex' : 'none';
+//     document.getElementById('client_name_group').style.display = method === '1' ? 'flex' : 'none';
     
-    // تحديث الحقول المخفية
-    document.getElementById('delivery_method').value = method;
-    document.getElementById('delivery_id').value = method === '1' ? document.getElementById('delivery_id_select').value : '';
-    document.getElementById('customer_id').value = method === '1' ? document.getElementById('customer_id_select').value : '';
-    document.getElementById('table_id').value = method === '2' ? document.getElementById('table_id_select').value : '';
-}
-});
+//     // تحديث الحقول المخفية
+//     document.getElementById('delivery_method').value = method;
+//     document.getElementById('delivery_id').value = method === '1' ? document.getElementById('delivery_id_select').value : '';
+//     document.getElementById('customer_id').value = method === '1' ? document.getElementById('customer_id_select').value : '';
+//     document.getElementById('table_id').value = method === '2' ? document.getElementById('table_id_select').value : '';
+// }
+// });
 </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/orderitem/create.blade.php ENDPATH**/ ?>

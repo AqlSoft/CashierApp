@@ -135,6 +135,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::post('/store/{id}',                    [OrdersItemsController::class, 'store'])->name('save-orderitem-info');
     Route::post('/update',                        [OrdersItemsController::class, 'update'])->name('update-orderitem');
     Route::get('/destroy/{id}',                   [OrdersItemsController::class, 'destroy'])->name('destroy-oItem-info');
+    Route::post('/update-delivery-method',   [OrdersItemsController::class, 'updateDeliveryMethod'])->name('update.delivery.method');
   });
 
   // clients Routes
