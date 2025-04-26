@@ -133,7 +133,7 @@ class Order extends Model
         2 => 'Local ',
         3 => 'Takeaway',
     ];
-
+    
     public static function GetDeliveryMethod(){
         return self::$delivery_method;
     }

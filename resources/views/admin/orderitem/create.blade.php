@@ -1,74 +1,52 @@
 @extends('layouts.admin')
 
 @section('extra-links')
-{{-- Include your custom CSS for order items --}}
 <link rel="stylesheet" href="{{ asset('assets/admin/css/orderitem.css') }}">
-{{-- Include Swiper CSS from CDN --}}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 @endsection
 
 @section('contents')
 <style>
-/* Optional: Add some styling for the table status */
-.text-danger {
-    color: #dc3545;
-}
-.text-success {
-    color: #28a745;
-}
+.text-danger { color: #dc3545; }
+.text-success { color: #28a745; }
 </style>
-{{-- Header Row with Flexbox --}}
+
+{{-- Header Row --}}
 <div class="title-slider-header">
-  {{-- Left Part (30%) --}}
   <div class="title-new-section">
     <h1>Add Order Items</h1>
     @if(isset($shift) && $shift->status == 'Active')
-    <a href="{{ route('fast-create-order', $shift->id) }}">
-      <i class="fas fa-plus"></i> New
-    </a>
+      <a href="{{ route('fast-create-order', $shift->id) }}">
+        <i class="fas fa-plus"></i> New
+      </a>
     @else
-    <button class="btn btn-secondary" disabled>
-      <i class="fas fa-plus"></i> No Active Shift
-    </button>
+      <button class="btn btn-secondary" disabled>
+        <i class="fas fa-plus"></i> No Active Shift
+      </button>
     @endif
   </div>
 
-  {{-- Right Part (70%) --}}
   <div class="slider-section">
     <div class="order-slider-container">
       <div class="swiper order-slider">
         <div class="swiper-wrapper">
           @forelse ($orders as $pendingOrder)
-          <div class="swiper-slide"> {{-- Each item must be inside swiper-slide --}}
-            @if ($pendingOrder->wait_no == 'new')
+          <div class="swiper-slide">
+            @php
+              $btnClass = 'btn-outline-secondary';
+              if ($pendingOrder->wait_no == 'new') $btnClass = 'btn-outline-danger';
+              elseif ($pendingOrder->delivery_method == 1) $btnClass = 'btn-outline-secondery';
+              elseif ($pendingOrder->delivery_method == 2) $btnClass = 'btn-outline-info';
+              elseif ($pendingOrder->delivery_method == 3) $btnClass = 'btn-outline-warning';
+            @endphp
             <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
-              title="Order SN - {{ $pendingOrder->order_sn }}"
-              class="btn btn-sm btn-danger">
+               title="Order SN - {{ $pendingOrder->order_sn }}"
+               class="btn btn-sm {{ $btnClass }}">
               {{ $pendingOrder->wait_no }}
             </a>
-            @elseif($pendingOrder->delivery_method == 1)
-            <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
-              title="Order SN - {{ $pendingOrder->order_sn }}"
-              class="btn btn-sm btn-success">
-              {{ $pendingOrder->wait_no }}
-            </a>
-            @elseif($pendingOrder->delivery_method == 2)
-            <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
-              title="Order SN - {{ $pendingOrder->order_sn }}"
-              class="btn btn-sm btn-info">
-              {{ $pendingOrder->wait_no }}
-            </a>
-            @elseif($pendingOrder->delivery_method == 3)
-            <a href="{{ route('add-orderitem', [$pendingOrder->id]) }}"
-              title="Order SN - {{ $pendingOrder->order_sn }}"
-              class="btn btn-sm btn-warning">
-              {{ $pendingOrder->wait_no }}
-            </a>
-            @endif
           </div>
           @empty
-          {{-- Optional: You can add a placeholder slide if the list is empty --}}
-          {{-- <div class="swiper-slide"><span class="text-muted">No pending orders</span></div> --}}
+          {{-- Empty slide --}}
           @endforelse
         </div>
       </div>
@@ -77,15 +55,14 @@
     </div>
   </div>
 </div>
-{{-- add Client modal--}}
-<div class="modal fade" id="exampleModalToggle" aria-hidden="true"
-  aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-sm ">
+
+{{-- Add Client Modal --}}
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
     <form action="/admin/clients/store" method="POST">
       @csrf
       <div class="modal-content">
-        <h1 class="modal-title fs-5 mt-2  ps-3" id="exampleModalToggleLabel"
-          style="border-bottom: 1px solid #dedede">Add New Client </h1>
+        <h1 class="modal-title fs-5 mt-2 ps-3" style="border-bottom: 1px solid #dedede">Add New Client</h1>
         <div class="modal-body">
           <div class="input-group sm mb-2">
             <label class="input-group-text" for="vat_number">Vat Number</label>
@@ -97,29 +74,26 @@
           </div>
           <div class="input-group sm mb-2">
             <label class="input-group-text" for="phone">Phone Number</label>
-            <input type="number" class=" form-control sm " name="phone" id="phone">
+            <input type="number" class="form-control sm" name="phone" id="phone">
           </div>
           <div class="input-group sm mb-2">
             <label class="input-group-text" for="address">Address</label>
             <input type="text" class="form-control sm" name="address" id="address">
           </div>
-          <div class="input-group pt-2 px-3 mt-2 justify-content-end "
-            style="border-top: 1px solid #dedede">
-            <button type="button" class="btn px-3 py-1 btn-outline-secondary btn-sm"
-              data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn px-3 py-1 btn-primary btn-sm">Save
-              Client</button>
+          <div class="input-group pt-2 px-3 mt-2 justify-content-end" style="border-top: 1px solid #dedede">
+            <button type="button" class="btn px-3 py-1 btn-outline-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn px-3 py-1 btn-primary btn-sm">Save Client</button>
           </div>
         </div>
       </div>
     </form>
   </div>
 </div>
-{{-- Rest of your page content --}}
+
+{{-- Main Content --}}
 <div class="container">
   <div class="row mt-3 d-flex gap-3">
     <div class="col col-4">
-      {{-- Left Column Content (Category select, Order Items list) --}}
       <div class="row">
         <div class="col col-12">
           <select class="form-select form-control mt-2" id="category-select">
@@ -130,149 +104,162 @@
           </select>
         </div>
       </div>
-      <div class="row mt-2">
       
+      <div class="row mt-2">
         <div class="col col-12">
-        {{-- Delivery Method Buttons --}}
-        <div class="button-group mb-2 sm">
-            <button type="button" class="btn sm delivery-method-btn active" data-method="3">Takeaway</button>
-            <button type="button" class="btn sm delivery-method-btn" data-method="2">Local</button>
-            <button type="button" class="btn sm delivery-method-btn" data-method="1">Delivery</button>
-            <input type="hidden" name="delivery_method" id="delivery_method" value="3">
-        </div>
-        {{-- Table Number (Visible for Local only) --}}
-        <div class="input-group sm mb-2" id="table_number_group" style="display:none;">
-            <label class="input-group-text" for="table_id">Table Number</label>
-            <select class="form-control sm py-0" name="table_id" id="table_id" required>
+          
+            {{-- Delivery Method Buttons --}}
+            <div class="button-group mb-2 sm">
+              @php
+                $deliveryMethods = [
+                  3 => 'Takeaway',
+                  2 => 'Local',
+                  1 => 'Delivery'
+                ];
+                $currentMethod = $order->delivery_method ?? 3;
+              @endphp
+              
+              @foreach($deliveryMethods as $value => $label)
+                <button type="button" 
+                        class="btn sm delivery-method-btn {{ $currentMethod == $value ? 'active' : '' }}" 
+                        data-method="{{ $value }}"
+                        onclick="document.getElementById('delivery_method').value = '{{ $value }}'; updateFieldsVisibility('{{ $value }}')">
+                  {{ $label }}
+                </button>
+              @endforeach
+              <input type="hidden" name="delivery_method" id="delivery_method" value="{{ $currentMethod }}">
+            </div>
+            
+            {{-- Table Number (Visible for Local only) --}}
+            <div class="input-group sm mb-2" id="table_number_group" style="display: {{ $currentMethod == 2 ? 'flex' : 'none' }};">
+              <label class="input-group-text" for="table_id">Table Number</label>
+              <select class="form-control sm py-0" name="table_id" id="table_id_select" {{ $currentMethod == 2 ? 'required' : '' }}>
                 <option value="">Select Table</option>
                 @foreach($tables as $table)
                 <option value="{{ $table->id }}" 
                         class="{{ $table->is_occupied ? 'text-danger' : 'text-success' }}"
-                        {{ $table->is_occupied ? 'disabled' : '' }}>
-                    {{ $table->number }} ({{ $table->is_occupied ? 'Occupied' : 'Available' }})
+                        {{ $table->is_occupied ? 'disabled' : '' }}
+                        {{ ($order->table_id == $table->id) ? 'selected' : '' }}>
+                  {{ $table->number }} ({{ $table->is_occupied ? 'Occupied' : 'Available' }})
                 </option>
                 @endforeach
-            </select>
-        </div>
-        {{-- Delivery Agent (Visible for Delivery only) --}}
-        
-        <div class="input-group sm mb-2" id="delivery_agent_group" style="display:none;">
-            <label class="input-group-text" for="delivery_id">Delivery Agent</label>
-            <select class="form-select form-control sm py-0" name="delivery_id" id="delivery_id" required>
+              </select>
+            </div>
+            
+            {{-- Delivery Agent (Visible for Delivery only) --}}
+            <div class="input-group sm mb-2" id="delivery_agent_group" style="display: {{ $currentMethod == 1 ? 'flex' : 'none' }};">
+              <label class="input-group-text" for="delivery_id">Delivery Agent</label>
+              <select class="form-select form-control sm py-0" name="delivery_id" id="delivery_id_select" {{ $currentMethod == 1 ? 'required' : '' }}>
+            
                 <option value="">Select Agent</option>
                 @foreach($del_agents as $agent)
-                <option value="{{ $agent->id }}">{{ $agent->userName }}</option>
+                <option value="{{ $agent->id }}" {{ ($order->delivery_agent_id == $agent->id) ? 'selected' : '' }}>
+                  {{ $agent->userName }}
+                </option>
                 @endforeach
-            </select>
-        </div>
+              </select>
+            </div>
 
-        {{-- Client  (Visible for Delivery only) --}}
-        <div class="input-group sm mb-2" id="client_name_group">
-            <label class="input-group-text" for="client_name_group">Client</label>
-            <select class="form-select form-control sm py-0" name="customer_id" id="customer_id">
+            {{-- Client (Visible for Delivery only) --}}
+            <div class="input-group sm mb-2" id="client_name_group"  style="display: {{ $currentMethod == 1 ? 'flex' : 'none' }};">
+              <label class="input-group-text" for="client_name_group">Client</label>
+              <select class="form-select form-control sm py-0" name="customer_id" id="customer_id_select" {{ $currentMethod == 1 ? 'required' : '' }}>
                 @foreach ($customers as $customer)
-                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                  <option value="{{ $customer->id }}" {{ ($order->customer_id == $customer->id) ? 'selected' : '' }}>
+                    {{ $customer->name }}
+                  </option>
                 @endforeach
-            </select>
-            <label class="input-group-text" for="customer_id">
+              </select>
+              <label class="input-group-text" for="customer_id">
                 <a class="btn btn-sm py-0" href="#" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
-                    <i class="fa-solid fa-user-plus" title="View Details"></i>
+                  <i class="fa-solid fa-user-plus" title="View Details"></i>
                 </a>
-            </label>
-        </div>
-          <div class="py-1" style="border-bottom: 1px solid #dedede"></div>
-          <div class="selected-products-container" style="font-size: 14px;">
-            <div class="row g-0 border-bottom py-2 fw-bold align-items-center">
-              <div class="col-1 text-center fw-bold fs-6">#</div>
-              <div class="col-3 ps-2 fw-bold fs-6">Meal</div>
-              <div class="col-2 text-center fw-bold fs-6">Qty</div>
-              <div class="col-2 text-center fw-bold fs-6">U.Price</div>
-              <div class="col-2 text-center fw-bold fs-6">T.Price</div>
-              <div class="col-2 text-center fw-bold fs-6">Action</div>
+              </label>
             </div>
+            
+            {{-- Order Items List --}}
+            <div class="py-1" style="border-bottom: 1px solid #dedede"></div>
+            <div class="selected-products-container" style="font-size: 14px;">
+              <div class="row g-0 border-bottom py-2 fw-bold align-items-center">
+                <div class="col-1 text-center fw-bold fs-6">#</div>
+                <div class="col-3 ps-2 fw-bold fs-6">Meal</div>
+                <div class="col-2 text-center fw-bold fs-6">Qty</div>
+                <div class="col-2 text-center fw-bold fs-6">U.Price</div>
+                <div class="col-2 text-center fw-bold fs-6">T.Price</div>
+                <div class="col-2 text-center fw-bold fs-6">Action</div>
+              </div>
 
-            @foreach ($order->orderItems as $oItem)
-            <div class="row g-0 border-bottom py-2 align-items-center">
+              @foreach ($order->orderItems as $oItem)
+              <div class="row g-0 border-bottom py-2 align-items-center">
+                <form action="{{ route('update-orderitem') }}" method="post" class="d-flex align-items-center w-100 p-0">
+                  @csrf
+                  <input type="hidden" name="id" value="{{ $oItem->id }}">
 
-              <form action="{{ route('update-orderitem') }}" method="post" class="d-flex align-items-center w-100 p-0">
-                @csrf
-                <input type="hidden" name="id" value="{{ $oItem->id }}">
+                  <div class="col-1 text-center fs-6">{{ $loop->iteration }}</div>
+                  <div class="col-3 ps-2 fs-6">{{ $oItem->product->name }}</div>
 
-                <div class="col-1 text-center fs-6">{{ $loop->iteration }}</div>
-                <div class="col-3 ps-2 fs-6">{{ $oItem->product->name }}</div>
-
-                <div class="col-2 text-center fs-6">
-                  <input type="number" name="quantity" value="{{ $oItem->quantity }}"
-                    style="width: 50px; border: 1px solid #dedede; padding: 2px 5px;"
-                    class="text-center fs-6">
-                </div>
-
-
-
-                <div class="col-2 text-center fs-6">
-                  <input type="number" step="0.01" name="price" value="{{ old('price', $oItem->price) }}"
-                    style="width: 70px; border: 1px solid #dedede; padding: 2px 5px;"
-                    class="text-center fs-6">
-                </div>
-
-                <div class="col-2 text-end fs-6">{{ number_format($oItem->quantity * $oItem->price, 2) }}</div> {{-- Added number_format --}}
-
-                <div class="col-2 text-center fs-6">
-                  <div class="d-flex justify-content-center gap-1">
-                    <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent"
-                      title="Update Order Item">
-                      <i class="fas fa-save text-secondary fs-6"></i>
-                    </button>
-                    <a class="btn btn-sm p-0 border-0 bg-transparent"
-                      onclick="return confirm('You are about to delete an item, are you sure?')"
-                      title="Delete order item"
-                      href="{{ route('destroy-oItem-info', $oItem->id) }}">
-                      <i class="fa fa-trash text-danger fs-6"></i>
-                    </a>
+                  <div class="col-2 text-center fs-6">
+                    <input type="number" name="quantity" value="{{ $oItem->quantity }}"
+                      style="width: 50px; border: 1px solid #dedede; padding: 2px 5px;"
+                      class="text-center fs-6">
                   </div>
-                </div>
-              </form>
-            </div>
-            @endforeach
-          </div>
 
-          <div class="py-1" style="border-bottom: 1px solid #dedede"></div>
-          <div class="total-price mt-2 d-flex justify-content-between align-items-center">
-            <h4>Total Price:</h4>
-            <h4><span id="total-price">{{ number_format($totalPrice, 2) }}</span></h4> {{-- Added number_format --}}
-          </div>
-          <div class="py-1" style="border-bottom: 1px solid #dedede"></div>
-          <div class="input-group pt-2 px-3 justify-content-end align-items-center gap-2"> {{-- Added gap --}}
-            <a href="/admin/orders/index" class="btn px-3 py-1 btn-outline-secondary btn-sm"
-              title="Back To Order List">
-              Back To Order
-            </a>
-            @if ($order->status == 3 && $order->invoice)
-            <a href="{{ route('view-invoice', [$order->invoice->id]) }}"
-              class="btn py-1 btn-outline-secondary btn-sm">
-              View Invoice
-            </a>
-            @endif
-            @if ($order->status === 2)
-            <div class="dropdown"> {{-- Wrap dropdown elements --}}
-              <button class="btn px-3 py-1 btn-outline-secondary btn-sm dropdown-toggle"
-                id="submit-order-items" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Finish
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#" data-bs-target="#cashPaymentModal"
-                    data-bs-toggle="modal">Cash Payment</a></li>
-                {{-- Add other payment methods if needed --}}
-                {{-- <li><a class="dropdown-item" href="#">Debit Card</a></li> --}}
-                {{-- <li><a class="dropdown-item" href="#">Transfer</a></li> --}}
-                {{-- <li><a class="dropdown-item" href="#">Credit Sales</a></li> --}}
-              </ul>
+                  <div class="col-2 text-center fs-6">
+                    <input type="number" step="0.01" name="price" value="{{ old('price', $oItem->price) }}"
+                      style="width: 70px; border: 1px solid #dedede; padding: 2px 5px;"
+                      class="text-center fs-6">
+                  </div>
+
+                  <div class="col-2 text-end fs-6">{{ number_format($oItem->quantity * $oItem->price, 2) }}</div>
+
+                  <div class="col-2 text-center fs-6">
+                    <div class="d-flex justify-content-center gap-1">
+                      <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent" title="Update Order Item">
+                        <i class="fas fa-save text-secondary fs-6"></i>
+                      </button>
+                      <a class="btn btn-sm p-0 border-0 bg-transparent"
+                        onclick="return confirm('You are about to delete an item, are you sure?')"
+                        title="Delete order item"
+                        href="{{ route('destroy-oItem-info', $oItem->id) }}">
+                        <i class="fa fa-trash text-danger fs-6"></i>
+                      </a>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              @endforeach
             </div>
-            @elseif($order->status === 3)
-            <a href="{{ route('allow-order-editting', [$order->id]) }}"
-              class="btn px-3 py-1 btn-outline-secondary btn-sm">Allow edit</a>
-            @endif
-          </div>
+
+            <div class="py-1" style="border-bottom: 1px solid #dedede"></div>
+            <div class="total-price mt-2 d-flex justify-content-between align-items-center">
+              <h4>Total Price:</h4>
+              <h4><span id="total-price">{{ number_format($totalPrice, 2) }}</span></h4>
+            </div>
+            
+            <div class="py-1" style="border-bottom: 1px solid #dedede"></div>
+            <div class="input-group pt-2 px-3 justify-content-end align-items-center gap-2">
+              <a href="/admin/orders/index" class="btn px-3 py-1 btn-outline-secondary btn-sm" title="Back To Order List">
+                Back To Order
+              </a>
+              @if ($order->status == 3 && $order->invoice)
+                <a href="{{ route('view-invoice', [$order->invoice->id]) }}" class="btn py-1 btn-outline-secondary btn-sm">
+                  View Invoice
+                </a>
+              @endif
+              @if ($order->status === 2)
+                <div class="dropdown">
+                  <button class="btn px-3 py-1 btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Finish
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" data-bs-target="#cashPaymentModal" data-bs-toggle="modal">Cash Payment</a></li>
+                  </ul>
+                </div>
+              @elseif($order->status === 3)
+                <a href="{{ route('allow-order-editting', [$order->id]) }}" class="btn px-3 py-1 btn-outline-secondary btn-sm">Allow edit</a>
+              @endif
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -280,55 +267,61 @@
     <div class="col col-7 pb-3 pt-3 px-4">
       <div class="row d-flex gap-1" id="product-list">
         @if (isset($products) && count($products))
-        @foreach ($products as $product)
-        <div class="col col-2 productlist p-0"
-          style="border-radius: 6px;border: 2px solid {{ in_array($product->id, $Ois) ? '#007bff' : '#f7f5f5' }}"
-          data-category="{{ $product->category_id }}">
-          <form action="/admin/orderItems/store/{{ $order->id }}" method="POST" class="m-0"> {{-- Removed margin from form --}}
-            @csrf
-            <input type="hidden" name="product_id" value="{{ $product->id }}">
-            <input type="hidden" name="order_id" value="{{ $order->id }}">
-            <button type="submit" class="product-item">
-              <div class="productlistimg-container">
-                <div class="productlistimg"
-                  style="background-image: url('{{ $product->image ? asset('assets/admin/uploads/images/products/' . $product->image) : asset('assets/admin/images/default-product.png') }}');">
+          @foreach ($products as $product)
+          <div class="col col-2 productlist p-0"
+            style="border-radius: 6px;border: 2px solid {{ in_array($product->id, $Ois) ? '#007bff' : '#f7f5f5' }}"
+            data-category="{{ $product->category_id }}">
+            <form action="/admin/orderItems/store/{{ $order->id }}" method="POST" class="m-0">
+              @csrf
+              <input type="hidden" name="product_id" value="{{ $product->id }}">
+              <input type="hidden" name="order_id" value="{{ $order->id }}">
+              <button type="submit" class="product-item">
+                <div class="productlistimg-container">
+                  <div class="productlistimg"
+                    style="background-image: url('{{ $product->image ? asset('assets/admin/uploads/images/products/' . $product->image) : asset('assets/admin/images/default-product.png') }}');">
+                  </div>
+                  <div class="price-overlay">
+                    <h5 class="price-display">{{ number_format($product->sale_price, 2) }}</h5>
+                  </div>
                 </div>
-                <div class="price-overlay">
-                  <h5 class="price-display">{{ number_format($product->sale_price, 2) }}</h5> {{-- Added number_format --}}
+                <div class="productlistcontent">
+                  <h5 class="mt-1">{{ $product->name }}</h5>
+                  @if (($quantities[$product->id] ?? 0) > 0)
+                  <p style="border-top-left-radius: 5px" class="mb-3 quantity-display">
+                    Qty:{{ $quantities[$product->id] ?? 0 }}
+                  </p>
+                  @endif
                 </div>
-              </div>
-              <div class="productlistcontent">
-                <h5 class="mt-1">{{ $product->name }}</h5>
-                @if (($quantities[$product->id] ?? 0) > 0)
-                <p style="border-top-left-radius: 5px" class="mb-3 quantity-display">
-                  Qty:{{ $quantities[$product->id] ?? 0 }}
-                </p>
-                @endif
-              </div>
-            </button>
-          </form>
-        </div>
-        @endforeach
+              </button>
+            </form>
+          </div>
+          @endforeach
         @endif
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="cashPaymentModal" aria-hidden="true" aria-labelledby="cashPaymentModalLabel"
-  tabindex="-1">
+{{-- Cash Payment Modal --}}
+<div class="modal fade" id="cashPaymentModal" aria-hidden="true" aria-labelledby="cashPaymentModalLabel" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-sm">
     <div class="modal-content">
-      <div class="modal-header" style="padding: 0.5rem 1rem; border-bottom: 1px solid #dedede;"> {{-- Use modal-header for better structure --}}
+      <div class="modal-header" style="padding: 0.5rem 1rem; border-bottom: 1px solid #dedede;">
         <h1 class="modal-title fs-5" id="cashPaymentModalLabel">Cash Payment</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form id="cash-payment-form" action="{{ route('payments.cash.store') }}" method="POST">
-        @csrf
-        <input type="hidden" name="order_id" value="{{ $order->id }}">
+      <form method="POST" action="{{ route('payments.cash.store') }}" id="orderForm">
+    @csrf
+    <input type="hidden" name="order_id" value="{{ $order->id }}">
+    <input type="hidden" name="delivery_method" id="delivery_method" value="{{ $currentMethod }}">
+    <input type="hidden" name="delivery_id" id="delivery_id" value="">
+    <input type="hidden" name="customer_id" id="customer_id" value="">
+    <input type="hidden" name="table_id" id="table_id" value="">
+    
+  
         <div class="modal-body">
-          <div class="input-group input-group-sm mb-2"> {{-- Use input-group-sm and consistent margin --}}
-            <span class="input-group-text" style="width: 110px;">Amount</span> {{-- Use span and fixed width for alignment --}}
+          <div class="input-group input-group-sm mb-2">
+            <span class="input-group-text" style="width: 110px;">Amount</span>
             <input type="number" step="0.01" class="form-control text-end" name="amount" id="amount"
               value="{{ number_format($totalPrice, 2, '.', '') }}" required readonly>
           </div>
@@ -343,7 +336,7 @@
               id="total_amount" value="{{ number_format($totalAmount, 2, '.', '') }}" required readonly>
           </div>
       
-          <hr class="my-2"> {{-- Separator --}}
+          <hr class="my-2">
           <div class="input-group input-group-sm mb-2">
             <span class="input-group-text" style="width: 110px;">Paid</span>
             <input type="number" step="0.01" class="form-control text-end" name="paid" id="paid"
@@ -355,9 +348,8 @@
               id="remaining" value="0.00" required readonly>
           </div>
         </div>
-        <div class="modal-footer" style="border-top: 1px solid #dedede; padding: 0.5rem;"> {{-- Use modal-footer --}}
-          <button type="button" class="btn px-3 py-1 btn-outline-secondary btn-sm"
-            data-bs-dismiss="modal">Close</button>
+        <div class="modal-footer" style="border-top: 1px solid #dedede; padding: 0.5rem;">
+          <button type="button" class="btn px-3 py-1 btn-outline-secondary btn-sm" data-bs-dismiss="modal">Close</button>
           <button type="submit" class="btn px-3 py-1 btn-primary btn-sm">Confirm</button>
         </div>
       </form>
@@ -365,14 +357,12 @@
   </div>
 </div>
 
-{{-- Include Swiper JS library - Use defer to load after HTML parsing --}}
+{{-- Include Swiper JS --}}
 <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-{{-- Your Custom JavaScript --}}
+{{-- Minimal JavaScript for essential functionality --}}
 <script>
-  // Wrap all JS in DOMContentLoaded to ensure elements are loaded
-  document.addEventListener('DOMContentLoaded', function() {
-
+document.addEventListener('DOMContentLoaded', function() {
     // --- Swiper Initialization ---
     const swiper = new Swiper('.order-slider', {
       // direction: 'horizontal', // Default
@@ -450,121 +440,20 @@
       return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 
-  }); // End DOMContentLoaded
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const deliveryMethodBtns = document.querySelectorAll('.delivery-method-btn');
-    const tableNumberGroup = document.getElementById('table_number_group');
-    const deliveryAgentGroup = document.getElementById('delivery_agent_group');
-    const clientGroup = document.getElementById('client_group');
-    const deliveryMethodInput = document.getElementById('delivery_method');
-
+    // Function to update fields visibility (called from PHP onclick)
   
-     // تنفيذ الإجراءات مباشرة عند التحميل
-     function initDeliveryMethod() {
-        const defaultMethod = '3'; // القيمة الافتراضية لـ Takeaway
-        setActiveButton(defaultMethod);
-        updateFieldsVisibility(defaultMethod);
-        deliveryMethodInput.value = defaultMethod;
-    }
-
-    // استدعاء الدالة عند التحميل
-    initDeliveryMethod();
-
-    deliveryMethodBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const method = this.getAttribute('data-method');
-            setActiveButton(method);
-            updateFieldsVisibility(method);
-            deliveryMethodInput.value = method;
-        });
-    });
-
-    function setActiveButton(method) {
-        deliveryMethodBtns.forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.getAttribute('data-method') === method) {
-                btn.classList.add('active');
-            }
-        });
-    }
-
-    function updateFieldsVisibility(method) {
-        // Takeaway (3)
-        if (method === '3') {
-            tableNumberGroup.style.display = 'none';
-            deliveryAgentGroup.style.display = 'none';
-            clientGroup.style.display = 'none';
-        } 
-        // Local (2)
-        else if (method === '2') {
-            tableNumberGroup.style.display = 'flex';
-            deliveryAgentGroup.style.display = 'none';
-            clientGroup.style.display = 'flex';
-        } 
-        // Delivery (1)
-        else if (method === '1') {
-            tableNumberGroup.style.display = 'none';
-            deliveryAgentGroup.style.display = 'flex';
-            clientGroup.style.display = 'flex';
-        }
-    }
+window.updateFieldsVisibility = function(method) {
+    // تحديث العرض
+    document.getElementById('table_number_group').style.display = method === '2' ? 'flex' : 'none';
+    document.getElementById('delivery_agent_group').style.display = method === '1' ? 'flex' : 'none';
+    document.getElementById('client_name_group').style.display = method === '1' ? 'flex' : 'none';
+    
+    // تحديث الحقول المخفية
+    document.getElementById('delivery_method').value = method;
+    document.getElementById('delivery_id').value = method === '1' ? document.getElementById('delivery_id_select').value : '';
+    document.getElementById('customer_id').value = method === '1' ? document.getElementById('customer_id_select').value : '';
+    document.getElementById('table_id').value = method === '2' ? document.getElementById('table_id_select').value : '';
+}
 });
-// *****************
-document.addEventListener('DOMContentLoaded', function() {
-    const deliveryMethodBtns = document.querySelectorAll('.delivery-method-btn');
-    const deliveryMethodInput = document.getElementById('delivery_method');
-    const tableNumberGroup = document.getElementById('table_number_group');
-    const deliveryAgentGroup = document.getElementById('delivery_agent_group');
-    const clientNameGroup = document.getElementById('client_name_group');
-
-    // Initialize with Takeaway (3) as default
-    updateFieldsVisibility(3);
-
-    deliveryMethodBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const method = this.getAttribute('data-method');
-            setActiveButton(method);
-            updateFieldsVisibility(method);
-            deliveryMethodInput.value = method;
-        });
-    });
-
-    function setActiveButton(method) {
-        deliveryMethodBtns.forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.getAttribute('data-method') === method) {
-                btn.classList.add('active');
-            }
-        });
-    }
-
-    function updateFieldsVisibility(method) {
-        // Reset all
-        tableNumberGroup.style.display = 'none';
-        deliveryAgentGroup.style.display = 'none';
-        clientNameGroup.style.display = 'none';
-        
-        // Takeaway (3) - Hide all
-        if (method === '3') {
-            // No fields to show
-        } 
-        // Local (2) - Show table number
-        else if (method === '2') {
-            tableNumberGroup.style.display = 'flex';
-        } 
-        // Delivery (1) - Show delivery agent and client phone
-        else if (method === '1') {
-            deliveryAgentGroup.style.display = 'flex';
-            clientNameGroup.style.display = 'flex';
-        }
-    }
-});
-
 </script>
-
-
-
 @endsection
