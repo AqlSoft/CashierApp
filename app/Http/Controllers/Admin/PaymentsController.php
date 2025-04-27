@@ -38,10 +38,10 @@ class PaymentsController
      */
     public function cashStore(Request $request)
     {
-      return $request;
+        //return $request->all();
         $id = $request->order_id;
         $order = Order::with('orderItems.product', 'customer', 'orderItems.order')->findOrFail($id);
-    
+
         // حساب المبالغ
         $totalPrice = 0;
         $time_process = '';
@@ -49,10 +49,10 @@ class PaymentsController
             $totalPrice += $item->quantity * $item->price;
             $time_process = $item->product->processing_time;
         }
-    
+
         $vatAmount = $totalPrice * 0.15;
         $totalAmount = $totalPrice + $vatAmount;
-    
+
         try {
             // التحقق من صحة البيانات حسب طريقة التوصيل
             if ($request->delivery_method == 1) { // Delivery
@@ -65,7 +65,7 @@ class PaymentsController
                     'table_id' => 'required|exists:tables,id'
                 ]);
             }
-    
+
             // إنشاء الفاتورة
             $invoice = SalesInvoice::create([
                 'order_id' => $id,
@@ -84,14 +84,14 @@ class PaymentsController
                 'type' => 'sales',
                 'created_by' => auth()->user()->id,
             ]);
-    
+
             // تحديث أصناف الطلب
             OrderItem::where('order_id', $id)->update([
                 'invoice_id' => $invoice->id,
                 'updated_at' => now(),
                 'updated_by' => auth()->user()->id,
             ]);
-    
+
             // إنشاء الدفع
             $payment = Payment::create([
                 'order_id' => $request->order_id,
@@ -102,40 +102,25 @@ class PaymentsController
                 'note' => 'سند سلفة',
                 'created_by' => auth()->user()->id,
             ]);
-    
+
             // إعداد بيانات التحديث
             $updateData = [
                 'status' => Order::ORDER_PENDING,
-                'delivery_method' => $request->delivery_method,
-                'wait_no' => Order::generateValidWaitNo($id, $request->delivery_method),
-                'processing_time' => $time_process,
-                'updated_at' => now(),
-                'updated_by' => auth()->id(),
+                'customer_id' => $request->customer_id ?? $order->customer_id,
+                'delivery_id' => $request->delivery_id ?? null,
+                'table_id' => $request->table_id ?? null,
+                'updated_by' => auth()->user()->id,
             ];
-    
-            // إضافة الحقول الخاصة بكل طريقة توصيل
-            if ($request->delivery_method == 1) {
-                $updateData['delivery_agent_id'] = $request->delivery_id;
-                $updateData['customer_id'] = $request->customer_id;
-            } elseif ($request->delivery_method == 2) {
-                $updateData['table_id'] = $request->table_id;
-            }
-    
+
             // تحديث الطلب
             $order->update($updateData);
-    
-            // تحديث حالة الطاولة إذا كانت الطريقة محلية
-            if ($request->delivery_method == 2 && $request->table_id) {
-                Table::where('id', $request->table_id)->update(['is_occupied' => true]);
-            }
-    
+
             return redirect()->route('view-invoice', $invoice->id)
-                   ->with('success', 'تم الدفع وإنشاء الفاتورة بنجاح.');
-    
+                ->with('success', 'تم الدفع وإنشاء الفاتورة بنجاح.');
         } catch (\Exception $e) {
             return redirect()->back()
-                   ->with('error', 'حدث خطأ: ' . $e->getMessage())
-                   ->withInput();
+                ->with('error', 'حدث خطأ: ' . $e->getMessage())
+                ->withInput();
         }
     }
     /**
