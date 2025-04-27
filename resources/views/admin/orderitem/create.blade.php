@@ -442,20 +442,7 @@
           return new bootstrap.Tooltip(tooltipTriggerEl)
         })
 
-        //     // Function to update fields visibility (called from PHP onclick)
-
-        // window.updateFieldsVisibility = function(method) {
-        //     // تحديث العرض
-        //     document.getElementById('table_number_group').style.display = method === '2' ? 'flex' : 'none';
-        //     document.getElementById('delivery_agent_group').style.display = method === '1' ? 'flex' : 'none';
-        //     document.getElementById('client_name_group').style.display = method === '1' ? 'flex' : 'none';
-
-        //     // تحديث الحقول المخفية
-        //     document.getElementById('delivery_method').value = method;
-        //     document.getElementById('delivery_id').value = method === '1' ? document.getElementById('delivery_id_select').value : '';
-        //     document.getElementById('customer_id').value = method === '1' ? document.getElementById('customer_id_select').value : '';
-        //     document.getElementById('table_id').value = method === '2' ? document.getElementById('table_id_select').value : '';
-        // }
-        // });
+      
+        });
 </script>
 @endsection
