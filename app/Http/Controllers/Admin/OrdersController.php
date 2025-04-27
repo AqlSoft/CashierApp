@@ -70,16 +70,6 @@ class OrdersController extends Controller
   {
     $shift = Shift::findOrFail($shift_id);
 
-    // التحقق من وجود طلب بحالة "new" مسبقاً
-    $existingNewOrder = Order::where('shift_id', $shift->id)
-      ->where('wait_no', 'new')
-      ->first(); // تغيير exists() إلى first()
-
-    if ($existingNewOrder) {
-      return redirect()->route('add-orderitem', [$existingNewOrder->id])
-        ->with('error', 'يوجد طلب جديد بالفعل، لا يمكن إنشاء طلب آخر حتى يتم معالجة الطلب الحالي');
-    }
-
     try {
       $order = Order::create([
         'order_sn'        => Order::generateSerialNumber(),

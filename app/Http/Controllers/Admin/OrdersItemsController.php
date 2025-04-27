@@ -71,7 +71,7 @@ class OrdersItemsController extends Controller
       'totalAmount' => $totalAmount,
       'remaining'   => $totalAmount, // المبلغ المتبقي
       'status'      => Order::getStatusList(),
-      'currentMethod' => $order->delivery_method ?? 3, 
+      'currentMethod' => $order->delivery_method ?? 1, 
       'deliveryMethods' =>     Order::GetDeliveryMethod(),
       'customers' => Party::where('type', 'customer')->get(),
       'shift'    => $shift, 

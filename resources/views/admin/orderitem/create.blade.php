@@ -116,8 +116,8 @@
                     </div>
                 </div>
                 {{-- Delivery Method Buttons --}}
-                <div class="row mt-2">
-                    <div class="btn-group">
+                <div class="row mt-2 mb-2">
+                    <div class="btn-group ">
                         <a class="btn btn-outline-secondary"
                             href="{{ route('change-order-delivery-method', [$order->id, 1]) }}">Takeaway</a>
                         <a class="btn btn-outline-info"
@@ -125,16 +125,14 @@
                         <a class="btn btn-outline-warning"
                             href="{{ route('change-order-delivery-method', [$order->id, 3]) }}">Delivery</a>
                     </div>
-                    {{ $order->delivery_method }}
-                    <div class="col col-12">
-
                     
-                      
+                    <div class="col col-12 mt-2">
+
                         {{-- Table Number (Visible for Local only) --}}
                         @if ($currentMethod == 2)
                             <div class="input-group sm mb-2">
                                 <label class="input-group-text">Table Number</label>
-                                <select class="form-select form-control sm py-0" name="table_id" >
+                                <select class="form-select form-control sm py-0" name="table_id"  id="table_id_select"   {{ $currentMethod == 2 ? 'required' : '' }}>
                                     <option value="">Select Table</option>
                                     @foreach ($tables as $table)
                                         <option value="{{ $table->id }}"
@@ -152,7 +150,7 @@
                             <div class="input-group sm mb-2">
                                 <label class="input-group-text">Delivery Agent</label>
                                 <select class="form-select form-control sm py-0" id="delivery_id_select"
-                                    {{ $currentMethod == 1 ? 'required' : '' }}>
+                                    {{ $currentMethod == 3 ? 'required' : '' }}>
 
                                     <option value="">Select Agent</option>
                                     @foreach ($del_agents as $agent)
@@ -166,7 +164,7 @@
                             {{-- Client (Visible for Delivery only) --}}
                             <div class="input-group sm mb-2">
                                 <label class="input-group-text">Client</label>
-                                <select class="form-select form-control sm py-0" id="customer_id_select">
+                                <select class="form-select form-control sm py-0" id="customer_id_select"   {{ $currentMethod == 3 ? 'required' : '' }}>
                                     @foreach ($customers as $customer)
                                         <option value="{{ $customer->id }}"
                                             {{ $order->customer_id == $customer->id ? 'selected' : '' }}>
@@ -182,6 +180,8 @@
                                 </label>
                             </div>
                         @endif
+
+
                         {{-- Order Items List --}}
                         <div class="py-1" style="border-bottom: 1px solid #dedede"></div>
                         <div class="selected-products-container" style="font-size: 14px;">
@@ -377,28 +377,26 @@
             </div>
         </div>
     </div>
-
     {{-- Include Swiper JS --}}
     <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     {{-- Minimal JavaScript for essential functionality --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- Swiper Initialization ---
             const swiper = new Swiper('.order-slider', {
-                // direction: 'horizontal', // Default
+              
                 loop: false,
-                slidesPerView: 'auto', // Crucial for variable width items
-                spaceBetween: 8, // Space between buttons
+                slidesPerView: 'auto', 
+                spaceBetween: 8,
                 navigation: {
                     nextEl: '.order-slider-container .swiper-button-next',
                     prevEl: '.order-slider-container .swiper-button-prev',
-                    disabledClass: 'swiper-button-disabled', // Class for disabled state styling
+                    disabledClass: 'swiper-button-disabled',
                 },
                 allowTouchMove: true,
                 grabCursor: true,
-                freeMode: false, // Prevent free scrolling, snap to slides
-                passiveListeners: true, // Improve touch scroll performance
+                freeMode: false, 
+                passiveListeners: true, 
             });
 
             // --- Category Filtering ---
@@ -420,14 +418,13 @@
             }
 
 
-            // --- Cash Payment Modal Logic ---
+            // --- Cash Payment Modal  ---
             const cashPaymentModal = document.getElementById('cashPaymentModal');
             const paidInput = document.getElementById('paid');
-            const totalAmountInput = document.getElementById('total_amount'); // Renamed for clarity
-            const remainingInput = document.getElementById('remaining'); // Renamed for clarity
+            const totalAmountInput = document.getElementById('total_amount'); 
+            const remainingInput = document.getElementById('remaining');
 
             function updateRemaining() {
-                // Ensure inputs exist before accessing value
                 if (!totalAmountInput || !paidInput || !remainingInput) return;
 
                 const totalAmount = parseFloat(totalAmountInput.value) || 0;
@@ -439,42 +436,24 @@
             if (cashPaymentModal && paidInput && totalAmountInput && remainingInput) {
                 cashPaymentModal.addEventListener('shown.bs.modal', function() {
                     const totalAmount = parseFloat(totalAmountInput.value) || 0;
-
-                    // Set paid amount to total amount initially
                     paidInput.value = totalAmount.toFixed(2);
-
-                    // Calculate remaining amount initially
                     updateRemaining();
 
-                    // Focus on paid input and select all text
                     paidInput.focus();
                     paidInput.select();
                 });
-
-                // Update remaining amount when paid amount changes
                 paidInput.addEventListener('input', updateRemaining);
             }
 
-            // Initialize Bootstrap tooltips (if you use them elsewhere)
+          
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)
             })
 
-            //     // Function to update fields visibility (called from PHP onclick)
+          
 
-            // window.updateFieldsVisibility = function(method) {
-            //     // تحديث العرض
-            //     document.getElementById('table_number_group').style.display = method === '2' ? 'flex' : 'none';
-            //     document.getElementById('delivery_agent_group').style.display = method === '1' ? 'flex' : 'none';
-            //     document.getElementById('client_name_group').style.display = method === '1' ? 'flex' : 'none';
-
-            //     // تحديث الحقول المخفية
-            //     document.getElementById('delivery_method').value = method;
-            //     document.getElementById('delivery_id').value = method === '1' ? document.getElementById('delivery_id_select').value : '';
-            //     document.getElementById('customer_id').value = method === '1' ? document.getElementById('customer_id_select').value : '';
-            //     document.getElementById('table_id').value = method === '2' ? document.getElementById('table_id_select').value : '';
-            // }
+          
         });
 
         $('#delivery_id_select').change(function() {
@@ -484,6 +463,10 @@
         $('#customer_id_select').change(function() {
             console.log($(this).val())
             console.log($('#customer_id').val($(this).val()))
+        })
+        $('#table_id_select').change(function() {
+            console.log($(this).val())
+            console.log($('#table_id').val($(this).val()))
         })
     </script>
 @endsection
