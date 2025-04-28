@@ -13,8 +13,6 @@ use App\Models\Shift;
 class OrdersController extends Controller
 {
 
-
-
   // عرض جميع الطلبات
   public function index()
   {
