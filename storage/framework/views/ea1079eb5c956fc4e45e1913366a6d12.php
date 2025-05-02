@@ -94,7 +94,7 @@
 
                         </a>
                     </li>
-                    <!-- <li>
+                    <li>
                         <a href="<?php echo e(route('monitors-kitchen-processing-area')); ?>"
                             class="rounded <?php echo e(Request::is('/admin/monitors/kitchen') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Kitchen')); ?>
@@ -113,7 +113,7 @@
                             <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('ADS Monitors')); ?>
 
                         </a>
-                    </li> -->
+                    </li>
                 </ul>
             </div>
         </li>
