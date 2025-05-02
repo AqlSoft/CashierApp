@@ -12,6 +12,7 @@
         .text-success {
             color: #28a745;
         }
+    
     </style>
 
     
@@ -28,7 +29,7 @@
                 </button>
             <?php endif; ?>
         </div>
-
+      
         <div class="slider-section">
             <div class="order-slider-container">
                 <div class="swiper order-slider">
@@ -37,9 +38,7 @@
                             <div class="swiper-slide">
                                 <?php
                                     $btnClass = 'btn-outline-secondary';
-                                    if ($pendingOrder->wait_no == 'new') {
-                                        $btnClass = 'btn-outline-danger';
-                                    } elseif ($pendingOrder->delivery_method == 1) {
+                                   if ($pendingOrder->delivery_method == 1) {
                                         $btnClass = 'btn-outline-secondery';
                                     } elseif ($pendingOrder->delivery_method == 2) {
                                         $btnClass = 'btn-outline-info';
@@ -117,11 +116,11 @@
                 
                 <div class="row mt-2 mb-2">
                     <div class="btn-group ">
-                        <a class="btn btn-outline-secondary"
+                        <a class="btn btn-outline-secondary <?php echo e($order->delivery_method == 1 ? 'btn-secondary text-white':''); ?>" 
                             href="<?php echo e(route('change-order-delivery-method', [$order->id, 1])); ?>">Takeaway</a>
-                        <a class="btn btn-outline-info"
+                        <a class="btn btn-outline-info <?php echo e($order->delivery_method == 2 ? 'btn-info text-black':''); ?>" 
                             href="<?php echo e(route('change-order-delivery-method', [$order->id, 2])); ?>">Local</a>
-                        <a class="btn btn-outline-warning"
+                        <a class="btn btn-outline-warning <?php echo e($order->delivery_method == 3 ? 'btn-warning text-black':''); ?>"
                             href="<?php echo e(route('change-order-delivery-method', [$order->id, 3])); ?>">Delivery</a>
                     </div>
                     
@@ -255,7 +254,7 @@
                                 title="Back To Order List">
                                 Back To Order
                             </a>
-                            <?php if($order->status == 3 && $order->invoice): ?>
+                            <?php if($order->status == 3 && $order->invoice->id): ?>
                                 <a href="<?php echo e(route('view-invoice', [$order->invoice->id])); ?>"
                                     class="btn py-1 btn-outline-secondary btn-sm">
                                     View Invoice
@@ -455,9 +454,6 @@
                 return new bootstrap.Tooltip(tooltipTriggerEl)
             })
 
-          
-
-          
         });
 
         $('#delivery_id_select').change(function() {

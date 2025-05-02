@@ -38,16 +38,14 @@ class PaymentsController
      */
     public function cashStore(Request $request)
     {
-        //return $request->all();
+      
         $id = $request->order_id;
         $order = Order::with('orderItems.product', 'customer', 'orderItems.order')->findOrFail($id);
 
         // حساب المبالغ
         $totalPrice = 0;
-        $time_process = '';
         foreach ($order->orderItems as $item) {
             $totalPrice += $item->quantity * $item->price;
-            $time_process = $item->product->processing_time;
         }
 
         $vatAmount = $totalPrice * 0.15;
@@ -55,7 +53,7 @@ class PaymentsController
 
         try {
             // التحقق من صحة البيانات حسب طريقة التوصيل
-            if ($request->delivery_method == 1) { // Delivery
+            if ($request->delivery_method == 3) { // Delivery
                 $request->validate([
                     'customer_id' => 'required',
                     'delivery_id' => 'required'
@@ -96,7 +94,7 @@ class PaymentsController
             $payment = Payment::create([
                 'order_id' => $request->order_id,
                 'invoice_id' => $invoice->id,
-                'payment_method' => '1',
+                // 'payment_method' => '1',
                 'payment_date' => now(),
                 'status' => 1,
                 'note' => 'سند سلفة',
@@ -106,15 +104,22 @@ class PaymentsController
             // إعداد بيانات التحديث
             $updateData = [
                 'status' => Order::ORDER_PENDING,
-                'customer_id' => $request->customer_id ?? $order->customer_id,
-                'delivery_id' => $request->delivery_id ?? null,
-                'table_id' => $request->table_id ?? null,
-                'updated_by' => auth()->user()->id,
+                'customer_id'  => $request->customer_id ?? $order->customer_id,
+                'delivery_id'  => $request->delivery_id ?? null,
+                'table_id'     => $request->table_id ?? null,
+                'updated_by'   => auth()->user()->id,
             ];
 
             // تحديث الطلب
             $order->update($updateData);
 
+            // تحديث حالة الطاولة إذا كانت محلية
+            if ($request->delivery_method == 2) {
+                $table = Table::find($request->table_id);
+                if ($table) {
+                    $table->update(['is_occupied' => true]);
+                }
+            }
             return redirect()->route('view-invoice', $invoice->id)
                 ->with('success', 'تم الدفع وإنشاء الفاتورة بنجاح.');
         } catch (\Exception $e) {
