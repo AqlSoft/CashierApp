@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Admin;
 use App\Models\InvoiceItem;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
@@ -38,7 +39,7 @@ class PaymentsController
      */
     public function cashStore(Request $request)
     {
-      
+
         $id = $request->order_id;
         $order = Order::with('orderItems.product', 'customer', 'orderItems.order')->findOrFail($id);
 
@@ -80,14 +81,14 @@ class PaymentsController
                 'total_amount' => $totalAmount,
                 'status' => 1,
                 'type' => 'sales',
-                'created_by' => auth()->user()->id,
+                'created_by' => Admin::current()->id,
             ]);
 
             // تحديث أصناف الطلب
             OrderItem::where('order_id', $id)->update([
                 'invoice_id' => $invoice->id,
                 'updated_at' => now(),
-                'updated_by' => auth()->user()->id,
+                'updated_by' => Admin::current()->id,
             ]);
 
             // إنشاء الدفع
@@ -98,7 +99,7 @@ class PaymentsController
                 'payment_date' => now(),
                 'status' => 1,
                 'note' => 'سند سلفة',
-                'created_by' => auth()->user()->id,
+                'created_by' => Admin::current()->id,
             ]);
 
             // إعداد بيانات التحديث
@@ -107,7 +108,7 @@ class PaymentsController
                 'customer_id'  => $request->customer_id ?? $order->customer_id,
                 'delivery_id'  => $request->delivery_id ?? null,
                 'table_id'     => $request->table_id ?? null,
-                'updated_by'   => auth()->user()->id,
+                'updated_by'   => Admin::current()->id,
             ];
 
             // تحديث الطلب

@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('contents'); ?>
 <div class="container">
   <h2 class="my-4">Restaurant Hall </h2>
