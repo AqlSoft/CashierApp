@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin;
 use App\Models\Party;
-
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class ClientsController extends Controller
@@ -42,7 +42,7 @@ class ClientsController extends Controller
         'address'      => $request->address,
         'type'         => 'customer',
         'is_default'   => 0,
-        'created_by'   => auth()->user()->id, // المستخدم الحالي
+        'created_by'   => Admin::currentId(), // المستخدم الحالي
       ]);
 
       return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
@@ -92,11 +92,11 @@ class ClientsController extends Controller
         'vat_number'   => $request->vat_number,
         'name'         => $request->name,
         'phone'        => $request->phone,
-        'email '       => $request->email ,
+        'email '       => $request->email,
         'address'      => $request->address,
         'type'         => 'customer',
         'is_default'   => 0,
-        'updated_by'       => auth()->user()->id
+        'updated_by'   => Admin::currentId(),
       ]);
       return redirect()->back()->with('success', 'Order Updated successfully');
     } catch (\Exception $e) {
@@ -116,7 +116,7 @@ class ClientsController extends Controller
       }
       $client->delete();
       return redirect()->back()->with(['success' => 'client  Removed Successfully']);
-    } catch (Exception $err) {
+    } catch (QueryException $err) {
       return redirect()->back()->with(['error' => 'client can not be Removed due to: ' . $err]);
     }
   }

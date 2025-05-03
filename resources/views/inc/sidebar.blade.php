@@ -22,7 +22,7 @@
                 data-bs-target="#dashboard-collapse1" aria-expanded="">
                 <i class="fa-solid fa-cog"></i> &nbsp; {{ __('Dashboard') }}
             </button>
-            
+
             <div class="collapse {{ request()->is(['admin/admins*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : '' }}"
                 id="dashboard-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
@@ -73,28 +73,12 @@
                         </a>
                     </li>
                     <li>
-                    <a href="/admin/kitchen/display"
+                        <a href="/admin/kitchen/display"
                             class="rounded {{ Request::is('/admin/kitchen/display') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp;{{__('Kitchen')}} 
+                            <i class="fa-solid fa-cubes"></i> &nbsp;{{__('Kitchen')}}
                         </a>
                     </li>
-                    <!-- <li>
-                        <a href="{{ route('monitors-kitchen-processing-area') }}"
-                            class="rounded {{ Request::is('/admin/monitors/kitchen') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Kitchen') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{route('monitors-meals-state')}}" class="rounded {{ Request::is('/stats/home') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Meals State') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{route('monitors-advertisment-displays')}}"
-                            class="rounded {{ Request::is('/admin/sales/active/sessions') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('ADS Monitors') }}
-                        </a>
-                    </li> -->
+
                 </ul>
             </div>
         </li>
@@ -159,7 +143,7 @@
                             <i class="fa-solid fa-cubes"></i> &nbsp; Orders
                         </a>
                     </li>
-                
+
                     <li>
                         <a href="">
                             <i class="fa-solid fa-cog"></i> &nbsp; Settings

@@ -145,7 +145,7 @@ class AdminsController
             AdminProfile::where('id_number', 'LIKE', '%' . trim($request->search_query) . '%');
         // trying to get All Admins who has name like $name
         $profiles = $query->pluck('admin_id')->get();
-        //$admins');
+        //$admins
         //$admins = Admin::whereIn('id', $profiles)->with('admin')->get();
 
         return $profiles; //view('admin.admins.search.list', compact('admins'));
