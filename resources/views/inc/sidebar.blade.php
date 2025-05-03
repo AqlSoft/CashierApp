@@ -84,7 +84,7 @@
                             <i class="fa-solid fa-cubes"></i> &nbsp;{{__('Kitchen')}}
                         </a>
                     </li>
-                    <!-- <li>
+                    <li>
                         <a href="{{ route('monitors-kitchen-processing-area') }}"
                             class="rounded {{ Request::is('/admin/monitors/kitchen') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Kitchen') }}
@@ -100,7 +100,7 @@
                             class="rounded {{ Request::is('/admin/sales/active/sessions') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('ADS Monitors') }}
                         </a>
-                    </li> -->
+                    </li>
                 </ul>
             </div>
         </li>

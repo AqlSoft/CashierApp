@@ -15,7 +15,7 @@ use App\Models\Table;
 
 
 
-class PaymentsController
+class PaymentsController extends Controller
 {
 
     /**confirmPayment

@@ -17,12 +17,12 @@ class SalesInvoiceController  extends Controller
    */
   public function view(string $id)
   {
-  
+
     $invoice = SalesInvoice::with('order.orderItems.product', 'customer')->findOrFail($id);
-  
+
     $vars = [
       'invoice'        => $invoice,
-      'settings'       =>   Setting::all(),
+      'settings'       => Setting::all(),
     ];
     return view('admin.invoices.view', $vars);
   }

@@ -22,22 +22,22 @@ class OrdersItemsController extends Controller
   public function index() {}
 
 
-  public function create(string $id)
+  public function create(string $id, Request $request) // استقبل الـ Request object
   {
-
     // 1. احصل على الطلب مع العلاقات
     $order = Order::with(['shift', 'orderItems.product'])->findOrFail($id);
-
+    $activeOrderId = $order->id;
     // 2. تحقق من وجود الشفت المرتبط
     if (!$order->shift) {
       return redirect()->back()
         ->with('error', 'لا يوجد شفت مرتبط بهذا الطلب');
     }
+    $shift = $order->shift;
 
     // delivery
     $del_agents = Role::where(['name' => 'delivery'])->first()->admins;
 
-    $shift = $order->shift;
+
 
     // 3. الآن يمكنك استخدام shift_id بأمان
     $orders = Order::where('shift_id', $shift->id)->get();
@@ -56,25 +56,36 @@ class OrdersItemsController extends Controller
     $vatAmount = $totalPrice * $vatRate;
     $totalAmount = $totalPrice + $vatAmount;
 
+    // جلب قيمة التصنيف من الريكوست
+    $categoryId = $request->input('category');
+
+    // تعديل استعلام جلب المنتجات بناءً على التصنيف
+    $productsQuery = Product::query();
+    if ($categoryId) {
+      $productsQuery->where('category_id', $categoryId);
+    }
+    $products = $productsQuery->get();
+
     // البيانات المرسلة إلى الواجهة
     $vars = [
       'del_agents' => $del_agents,
-      'order'       => $order,
-      'orders'       => $orders,
-      'products'    => Product::all(),
-      'tables'    => Table::all(),
-      'categories'  => ItemCategroy::all(),
-      'Ois'         => OrderItem::where('order_id', $id)->pluck('product_id')->toArray(),
-      'quantities'  => $quantities,
-      'totalPrice'  => $totalPrice,
-      'vatAmount'   => $vatAmount,
-      'totalAmount' => $totalAmount,
-      'remaining'   => $totalAmount, // المبلغ المتبقي
-      'status'      => Order::getStatusList(),
+      'order'         => $order,
+      'orders'        => $orders,
+      'products'      => $products,
+      'tables'        => Table::all(),
+      'categories'    => ItemCategroy::all(),
+      'Ois'           => OrderItem::where('order_id', $id)->pluck('product_id')->toArray(),
+      'quantities'    => $quantities,
+      'totalPrice'    => $totalPrice,
+      'vatAmount'     => $vatAmount,
+      'totalAmount'   => $totalAmount,
+      'remaining'     => $totalAmount,
+      'status'        => Order::getStatusList(),
       'currentMethod' => $order->delivery_method ?? 1,
-      'deliveryMethods' =>     Order::GetDeliveryMethod(),
-      'customers' => Party::where('type', 'customer')->get(),
-      'shift'    => $shift,
+      'deliveryMethods' =>         Order::GetDeliveryMethod(),
+      'customers'     => Party::where('type', 'customer')->get(),
+      'shift'         => $shift,
+      'activeOrderId' => $activeOrderId,
     ];
 
     return view('admin.orderitem.create', $vars);
