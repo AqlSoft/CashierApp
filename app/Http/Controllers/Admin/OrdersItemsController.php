@@ -30,8 +30,8 @@ class OrdersItemsController extends Controller
 
     // 2. تحقق من وجود الشفت المرتبط
     if (!$order->shift) {
-        return redirect()->back()
-               ->with('error', 'لا يوجد شفت مرتبط بهذا الطلب');
+      return redirect()->back()
+        ->with('error', 'لا يوجد شفت مرتبط بهذا الطلب');
     }
 
     // delivery
@@ -71,10 +71,10 @@ class OrdersItemsController extends Controller
       'totalAmount' => $totalAmount,
       'remaining'   => $totalAmount, // المبلغ المتبقي
       'status'      => Order::getStatusList(),
-      'currentMethod' => $order->delivery_method ?? 1, 
+      'currentMethod' => $order->delivery_method ?? 1,
       'deliveryMethods' =>     Order::GetDeliveryMethod(),
       'customers' => Party::where('type', 'customer')->get(),
-      'shift'    => $shift, 
+      'shift'    => $shift,
     ];
 
     return view('admin.orderitem.create', $vars);
@@ -82,17 +82,17 @@ class OrdersItemsController extends Controller
 
   public function updateDeliveryMethod(Request $request)
   {
-      $request->validate([
-          'order_id' => 'required|exists:orders,id',
-          'selected_method' => 'required|in:1,2,3'
-      ]);
-      
-      $order = Order::find($request->order_id);
-      $order->update([
-          'delivery_method' => $request->selected_method
-      ]);
-      
-      return redirect()->route('add-orderitem', $order->id);
+    $request->validate([
+      'order_id' => 'required|exists:orders,id',
+      'selected_method' => 'required|in:1,2,3'
+    ]);
+
+    $order = Order::find($request->order_id);
+    $order->update([
+      'delivery_method' => $request->selected_method
+    ]);
+
+    return redirect()->route('add-orderitem', $order->id);
   }
 
   // حفظ  عناصر الطلب الجديد
@@ -123,13 +123,13 @@ class OrdersItemsController extends Controller
           'quantity'    => 1,
           'price'       => $product->sale_price,
           'status'      => 2,
-          'created_by'  => auth()->user()->id, // المستخدم الحالي
+          'created_by'  => Admin::currentId(), // المستخدم الحالي
         ]);
 
         Order::where('id', $orderId)->update([
           'status'          => 2,
           'updated_at'      => now(),
-          'updated_by'      => Auth()->user()->id,
+          'updated_by'      => Admin::currentId(),
         ]);
 
         return redirect()->back()->with('success', 'تم تحديث عناصر الطلب  بنجاح.');
@@ -153,13 +153,13 @@ class OrdersItemsController extends Controller
     $oitem = OrderItem::find($request->id);
     if (!$oitem) {
       return redirect()->back()->withErrors(['error' => 'Order Item not found.']);
-  }
+    }
     try {
       $oitem->update([
         'quantity'          => $request->quantity,
         'price'             => $request->price,
         'status'            => 3,
-        'updated_by'        => auth()->user()->id,
+        'updated_by'        => Admin::currentId(),
       ]);
 
 

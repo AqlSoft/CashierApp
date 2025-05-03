@@ -40,8 +40,8 @@ class RoleController extends Controller
             'brief' => 'nullable|string',
         ]);
 
-        $validated['created_by'] = Admin::currentUser();
-        $validated['updated_by'] = Admin::currentUser();
+        $validated['created_by'] = Admin::currentId();
+        $validated['updated_by'] = Admin::currentId();
         $validated['brief'] = $request->brief ? $request->brief : 'New Role with no description';
         $validated['status'] = 1;
 
@@ -85,7 +85,7 @@ class RoleController extends Controller
             'status'    => 'required|in:0,1'
         ]);
 
-        $vdt['updated_by'] = Admin::currentUser();
+        $vdt['updated_by'] = Admin::currentId();
         $vdt['status'] = $request->status  == "0" ? 0 : 1;
 
         try {

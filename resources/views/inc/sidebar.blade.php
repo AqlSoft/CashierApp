@@ -10,8 +10,8 @@
             <img src="{{ asset('assets/admin/uploads/images/avatar/avatar-04.jpg') }}" alt="Profile Picture"
                 class="profile-picture">
             <div class="profile-info ">
-                <h6 class="info-title">{{ App\Models\Admin::current()->userName }}</h6>
-                <span class="sub-title">{{ ucfirst(App\Models\Admin::current()->role_name) }}</span>
+                <h6 class="info-title">{{ App\Models\Admin::currentUser()->userName }}</h6>
+                <span class="sub-title">{{ ucfirst(App\Models\Admin::currentUser()->role_name) }}</span>
             </div>
 
         </a>

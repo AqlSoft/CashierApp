@@ -75,7 +75,7 @@ class OrdersController extends Controller
         'order_date'      => now(),
         'customer_id'     => 1,
         'status'          => Order::ORDER_JUST_CREATED,
-        'created_by'      => Admin::current()->id,
+        'created_by'      => Admin::currentId(),
 
       ]);
       $order->wait_no = Order::generateValidWaitNo($order->id, 3);
@@ -102,7 +102,7 @@ class OrdersController extends Controller
         'notes'           => $request->notes,
         'delivery_method' => $request->delivery_method ?? 1,
         'status'          => $request->status !== null ? $request->status : 1, // إذا لم يتم تحديد الحالة، افترض أنها غير نشطة
-        'created_by'      => Admin::current()->id, // المستخدم الحالي
+        'created_by'      => Admin::currentId(), // المستخدم الحالي
       ]);
 
       return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
@@ -150,7 +150,7 @@ class OrdersController extends Controller
     try {
       $status->update([
         'status'           => $request->status,
-        'updated_by'       => Admin::currentUser(),
+        'updated_by'       => Admin::currentId(),
       ]);
 
       return redirect()->back()->with('success', 'Order Updated successfully');
@@ -165,7 +165,7 @@ class OrdersController extends Controller
     try {
       $status->update([
         'status'           => 0,
-        'updated_by'       => Admin::currentUser(),
+        'updated_by'       => Admin::currentId(),
       ]);
 
       return redirect()->route('display-order-all')->with('success', 'Order cancel successfully');
