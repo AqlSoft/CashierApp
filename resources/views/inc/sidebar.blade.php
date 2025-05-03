@@ -6,12 +6,12 @@
                 <span class="fs-5 fw-semibold text-dark">Cashier App</span>
             </a>
         </div>
-        <a href="{{ route('view-profile', [App\Models\Admin::current()->id]) }}" class="profile mb-2">
+        <a href="{{ route('view-profile', [App\Models\Admin::currentUser()->id]) }}" class="profile mb-2">
             <img src="{{ asset('assets/admin/uploads/images/avatar/avatar-04.jpg') }}" alt="Profile Picture"
                 class="profile-picture">
             <div class="profile-info ">
-                <h6 class="info-title">{{ App\Models\Admin::current()->userName }}</h6>
-                <span class="sub-title">{{ ucfirst(App\Models\Admin::current()->role_name) }}</span>
+                <h6 class="info-title">{{ App\Models\Admin::currentUser()->userName }}</h6>
+                <span class="sub-title">{{ ucfirst(App\Models\Admin::currentUser()->role_name) }}</span>
             </div>
 
         </a>

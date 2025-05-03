@@ -6,12 +6,12 @@
                 <span class="fs-5 fw-semibold text-dark">Cashier App</span>
             </a>
         </div>
-        <a href="<?php echo e(route('view-profile', \Illuminate\Support\Facades\Auth::user()->id)); ?>" class="profile mb-2">
+        <a href="<?php echo e(route('view-profile', [App\Models\Admin::currentUser()->id])); ?>" class="profile mb-2">
             <img src="<?php echo e(asset('assets/admin/uploads/images/avatar/avatar-04.jpg')); ?>" alt="Profile Picture"
                 class="profile-picture">
             <div class="profile-info ">
-                <h6 class="info-title"><?php echo e(\Illuminate\Support\Facades\Auth::user()->userName); ?></h6>
-                <span class="sub-title"><?php echo e(\Illuminate\Support\Facades\Auth::user()->job_title); ?></span>
+                <h6 class="info-title"><?php echo e(App\Models\Admin::currentUser()->userName); ?></h6>
+                <span class="sub-title"><?php echo e(ucfirst(App\Models\Admin::currentUser()->role_name)); ?></span>
             </div>
 
         </a>
@@ -23,32 +23,40 @@
                 <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('Dashboard')); ?>
 
             </button>
-            <div class="collapse <?php echo e(request()->is(['admin/admins*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : ''); ?>"
+
+            <div class="collapse <?php echo e(request()->is(['admin/dashboard', 'admin/admins/*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : ''); ?>"
                 id="dashboard-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
+                        <a href="<?php echo e(route('admin-dashboard')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/dashboard') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Home')); ?>
+
+                        </a>
+                    </li>
+                    <li>
                         <a href="<?php echo e(route('admin-list')); ?>"
-                            class="rounded <?php echo e(Request::is('/admin/settings/index') ? 'active' : ''); ?>">
+                            class="rounded <?php echo e(request()->is('admin/admins*') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Admins List')); ?>
 
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo e(route('roles-list')); ?>"
-                            class="rounded <?php echo e(Request::is('/admin/roles*') ? 'active' : ''); ?>">
+                            class="rounded <?php echo e(request()->is('admin/roles*') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Roles List')); ?>
 
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/stats/home" class="rounded <?php echo e(Request::is('/stats/home') ? 'active' : ''); ?>">
+                        <a href="/admin/stats/home" class="rounded <?php echo e(request()->is('stats/home') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Statistics')); ?>
 
                         </a>
                     </li>
                     <li>
                         <a href="/admin/sales/active/sessions"
-                            class="rounded <?php echo e(Request::is('/admin/sales/active/sessions') ? 'active' : ''); ?>">
+                            class="rounded <?php echo e(request()->is('admin/sales/active/sessions') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('P.O.S')); ?>
 
                         </a>
@@ -79,7 +87,14 @@
 
                         </a>
                     </li>
-                    <!-- <li>
+                    <li>
+                        <a href="/admin/kitchen/display"
+                            class="rounded <?php echo e(Request::is('/admin/kitchen/display') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp;<?php echo e(__('Kitchen')); ?>
+
+                        </a>
+                    </li>
+                    <li>
                         <a href="<?php echo e(route('monitors-kitchen-processing-area')); ?>"
                             class="rounded <?php echo e(Request::is('/admin/monitors/kitchen') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Kitchen')); ?>
@@ -98,7 +113,8 @@
                             <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('ADS Monitors')); ?>
 
                         </a>
-                    </li> -->
+                    </li>
+
                 </ul>
             </div>
         </li>
@@ -161,6 +177,12 @@
                         <a href="/admin/orders/index"
                             class="rounded <?php echo e(Request::is('/admin/orders/index') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; Orders
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/kitchen/dashboard"
+                            class="rounded <?php echo e(Request::is('/admin/kitchen/dashboard') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; kitchen
                         </a>
                     </li>
                     <li>
