@@ -70,7 +70,7 @@
                 <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('Active Monitors')); ?>
 
             </button>
-            <div class="collapse <?php echo e(request()->is(['admin/monitors*']) ? 'show' : ''); ?>"
+            <div class="collapse <?php echo e(request()->is(['admin/monitors*', 'admin/kitchen*', 'admin/monitors/waiting/hall']) ? 'show' : ''); ?>"
                 id="monitors" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
@@ -123,17 +123,17 @@
                 data-bs-target="#Settings-collapse1" aria-expanded="">
                 <i class="fa-solid fa-cog"></i> &nbsp; General Settings
             </button>
-            <div class="collapse" id="Settings-collapse1" data-bs-parent="#sidebarAccordion">
+            <div class="collapse <?php echo e(request()->is(['admin/settings*', 'admin/monyBoxes*', 'admin/users*']) ? 'show' : ''); ?>" id="Settings-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
-                        <a href="/admin/settings/index"
-                            class="rounded <?php echo e(Request::is('/admin/settings/index') ? 'active' : ''); ?>">
+                        <a href="<?php echo e(route('home-setting')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/settings*') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; setting
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/monyBoxes/index"
-                            class="rounded <?php echo e(Request::is('/admin/monyBoxes/index') ? 'active' : ''); ?>">
+                        <a href="<?php echo e(route('all-Mony-box')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/monyBoxes*') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; MonyBox
                         </a>
                     </li>
