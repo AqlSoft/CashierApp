@@ -23,29 +23,35 @@
                 <i class="fa-solid fa-cog"></i> &nbsp; {{ __('Dashboard') }}
             </button>
 
-            <div class="collapse {{ request()->is(['admin/admins*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : '' }}"
+            <div class="collapse {{ request()->is(['admin/dashboard', 'admin/admins/*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : '' }}"
                 id="dashboard-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
+                        <a href="{{ route('admin-dashboard') }}"
+                            class="rounded {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Home') }}
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('admin-list') }}"
-                            class="rounded {{ Request::is('/admin/settings/index') ? 'active' : '' }}">
+                            class="rounded {{ request()->is('admin/admins*') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Admins List') }}
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('roles-list') }}"
-                            class="rounded {{ Request::is('/admin/roles*') ? 'active' : '' }}">
+                            class="rounded {{ request()->is('admin/roles*') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Roles List') }}
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/stats/home" class="rounded {{ Request::is('/stats/home') ? 'active' : '' }}">
+                        <a href="/admin/stats/home" class="rounded {{ request()->is('stats/home') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Statistics') }}
                         </a>
                     </li>
                     <li>
                         <a href="/admin/sales/active/sessions"
-                            class="rounded {{ Request::is('/admin/sales/active/sessions') ? 'active' : '' }}">
+                            class="rounded {{ request()->is('admin/sales/active/sessions') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('P.O.S') }}
                         </a>
                     </li>
@@ -76,6 +82,23 @@
                         <a href="/admin/kitchen/display"
                             class="rounded {{ Request::is('/admin/kitchen/display') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp;{{__('Kitchen')}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('monitors-kitchen-processing-area') }}"
+                            class="rounded {{ Request::is('/admin/monitors/kitchen') ? 'active' : '' }}">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Kitchen') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('monitors-meals-state')}}" class="rounded {{ Request::is('/stats/home') ? 'active' : '' }}">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Meals State') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('monitors-advertisment-displays')}}"
+                            class="rounded {{ Request::is('/admin/sales/active/sessions') ? 'active' : '' }}">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('ADS Monitors') }}
                         </a>
                     </li>
 

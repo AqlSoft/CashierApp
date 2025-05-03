@@ -25,14 +25,30 @@ class MonitorsController
     
         return view('admin.monitors.waiting', compact('orders'));
     }
+
     public function restaurantHall()
     {
-      $orders = Order::with(['table', 'orderItems.product'])
-      ->where('delivery_method', 3) 
-      // ->whereNotIn('status', ['completed', 'cancelled'])
-      ->orderBy('created_at', 'desc')
-      ->get();
-        return view('admin.monitors.restaurant-hall',compact('orders'));
+        $orders = Order::with(['table' => function($query) {
+            $query->select('id', 'number');
+        }])
+        ->where('delivery_method', 2)
+        ->get()
+        ->map(function ($order) {
+            $tableData = $order->table ? ['id' => $order->table->id, 'number' => $order->table->number] : null;  // Handle cases where $order->table is null
+            return [
+                'id' => $order->id,
+                'created_at' => $order->created_at->format('H:i'),
+                'status' => $order->status,
+                'wait_no' => $order->wait_no,
+                'table' => $tableData, 
+                'max_processing_time' => $order->orderItems->max(function ($item) {
+                    return $item->product->processing_time ?? '00:30:00';
+                }),
+            ];
+        })
+        ->toArray();
+    
+        return view('admin.monitors.restaurant-hall', compact('orders'));
     }
 
     public function kitchenProcessingArea()
