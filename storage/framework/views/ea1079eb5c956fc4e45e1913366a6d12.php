@@ -6,12 +6,12 @@
                 <span class="fs-5 fw-semibold text-dark">Cashier App</span>
             </a>
         </div>
-        <a href="{{ route('view-profile', [App\Models\Admin::current()->id]) }}" class="profile mb-2">
-            <img src="{{ asset('assets/admin/uploads/images/avatar/avatar-04.jpg') }}" alt="Profile Picture"
+        <a href="<?php echo e(route('view-profile', \Illuminate\Support\Facades\Auth::user()->id)); ?>" class="profile mb-2">
+            <img src="<?php echo e(asset('assets/admin/uploads/images/avatar/avatar-04.jpg')); ?>" alt="Profile Picture"
                 class="profile-picture">
             <div class="profile-info ">
-                <h6 class="info-title">{{ App\Models\Admin::current()->userName }}</h6>
-                <span class="sub-title">{{ ucfirst(App\Models\Admin::current()->role_name) }}</span>
+                <h6 class="info-title"><?php echo e(\Illuminate\Support\Facades\Auth::user()->userName); ?></h6>
+                <span class="sub-title"><?php echo e(\Illuminate\Support\Facades\Auth::user()->job_title); ?></span>
             </div>
 
         </a>
@@ -20,39 +20,37 @@
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
                 data-bs-target="#dashboard-collapse1" aria-expanded="">
-                <i class="fa-solid fa-cog"></i> &nbsp; {{ __('Dashboard') }}
-            </button>
+                <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('Dashboard')); ?>
 
-            <div class="collapse {{ request()->is(['admin/dashboard', 'admin/admins/*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : '' }}"
+            </button>
+            <div class="collapse <?php echo e(request()->is(['admin/admins*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : ''); ?>"
                 id="dashboard-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
-                        <a href="{{ route('admin-dashboard') }}"
-                            class="rounded {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Home') }}
+                        <a href="<?php echo e(route('admin-list')); ?>"
+                            class="rounded <?php echo e(Request::is('/admin/settings/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Admins List')); ?>
+
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin-list') }}"
-                            class="rounded {{ request()->is('admin/admins*') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Admins List') }}
+                        <a href="<?php echo e(route('roles-list')); ?>"
+                            class="rounded <?php echo e(Request::is('/admin/roles*') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Roles List')); ?>
+
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('roles-list') }}"
-                            class="rounded {{ request()->is('admin/roles*') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Roles List') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/admin/stats/home" class="rounded {{ request()->is('stats/home') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Statistics') }}
+                        <a href="/admin/stats/home" class="rounded <?php echo e(Request::is('/stats/home') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Statistics')); ?>
+
                         </a>
                     </li>
                     <li>
                         <a href="/admin/sales/active/sessions"
-                            class="rounded {{ request()->is('admin/sales/active/sessions') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('P.O.S') }}
+                            class="rounded <?php echo e(Request::is('/admin/sales/active/sessions') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('P.O.S')); ?>
+
                         </a>
                     </li>
                 </ul>
@@ -61,47 +59,46 @@
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
                 data-bs-target="#monitors" aria-expanded="">
-                <i class="fa-solid fa-cog"></i> &nbsp; {{ __('Active Monitors') }}
+                <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('Active Monitors')); ?>
+
             </button>
-            <div class="collapse {{ request()->is(['admin/monitors*']) ? 'show' : '' }}"
+            <div class="collapse <?php echo e(request()->is(['admin/monitors*']) ? 'show' : ''); ?>"
                 id="monitors" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
-                        <a href="{{ route('monitors-waiting-hall') }}"
-                            class="rounded {{ Request::is('/admin/monitors/waiting/hall') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Waiting Hall') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('monitors-restaurant-hall') }}"
-                            class="rounded {{ Request::is('/admin/monitors/restaurant/hall') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Restaurant Hall') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/admin/kitchen/display"
-                            class="rounded {{ Request::is('/admin/kitchen/display') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp;{{__('Kitchen')}}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('monitors-kitchen-processing-area') }}"
-                            class="rounded {{ Request::is('/admin/monitors/kitchen') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Kitchen') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{route('monitors-meals-state')}}" class="rounded {{ Request::is('/stats/home') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('Meals State') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{route('monitors-advertisment-displays')}}"
-                            class="rounded {{ Request::is('/admin/sales/active/sessions') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('ADS Monitors') }}
-                        </a>
-                    </li>
+                        <a href="<?php echo e(route('monitors-waiting-hall')); ?>"
+                            class="rounded <?php echo e(Request::is('/admin/monitors/waiting/hall') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Waiting Hall')); ?>
 
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('monitors-restaurant-hall')); ?>"
+                            class="rounded <?php echo e(Request::is('/admin/monitors/restaurant/hall') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Restaurant Hall')); ?>
+
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a href="<?php echo e(route('monitors-kitchen-processing-area')); ?>"
+                            class="rounded <?php echo e(Request::is('/admin/monitors/kitchen') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Kitchen')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('monitors-meals-state')); ?>" class="rounded <?php echo e(Request::is('/stats/home') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('Meals State')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('monitors-advertisment-displays')); ?>"
+                            class="rounded <?php echo e(Request::is('/admin/sales/active/sessions') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('ADS Monitors')); ?>
+
+                        </a>
+                    </li> -->
                 </ul>
             </div>
         </li>
@@ -115,19 +112,19 @@
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
                         <a href="/admin/settings/index"
-                            class="rounded {{ Request::is('/admin/settings/index') ? 'active' : '' }}">
+                            class="rounded <?php echo e(Request::is('/admin/settings/index') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; setting
                         </a>
                     </li>
                     <li>
                         <a href="/admin/monyBoxes/index"
-                            class="rounded {{ Request::is('/admin/monyBoxes/index') ? 'active' : '' }}">
+                            class="rounded <?php echo e(Request::is('/admin/monyBoxes/index') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; MonyBox
                         </a>
                     </li>
                     <li>
                         <a href="/admin/sales-shifts/index"
-                            class="rounded {{ Request::is('/admin/sales-shifts/index') ? 'active' : '' }}">
+                            class="rounded <?php echo e(Request::is('/admin/sales-shifts/index') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; Sessions
                         </a>
                     </li>
@@ -162,19 +159,13 @@
                     </li>
                     <li>
                         <a href="/admin/orders/index"
-                            class="rounded {{ Request::is('/admin/orders/index') ? 'active' : '' }}">
+                            class="rounded <?php echo e(Request::is('/admin/orders/index') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; Orders
                         </a>
                     </li>
                     <li>
                         <a href="/admin/kitchen/dashboard"
-                            class="rounded {{ Request::is('/admin/kitchen/dashboard') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; kitchen
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/admin/kitchen/dashboard"
-                            class="rounded {{ Request::is('/admin/kitchen/dashboard') ? 'active' : '' }}">
+                            class="rounded <?php echo e(Request::is('/admin/kitchen/dashboard') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; kitchen
                         </a>
                     </li>
@@ -200,7 +191,7 @@
                     </li>
                     <li>
                         <a href="/admin/products/index"
-                            class="rounded {{ Request::is('/admin/products/index') ? 'active' : '' }}">
+                            class="rounded <?php echo e(Request::is('/admin/products/index') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; Items
                         </a>
 
@@ -262,7 +253,7 @@
                     </li>
                     <li>
                         <a href="/admin/clients/index"
-                            class="rounded {{ Request::is('/admin/clients/index') ? 'active' : '' }}">
+                            class="rounded <?php echo e(Request::is('/admin/clients/index') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; Clients
                         </a>
 
@@ -282,4 +273,4 @@
         </li>
 
     </ul>
-</div>
+</div><?php /**PATH C:\wamp64\www\CashierApp\resources\views/inc/sidebar.blade.php ENDPATH**/ ?>
