@@ -23,7 +23,11 @@ class PaymentsController extends Controller
      */
     public function index()
     {
-        //
+        $payments = Payment::all();
+        $vars = [
+            'payments' => $payments,
+        ];
+        return view('admin.payments.index', $vars);
     }
 
     /**

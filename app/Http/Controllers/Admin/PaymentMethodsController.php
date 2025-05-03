@@ -3,17 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin;
-use App\Models\InvoiceItem;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
-use Exception;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\SalesInvoice;
 use App\Models\OrderItem;
+use App\Models\PaymentMethod;
 
-
-class PaymentsController
+class PaymentMethodsController extends Controller
 {
 
     /**confirmPayment
@@ -21,7 +19,13 @@ class PaymentsController
      */
     public function index()
     {
-        //
+        $incoices = SalesInvoice::all();
+        $payments = PaymentMethod::all();
+        $vars = [
+            'incoices' => $incoices,
+            'payments' => $payments,
+        ];
+        return view('admin.setting.payment-methods.index', $vars);
     }
 
     /**
@@ -102,7 +106,7 @@ class PaymentsController
             ]); // تم الدفع
 
             return redirect()->back('')->with('success', 'تم حفظ البيانات بنجاح.');
-        } catch (\Exception $e) {
+        } catch (QueryException $e) {
             return redirect()->back()
                 ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
                 ->withInput();

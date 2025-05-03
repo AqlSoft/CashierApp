@@ -7,11 +7,24 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\SalesInvoice;
 use App\Models\Admin;
+use App\Models\PaymentMethod;
 use App\Models\Setting;
 
 
 class SalesInvoiceController  extends Controller
 {
+
+
+  // diplay all invoices
+  public function index()
+  {
+    $invoices = SalesInvoice::all();
+    $vars = [
+      'invoices' => $invoices,
+    ];
+    return view('admin.invoices.index', $vars);
+  }
+
   /**
    * Show the form for creating a new resource.
    */
