@@ -75,14 +75,14 @@ class Admin extends Authenticatable
 
     public static function currentUser()
     {
+        return Auth::user();
+    }
+
+    public static function currentId()
+    {
         return Auth::user()->id;
     }
 
-    public static function current()
-    {
-        return Auth::user();
-    }
-    
     public function shifts()
     {
         return $this->hasMany(Shift::class, 'admin_id');
@@ -120,10 +120,9 @@ class Admin extends Authenticatable
     public function hasPermission($permissionName)
     {
         return $this->permissions()
-            ->whereHas('permission', function($query) use ($permissionName) {
+            ->whereHas('permission', function ($query) use ($permissionName) {
                 $query->where('name', $permissionName);
-            })
-            ->exists();
+            })->exists();
     }
 
     public function hasRole($role)

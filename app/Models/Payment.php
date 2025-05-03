@@ -28,7 +28,7 @@ class Payment extends Model
   ];
 
   // علاقة واحدة إلى واحدة مع PaymentMethod
-  public function paymentMethod()
+  public function pymtMethod()
   {
     return $this->belongsTo(PaymentMethod::class, 'payment_method');
   }
@@ -37,6 +37,11 @@ class Payment extends Model
   public function Order()
   {
     return $this->belongsTo(Order::class, 'order_id');
+  }
+
+  public function invoice()
+  {
+    return $this->belongsTo(SalesInvoice::class, 'invoice_id');
   }
 
   public function createdBy()

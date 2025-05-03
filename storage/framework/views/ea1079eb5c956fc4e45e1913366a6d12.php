@@ -6,12 +6,12 @@
                 <span class="fs-5 fw-semibold text-dark">Cashier App</span>
             </a>
         </div>
-        <a href="<?php echo e(route('view-profile', [App\Models\Admin::current()->id])); ?>" class="profile mb-2">
+        <a href="<?php echo e(route('view-profile', [App\Models\Admin::currentId()])); ?>" class="profile mb-2">
             <img src="<?php echo e(asset('assets/admin/uploads/images/avatar/avatar-04.jpg')); ?>" alt="Profile Picture"
                 class="profile-picture">
             <div class="profile-info ">
-                <h6 class="info-title"><?php echo e(App\Models\Admin::current()->userName); ?></h6>
-                <span class="sub-title"><?php echo e(ucfirst(App\Models\Admin::current()->role_name)); ?></span>
+                <h6 class="info-title"><?php echo e(App\Models\Admin::currentUser()->userName); ?></h6>
+                <span class="sub-title"><?php echo e(ucfirst(App\Models\Admin::currentUser()->role_name)); ?></span>
             </div>
 
         </a>
@@ -123,12 +123,21 @@
                 data-bs-target="#Settings-collapse1" aria-expanded="">
                 <i class="fa-solid fa-cog"></i> &nbsp; General Settings
             </button>
+<<<<<<< HEAD
             <div class="collapse <?php echo e(request()->is(['admin/settings*', 'admin/monyBoxes*', 'admin/users*']) ? 'show' : ''); ?>" id="Settings-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
                         <a href="<?php echo e(route('home-setting')); ?>"
                             class="rounded <?php echo e(request()->is('admin/settings*') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; setting
+=======
+            <div class="collapse <?php echo e(request()->is(['admin/setting*']) ? 'show' : ''); ?>" id="Settings-collapse1" data-bs-parent="#sidebarAccordion">
+                <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    <li>
+                        <a href="/admin/setting/payment-methods/index"
+                            class="rounded <?php echo e(Request::is('/admin/setting/payment-methods/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; Payment Methods
+>>>>>>> f2bea68b84514347c8afff8961f1e76a04563e8c
                         </a>
                     </li>
                     <li>
@@ -145,7 +154,7 @@
                     </li>
                     <li>
                         <a href="">
-                            <i class="fa-solid fa-credit-card"></i> &nbsp; Payment Methods
+                            <i class="fa-solid fa-credit-card"></i> &nbsp; Payments
                         </a>
                     </li>
                     <li>
@@ -192,7 +201,7 @@
                 data-bs-target="#Products-collapse1" aria-expanded="">
                 <i class="fa-solid fa-boxes-stacked"></i> &nbsp; Products
             </button>
-            <div class="collapse" id="Products-collapse1" data-bs-parent="#sidebarAccordion">
+            <div class="collapse <?php echo e(request()->is(['admin/products*']) ? 'show' : ''); ?>" id="Products-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
                         <a href="">
@@ -224,25 +233,25 @@
                 data-bs-target="#Payments-collapse1" aria-expanded="">
                 <i class="fa-solid fa-money-bill-transfer"></i> &nbsp; Payments
             </button>
-            <div class="collapse" id="Payments-collapse1" data-bs-parent="#sidebarAccordion">
+            <div class="collapse <?php echo e(request()->is(['admin/payments*']) ? 'show' : ''); ?>" id="Payments-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
-                        <a href="">
+                        <a href="" class="rounded <?php echo e(Request::is('admin/payments/index') ? 'active' : ''); ?>">
                             <i class="fas fa-chart-pie"></i> &nbsp; Home
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="<?php echo e(route('display-accounts-list')); ?>" class="rounded <?php echo e(Request::is('admin/accounts/index') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-hand-holding-dollar"></i> &nbsp; acounts
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="<?php echo e(route('display-payments-list')); ?>" class="rounded <?php echo e(Request::is('admin/invoices/index') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-file-invoice"></i> &nbsp;Invoices
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="<?php echo e(route('display-payment-methods-list')); ?>" class="rounded <?php echo e(Request::is('admin/settings/index') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-sliders"></i> &nbsp; Settings
                         </a>
                     </li>

@@ -48,8 +48,8 @@ class AdminsController
         ]);
         // return $validated;
 
-        $validated['created_by'] = Admin::currentUser();
-        $validated['updated_by'] = Admin::currentUser();
+        $validated['created_by'] = Admin::currentId();
+        $validated['updated_by'] = Admin::currentId();
         $validated['status'] = 1;
 
         DB::beginTransaction(); // Transaction start moved earlier

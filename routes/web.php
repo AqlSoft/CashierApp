@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\Admin\AdminsController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ShiftsController;
 use App\Http\Controllers\Admin\UserProfilesController;
 use App\Http\Controllers\Admin\KitchenController;
+use App\Http\Controllers\Admin\PaymentMethodsController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
 
@@ -146,6 +148,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
   // invoices routes
   Route::prefix('invoices')->group(function () {
+    Route::get('/index',                          [SalesInvoiceController::class, 'index'])->name('display-invoices-list');
     Route::get('/view/{id}',                      [SalesInvoiceController::class, 'view'])->name('view-invoice');
     Route::get('/print-invoice/{id}',             [SalesInvoiceController::class, 'printInvoice'])->name('print-invoice');
   });
@@ -193,5 +196,33 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::post('/order/{order}/complete', [KitchenController::class, 'completeOrder'])->name('admin.kitchen.order.complete');
     Route::get('/sse/kitchen-orders', [KitchenController::class, 'streamKitchenOrders']);
     Route::get('/admin/kitchen/orders/list', [KitchenController::class, 'getOrderList'])->name('admin.kitchen.orders.list');
+  });
+
+  Route::prefix('payments')->group(function () {
+    Route::get('/index', [PaymentsController::class, 'index'])->name('display-payments-list');
+    Route::post('/store', [PaymentsController::class, 'store'])->name('store-payment-info');
+    Route::get('/view/{id}', [PaymentsController::class, 'view'])->name('view-payment-info');
+    Route::get('/edit/{id}', [PaymentsController::class, 'edit'])->name('edit-payment-info');
+    Route::post('/update', [PaymentsController::class, 'update'])->name('update-payment-info');
+    Route::get('/destroy/{id}', [PaymentsController::class, 'destroy'])->name('destroy-payment-info');
+  });
+
+  Route::prefix('setting')->group(function () {
+    Route::get('/payment-methods/index',        [PaymentMethodsController::class, 'index'])->name('display-payment-methods-list');
+    Route::post('/payment-methods/store',       [PaymentMethodsController::class, 'store'])->name('store-payment-method-info');
+    Route::get('/payment-methods/view/{id}', [PaymentMethodsController::class, 'view'])->name('view-payment-method-info');
+    Route::get('/payment-methods/edit/{id}',    [PaymentMethodsController::class, 'edit'])->name('edit-payment-method-info');
+    Route::post('/payment-methods/update',      [PaymentMethodsController::class, 'update'])->name('update-payment-method-info');
+    Route::get('/destroy/{id}', [PaymentMethodsController::class, 'destroy'])->name('destroy-payment-method-info');
+  });
+
+  //Accounts Routes List
+  Route::prefix('accounts')->group(function () {
+    Route::get('/index',        [AccountController::class, 'index'])->name('display-accounts-list');
+    Route::post('/store',       [AccountController::class, 'store'])->name('store-account-info');
+    Route::get('/view/{id}',    [AccountController::class, 'view'])->name('view-account-info');
+    Route::get('/edit/{id}',    [AccountController::class, 'edit'])->name('edit-account-info');
+    Route::post('/update',      [AccountController::class, 'update'])->name('update-account-info');
+    Route::get('/destroy/{id}', [AccountController::class, 'destroy'])->name('destroy-account-info');
   });
 });

@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\InvoiceItem;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
-use Exception;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\SalesInvoice;
 use App\Models\OrderItem;
+use App\Models\PaymentMethod;
 
-
-class PaymentsController
+class PaymentMethodsController extends Controller
 {
 
     /**confirmPayment
@@ -20,7 +19,13 @@ class PaymentsController
      */
     public function index()
     {
-        //
+        $incoices = SalesInvoice::all();
+        $payments = PaymentMethod::all();
+        $vars = [
+            'incoices' => $incoices,
+            'payments' => $payments,
+        ];
+        return view('admin.setting.payment-methods.index', $vars);
     }
 
     /**
@@ -36,17 +41,17 @@ class PaymentsController
      */
     public function cashStore(Request $request, $orderId)
     {
-      $order = Order::with(['orderItems.product', 'orderItems.unit', 'orderItems.order' ,'customer'])->find($orderId);
+        $order = Order::with(['orderItems.product', 'orderItems.unit', 'orderItems.order', 'customer'])->find($orderId);
 
-      $amount = $order->orderItems->sum(function ($item) {
-          return $item->price * $item->quantity;
-      });
+        $amount = $order->orderItems->sum(function ($item) {
+            return $item->price * $item->quantity;
+        });
 
-      // حساب Vat Amount (افترض أن الضريبة 15%)
-      $vat_amount = $amount * 0.15;
+        // حساب Vat Amount (افترض أن الضريبة 15%)
+        $vat_amount = $amount * 0.15;
 
-      // حساب Total Amount
-      $total_amount = $amount + $vat_amount;
+        // حساب Total Amount
+        $total_amount = $amount + $vat_amount;
 
         try {
             // إنشاء الفاتورة
@@ -63,18 +68,18 @@ class PaymentsController
                 'amount'              => $amount,
                 'vat_amount'          => $vat_amount,
                 'total_amount'        => $total_amount,
-                'status'              => $amount >= $total_amount ? 1 : 0,// حالة الفاتورة
-                'type'                => 'sales', 
-                'created_by'          => auth()->user()->id,
+                'status'              => $amount >= $total_amount ? 1 : 0, // حالة الفاتورة
+                'type'                => 'sales',
+                'created_by'          => Admin::currentId(),
             ]);
 
             // update order Items
-          
+
             // تحديث أصناف الطلب المرتبطة بالطلب
-         OrderItem::where('order_id', $orderId)->update([
+            OrderItem::where('order_id', $orderId)->update([
                 'invoice_id' => $invoice->id,
                 'updated_at' => now(),
-                'updated_by' => auth()->user()->id,
+                'updated_by' => Admin::currentId(),
             ]);
 
             // إنشاء الدفع
@@ -89,19 +94,19 @@ class PaymentsController
                 // 'from_account'      => $request->account_from, // الحساب الذي تم السحب منه (الخزنة)
                 // 'to_account'        => $request->account_to, // الحساب الذي تم الإيداع فيه (الموظف)
                 'note'              => 'سند سلفة', // المرجع
-                'created_by'        => auth()->user()->id,
+                'created_by'        => Admin::currentId(),
             ]);
 
             // تحديث حالة الطلب
             $order->update([
                 'status' => '3',
-                'processing_time' =>now(),
+                'processing_time' => now(),
                 'updated_at'     => now(),
-                'updated_by' => auth()->user()->id,
+                'updated_by' => Admin::currentId(),
             ]); // تم الدفع
 
             return redirect()->back('')->with('success', 'تم حفظ البيانات بنجاح.');
-        } catch (\Exception $e) {
+        } catch (QueryException $e) {
             return redirect()->back()
                 ->with('error', 'حدث خطأ أثناء حفظ البيانات: ' . $e->getMessage())
                 ->withInput();

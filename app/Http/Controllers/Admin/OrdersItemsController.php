@@ -23,21 +23,21 @@ class OrdersItemsController extends Controller
 
 
   public function create(string $id, Request $request) // استقبل الـ Request object
-{
+  {
     // 1. احصل على الطلب مع العلاقات
     $order = Order::with(['shift', 'orderItems.product'])->findOrFail($id);
     $activeOrderId = $order->id;
     // 2. تحقق من وجود الشفت المرتبط
     if (!$order->shift) {
-        return redirect()->back()
-                        ->with('error', 'لا يوجد شفت مرتبط بهذا الطلب');
+      return redirect()->back()
+        ->with('error', 'لا يوجد شفت مرتبط بهذا الطلب');
     }
     $shift = $order->shift;
 
     // delivery
     $del_agents = Role::where(['name' => 'delivery'])->first()->admins;
 
-  
+
 
     // 3. الآن يمكنك استخدام shift_id بأمان
     $orders = Order::where('shift_id', $shift->id)->get();
@@ -47,8 +47,8 @@ class OrdersItemsController extends Controller
     $totalPrice = 0;
 
     foreach ($order->orderItems as $item) {
-        $quantities[$item->product_id] = $item->quantity;
-        $totalPrice += $item->quantity * $item->price;
+      $quantities[$item->product_id] = $item->quantity;
+      $totalPrice += $item->quantity * $item->price;
     }
 
     // حساب الضريبة والمبلغ الإجمالي
@@ -62,48 +62,48 @@ class OrdersItemsController extends Controller
     // تعديل استعلام جلب المنتجات بناءً على التصنيف
     $productsQuery = Product::query();
     if ($categoryId) {
-        $productsQuery->where('category_id', $categoryId);
+      $productsQuery->where('category_id', $categoryId);
     }
     $products = $productsQuery->get();
 
     // البيانات المرسلة إلى الواجهة
     $vars = [
-        'del_agents' => $del_agents,
-        'order'         => $order,
-        'orders'        => $orders,
-        'products'      => $products, 
-        'tables'        => Table::all(),
-        'categories'    => ItemCategroy::all(),
-        'Ois'           => OrderItem::where('order_id', $id)->pluck('product_id')->toArray(),
-        'quantities'    => $quantities,
-        'totalPrice'    => $totalPrice,
-        'vatAmount'     => $vatAmount,
-        'totalAmount'   => $totalAmount,
-        'remaining'     => $totalAmount, 
-        'status'        => Order::getStatusList(),
-        'currentMethod' => $order->delivery_method ?? 1,
-        'deliveryMethods' =>         Order::GetDeliveryMethod(),
-        'customers'     => Party::where('type', 'customer')->get(),
-        'shift'         => $shift,
-        'activeOrderId' => $activeOrderId,
+      'del_agents' => $del_agents,
+      'order'         => $order,
+      'orders'        => $orders,
+      'products'      => $products,
+      'tables'        => Table::all(),
+      'categories'    => ItemCategroy::all(),
+      'Ois'           => OrderItem::where('order_id', $id)->pluck('product_id')->toArray(),
+      'quantities'    => $quantities,
+      'totalPrice'    => $totalPrice,
+      'vatAmount'     => $vatAmount,
+      'totalAmount'   => $totalAmount,
+      'remaining'     => $totalAmount,
+      'status'        => Order::getStatusList(),
+      'currentMethod' => $order->delivery_method ?? 1,
+      'deliveryMethods' =>         Order::GetDeliveryMethod(),
+      'customers'     => Party::where('type', 'customer')->get(),
+      'shift'         => $shift,
+      'activeOrderId' => $activeOrderId,
     ];
 
     return view('admin.orderitem.create', $vars);
-}
+  }
 
   public function updateDeliveryMethod(Request $request)
   {
-      $request->validate([
-          'order_id' => 'required|exists:orders,id',
-          'selected_method' => 'required|in:1,2,3'
-      ]);
-      
-      $order = Order::find($request->order_id);
-      $order->update([
-          'delivery_method' => $request->selected_method
-      ]);
-      
-      return redirect()->route('add-orderitem', $order->id);
+    $request->validate([
+      'order_id' => 'required|exists:orders,id',
+      'selected_method' => 'required|in:1,2,3'
+    ]);
+
+    $order = Order::find($request->order_id);
+    $order->update([
+      'delivery_method' => $request->selected_method
+    ]);
+
+    return redirect()->route('add-orderitem', $order->id);
   }
 
   // حفظ  عناصر الطلب الجديد
@@ -134,13 +134,13 @@ class OrdersItemsController extends Controller
           'quantity'    => 1,
           'price'       => $product->sale_price,
           'status'      => 2,
-          'created_by'  => auth()->user()->id, // المستخدم الحالي
+          'created_by'  => Admin::currentId(), // المستخدم الحالي
         ]);
 
         Order::where('id', $orderId)->update([
           'status'          => 2,
           'updated_at'      => now(),
-          'updated_by'      => Auth()->user()->id,
+          'updated_by'      => Admin::currentId(),
         ]);
 
         return redirect()->back()->with('success', 'تم تحديث عناصر الطلب  بنجاح.');
@@ -164,13 +164,13 @@ class OrdersItemsController extends Controller
     $oitem = OrderItem::find($request->id);
     if (!$oitem) {
       return redirect()->back()->withErrors(['error' => 'Order Item not found.']);
-  }
+    }
     try {
       $oitem->update([
         'quantity'          => $request->quantity,
         'price'             => $request->price,
         'status'            => 3,
-        'updated_by'        => auth()->user()->id,
+        'updated_by'        => Admin::currentId(),
       ]);
 
 

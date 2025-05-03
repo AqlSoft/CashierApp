@@ -15,7 +15,7 @@ use App\Models\Table;
 
 
 
-class PaymentsController
+class PaymentsController extends Controller
 {
 
     /**confirmPayment
@@ -23,7 +23,11 @@ class PaymentsController
      */
     public function index()
     {
-        //
+        $payments = Payment::all();
+        $vars = [
+            'payments' => $payments,
+        ];
+        return view('admin.payments.index', $vars);
     }
 
     /**
@@ -81,14 +85,14 @@ class PaymentsController
                 'total_amount' => $totalAmount,
                 'status' => 1,
                 'type' => 'sales',
-                'created_by' => Admin::current()->id,
+                'created_by' => Admin::currentId(),
             ]);
 
             // تحديث أصناف الطلب
             OrderItem::where('order_id', $id)->update([
                 'invoice_id' => $invoice->id,
                 'updated_at' => now(),
-                'updated_by' => Admin::current()->id,
+                'updated_by' => Admin::currentId(),
             ]);
 
             // إنشاء الدفع
@@ -99,7 +103,7 @@ class PaymentsController
                 'payment_date' => now(),
                 'status' => 1,
                 'note' => 'سند سلفة',
-                'created_by' => Admin::current()->id,
+                'created_by' => Admin::currentId(),
             ]);
 
             // إعداد بيانات التحديث
@@ -108,7 +112,7 @@ class PaymentsController
                 'customer_id'  => $request->customer_id ?? $order->customer_id,
                 'delivery_id'  => $request->delivery_id ?? null,
                 'table_id'     => $request->table_id ?? null,
-                'updated_by'   => Admin::current()->id,
+                'updated_by'   => Admin::currentId(),
             ];
 
             // تحديث الطلب

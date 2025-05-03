@@ -41,8 +41,8 @@ class PermissionController extends Controller
             'module' => 'required|string',
         ]);
 
-        $validated['created_by'] = Admin::currentUser();
-        $validated['updated_by'] = Admin::currentUser();
+        $validated['created_by'] = Admin::currentId();
+        $validated['updated_by'] = Admin::currentId();
         $validated['brief'] = $request->brief ? $request->brief : 'New Permission with no description';
         $validated['status'] = 1;
 
