@@ -219,7 +219,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{route('display-payment-methods-list')}}" class="rounded {{ Request::is('admin/accounts/index') ? 'active' : '' }}">
+                        <a href="{{route('display-accounts-list')}}" class="rounded {{ Request::is('admin/accounts/index') ? 'active' : '' }}">
                             <i class="fa-solid fa-hand-holding-dollar"></i> &nbsp; acounts
                         </a>
                     </li>

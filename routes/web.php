@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\Admin\AdminsController;
 use Illuminate\Support\Facades\Route;
@@ -218,5 +219,15 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/payment-methods/edit/{id}',    [PaymentMethodsController::class, 'edit'])->name('edit-payment-method-info');
     Route::post('/payment-methods/update',      [PaymentMethodsController::class, 'update'])->name('update-payment-method-info');
     Route::get('/destroy/{id}', [PaymentMethodsController::class, 'destroy'])->name('destroy-payment-method-info');
+  });
+
+  //Accounts Routes List
+  Route::prefix('accounts')->group(function () {
+    Route::get('/index',        [AccountController::class, 'index'])->name('display-accounts-list');
+    Route::post('/store',       [AccountController::class, 'store'])->name('store-account-info');
+    Route::get('/view/{id}',    [AccountController::class, 'view'])->name('view-account-info');
+    Route::get('/edit/{id}',    [AccountController::class, 'edit'])->name('edit-account-info');
+    Route::post('/update',      [AccountController::class, 'update'])->name('update-account-info');
+    Route::get('/destroy/{id}', [AccountController::class, 'destroy'])->name('destroy-account-info');
   });
 });

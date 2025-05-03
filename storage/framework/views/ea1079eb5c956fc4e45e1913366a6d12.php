@@ -232,7 +232,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo e(route('display-payment-methods-list')); ?>" class="rounded <?php echo e(Request::is('admin/accounts/index') ? 'active' : ''); ?>">
+                        <a href="<?php echo e(route('display-accounts-list')); ?>" class="rounded <?php echo e(Request::is('admin/accounts/index') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-hand-holding-dollar"></i> &nbsp; acounts
                         </a>
                     </li>
