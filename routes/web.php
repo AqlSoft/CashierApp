@@ -4,6 +4,9 @@ use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\Admin\AdminsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\LocaleController;
+
+// Language Switch Route
 use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\HomeController;
@@ -25,6 +28,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
 
 
+Route::get('locale/{locale}', [LocaleController::class, 'switch'])->name('locale-switch');
 // Auth::routes();
 // // Auth::routes(['register' => false]);
 

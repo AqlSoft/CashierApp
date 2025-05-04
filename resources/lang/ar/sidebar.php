@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'dashboard'         => 'لوحة التحكم',
+    'admins'            => 'المشرفين',
+    'roles'             => 'الصلاحيات',
+    'stats'             => 'الإحصائيات',
+    'sales'             => 'المبيعات',
+    'accounts'          => 'الحسابات',
+    'categories'        => 'الاقسام',
+    'suppliers'         => 'الموردين',
+    'customers'         => 'العملاء',
+    'reports'           => 'التقارير',
+    'settings'          => 'الإعدادات',
+    'orders'            => 'الطلبات',
+    'products'          => 'المنتجات',
+    'payments'          => 'المدفوعات',
+    'clients'           => 'العملاء',
+    'invoices'          => 'الفواتير',
+    'payment-methods'   => 'طرق الدفع',
+    'mony-boxes'        => 'الصناديق',
+    'monitors'          => 'شاشات',
+    'meal-state'        => 'حالة الوجبات',
+    'ads-displays'      => 'عرض الإعلانات',
+    'kitchen'           => 'المطبخ',
+];

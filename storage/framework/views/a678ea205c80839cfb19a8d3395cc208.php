@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-bs-theme="auto">
+<html lang="<?php echo e(App::getLocale()); ?>" dir="<?php echo e($dir); ?>" data-bs-theme="auto">
 
 <head>
     <!-- <script src="<?php echo e(asset('assets/admin/js/color.modes.js')); ?>"></script> -->
@@ -41,10 +41,16 @@
     <link href="<?php echo e(asset('assets/admin/css/sidebar.css')); ?>" rel="stylesheet">
     <link href="<?php echo e(asset('assets/admin/css/my-custom-styles.css')); ?>" rel="stylesheet">
     <link href="<?php echo e(asset('assets/admin/css/admin-layout.css')); ?>" rel="stylesheet">
+    
+    <!-- RTL/LTR Styles -->
+    <?php if($dir == 'rtl'): ?>
+        <link href="<?php echo e(asset('assets/admin/css/rtl.css')); ?>" rel="stylesheet">
+    <?php endif; ?>
+    
     <?php echo $__env->yieldContent('extra-links'); ?>
 </head>
 
-<body>
+<body class="<?php echo e($dir); ?>-direction">
 
     <div class="admin-wrapper">
         <?php echo $__env->make('inc.sidebar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>

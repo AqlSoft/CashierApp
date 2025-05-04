@@ -1,0 +1,33 @@
+<?php
+
+return [
+    'dashboard' => 'Dashboard',
+    'admins' => 'Admins',
+    'roles' => 'Roles',
+    'stats' => 'Stats',
+    'sales' => 'Sales',
+    'accounts' => 'Accounts',
+    'products' => 'Products',
+    'categories' => 'Categories',
+    'suppliers' => 'Suppliers',
+    'customers' => 'Customers',
+    'orders' => 'Orders',
+    'reports' => 'Reports',
+    'settings' => 'Settings',
+    'monitors' => 'Monitors',
+    'orders' => 'Orders',
+    'products' => 'Products',
+    'payments' => 'Payments',
+    'clients' => 'Clients',
+    'payments' => 'Payments',
+    'invoices' => 'Invoices',
+    'payment-methods' => 'Payment Methods',
+    'clients' => 'Clients',
+    'mony-boxes' => 'Mony Boxes',
+    'kitchen-processing-area' => 'Processing Area',
+    'ads-displays' => 'ADS Displays',
+    'meal-state' => 'Meal State',
+    'monitors' => 'Monitors',
+    'kitchen' => 'Kitchen',
+
+];

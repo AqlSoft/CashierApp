@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-bs-theme="auto">
+<html lang="{{ App::getLocale() }}" dir="{{ $dir }}" data-bs-theme="auto">
 
 <head>
     <!-- <script src="{{ asset('assets/admin/js/color.modes.js') }}"></script> -->
@@ -41,10 +41,16 @@
     <link href="{{ asset('assets/admin/css/sidebar.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/css/my-custom-styles.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/css/admin-layout.css') }}" rel="stylesheet">
+    
+    <!-- RTL/LTR Styles -->
+    @if($dir == 'rtl')
+        <link href="{{ asset('assets/admin/css/rtl.css') }}" rel="stylesheet">
+    @endif
+    
     @yield('extra-links')
 </head>
 
-<body>
+<body class="{{ $dir }}-direction">
 
     <div class="admin-wrapper">
         @include('inc.sidebar')
