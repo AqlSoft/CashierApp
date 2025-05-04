@@ -36,7 +36,7 @@
                     <li>
                         <a href="<?php echo e(route('admin-dashboard')); ?>"
                             class="rounded <?php echo e(request()->is('admin/dashboard') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.dashboard')); ?>
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.home')); ?>
 
                         </a>
                     </li>
@@ -150,7 +150,7 @@
                     </li>
                     <li>
                         <a href="/admin/sales-shifts/index"
-                            class="rounded <?php echo e(Request::is('/admin/sales-shifts/index') ? 'active' : ''); ?>">
+                            class="rounded <?php echo e(request()->is('/admin/sales-shifts/index') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; Sessions
                         </a>
                     </li>
@@ -320,7 +320,7 @@
         </li>
 
     </ul>
-    
+
     <!-- Language Switch Button -->
     <div class="language-switcher mt-4 mb-3">
         <hr class="sidebar-divider">

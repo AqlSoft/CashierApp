@@ -34,7 +34,7 @@
                     <li>
                         <a href="{{ route('admin-dashboard') }}"
                             class="rounded {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.dashboard') }}
+                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.home') }}
                         </a>
                     </li>
                     <li>
