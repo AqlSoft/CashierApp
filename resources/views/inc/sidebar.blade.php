@@ -133,7 +133,7 @@
                     </li>
                     <li>
                         <a href="/admin/sales-shifts/index"
-                            class="rounded {{ Request::is('/admin/sales-shifts/index') ? 'active' : '' }}">
+                            class="rounded {{ request()->is('/admin/sales-shifts/index') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; Sessions
                         </a>
                     </li>
@@ -282,7 +282,7 @@
         </li>
 
     </ul>
-    
+
     <!-- Language Switch Button -->
     <div class="language-switcher mt-4 mb-3">
         <hr class="sidebar-divider">

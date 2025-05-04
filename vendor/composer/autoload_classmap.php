@@ -18,6 +18,7 @@ return array(
     'App\\Http\\Controllers\\Admin\\LocaleController' => $baseDir . '/app/Http/Controllers/Admin/LocaleController.php',
     'App\\Http\\Controllers\\Admin\\LoginController' => $baseDir . '/app/Http/Controllers/Admin/LoginController.php',
     'App\\Http\\Controllers\\Admin\\MonitorsController' => $baseDir . '/app/Http/Controllers/Admin/MonitorsController.php',
+    'App\\Http\\Controllers\\Admin\\MonitorsController' => $baseDir . '/app/Http/Controllers/Admin/MonitorsController.php',
     'App\\Http\\Controllers\\Admin\\PaymentMethodsController' => $baseDir . '/app/Http/Controllers/Admin/PaymentMethodsController.php',
     'App\\Http\\Controllers\\Admin\\PaymentsController' => $baseDir . '/app/Http/Controllers/Admin/PaymentsController.php',
     'App\\Http\\Controllers\\Admin\\PermissionController' => $baseDir . '/app/Http/Controllers/Admin/PermissionController.php',

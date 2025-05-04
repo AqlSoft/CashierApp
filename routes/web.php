@@ -27,15 +27,12 @@ use App\Http\Controllers\Admin\PaymentMethodsController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
 
+use Illuminate\Support\Facades\Auth;
 
 Route::get('locale/{locale}', [LocaleController::class, 'switch'])->name('locale-switch');
 // Auth::routes();
-// // Auth::routes(['register' => false]);
-
 Route::get('/',                 [LoginController::class, 'showLoginForm'])->name('login');
-// Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/register',         [RegisterController::class, 'showRegistrationForm'])->name('admin.register');
-
 
 // Admin Routes
 Route::middleware('guest:admin')->prefix('admin')->group(function () {
@@ -46,7 +43,6 @@ Route::middleware('guest:admin')->prefix('admin')->group(function () {
   Route::get('/register',     [RegisterController::class, 'showRegistrationForm'])->name('admin.register');
   Route::post('/register',    [RegisterController::class, 'register'])->name('admin.register.submit');
 });
-
 
 Route::middleware('auth:admin')->prefix('admin')->group(function () {
   Route::post('/logout',      [LoginController::class, 'logout'])->name('admin.logout');
@@ -171,6 +167,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/index',                          [SettingsController::class, 'index'])->name('home-setting');
     Route::put('/update/{id}',                     [SettingsController::class, 'update'])->name('admin.settings.update');
   });
+
   // MonyBox routes
   Route::prefix('monyBoxes')->group(function () {
     Route::get('/index',                          [MonyBoxesController::class, 'index'])->name('all-Mony-box');
@@ -197,10 +194,8 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
   });
 
   // route kitchen
-
   Route::prefix('kitchen')->group(function () {
     Route::get('/display',              [KitchenController::class, 'index'])->name('admin.kitchen.kitchen');
-    // Route::post('/order/{order}/pick', [KitchenController::class, 'pickOrder'])->name('kitchen.order.pick');
     Route::post('/order/{order}/pick',     [KitchenController::class, 'pickOrder'])->name('admin.kitchen.order.pick');
     Route::post('/order/{order}/complete', [KitchenController::class, 'completeOrder'])->name('admin.kitchen.order.complete');
     Route::get('/sse/kitchen-orders', [KitchenController::class, 'streamKitchenOrders']);
