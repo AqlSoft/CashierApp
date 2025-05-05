@@ -1,8 +1,8 @@
 <div class="main-sidebar flex-shrink-0">
 
-    <div class=" d-flex align-items-center justify-content-center flex-column">
+    <div class=" d-flex flex-column">
         <div class="logo mt-3 mb-2">
-            <a href="/" class=" d-flex align-items-center gap-1">
+            <a href="/" class=" d-flex justify-content-start gap-1">
                 <span class="restaurant-icon">🏪</span>
                 <span class="fs-5 fw-semibold text-dark">Cashier App</span>
             </a>

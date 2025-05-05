@@ -19,7 +19,7 @@
 {{-- Main Content --}}
 <div class="container">
 
-  <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede">Display Products List
+  <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede">{{__('products.index-title')}}
     <a class="ms-3 add-icon" data-bs-toggle="collapse" data-bs-target="#addProductForm" aria-expanded="false"
       aria-controls="addProductForm">
       <i data-bs-toggle="tooltip" title="Add New product" class="fa fa-plus"></i>
@@ -35,29 +35,29 @@
           <form action="{{ route('store-new-product') }}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="input-group sm mb-2">
-                <label class="input-group-text" for="quantity">Categery</label>
+                <label class="input-group-text" for="quantity">{{__('products.category')}}</label>
                 <select class="form-select form-control sm py-0" name="category_id" id="category_id">
                   <option readonly>All Categery Types</option>
                   @foreach ($categories as $category)
                   <option value="{{ $category->id }}">{{ $category->cat_name }}</option>
                   @endforeach
                 </select>
-                <label class="input-group-text" for="name">Product Name</label>
+                <label class="input-group-text" for="name">{{__('products.name')}}</label>
                 <input type="text" class="form-control sm" name="name" id="name" value="">
-                <label class="input-group-text" for="cost_price">Cost Price</label>
+                <label class="input-group-text" for="cost_price">{{__('products.cost_price')}}</label>
                 <input type="number" class="form-control sm" name="cost_price" id="cost_price">
 
               </div>
               <div class="input-group sm mt-2">
 
-                <label class="input-group-text" for="admin_id">Person</label>
+                <label class="input-group-text" for="admin_id">{{__('products.admin')}}</label>
                 <select class="form-select  form-control sm py-0" name="admin_id" id="admin_id">
                   <option readonly>All Persons</option>
                   @foreach ($admins as $admin)
                   <option value="{{ $admin->id }}">{{ $admin->userName }}</option>
                   @endforeach
                 </select>
-                <label class="input-group-text" for="sale_price">Sale Price</label>
+                <label class="input-group-text" for="sale_price">{{__('products.actions')}}</label>
                 <input type="number" class="form-control sm" name="sale_price" id="sale_price">
                 <label class="input-group-text" for="processing_time">Processing Time</label>
                 <input type="time" class="form-control sm" value="{{date('H:i:s')}}" name="processing_time" id="processing_time">

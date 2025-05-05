@@ -16,8 +16,9 @@ a {
     color: #000;
 }
 
-.sidebar-brand img {
-    margin-right: 0.75rem;
+.restaurant-icon {
+    margin-inline-end: 0.5rem;
+    margin-inline-start: 1rem;
 }
 
 .profile {
@@ -26,7 +27,6 @@ a {
     justify-content: center;
     align-items: center;
     padding: 1rem;
-
 }
 
 .profile .profile-info {
@@ -35,13 +35,12 @@ a {
 
 .profile-info .info-title {
     font-weight: bold;
-    font-size: .9rem;
+    font-size: 0.9rem;
     text-transform: uppercase;
-
 }
 
 .profile-info .sub-title {
-    font-size: .9rem;
+    font-size: 0.9rem;
     margin: -5px;
     color: #1c1e21;
 }
@@ -66,7 +65,6 @@ a {
     background-color: #e8f0fe;
     color: #b72d14;
 }
-
 
 .btn-toggle[aria-expanded="true"] i {
     color: #b72d14;
