@@ -18,14 +18,14 @@ class Product extends Model
   public $timestamps = true;
   protected $table = "products";
 
-  protected $fillable = ['name', 'cost_price','sale_price', 'category_id', 'description','processing_time' ,'status','category_id','unit_id', 'created_at', 'created_by', 'updated_by', 'updated_at'];
+  protected $fillable = ['name', 'cost_price','sale_price','image', 'category_id', 'description','processing_time' ,'status','category_id','unit_id', 'created_at', 'created_by', 'updated_by', 'updated_at'];
 
   protected $casts = [
     'status' => 'boolean',
     'processing_time' => 'datetime',
   
   ];
-  
+
   public function getFormattedProcessingTimeAttribute()
   {
       return optional($this->processing_time)->format('H:i:s');

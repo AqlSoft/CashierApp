@@ -30,7 +30,7 @@
         <div
           class="col ">
           <div class="card card-body">
-            <form action="/admin/products/store" method="POST">
+          <form action="<?php echo e(route('store-new-product')); ?>" method="POST" enctype="multipart/form-data">
               <?php echo csrf_field(); ?>
               <div class="input-group sm mb-2">
                 <label class="input-group-text" for="quantity">Categery</label>
@@ -64,6 +64,8 @@
               <div class="input-group sm mt-2">
                 <label class="input-group-text" for="brief">Description</label>
                 <input type="text" class="form-control sm" name="brief" id="brief">
+                <label class="input-group-text" for="image">Product Image</label>
+                <input type="file" class="form-control sm" name="image" id="image" accept="image/*">
                 <div class="input-group-text">
                   <input class="form-check-input mt-0" name="status" type="checkbox" value="1"
                     aria-label="Checkbox for following text input">
