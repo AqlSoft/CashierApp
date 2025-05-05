@@ -99,7 +99,7 @@
 <li class="mb-1">
     <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
         data-bs-target="#pos-collapse1" aria-expanded="">
-        <i class="fa-solid fa-desktop"></i> &nbsp; {{ __('sidebar.pos') }}
+        <i class="fa-solid fa-cash-register"></i> &nbsp; {{ __('sidebar.pos') }}
     </button>
     <div class="collapse {{ request()->is(['admin/pos*']) ? 'show' : '' }}" id="pos-collapse1"
         data-bs-parent="#sidebarAccordion">
@@ -108,7 +108,7 @@
             <li>
                 <a href="{{ route('display-pos-list') }}"
                     class="rounded {{ request()->is('admin/pos') ? 'active' : '' }}">
-                    <i class="fa-solid fa-cash-register"></i> &nbsp; {{ __('sidebar.pos-list') }}
+                    <i class="fa-solid fa-list"></i> &nbsp; {{ __('sidebar.pos-list') }}
                 </a>
             </li>
 
