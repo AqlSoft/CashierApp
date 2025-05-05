@@ -8,8 +8,9 @@ use App\Http\Controllers\Admin\LocaleController;
 
 // Language Switch Route
 use App\Http\Controllers\Admin\RegisterController;
-use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\PosController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\OrdersItemsController;
@@ -26,7 +27,6 @@ use App\Http\Controllers\Admin\KitchenController;
 use App\Http\Controllers\Admin\PaymentMethodsController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
-
 use Illuminate\Support\Facades\Auth;
 
 Route::get('locale/{locale}', [LocaleController::class, 'switch'])->name('locale-switch');
@@ -228,5 +228,15 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/edit/{id}',    [AccountController::class, 'edit'])->name('edit-account-info');
     Route::post('/update',      [AccountController::class, 'update'])->name('update-account-info');
     Route::get('/destroy/{id}', [AccountController::class, 'destroy'])->name('destroy-account-info');
+  });
+
+  // Point Of Sales Routes
+  Route::prefix('pos')->group(function () {
+    Route::get('/index',        [POSController::class, 'index'])->name('display-pos-list');
+    Route::post('/store',       [POSController::class, 'store'])->name('store-pos-info');
+    Route::get('/view/{id}',    [POSController::class, 'view'])->name('view-pos-info');
+    Route::get('/edit/{id}',    [POSController::class, 'edit'])->name('edit-pos-info');
+    Route::post('/update',      [POSController::class, 'update'])->name('update-pos-info');
+    Route::get('/destroy/{id}', [POSController::class, 'destroy'])->name('destroy-pos-info');
   });
 });

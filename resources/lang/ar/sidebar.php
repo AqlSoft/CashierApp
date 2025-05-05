@@ -4,7 +4,7 @@ return [
 
     // Main Menues
     'dashboard'     => 'لوحة التحكم',
-    'pos'           => 'نقطة البيع',
+    'pos'           => 'نقاط البيع',
     'monitors'      => 'الشاشات',
     'products'      => 'المنتجات',
     'accounts'      => 'الحسابات',
@@ -22,8 +22,8 @@ return [
     'quick-actions' => 'إجراءات سريعة',
 
     // P.O.S
-    'new_order' => 'طلب جديد',
-    'hold_orders' => 'إيقاف الطلبات',
+    'pos-list' => 'نقاط البيع',
+    'orders' => 'الطلبات',
     'order_history' => 'تاريخ الطلبات',
     'quick_products' => 'منتجات سريعة',
     'discounts' => 'خصومات',
