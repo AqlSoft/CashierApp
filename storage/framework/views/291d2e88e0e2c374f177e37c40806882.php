@@ -2,14 +2,14 @@
 <html lang="en" data-bs-theme="auto">
 
 <head>
-    <script src="{{ asset('assets/admin/js/color.modes.js') }}"></script>
-    {{-- ADMIN TEMPLATE BLADE --}}
+    <script src="<?php echo e(asset('assets/admin/js/color.modes.js')); ?>"></script>
+    
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.122.0">
-    <title>@yield('title', 'CashSys | Cashier System')</title>
+    <title><?php echo $__env->yieldContent('title', 'CashSys | Cashier System'); ?></title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -21,8 +21,8 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-    <link rel="stylesheet" href="{{ asset('/assets/admin/css/report.style.css') }}">
-    @yield('extra-links')
+    <link rel="stylesheet" href="<?php echo e(asset('/assets/admin/css/report.style.css')); ?>">
+    <?php echo $__env->yieldContent('extra-links'); ?>
 </head>
 
 
@@ -33,10 +33,10 @@
           <div class="button-container d-flex gap-3  flex-column  mb-2"> 
              <button class="btn btn-primary mr-2" onclick="window.print()">  <i class="fas fa-print"></i> print
               </button>
-              <a href="{{ route('display-order-all') }}" class="btn btn-success mr-2">
+              <a href="<?php echo e(route('display-order-all')); ?>" class="btn btn-success mr-2">
                   <i class="fas fa-plus-square"></i> new order
               </a>
-              <a href="{{ url()->previous() }}" class="btn btn-secondary">
+              <a href="<?php echo e(url()->previous()); ?>" class="btn btn-secondary">
                   <i class="fas fa-arrow-circle-left"></i> back
               </a>
           </div>
@@ -44,16 +44,16 @@
               <thead>
                   <tr>
                       <td>
-                          {{-- ========== header reports  ======================== --}}
-                          @foreach ($settings as $setting)
+                          
+                          <?php $__currentLoopData = $settings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $setting): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                               <header class="header-report">
       
                                   <div class="header-left">
       
                                       <div class="logo">
-                                          <img src="{{ asset('assets/admin/uploads/images/logo-icon.png')}}" alt="logo_report" />
+                                          <img src="<?php echo e(asset('assets/admin/uploads/images/logo-icon.png')); ?>" alt="logo_report" />
                                           <div class="logo-text ">
-                                              <span class="company-name">{{$setting->company_name}}</span>
+                                              <span class="company-name"><?php echo e($setting->company_name); ?></span>
                                               <span class="company-slogan">company slogan</span>
                                           </div>
                                       </div>
@@ -67,7 +67,7 @@
       
       
                               </header>
-                          @endforeach
+                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                       </td>
                   </tr>
               </thead>
@@ -91,13 +91,13 @@
                                   <div class="col col-12 tax_number pt-1 ">
                                       <div class="row ">
                                           <div class="col col-4 text-end fw-bold">Tax Number: </div>
-                                          <div class="col col-8 text-start">{{$setting->tax_number}}</div>
+                                          <div class="col col-8 text-start"><?php echo e($setting->tax_number); ?></div>
                                       </div>
                                   </div>
                               </div>
       
                           </div>
-                          @yield('contents')
+                          <?php echo $__env->yieldContent('contents'); ?>
                       </td>
                   </tr>
               </tbody>
@@ -114,3 +114,4 @@
 </body>
 
 </html>
+<?php /**PATH C:\wamp64\www\CashierApp\resources\views/layouts/reports/template1.blade.php ENDPATH**/ ?>

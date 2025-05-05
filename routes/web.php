@@ -105,6 +105,10 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::post('/update',                      [ProductsController::class, 'update'])->name('update-product-info');
     Route::get('/edit/{id}',                    [ProductsController::class, 'edit'])->name('edit-product-info');
     Route::get('/destroy/{id}',                 [ProductsController::class, 'destroy'])->name('destroy-product-info');
+    Route::get('/park/{id}',                    [ProductsController::class, 'park'])->name('park-product');
+    Route::get('/cancel/{id}',                  [ProductsController::class, 'cancel'])->name('cancel-product-info');
+
+
   });
 
   // Monitors  Routes

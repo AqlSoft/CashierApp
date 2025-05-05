@@ -14,25 +14,34 @@ use App\Models\ItemCategroy;
 class ProductsController extends Controller
 {
 
-  protected static $status = [
-    1 => 'Active',
-    0 => 'Inactive',
-];
+//   protected static $status = [
+//     1 => 'Active',
+//     0 => 'Inactive',
+// ];
 
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-      $products = Product::all();
-      $vars = [
-        'categories' => ItemCategroy::all(),
-        'status'   => static::$status,
-        'products' => $products,
-        'admins'   => Admin::all()
-      ];
-    return view('admin.products.index', $vars);
+    public function index(Request $request)
+{
+    // جلب قيمة التصنيف من الريكوست
+    $categoryId = $request->input('category');
+
+    // تعديل استعلام جلب المنتجات بناءً على التصنيف
+    $productsQuery = Product::query();
+    if ($categoryId) {
+        $productsQuery->where('category_id', $categoryId);
     }
+    $productsQuery->whereNotIn('status', [Product::PRODUCT__CANCELED, Product::PRODUCT__PARKED]);
+    $products = $productsQuery->get();
+    $vars = [
+        'categories' => ItemCategroy::all(),
+        'products'   => $products,
+        'admins'     => Admin::all()
+    ];
+    return view('admin.products.index', $vars);
+}
+    
 
     /**
      * Show the form for creating a new resource.
@@ -53,8 +62,9 @@ class ProductsController extends Controller
             'cost_price'       => $request->cost_price,
             'sale_price'       => $request->sale_price,
             'description'      => $request->description,
-            'category'         => $request->category ,
-            'status'           => $request->status !== null ? $request->status : 0,
+            'processing_time'  => $request->processing_time,
+            'category_id'      => $request->category_id ,
+            'status'           =>Product::PRODUCT_JUST_CREATED,
             'created_by'       => auth()->user()->id,
 
         ]);
@@ -75,8 +85,9 @@ class ProductsController extends Controller
       return redirect()->back()->withError('The product is not exist, may be deleted or you have insuffecient privilleges.');
     }
     $vars = [
-      'status'  => static::$status,
+      'categories' => ItemCategroy::all(),
       'product' => $product,
+      'admins' => Admin::all()
     
     ];
 
@@ -88,14 +99,7 @@ class ProductsController extends Controller
      */
     public function edit(string $id)
     {
-      $product = Product::find($id);
-      $vars = [
-        'product'  =>$product,
-          'cat'    => static::$cat,
-          'status' => static::$status,
-          'admins' => Admin::all()
-      ];
-      return view('admin.products.edit', $vars);
+      
     }
 
     /**
@@ -107,11 +111,12 @@ class ProductsController extends Controller
 
       try {
           $product->update([
-            'name'           => $request->name,
+            'name'             => $request->name,
             'cost_price'       => $request->cost_price,
-            'quantity'         => $request->quantity,
             'description'      => $request->description,
-            'status'           => $request->status ,
+            'processing_time'  => $request->processing_time,
+            'sale_price'       => $request->sale_price,
+            'status'          =>Product::PRODUCT_EDITING,
             'updated_by'       => auth()->user()->id  ,
           ]);
 
@@ -121,17 +126,67 @@ class ProductsController extends Controller
       }
     }
 
+
+      /**
+     * تحديث حالة " للمنتج.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function park($id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+            $product->update([
+                'status' => Product::PRODUCT__PARKED,
+                'updated_by' => Admin::currentUser(),
+            ]);
+    
+            return redirect()
+                ->route('view-product-info',$product->id)
+                ->with('success', 'Product parked successfully');
+                
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Error parking product: ' . $e->getMessage());
+        }
+    }
+
+      /**
+     * 
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function cancel($id)
+    {
+      $product = Product::findOrFail($id);
+      try {
+        $status->update([
+          'status'           => Product::PRODUCT__CANCELED,
+          'updated_by'       => Admin::currentUser(),
+        ]);
+  
+        return redirect()->route('display-product-all')->with('success', 'Product cancel successfully');
+      } catch (\Exception $e) {
+        return redirect()->back()->withInput()->with('error', 'Error cancel Product because of: ' . $e->getMessage());
+      }
+    }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy( $id)
     {
-        $Product = Product::find($id);
+      $product = Product::findOrFail($id);
         try {
             $Product->delete();
             return redirect()->back()->with('success', 'Product deleted successfully');
         } catch (Exception $err) {
-            return redirect()->route('display-Product-list')->with('error', 'Error deleting Product because of: ' . $err->getMessage());
+            return redirect()->route('display-product-all')->with('error', 'Error deleting Product because of: ' . $err->getMessage());
         }
     }
 }

@@ -1,10 +1,8 @@
-@extends('layouts.admin')
-
-@section('header-links')
+<?php $__env->startSection('header-links'); ?>
     <li class="breadcrumb-item"><a href="#">Account</a></li>
     <li class="breadcrumb-item active" aria-current="page">View Profile</li>
-@endsection
-@section('contents')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('contents'); ?>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8">
@@ -25,8 +23,8 @@
                         <button class="nav-link" id="statistics-tab" data-bs-toggle="tab" data-bs-target="#statistics"
                             type="button" role="tab" aria-controls="statistics" aria-selected="false">Statistics</button>
                     </li>
-                    <form action="{{route('admin.logout')}}" class="nav-item" method="POST">
-                        @csrf
+                    <form action="<?php echo e(route('admin.logout')); ?>" class="nav-item" method="POST">
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="nav-link">Logout</button>
                     </form>
                 </ul>
@@ -41,21 +39,22 @@
                             </div>
 
                             <!-- Profile Picture Section -->
-                            @include('admin.users.partials.personal-info')
+                            <?php echo $__env->make('admin.users.partials.personal-info', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                           
                         </div>
                     </div>
 
                     <div class="tab-pane fade" id="sessions" role="tabpanel" aria-labelledby="sessions-tab">
                       
-                        @include('admin.users.partials.session-section')
+                        <?php echo $__env->make('admin.users.partials.session-section', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                     </div>
 
                     <div class="tab-pane fade" id="statistics" role="tabpanel" aria-labelledby="statistics-tab">
-                    @include('admin.users.partials.statistics')
+                    <?php echo $__env->make('admin.users.partials.statistics', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/users/profile.blade.php ENDPATH**/ ?>

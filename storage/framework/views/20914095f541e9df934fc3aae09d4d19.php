@@ -1,11 +1,9 @@
-@extends('layouts.admin')
+<?php $__env->startSection('extra-links'); ?>
+<link rel="stylesheet" href="<?php echo e(asset('assets/admin/css/orderitem.css')); ?>">
 
-@section('extra-links')
-<link rel="stylesheet" href="{{ asset('assets/admin/css/orderitem.css') }}">
+<?php $__env->stopSection(); ?>
 
-@endsection
-
-@section('contents')
+<?php $__env->startSection('contents'); ?>
 <style>
   .text-danger {
     color: #dc3545;
@@ -16,7 +14,7 @@
   }
 </style>
 
-{{-- Main Content --}}
+
 <div class="container">
 
   <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede">Display Products List
@@ -33,14 +31,14 @@
           class="col ">
           <div class="card card-body">
             <form action="/admin/products/store" method="POST">
-              @csrf
+              <?php echo csrf_field(); ?>
               <div class="input-group sm mb-2">
                 <label class="input-group-text" for="quantity">Categery</label>
                 <select class="form-select form-control sm py-0" name="category_id" id="category_id">
                   <option readonly>All Categery Types</option>
-                  @foreach ($categories as $category)
-                  <option value="{{ $category->id }}">{{ $category->cat_name }}</option>
-                  @endforeach
+                  <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                  <option value="<?php echo e($category->id); ?>"><?php echo e($category->cat_name); ?></option>
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
                 <label class="input-group-text" for="name">Product Name</label>
                 <input type="text" class="form-control sm" name="name" id="name" value="">
@@ -53,9 +51,9 @@
                 <label class="input-group-text" for="admin_id">Person</label>
                 <select class="form-select  form-control sm py-0" name="admin_id" id="admin_id">
                   <option readonly>All Persons</option>
-                  @foreach ($admins as $admin)
-                  <option value="{{ $admin->id }}">{{ $admin->userName }}</option>
-                  @endforeach
+                  <?php $__currentLoopData = $admins; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $admin): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                  <option value="<?php echo e($admin->id); ?>"><?php echo e($admin->userName); ?></option>
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
                 <label class="input-group-text" for="sale_price">Sale Price</label>
                 <input type="number" class="form-control sm" name="sale_price" id="sale_price">
@@ -89,44 +87,44 @@
       <div class="row ">
         <div class="col col-12">
           <div class="btn-group ">
-            <a class="btn btn-outline-secondary {{ request('category') == null ? 'active' : '' }}"
-              href="{{ route('display-product-all') }}">All</a>
-            @foreach ($categories as $category)
-            <a class="btn btn-outline-primary {{ request('category') == $category->id ? 'active' : '' }}"
-              href="{{ route('display-product-all', ['category' => $category->id]) }}">{{ $category->cat_name }}</a>
-            @endforeach
+            <a class="btn btn-outline-secondary <?php echo e(request('category') == null ? 'active' : ''); ?>"
+              href="<?php echo e(route('display-product-all')); ?>">All</a>
+            <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <a class="btn btn-outline-primary <?php echo e(request('category') == $category->id ? 'active' : ''); ?>"
+              href="<?php echo e(route('display-product-all', ['category' => $category->id])); ?>"><?php echo e($category->cat_name); ?></a>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           </div>
 
         </div>
         <div class="row mt-3 d-flex gap-2" id="product-list">
-          @if (isset($products) && count($products))
-          @foreach ($products as $product)
+          <?php if(isset($products) && count($products)): ?>
+          <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         
                     
           <div class="col col-2 productlist p-0 m-0"
             style="border-radius: 6px;border: 1px solid">
-            <a  href="{{ route('view-product-info', $product->id) }}">
+            <a  href="<?php echo e(route('view-product-info', $product->id)); ?>">
             <button class="product-item">
               <div class="productlistimg-container">
                 <div class="productlistimg"
-                  style="background-image: url('{{ $product->image ? asset('assets/admin/uploads/images/products/' . $product->image) : asset('assets/admin/images/default-product.png') }}');">
+                  style="background-image: url('<?php echo e($product->image ? asset('assets/admin/uploads/images/products/' . $product->image) : asset('assets/admin/images/default-product.png')); ?>');">
                 </div>
                 <div class="price-overlay d-flex flex-column">
-                  <h5 class="price-display">{{ number_format($product->sale_price, 2) }}</h5>
-                  <a class="btn btn-sm py-0 text-white btn-outline-primary" href="{{ route('view-product-info', $product->id) }}">
+                  <h5 class="price-display"><?php echo e(number_format($product->sale_price, 2)); ?></h5>
+                  <a class="btn btn-sm py-0 text-white btn-outline-primary" href="<?php echo e(route('view-product-info', $product->id)); ?>">
                       More</a>
                 </div>
               </div>
               <div class="productlistcontent">
-                <h5 class="mt-1">{{ $product->name }}</h5>
+                <h5 class="mt-1"><?php echo e($product->name); ?></h5>
 
               </div>
             </button>
             </a>
           </div>
     
-          @endforeach
-          @endif
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+          <?php endif; ?>
         </div>
       </div>
     </div>
@@ -134,4 +132,5 @@
 
 
 
-  @endsection
+  <?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/products/index.blade.php ENDPATH**/ ?>
