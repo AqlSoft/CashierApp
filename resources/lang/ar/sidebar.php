@@ -22,7 +22,7 @@ return [
     'quick-actions' => 'إجراءات سريعة',
 
     // P.O.S
-    'pos-list' => 'نقاط البيع',
+    'pos-list' => 'قائمة نقاط البيع',
     'orders' => 'الطلبات',
     'order_history' => 'تاريخ الطلبات',
     'quick_products' => 'منتجات سريعة',
