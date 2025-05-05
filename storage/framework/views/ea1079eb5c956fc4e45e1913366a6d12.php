@@ -1,10 +1,5 @@
 <div class="main-sidebar flex-shrink-0">
-    <!-- Debug Info (يمكن إزالته في الإنتاج) -->
-    <!--
-    App => <?php echo e(App::getLocale()); ?> <br>
-    Session => <?php echo e(session('locale')); ?>
 
-    -->
     <div class=" d-flex align-items-center justify-content-center flex-column">
         <div class="logo mt-3 mb-2">
             <a href="/" class=" d-flex align-items-center gap-1">
@@ -26,58 +21,71 @@
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
                 data-bs-target="#dashboard-collapse1" aria-expanded="">
-                <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('sidebar.dashboard')); ?>
+                <i class="fa-solid fa-sliders"></i> &nbsp; <?php echo e(__('sidebar.dashboard')); ?>
 
             </button>
 
             <div class="collapse <?php echo e(request()->is(['admin/dashboard', 'admin/admins/*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : ''); ?>"
                 id="dashboard-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    
                     <li>
                         <a href="<?php echo e(route('admin-dashboard')); ?>"
                             class="rounded <?php echo e(request()->is('admin/dashboard') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.home')); ?>
+                            <i class="fa-solid fa-home"></i> &nbsp; <?php echo e(__('sidebar.home')); ?>
 
                         </a>
                     </li>
+
+                    
                     <li>
                         <a href="<?php echo e(route('admin-list')); ?>"
                             class="rounded <?php echo e(request()->is('admin/admins*') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.admins')); ?>
+                            <i class="fa-solid fa-chart-pie"></i> &nbsp; <?php echo e(__('sidebar.overview')); ?>
 
                         </a>
                     </li>
+
+                    
                     <li>
-                        <a href="<?php echo e(route('roles-list')); ?>"
-                            class="rounded <?php echo e(request()->is('admin/roles*') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.roles')); ?>
+                        <a href="<?php echo e(route('admin-list')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/admins*') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-calendar-day"></i> &nbsp; <?php echo e(__('sidebar.day-summary')); ?>
 
                         </a>
                     </li>
+
+                    
                     <li>
-                        <a href="/admin/stats/home" class="rounded <?php echo e(request()->is('stats/home') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.stats')); ?>
+                        <a href="<?php echo e(route('admin-list')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/admins*') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-chart-line"></i> &nbsp; <?php echo e(__('sidebar.performance')); ?>
 
                         </a>
                     </li>
+
+                    
                     <li>
-                        <a href="/admin/sales/active/sessions"
-                            class="rounded <?php echo e(request()->is('admin/sales/active/sessions') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.sales')); ?>
+                        <a href="<?php echo e(route('admin-list')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/admins*') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-bolt"></i> &nbsp; <?php echo e(__('sidebar.quick-actions')); ?>
 
                         </a>
                     </li>
+
+                    
+                    
                 </ul>
             </div>
         </li>
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
                 data-bs-target="#monitors-collapse1" aria-expanded="">
-                <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('sidebar.monitors')); ?>
+                <i class="fa-solid fa-desktop"></i> &nbsp; <?php echo e(__('sidebar.monitors')); ?>
 
             </button>
-            <div class="collapse <?php echo e(request()->is(['admin/monitors*']) ? 'show' : ''); ?>"
-                id="monitors-collapse1" data-bs-parent="#sidebarAccordion">
+            <div class="collapse <?php echo e(request()->is(['admin/monitors*']) ? 'show' : ''); ?>" id="monitors-collapse1"
+                data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
                         <a href="<?php echo e(route('monitors-waiting-hall')); ?>"
@@ -131,8 +139,8 @@
                 <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('sidebar.settings')); ?>
 
             </button>
-            <div class="collapse <?php echo e(request()->is(['admin/settings*']) ? 'show' : ''); ?>"
-                id="settings-collapse1" data-bs-parent="#sidebarAccordion">
+            <div class="collapse <?php echo e(request()->is(['admin/settings*']) ? 'show' : ''); ?>" id="settings-collapse1"
+                data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
                         <a href="/admin/setting/payment-methods/index"
@@ -248,11 +256,12 @@
                 <i class="fa-solid fa-money-bill-transfer"></i> &nbsp; <?php echo e(__('sidebar.payments')); ?>
 
             </button>
-            <div class="collapse <?php echo e(request()->is(['admin/payments*']) ? 'show' : ''); ?>"
-                id="payments-collapse1" data-bs-parent="#sidebarAccordion">
+            <div class="collapse <?php echo e(request()->is(['admin/payments*']) ? 'show' : ''); ?>" id="payments-collapse1"
+                data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
-                        <a href="" class="rounded <?php echo e(Request::is('admin/' . __('sidebar.payments') . '/index') ? 'active' : ''); ?>">
+                        <a href=""
+                            class="rounded <?php echo e(Request::is('admin/' . __('sidebar.payments') . '/index') ? 'active' : ''); ?>">
                             <i class="fas fa-chart-pie"></i> &nbsp; <?php echo e(__('sidebar.payments')); ?>
 
                         </a>
@@ -334,4 +343,5 @@
             </form>
         </div>
     </div>
-</div><?php /**PATH C:\wamp64\www\CashierApp\resources\views/inc/sidebar.blade.php ENDPATH**/ ?>
+</div>
+<?php /**PATH C:\wamp64\www\CashierApp\resources\views/inc/sidebar.blade.php ENDPATH**/ ?>

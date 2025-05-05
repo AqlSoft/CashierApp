@@ -15,10 +15,11 @@ return [
     'profile'       => 'الملف الشخصي',
 
     // Dashboard
+    'home' => 'الرئيسية',
     'overview' => 'نظرة عامة',
-    'summary' => 'ملخص اليوم',
+    'day-summary' => 'ملخص اليوم',
     'performance' => 'مقياسات الأداء',
-    'quick_actions' => 'إجراءات سريعة',
+    'quick-actions' => 'إجراءات سريعة',
 
     // P.O.S
     'new_order' => 'طلب جديد',

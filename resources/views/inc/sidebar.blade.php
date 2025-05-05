@@ -1,9 +1,5 @@
 <div class="main-sidebar flex-shrink-0">
-    <!-- Debug Info (يمكن إزالته في الإنتاج) -->
-    <!--
-    App => {{App::getLocale()}} <br>
-    Session => {{session('locale')}}
-    -->
+
     <div class=" d-flex align-items-center justify-content-center flex-column">
         <div class="logo mt-3 mb-2">
             <a href="/" class=" d-flex align-items-center gap-1">
@@ -25,19 +21,54 @@
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
                 data-bs-target="#dashboard-collapse1" aria-expanded="">
-                <i class="fa-solid fa-cog"></i> &nbsp; {{ __('sidebar.dashboard') }}
+                <i class="fa-solid fa-sliders"></i> &nbsp; {{ __('sidebar.dashboard') }}
             </button>
 
             <div class="collapse {{ request()->is(['admin/dashboard', 'admin/admins/*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : '' }}"
                 id="dashboard-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    {{-- Dashboard home --}}
                     <li>
                         <a href="{{ route('admin-dashboard') }}"
                             class="rounded {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.home') }}
+                            <i class="fa-solid fa-home"></i> &nbsp; {{ __('sidebar.home') }}
                         </a>
                     </li>
+
+                    {{-- Overview --}}
                     <li>
+                        <a href="{{ route('admin-list') }}"
+                            class="rounded {{ request()->is('admin/admins*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-chart-pie"></i> &nbsp; {{ __('sidebar.overview') }}
+                        </a>
+                    </li>
+
+                    {{-- Day Summary --}}
+                    <li>
+                        <a href="{{ route('admin-list') }}"
+                            class="rounded {{ request()->is('admin/admins*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-calendar-day"></i> &nbsp; {{ __('sidebar.day-summary') }}
+                        </a>
+                    </li>
+
+                    {{-- Performance --}}
+                    <li>
+                        <a href="{{ route('admin-list') }}"
+                            class="rounded {{ request()->is('admin/admins*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-chart-line"></i> &nbsp; {{ __('sidebar.performance') }}
+                        </a>
+                    </li>
+
+                    {{-- Quick Actions --}}
+                    <li>
+                        <a href="{{ route('admin-list') }}"
+                            class="rounded {{ request()->is('admin/admins*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-bolt"></i> &nbsp; {{ __('sidebar.quick-actions') }}
+                        </a>
+                    </li>
+
+                    {{--  --}}
+                    {{-- <li>
                         <a href="{{ route('admin-list') }}"
                             class="rounded {{ request()->is('admin/admins*') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.admins') }}
@@ -59,17 +90,17 @@
                             class="rounded {{ request()->is('admin/sales/active/sessions') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.sales') }}
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </li>
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
                 data-bs-target="#monitors-collapse1" aria-expanded="">
-                <i class="fa-solid fa-cog"></i> &nbsp; {{ __('sidebar.monitors') }}
+                <i class="fa-solid fa-desktop"></i> &nbsp; {{ __('sidebar.monitors') }}
             </button>
-            <div class="collapse {{ request()->is(['admin/monitors*']) ? 'show' : '' }}"
-                id="monitors-collapse1" data-bs-parent="#sidebarAccordion">
+            <div class="collapse {{ request()->is(['admin/monitors*']) ? 'show' : '' }}" id="monitors-collapse1"
+                data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
                         <a href="{{ route('monitors-waiting-hall') }}"
@@ -116,8 +147,8 @@
                 data-bs-target="#settings-collapse1" aria-expanded="">
                 <i class="fa-solid fa-cog"></i> &nbsp; {{ __('sidebar.settings') }}
             </button>
-            <div class="collapse {{ request()->is(['admin/settings*']) ? 'show' : '' }}"
-                id="settings-collapse1" data-bs-parent="#sidebarAccordion">
+            <div class="collapse {{ request()->is(['admin/settings*']) ? 'show' : '' }}" id="settings-collapse1"
+                data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
                         <a href="/admin/setting/payment-methods/index"
@@ -219,11 +250,12 @@
                 data-bs-target="#payments-collapse1" aria-expanded="">
                 <i class="fa-solid fa-money-bill-transfer"></i> &nbsp; {{ __('sidebar.payments') }}
             </button>
-            <div class="collapse {{ request()->is(['admin/payments*']) ? 'show' : '' }}"
-                id="payments-collapse1" data-bs-parent="#sidebarAccordion">
+            <div class="collapse {{ request()->is(['admin/payments*']) ? 'show' : '' }}" id="payments-collapse1"
+                data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
-                        <a href="" class="rounded {{ Request::is('admin/' . __('sidebar.payments') . '/index') ? 'active' : '' }}">
+                        <a href=""
+                            class="rounded {{ Request::is('admin/' . __('sidebar.payments') . '/index') ? 'active' : '' }}">
                             <i class="fas fa-chart-pie"></i> &nbsp; {{ __('sidebar.payments') }}
                         </a>
                     </li>
