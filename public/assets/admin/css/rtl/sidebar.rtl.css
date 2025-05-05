@@ -1,0 +1,126 @@
+.main-sidebar {
+    background-color: #eee;
+    border-right: #aaa solid 1px;
+    height: 100vh;
+    width: 220px !important;
+    position: fixed;
+    padding: 0;
+    z-index: 9999999;
+}
+
+a {
+    color: #000;
+}
+
+.sidebar-header {
+    color: #000;
+}
+
+.sidebar-brand img {
+    margin-right: 0.75rem;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+
+}
+
+.profile .profile-info {
+    text-align: center;
+}
+
+.profile-info .info-title {
+    font-weight: bold;
+    font-size: .9rem;
+    text-transform: uppercase;
+
+}
+
+.profile-info .sub-title {
+    font-size: .9rem;
+    margin: -5px;
+    color: #1c1e21;
+}
+
+/* القوائم الرئيسية */
+.btn-toggle {
+    width: 100%;
+    text-align: left;
+    padding: 0.25rem 1rem;
+    color: #1c1e21;
+    background: none;
+    border: none;
+    font-weight: 500;
+}
+
+.btn-toggle:hover {
+    background-color: #f0f2f5;
+}
+
+/* تمييز القائمة الرئيسية المفتوحة */
+.btn-toggle[aria-expanded="true"] {
+    background-color: #e8f0fe;
+    color: #b72d14;
+}
+
+
+.btn-toggle[aria-expanded="true"] i {
+    color: #b72d14;
+}
+
+.btn-toggle i {
+    width: 24px;
+    margin-right: 0.75rem;
+}
+
+/* القوائم الفرعية */
+.btn-toggle-nav {
+    padding-block-start: 2rem;
+    /* زيادة المسافة البادئة */
+    background-color: #f8f9fa;
+    /* لون خلفية مختلف للقوائم الفرعية */
+}
+
+.btn-toggle-nav a {
+    padding: 0.25rem 1rem;
+    color: #1c1e21;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    margin: 0.125rem 0;
+}
+
+/* تمييز الرابط الفرعي عند التحويم */
+.btn-toggle-nav a:hover {
+    background-color: #f0f2f5;
+    color: #b72d14;
+}
+
+/* تمييز الرابط الفرعي النشط */
+.btn-toggle-nav a.active {
+    background-color: #e8f0fe;
+    color: #b72d14;
+}
+
+.btn-toggle-nav a.active i {
+    color: #b72d14;
+}
+
+.btn-toggle-nav a i {
+    width: 20px;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.collapse.show {
+    display: block;
+}
+
+.mb-1 {
+    margin-bottom: 0.25rem !important;
+}

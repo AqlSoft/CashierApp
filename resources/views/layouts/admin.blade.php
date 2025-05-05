@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-bs-theme="auto">
+<html lang="{{ App::getLocale() }}" dir="{{ $dir }}" data-bs-theme="auto">
 
 <head>
     <!-- <script src="{{ asset('assets/admin/js/color.modes.js') }}"></script> -->
@@ -11,6 +11,7 @@
     <meta name="generator" content="Hugo 0.122.0">
     <title>@yield('title', 'CashSys | Cashier System')</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
@@ -41,10 +42,21 @@
     <link href="{{ asset('assets/admin/css/sidebar.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/css/my-custom-styles.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/css/admin-layout.css') }}" rel="stylesheet">
+
+    <!-- RTL/LTR Styles -->
+    @if($dir == 'rtl')
+    <link href="{{ asset('assets/admin/css/rtl.css') }}" rel="stylesheet">
+    @endif
+
     @yield('extra-links')
+    <style>
+        body * {
+            font-family: 'Cairo', sans-serif;
+        }
+    </style>
 </head>
 
-<body>
+<body class="{{ $dir }}-direction">
 
     <div class="admin-wrapper">
         @include('inc.sidebar')

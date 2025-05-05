@@ -1,11 +1,16 @@
 <?php
 
+use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\Admin\AdminsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\LocaleController;
+
+// Language Switch Route
 use App\Http\Controllers\Admin\RegisterController;
-use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\PosController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\OrdersItemsController;
@@ -19,17 +24,15 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ShiftsController;
 use App\Http\Controllers\Admin\UserProfilesController;
 use App\Http\Controllers\Admin\KitchenController;
+use App\Http\Controllers\Admin\PaymentMethodsController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
+use Illuminate\Support\Facades\Auth;
 
-
+Route::get('locale/{locale}', [LocaleController::class, 'switch'])->name('locale-switch');
 // Auth::routes();
-// // Auth::routes(['register' => false]);
-
 Route::get('/',                 [LoginController::class, 'showLoginForm'])->name('login');
-// Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/register',         [RegisterController::class, 'showRegistrationForm'])->name('admin.register');
-
 
 // Admin Routes
 Route::middleware('guest:admin')->prefix('admin')->group(function () {
@@ -40,7 +43,6 @@ Route::middleware('guest:admin')->prefix('admin')->group(function () {
   Route::get('/register',     [RegisterController::class, 'showRegistrationForm'])->name('admin.register');
   Route::post('/register',    [RegisterController::class, 'register'])->name('admin.register.submit');
 });
-
 
 Route::middleware('auth:admin')->prefix('admin')->group(function () {
   Route::post('/logout',      [LoginController::class, 'logout'])->name('admin.logout');
@@ -154,6 +156,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
   // invoices routes
   Route::prefix('invoices')->group(function () {
+    Route::get('/index',                          [SalesInvoiceController::class, 'index'])->name('display-invoices-list');
     Route::get('/view/{id}',                      [SalesInvoiceController::class, 'view'])->name('view-invoice');
     Route::get('/print-invoice/{id}',             [SalesInvoiceController::class, 'printInvoice'])->name('print-invoice');
   });
@@ -168,6 +171,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/index',                          [SettingsController::class, 'index'])->name('home-setting');
     Route::put('/update/{id}',                     [SettingsController::class, 'update'])->name('admin.settings.update');
   });
+
   // MonyBox routes
   Route::prefix('monyBoxes')->group(function () {
     Route::get('/index',                          [MonyBoxesController::class, 'index'])->name('all-Mony-box');
@@ -194,13 +198,49 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
   });
 
   // route kitchen
-
   Route::prefix('kitchen')->group(function () {
     Route::get('/display',              [KitchenController::class, 'index'])->name('admin.kitchen.kitchen');
-    // Route::post('/order/{order}/pick', [KitchenController::class, 'pickOrder'])->name('kitchen.order.pick');
     Route::post('/order/{order}/pick',     [KitchenController::class, 'pickOrder'])->name('admin.kitchen.order.pick');
     Route::post('/order/{order}/complete', [KitchenController::class, 'completeOrder'])->name('admin.kitchen.order.complete');
     Route::get('/sse/kitchen-orders', [KitchenController::class, 'streamKitchenOrders']);
     Route::get('/admin/kitchen/orders/list', [KitchenController::class, 'getOrderList'])->name('admin.kitchen.orders.list');
+  });
+
+  Route::prefix('payments')->group(function () {
+    Route::get('/index', [PaymentsController::class, 'index'])->name('display-payments-list');
+    Route::post('/store', [PaymentsController::class, 'store'])->name('store-payment-info');
+    Route::get('/view/{id}', [PaymentsController::class, 'view'])->name('view-payment-info');
+    Route::get('/edit/{id}', [PaymentsController::class, 'edit'])->name('edit-payment-info');
+    Route::post('/update', [PaymentsController::class, 'update'])->name('update-payment-info');
+    Route::get('/destroy/{id}', [PaymentsController::class, 'destroy'])->name('destroy-payment-info');
+  });
+
+  Route::prefix('setting')->group(function () {
+    Route::get('/payment-methods/index',        [PaymentMethodsController::class, 'index'])->name('display-payment-methods-list');
+    Route::post('/payment-methods/store',       [PaymentMethodsController::class, 'store'])->name('store-payment-method-info');
+    Route::get('/payment-methods/view/{id}', [PaymentMethodsController::class, 'view'])->name('view-payment-method-info');
+    Route::get('/payment-methods/edit/{id}',    [PaymentMethodsController::class, 'edit'])->name('edit-payment-method-info');
+    Route::post('/payment-methods/update',      [PaymentMethodsController::class, 'update'])->name('update-payment-method-info');
+    Route::get('/destroy/{id}', [PaymentMethodsController::class, 'destroy'])->name('destroy-payment-method-info');
+  });
+
+  //Accounts Routes List
+  Route::prefix('accounts')->group(function () {
+    Route::get('/index',        [AccountController::class, 'index'])->name('display-accounts-list');
+    Route::post('/store',       [AccountController::class, 'store'])->name('store-account-info');
+    Route::get('/view/{id}',    [AccountController::class, 'view'])->name('view-account-info');
+    Route::get('/edit/{id}',    [AccountController::class, 'edit'])->name('edit-account-info');
+    Route::post('/update',      [AccountController::class, 'update'])->name('update-account-info');
+    Route::get('/destroy/{id}', [AccountController::class, 'destroy'])->name('destroy-account-info');
+  });
+
+  // Point Of Sales Routes
+  Route::prefix('pos')->group(function () {
+    Route::get('/index',        [POSController::class, 'index'])->name('display-pos-list');
+    Route::post('/store',       [POSController::class, 'store'])->name('store-pos-info');
+    Route::get('/view/{id}',    [POSController::class, 'view'])->name('view-pos-info');
+    Route::get('/edit/{id}',    [POSController::class, 'edit'])->name('edit-pos-info');
+    Route::post('/update',      [POSController::class, 'update'])->name('update-pos-info');
+    Route::get('/destroy/{id}', [POSController::class, 'destroy'])->name('destroy-pos-info');
   });
 });

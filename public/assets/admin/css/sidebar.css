@@ -7,40 +7,45 @@
     padding: 0;
     z-index: 9999999;
 }
-a{
-  color:#000;
+
+a {
+    color: #000;
 }
-.sidebar-header  {
-    color:#000;
+
+.sidebar-header {
+    color: #000;
 }
 
 .sidebar-brand img {
     margin-right: 0.75rem;
 }
 
-.profile{
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  
-}
-.profile .profile-info{
-  text-align: center;
-}
-
-.profile-info .info-title{
-font-weight: bold;
-font-size:.9rem;
-text-transform:uppercase;
+.profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
 
 }
-.profile-info .sub-title{
-  font-size:.9rem;
-  margin:-5px;
-  color:#1c1e21;
-  }
+
+.profile .profile-info {
+    text-align: center;
+}
+
+.profile-info .info-title {
+    font-weight: bold;
+    font-size: .9rem;
+    text-transform: uppercase;
+
+}
+
+.profile-info .sub-title {
+    font-size: .9rem;
+    margin: -5px;
+    color: #1c1e21;
+}
+
 /* القوائم الرئيسية */
 .btn-toggle {
     width: 100%;
@@ -58,13 +63,13 @@ text-transform:uppercase;
 
 /* تمييز القائمة الرئيسية المفتوحة */
 .btn-toggle[aria-expanded="true"] {
-  background-color: #e8f0fe;
-  color: #b72d14;
+    background-color: #e8f0fe;
+    color: #b72d14;
 }
 
 
 .btn-toggle[aria-expanded="true"] i {
-  color: #b72d14;
+    color: #b72d14;
 }
 
 .btn-toggle i {
@@ -74,8 +79,10 @@ text-transform:uppercase;
 
 /* القوائم الفرعية */
 .btn-toggle-nav {
-    padding-left: 2rem; /* زيادة المسافة البادئة */
-    background-color: #f8f9fa; /* لون خلفية مختلف للقوائم الفرعية */
+    padding-inline-start: 1rem;
+    /* زيادة المسافة البادئة */
+    background-color: #f8f9fa;
+    /* لون خلفية مختلف للقوائم الفرعية */
 }
 
 .btn-toggle-nav a {

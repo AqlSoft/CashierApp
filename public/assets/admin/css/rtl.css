@@ -1,0 +1,169 @@
+/**
+ * RTL Styles for CashierApp
+ * This file contains styles specific to right-to-left (RTL) layout
+ */
+
+/* General RTL Adjustments */
+.rtl-direction {
+    text-align: right;
+}
+
+/* Sidebar RTL Adjustments */
+.rtl-direction .sidebar {
+    left: auto;
+    right: 0;
+}
+
+.rtl-direction #content {
+    margin-left: 0;
+    margin-right: 250px;
+}
+
+/* Flip icons for RTL */
+.rtl-direction .fa-chevron-right:before {
+    content: "\f053"; /* fa-chevron-left */
+}
+
+.rtl-direction .fa-chevron-left:before {
+    content: "\f054"; /* fa-chevron-right */
+}
+
+/* Adjust form elements for RTL */
+.rtl-direction .form-control {
+    text-align: right;
+}
+
+.rtl-direction .input-group .input-group-text {
+    border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.rtl-direction .input-group .form-control:not(:last-child) {
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+
+/* Adjust table elements for RTL */
+.rtl-direction th,
+.rtl-direction td {
+    text-align: right;
+}
+
+/* Adjust dropdown menus for RTL */
+.rtl-direction .dropdown-menu {
+    text-align: right;
+    right: 0;
+    left: auto;
+}
+
+/* Adjust modal dialogs for RTL */
+.rtl-direction .modal-header .btn-close {
+    margin: -0.5rem auto -0.5rem -0.5rem;
+}
+
+/* Adjust alerts for RTL */
+.rtl-direction .alert {
+    text-align: right;
+    padding-right: 3.5rem;
+    padding-left: 1.25rem;
+}
+
+/* Adjust breadcrumb for RTL */
+.rtl-direction .breadcrumb-item + .breadcrumb-item::before {
+    float: right;
+    padding-right: 0;
+    padding-left: 0.5rem;
+}
+
+.rtl-direction .breadcrumb-item + .breadcrumb-item {
+    padding-left: 0;
+    padding-right: 0.5rem;
+}
+
+/* Adjust card elements for RTL */
+.rtl-direction .card-header,
+.rtl-direction .card-body,
+.rtl-direction .card-footer {
+    text-align: right;
+}
+
+/* Adjust list groups for RTL */
+.rtl-direction .list-group {
+    padding-right: 0;
+}
+
+/* Adjust pagination for RTL */
+.rtl-direction .page-item:first-child .page-link {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.rtl-direction .page-item:last-child .page-link {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+
+/* Float adjustments */
+.rtl-direction .float-start {
+    float: right !important;
+}
+
+.rtl-direction .float-end {
+    float: left !important;
+}
+
+/* Text alignment adjustments */
+.rtl-direction .text-start {
+    text-align: right !important;
+}
+
+.rtl-direction .text-end {
+    text-align: left !important;
+}
+
+/* Margin and padding adjustments */
+.rtl-direction .ms-1, .rtl-direction .ms-2, .rtl-direction .ms-3, .rtl-direction .ms-4, .rtl-direction .ms-5,
+.rtl-direction .ms-auto {
+    margin-right: 0.25rem !important;
+    margin-left: 0 !important;
+}
+
+.rtl-direction .me-1, .rtl-direction .me-2, .rtl-direction .me-3, .rtl-direction .me-4, .rtl-direction .me-5,
+.rtl-direction .me-auto {
+    margin-left: 0.25rem !important;
+    margin-right: 0 !important;
+}
+
+.rtl-direction .ps-1, .rtl-direction .ps-2, .rtl-direction .ps-3, .rtl-direction .ps-4, .rtl-direction .ps-5 {
+    padding-right: 0.25rem !important;
+    padding-left: 0 !important;
+}
+
+.rtl-direction .pe-1, .rtl-direction .pe-2, .rtl-direction .pe-3, .rtl-direction .pe-4, .rtl-direction .pe-5 {
+    padding-left: 0.25rem !important;
+    padding-right: 0 !important;
+}
+
+/* Fix Bootstrap grid for RTL */
+@media (min-width: 576px) {
+    .rtl-direction .offset-sm-1 { margin-right: 8.333333%; margin-left: 0; }
+    .rtl-direction .offset-sm-2 { margin-right: 16.666667%; margin-left: 0; }
+    .rtl-direction .offset-sm-3 { margin-right: 25%; margin-left: 0; }
+    .rtl-direction .offset-sm-4 { margin-right: 33.333333%; margin-left: 0; }
+}
+
+@media (min-width: 768px) {
+    .rtl-direction .offset-md-1 { margin-right: 8.333333%; margin-left: 0; }
+    .rtl-direction .offset-md-2 { margin-right: 16.666667%; margin-left: 0; }
+    .rtl-direction .offset-md-3 { margin-right: 25%; margin-left: 0; }
+    .rtl-direction .offset-md-4 { margin-right: 33.333333%; margin-left: 0; }
+}
+
+@media (min-width: 992px) {
+    .rtl-direction .offset-lg-1 { margin-right: 8.333333%; margin-left: 0; }
+    .rtl-direction .offset-lg-2 { margin-right: 16.666667%; margin-left: 0; }
+    .rtl-direction .offset-lg-3 { margin-right: 25%; margin-left: 0; }
+    .rtl-direction .offset-lg-4 { margin-right: 33.333333%; margin-left: 0; }
+}
