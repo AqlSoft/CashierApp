@@ -59,6 +59,8 @@
                 </select>
                 <label class="input-group-text" for="sale_price">Sale Price</label>
                 <input type="number" class="form-control sm" name="sale_price" id="sale_price">
+                <label class="input-group-text" for="processing_time">Processing Time</label>
+                <input type="time" class="form-control sm" value="{{date('H:i:s')}}" name="processing_time" id="processing_time">
 
               </div>
               <div class="input-group sm mt-2">
@@ -72,7 +74,7 @@
               </div>
               <div class="input-group sm mt-2" style="border-top: 1px solid #aaa">
 
-                <button type="submit" class="py-0 btn btn-primary p-3 mt-2" style="margin-left:850px;">Save product</button>
+                <button type="submit" class="py-0 btn btn-outline-primary p-3 mt-2" style="margin-left:760px;">Save </button>
               </div>
             </form>
           </div>

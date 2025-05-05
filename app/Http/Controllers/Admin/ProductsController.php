@@ -9,16 +9,9 @@ use App\Models\Product;
 use App\Models\Admin;
 use App\Models\ItemCategroy;
 
-
-
 class ProductsController extends Controller
 {
 
-<<<<<<< HEAD
-//   protected static $status = [
-//     1 => 'Active',
-//     0 => 'Inactive',
-// ];
 
     /**
      * Display a listing of the resource.
@@ -43,27 +36,6 @@ class ProductsController extends Controller
     return view('admin.products.index', $vars);
 }
     
-=======
-  protected static $status = [
-    1 => 'Active',
-    0 => 'Inactive',
-  ];
-
-  /**
-   * Display a listing of the resource.
-   */
-  public function index()
-  {
-    $products = Product::all();
-    $vars = [
-      'categories' => ItemCategroy::all(),
-      'status'   => static::$status,
-      'products' => $products,
-      'admins'   => Admin::all()
-    ];
-    return view('admin.products.index', $vars);
-  }
->>>>>>> 1881be857f8ab38375feb0e87218d5b06d7ff636
 
   /**
    * Show the form for creating a new resource.
@@ -73,7 +45,6 @@ class ProductsController extends Controller
     //
   }
 
-<<<<<<< HEAD
     /**
      * Store a newly created resource in storage.
      */
@@ -87,24 +58,8 @@ class ProductsController extends Controller
             'description'      => $request->description,
             'processing_time'  => $request->processing_time,
             'category_id'      => $request->category_id ,
-            'status'           =>Product::PRODUCT_JUST_CREATED,
-            'created_by'       => auth()->user()->id,
-=======
-  /**
-   * Store a newly created resource in storage.
-   */
-  public function store(Request $request)
-  {
-    try {
-      Product::create([
-        'name'             => $request->name,
-        'cost_price'       => $request->cost_price,
-        'sale_price'       => $request->sale_price,
-        'description'      => $request->description,
-        'category'         => $request->category,
-        'status'           => $request->status !== null ? $request->status : 0,
-        'created_by'       => Admin::currentId(),
->>>>>>> 1881be857f8ab38375feb0e87218d5b06d7ff636
+            'status'           => $request->status?$request->status:Product::PRODUCT_JUST_CREATED,
+            'created_by'       => Admin::currentId(),
 
       ]);
       return redirect()->back()->withSuccess('Saves Successfully');
@@ -126,12 +81,8 @@ class ProductsController extends Controller
     $vars = [
       'categories' => ItemCategroy::all(),
       'product' => $product,
-<<<<<<< HEAD
       'admins' => Admin::all()
     
-=======
-
->>>>>>> 1881be857f8ab38375feb0e87218d5b06d7ff636
     ];
 
     return view('admin.products.show', $vars);
@@ -142,47 +93,8 @@ class ProductsController extends Controller
    */
   public function edit(string $id)
   {
-    $product = Product::find($id);
-    $vars = [
-      'product'  => $product,
-      'cat'    => static::$cat,
-      'status' => static::$status,
-      'admins' => Admin::all()
-    ];
-    return view('admin.products.edit', $vars);
+  
   }
-
-  /**
-   * Update the specified resource in storage.
-   */
-  public function update(Request $request)
-  {
-    $product = Product::find($request->id);
-
-    try {
-      $product->update([
-        'name'           => $request->name,
-        'cost_price'       => $request->cost_price,
-        'quantity'         => $request->quantity,
-        'description'      => $request->description,
-        'status'           => $request->status,
-        'updated_by'       => Admin::currentId(),
-      ]);
-
-      return redirect()->back()->with('success', 'Product updated successfully');
-    } catch (Exception $e) {
-      return redirect()->back()->withInput()->with('error', 'Error updating Product because of: ' . $e->getMessage());
-    }
-  }
-
-<<<<<<< HEAD
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-      
-    }
 
     /**
      * Update the specified resource in storage.
@@ -199,7 +111,7 @@ class ProductsController extends Controller
             'processing_time'  => $request->processing_time,
             'sale_price'       => $request->sale_price,
             'status'          =>Product::PRODUCT_EDITING,
-            'updated_by'       => auth()->user()->id  ,
+            'updated_by'       => Admin::currentId()  ,
           ]);
 
           return redirect()->back()->with('success', 'Product updated successfully');
@@ -222,7 +134,7 @@ class ProductsController extends Controller
             $product = Product::findOrFail($id);
             $product->update([
                 'status' => Product::PRODUCT__PARKED,
-                'updated_by' => Admin::currentUser(),
+                'updated_by' =>Admin::currentId(),
             ]);
     
             return redirect()
@@ -246,11 +158,11 @@ class ProductsController extends Controller
      */
     public function cancel($id)
     {
-      $product = Product::findOrFail($id);
       try {
-        $status->update([
+        $product = Product::findOrFail($id);
+        $product->update([
           'status'           => Product::PRODUCT__CANCELED,
-          'updated_by'       => Admin::currentUser(),
+          'updated_by'       => Admin::currentId(),
         ]);
   
         return redirect()->route('display-product-all')->with('success', 'Product cancel successfully');
@@ -263,26 +175,14 @@ class ProductsController extends Controller
      */
     public function destroy( $id)
     {
-      $product = Product::findOrFail($id);
+    
         try {
-            $Product->delete();
+          $product = Product::findOrFail($id);
+            $product->delete();
             return redirect()->back()->with('success', 'Product deleted successfully');
         } catch (Exception $err) {
             return redirect()->route('display-product-all')->with('error', 'Error deleting Product because of: ' . $err->getMessage());
         }
-=======
-  /**
-   * Remove the specified resource from storage.
-   */
-  public function destroy($id)
-  {
-    $Product = Product::find($id);
-    try {
-      $Product->delete();
-      return redirect()->back()->with('success', 'Product deleted successfully');
-    } catch (Exception $err) {
-      return redirect()->route('display-Product-list')->with('error', 'Error deleting Product because of: ' . $err->getMessage());
->>>>>>> 1881be857f8ab38375feb0e87218d5b06d7ff636
-    }
-  }
+  
+}
 }

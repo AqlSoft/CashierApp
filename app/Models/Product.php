@@ -25,7 +25,11 @@ class Product extends Model
     'processing_time' => 'datetime',
   
   ];
-
+  
+  public function getFormattedProcessingTimeAttribute()
+  {
+      return optional($this->processing_time)->format('H:i:s');
+  }
 
   public static function getStatusPro()
   {
