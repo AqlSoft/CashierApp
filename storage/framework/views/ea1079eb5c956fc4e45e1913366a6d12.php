@@ -1,8 +1,8 @@
 <div class="main-sidebar flex-shrink-0">
 
-    <div class=" d-flex align-items-center justify-content-center flex-column">
+    <div class=" d-flex flex-column">
         <div class="logo mt-3 mb-2">
-            <a href="/" class=" d-flex align-items-center gap-1">
+            <a href="/" class=" d-flex justify-content-start gap-1">
                 <span class="restaurant-icon">🏪</span>
                 <span class="fs-5 fw-semibold text-dark">Cashier App</span>
             </a>
@@ -83,7 +83,7 @@
 <li class="mb-1">
     <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
         data-bs-target="#pos-collapse1" aria-expanded="">
-        <i class="fa-solid fa-desktop"></i> &nbsp; <?php echo e(__('sidebar.pos')); ?>
+        <i class="fa-solid fa-cash-register"></i> &nbsp; <?php echo e(__('sidebar.pos')); ?>
 
     </button>
     <div class="collapse <?php echo e(request()->is(['admin/pos*']) ? 'show' : ''); ?>" id="pos-collapse1"
@@ -93,7 +93,7 @@
             <li>
                 <a href="<?php echo e(route('display-pos-list')); ?>"
                     class="rounded <?php echo e(request()->is('admin/pos') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-cash-register"></i> &nbsp; <?php echo e(__('sidebar.pos-list')); ?>
+                    <i class="fa-solid fa-list"></i> &nbsp; <?php echo e(__('sidebar.pos-list')); ?>
 
                 </a>
             </li>

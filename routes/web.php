@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\Admin\AdminsController;
+use App\Http\Controllers\Admin\BranchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LocaleController;
 
@@ -109,8 +110,6 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/destroy/{id}',                 [ProductsController::class, 'destroy'])->name('destroy-product-info');
     Route::get('/park/{id}',                    [ProductsController::class, 'park'])->name('park-product');
     Route::get('/cancel/{id}',                  [ProductsController::class, 'cancel'])->name('cancel-product-info');
-
-
   });
 
   // Monitors  Routes
@@ -179,6 +178,15 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::post('/update',                        [MonyBoxesController::class, 'update'])->name('update-monyBox-info');
     Route::get('/edit/{id}',                        [MonyBoxesController::class, 'edit'])->name('edit-monyBox-info');
     Route::get('/destroy/{id}',                     [MonyBoxesController::class, 'destroy'])->name('destroy-monyBox-info');
+  });
+
+  // Branches routes
+  Route::prefix('branches')->group(function () {
+    Route::get('/index',                          [BranchController::class, 'index'])->name('all-branches');
+    Route::post('/store',                         [BranchController::class, 'store'])->name('store-branch-info');
+    Route::post('/update',                        [BranchController::class, 'update'])->name('update-branch-info');
+    Route::get('/edit/{id}',                      [BranchController::class, 'edit'])->name('edit-branch-info');
+    Route::get('/destroy/{id}',                   [BranchController::class, 'destroy'])->name('destroy-branch-info');
   });
 
   // users routes

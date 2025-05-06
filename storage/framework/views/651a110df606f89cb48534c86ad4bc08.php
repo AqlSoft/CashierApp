@@ -122,5 +122,32 @@
     </div>
 </div>
 
+<!-- System Configurations -->
+<div class="row">
+    <div class="col-9">
+        <div class="card card-home my-3 mx-4">
+            <div class="card-header py-2 px-3">
+                System Configurations
+            </div>
+            <div class="card-body pt-0 pb-3">
+                <div class="row ">
+                    <a class="col col-4 setting-item text-secondary" href="<?php echo e(route('home-setting')); ?>">
+                        <div class="row pt-3">
+                            <div class="col item-text">
+                                <p class="my-0"><i class="fa-solid fa-sliders  px-2"></i>General Settings</p>
+                                <small>General Settings & Options</small>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="col-3" style=""> 
+
+    </div>
+</div>
+
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>
