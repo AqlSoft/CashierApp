@@ -1,1 +1,1 @@
-hello<?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/users/partials/statistics.blade.php ENDPATH**/ ?>
+security-logs<?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/users/partials/statistics.blade.php ENDPATH**/ ?>

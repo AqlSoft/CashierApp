@@ -223,9 +223,4 @@ border: 1px solid #dedede;
             pointer-events: none;
         }
 
-        /* Main page content container */
-        .container {
-            /
-             padding-left: 15px;
-             padding-right: 15px;
-        }
+      

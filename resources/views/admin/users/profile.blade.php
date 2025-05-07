@@ -18,12 +18,20 @@
                             aria-selected="true">Personal Info</button>
                     </li>
                     <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="jobInfo-tab" data-bs-toggle="tab" data-bs-target="#jobInfo"
+                            type="button" role="tab" aria-controls="jobInfo" aria-selected="false">Job Info</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
                         <button class="nav-link" id="sessions-tab" data-bs-toggle="tab" data-bs-target="#sessions"
                             type="button" role="tab" aria-controls="sessions" aria-selected="false">Sessions</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="statistics-tab" data-bs-toggle="tab" data-bs-target="#statistics"
-                            type="button" role="tab" aria-controls="statistics" aria-selected="false">Statistics</button>
+                        <button class="nav-link" id="security-logs-tab" data-bs-toggle="tab" data-bs-target="#security-logs"
+                            type="button" role="tab" aria-controls="security-logs" aria-selected="false">Security Logs</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings"
+                            type="button" role="tab" aria-controls="settings" aria-selected="false">Settings</button>
                     </li>
                     <form action="{{route('admin.logout')}}" class="nav-item" method="POST">
                         @csrf
@@ -45,14 +53,21 @@
                           
                         </div>
                     </div>
+                    <div class="tab-pane fade" id="jobInfo" role="tabpanel" aria-labelledby="jobInfo-tab">
+                
+                    @include('admin.users.partials.job-info')
 
+                  </div>
                     <div class="tab-pane fade" id="sessions" role="tabpanel" aria-labelledby="sessions-tab">
                       
                         @include('admin.users.partials.session-section')
                     </div>
 
-                    <div class="tab-pane fade" id="statistics" role="tabpanel" aria-labelledby="statistics-tab">
+                    <div class="tab-pane fade" id="security-logs" role="tabpanel" aria-labelledby="security-logs-tab">
                     @include('admin.users.partials.statistics')
+                    </div>
+                    <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                    settings
                     </div>
                 </div>
             </div>
