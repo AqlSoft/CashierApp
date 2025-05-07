@@ -1,5 +1,10 @@
 <?php
 return [
+
+    // Headings
+    'branches-list'     => 'Branches List',
+
+    // Labels
     'code'              => 'Code',
     'name_ar'           => 'Name Ar',
     'name_en'           => 'Name En',
@@ -17,7 +22,7 @@ return [
     'postal_code'       => 'Postal Code',
     'latitude'          => 'Latitude',
     'longitude'         => 'Longitude',
-    'currency_id'       => 'Currency Id',
+    'currency'          => 'Currency',
     'timezone'          => 'Timezone',
     'fiscal_start_date' => 'Fiscal Start Date',
     'fiscal_end_date'   => 'Fiscal End Date',
@@ -42,19 +47,19 @@ return [
     'postal_code-ph'        => '12345',
     'latitude-ph'           => '24.4752',
     'longitude-ph'          => '46.6666',
-    'currency_id-ph'        => 'select currency',
+    'currency-ph'           => 'select currency',
     'timezone-ph'           => 'select timezone',
-    'fiscal_start_date-ph'  => '2025-01-01',
+    'region-ph'             => 'Select Region',
     'fiscal_end_date-ph'    => '2025-12-31',
     'is_active-ph'          => 'select value',
     'is_online-ph'          => 'select value',
 
     // Options
-    'virtual'           => 'Virtual',
-    'main'              => 'Main',
-    'sub'               => 'Sub',
-    'yes'               => 'Yes, Online',
-    'no'                => 'No, Offline',
-    'active'            => 'Active',
-    'inactive'          => 'Inactive',
+    'virtual'               => 'Virtual',
+    'main'                  => 'Main',
+    'sub'                   => 'Sub',
+    'yes'                   => 'Yes, Online',
+    'no'                    => 'No, Offline',
+    'active'                => 'Active',
+    'inactive'              => 'Inactive',
 ];

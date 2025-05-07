@@ -2,6 +2,25 @@
 <form class="" method="POST" action="{{ route('admin.settings.update', $setting->id) }}">
     @csrf
     @method('PUT')
+    <div class="input-group sm mb-2">
+        <label class="input-group-text" for="timezone">{{ __('الإعدادات المنطقة الزمنية') }}</label>
+        <select class="form-select" name="timezone" id="timezone" onchange="this.form.submit()">
+            <option value="">{{ __('اختر المنطقة الزمنية') }}</option>
+            @foreach ($timezones as $group => $tzs)
+                <optgroup label="{{ $group }}">
+                    @foreach ($tzs as $tz)
+                        <option value="{{ $tz->tz_value }}" {{ old('timezone', $setting->timezone) == $tz->tz_value ? 'selected' : '' }}>
+                            {{ app()->getLocale() == 'ar' ? $tz->name_ar : $tz->name_en }} ({{ $tz->tz_value }})
+                        </option>
+                    @endforeach
+                </optgroup>
+            @endforeach
+        </select>
+    </div>
+</form>
+<form class="" method="POST" action="{{ route('admin.settings.update', $setting->id) }}">
+    @csrf
+    @method('PUT')
 
     <div class="input-group sm mb-2">
         <label class="input-group-text" for="company_name">Company Name:</label>

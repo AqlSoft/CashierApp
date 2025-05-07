@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 
 class Region extends Model
 {
@@ -16,6 +17,11 @@ class Region extends Model
         'updated_by',
         'is_active',
     ];
+
+    public function getNameAttribute()
+    {
+        return App::getLocale() == 'ar' ? $this->name_ar : $this->name_en;
+    }
 
     public $timestamps = true;
 

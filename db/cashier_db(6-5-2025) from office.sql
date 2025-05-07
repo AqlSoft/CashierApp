@@ -232,6 +232,10 @@ CREATE TABLE IF NOT EXISTS `branches` (
   UNIQUE KEY `branches_code_unique` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='فروع المطاعم';
 
+
+INSERT INTO `branches` (`id`, `code`, `name_ar`, `branch_type`, `tax_number`, `commercial_register`, `phone`, `mobile`, `email`, `website`, `country_id`, `city_id`, `address`, `postal_code`, `latitude`, `longitude`, `currency_id`, `timezone`, `fiscal_start_date`, `fiscal_end_date`, `is_active`, `is_online`, `opening_date`, `created_at`, `updated_at`, `deleted_at`, `name_en`) 
+VALUES (NULL, 'BR00123', 'بريدة المركزى', 'main', '30012345621540003', NULL, '00966547660005', NULL, NULL, NULL, '150', '15', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-05-07 04:48:10', '2025-05-07 04:48:10', NULL, 'Buraydah Centeral')
+
 -- --------------------------------------------------------
 
 --

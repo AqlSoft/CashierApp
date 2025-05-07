@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 
 class City extends Model
 {
@@ -17,5 +18,10 @@ class City extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
+    }
+
+    public function getNameAttribute()
+    {
+        return App::getLocale() == 'ar' ? $this->name_ar : $this->name_en;
     }
 }
