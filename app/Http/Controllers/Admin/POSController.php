@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\Controller;
 use App\Models\Admin;
 use App\Models\Branch;
+use App\Models\City;
 use App\Models\POS;
 use App\Models\Region;
 use Illuminate\Http\Request;

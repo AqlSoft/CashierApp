@@ -110,6 +110,7 @@
             })
         })
     </script>
+    @yield('extra-scripts')
 </body>
 
 </html>
