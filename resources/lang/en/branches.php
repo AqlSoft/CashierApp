@@ -29,6 +29,8 @@ return [
     'is_active'         => 'Is Active',
     'is_online'         => 'Is Online',
     'opening_date'      => 'Opening Date',
+    'save'              => 'Save',
+    'select-on-map'     => 'Select On Map',
 
     // Placeholders
     'code-ph'               => 'Code Ex(123456789)',

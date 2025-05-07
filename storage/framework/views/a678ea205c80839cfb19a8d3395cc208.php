@@ -112,6 +112,7 @@
             })
         })
     </script>
+    <?php echo $__env->yieldContent('extra-scripts'); ?>
 </body>
 
 </html><?php /**PATH C:\wamp64\www\CashierApp\resources\views/layouts/admin.blade.php ENDPATH**/ ?>

@@ -20,12 +20,6 @@ class SettingsController  extends Controller
         $settings = Setting::all();
         // جلب المناطق الزمنية مجمعة حسب tz_group
         $timezones = Timezone::all()->groupBy('tz_group');
-        // $tzs = Timezone::all();
-        // foreach ($tzs as $tz) {
-        //     $tz->tz_value = explode(' ', $tz->tz_value)[0];
-        //     $tz->update();
-        // }
-        
         $vars = [
             'countries' => Country::all(),
             'cities' => City::all(),
@@ -34,7 +28,6 @@ class SettingsController  extends Controller
             'timezones' => $timezones,
             'branches' => Branch::all(),
         ];
-
         return view('admin.setting.index', $vars);
     }
 

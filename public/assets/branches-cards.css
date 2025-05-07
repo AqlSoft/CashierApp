@@ -1,0 +1,76 @@
+/* Branches Cards Custom Styles */
+.branch-card {
+    background: #e4e8eb;
+    min-width: 250px;
+    min-height: 110px;
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 0 6px 2px #b3b3b3;
+}
+
+.branch-card .branch-type-label {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 2px 14px 2px 10px;
+    border-radius: 4px 0 8px 0;
+    font-size: 0.95em;
+    color: #fff;
+    font-weight: 600;
+    z-index: 2;
+}
+
+.branch-card .branch-type-main {
+    background: #111;
+}
+
+.branch-card .branch-type-sub {
+    background: #f37021;
+}
+
+.branch-card .branch-type-virtual {
+    background: #7d2996;
+}
+
+.branch-card .branch-icons {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: flex;
+    gap: 5px;
+}
+
+.branch-card .branch-icons i {
+    font-size: 1.1em;
+    color: #2176bd;
+    background: #fff;
+    border-radius: 2px;
+    padding: 2px 4px;
+    border: 1px solid #b6d4fa;
+}
+
+.branch-card .branch-body {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+}
+
+.branch-card .branch-name {
+    font-size: 1.4em;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 0.1em;
+    direction: rtl;
+}
+
+.branch-card .branch-code {
+    font-size: 2em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-top: 0.1em;
+    color: #111;
+}

@@ -101,6 +101,73 @@ header#main-header {
 }
 
 /*===============================================
+============== Branch Cards Styles ===================
+===============================================*/
+/* Branches Cards Custom Styles */
+.branch-card {
+  background: #eaf4fd;
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 0 6px 2px #b9b9b9;
+}
+
+.branch-card .branch-type-label {
+  font-size: 0.95em;
+  color: #fff;
+}
+
+.branch-card .branch-type-main {
+  background: #111;
+}
+
+.branch-card .branch-type-sub {
+  background: #f37021;
+}
+
+.branch-card .branch-type-virtual {
+  background: #7d2996;
+}
+
+.branch-card .branch-icons {
+  display: flex;
+}
+
+.branch-card .branch-icons i {
+  font-size: 1.1em;
+  color: #2176bd;
+  background: #fff;
+  border-radius: 2px;
+  padding: 2px 4px;
+  border: 1px solid #b6d4fa;
+}
+
+.branch-card .branch-body {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+}
+
+.branch-card .branch-name {
+  font-size: 1.4em;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-bottom: 0.1em;
+  direction: rtl;
+}
+
+.branch-card .branch-code {
+  font-size: 2em;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-top: 0.1em;
+  color: #111;
+}
+
+/*===============================================
 ============== Sidebar Styles ===================
 ===============================================*/
 

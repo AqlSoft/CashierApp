@@ -24,6 +24,7 @@ class Branch extends Model
         'email',
         'website',
         'country_id',
+        'region_id',
         'city_id',
         'address',
         'postal_code',
@@ -39,11 +40,15 @@ class Branch extends Model
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
-        'is_online' => 'boolean',
-        'opening_date' => 'date',
+        'is_active'         => 'boolean',
+        'is_online'         => 'boolean',
+        'opening_date'      => 'date',
         'fiscal_start_date' => 'date',
-        'fiscal_end_date' => 'date'
+        'fiscal_end_date'   => 'date',
+        'currency_id'       => 'string',
+        'city_id'           => 'integer',
+        'region_id'         => 'integer',
+        'country_id'        => 'integer',
     ];
 
 

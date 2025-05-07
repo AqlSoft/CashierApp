@@ -147,10 +147,10 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
   Route::prefix('clients')->group(function () {
     Route::get('/index',                          [ClientsController::class, 'index'])->name('display-client-all');
     Route::post('/store',                         [ClientsController::class, 'store'])->name('store-new-client');
-    Route::get('/display/{id}',                    [ClientsController::class, 'show'])->name('view-client-info');
+    Route::get('/display/{id}',                   [ClientsController::class, 'show'])->name('view-client-info');
     Route::post('/update',                        [ClientsController::class, 'update'])->name('update-client-info');
-    Route::get('/edit/{id}',                       [ClientsController::class, 'edit'])->name('edit-client-info');
-    Route::get('/destroy/{id}',                    [ClientsController::class, 'destroy'])->name('destroy-client-info');
+    Route::get('/edit/{id}',                      [ClientsController::class, 'edit'])->name('edit-client-info');
+    Route::get('/destroy/{id}',                   [ClientsController::class, 'destroy'])->name('destroy-client-info');
   });
 
   // invoices routes
@@ -168,7 +168,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
   // general settings routes
   Route::prefix('settings')->group(function () {
     Route::get('/index',                          [SettingsController::class, 'index'])->name('home-setting');
-    Route::put('/update/{id}',                     [SettingsController::class, 'update'])->name('admin.settings.update');
+    Route::put('/update/{id}',                    [SettingsController::class, 'update'])->name('admin.settings.update');
   });
 
   // MonyBox routes
@@ -176,15 +176,15 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/index',                          [MonyBoxesController::class, 'index'])->name('all-Mony-box');
     Route::post('/store',                         [MonyBoxesController::class, 'store'])->name('store-Mony-box');
     Route::post('/update',                        [MonyBoxesController::class, 'update'])->name('update-monyBox-info');
-    Route::get('/edit/{id}',                        [MonyBoxesController::class, 'edit'])->name('edit-monyBox-info');
-    Route::get('/destroy/{id}',                     [MonyBoxesController::class, 'destroy'])->name('destroy-monyBox-info');
+    Route::get('/edit/{id}',                      [MonyBoxesController::class, 'edit'])->name('edit-monyBox-info');
+    Route::get('/destroy/{id}',                   [MonyBoxesController::class, 'destroy'])->name('destroy-monyBox-info');
   });
 
   // Branches routes
   Route::prefix('branches')->group(function () {
     Route::get('/index',                          [BranchController::class, 'index'])->name('all-branches');
     Route::post('/store',                         [BranchController::class, 'store'])->name('store-branch-info');
-    Route::post('/update',                        [BranchController::class, 'update'])->name('update-branch-info');
+    Route::put('/update',                        [BranchController::class, 'update'])->name('update-branch-info');
     Route::get('/edit/{id}',                      [BranchController::class, 'edit'])->name('edit-branch-info');
     Route::get('/destroy/{id}',                   [BranchController::class, 'destroy'])->name('destroy-branch-info');
   });
@@ -197,29 +197,29 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
   // sales-shifts routes
   Route::prefix('sales-shifts')->group(function () {
-    Route::get('/index',                            [ShiftsController::class, 'index'])->name('all-sales-shifts');
-    Route::post('/store',                           [ShiftsController::class, 'store'])->name('store-sales-shifts');
-    Route::get('/close/{shift}',                    [ShiftsController::class, 'close'])->name('shifts.close');
-    Route::post('/update',                          [ShiftsController::class, 'update'])->name('update-shift-info');
-    Route::get('/edit/{id}',                        [ShiftsController::class, 'edit'])->name('edit-shift-info');
-    Route::get('/destroy/{id}',                     [ShiftsController::class, 'destroy'])->name('destroy-shift-info');
+    Route::get('/index',                           [ShiftsController::class, 'index'])->name('all-sales-shifts');
+    Route::post('/store',                          [ShiftsController::class, 'store'])->name('store-sales-shifts');
+    Route::get('/close/{shift}',                   [ShiftsController::class, 'close'])->name('shifts.close');
+    Route::post('/update',                         [ShiftsController::class, 'update'])->name('update-shift-info');
+    Route::get('/edit/{id}',                       [ShiftsController::class, 'edit'])->name('edit-shift-info');
+    Route::get('/destroy/{id}',                    [ShiftsController::class, 'destroy'])->name('destroy-shift-info');
   });
 
   // route kitchen
   Route::prefix('kitchen')->group(function () {
-    Route::get('/display',              [KitchenController::class, 'index'])->name('admin.kitchen.kitchen');
-    Route::post('/order/{order}/pick',     [KitchenController::class, 'pickOrder'])->name('admin.kitchen.order.pick');
-    Route::post('/order/{order}/complete', [KitchenController::class, 'completeOrder'])->name('admin.kitchen.order.complete');
-    Route::get('/sse/kitchen-orders', [KitchenController::class, 'streamKitchenOrders']);
-    Route::get('/admin/kitchen/orders/list', [KitchenController::class, 'getOrderList'])->name('admin.kitchen.orders.list');
+    Route::get('/display',                        [KitchenController::class, 'index'])->name('admin.kitchen.kitchen');
+    Route::post('/order/{order}/pick',            [KitchenController::class, 'pickOrder'])->name('admin.kitchen.order.pick');
+    Route::post('/order/{order}/complete',        [KitchenController::class, 'completeOrder'])->name('admin.kitchen.order.complete');
+    Route::get('/sse/kitchen-orders',             [KitchenController::class, 'streamKitchenOrders']);
+    Route::get('/admin/kitchen/orders/list',      [KitchenController::class, 'getOrderList'])->name('admin.kitchen.orders.list');
   });
 
   Route::prefix('payments')->group(function () {
-    Route::get('/index', [PaymentsController::class, 'index'])->name('display-payments-list');
-    Route::post('/store', [PaymentsController::class, 'store'])->name('store-payment-info');
-    Route::get('/view/{id}', [PaymentsController::class, 'view'])->name('view-payment-info');
-    Route::get('/edit/{id}', [PaymentsController::class, 'edit'])->name('edit-payment-info');
-    Route::post('/update', [PaymentsController::class, 'update'])->name('update-payment-info');
+    Route::get('/index',                          [PaymentsController::class, 'index'])->name('display-payments-list');
+    Route::post('/store',                         [PaymentsController::class, 'store'])->name('store-payment-info');
+    Route::get('/view/{id}',                      [PaymentsController::class, 'view'])->name('view-payment-info');
+    Route::get('/edit/{id}',                      [PaymentsController::class, 'edit'])->name('edit-payment-info');
+    Route::post('/update',                        [PaymentsController::class, 'update'])->name('update-payment-info');
     Route::get('/destroy/{id}', [PaymentsController::class, 'destroy'])->name('destroy-payment-info');
   });
 

@@ -33,11 +33,11 @@
         </button>
       </div>
       <div class="tab-content p-3 m-0" id="v-pills-tabContent">
-        <div class="tab-pane fade show active" id="v-pills-general-setting" role="tabpanel"
+        <div class="tab-pane fade" id="v-pills-general-setting" role="tabpanel"
           aria-labelledby="v-pills-general-setting-tab" tabindex="0">
           @include('admin.setting.partials.general')
         </div>
-        <div class="tab-pane fade" id="v-pills-branches" role="tabpanel"
+        <div class="tab-pane fade show active" id="v-pills-branches" role="tabpanel"
           aria-labelledby="v-pills-branches-tab" tabindex="0">
           @include('admin.setting.partials.branches')
         </div>

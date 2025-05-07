@@ -1,26 +1,44 @@
-
-{{--
-    // نتوقع أن يتم تمرير قائمة الفروع إلى هذا الملف باسم $branches
---}}
-<h1>{{__('branches.branches-list')}}</h1>
-<div class="row mb-4">
+<h1 class="mb-3">{{__('branches.branches-list')}}</h1>
+<div class="row" style="margin-bottom:2rem">
     @if(isset($branches) && count($branches) > 0)
-        @foreach($branches as $branch)
-            <div class="col-auto mb-2">
-                <div class="card shadow-sm border-primary" style="min-width: 180px;">
-                    <div class="card-body p-2 text-center">
-                        <h6 class="card-title mb-1">{{ $branch->name_ar ?? $branch->name_en }}</h6>
-                        <small class="text-muted">{{ $branch->code }}</small>
-                    </div>
+    @foreach($branches as $branch)
+    @php
+    $type = $branch->branch_type;
+    $typeLabel = $type === 'main' ? 'رئيسي' : ($type === 'sub' ? 'فرعي' : 'افتراضي');
+    $typeClass = $type === 'main' ? 'branch-type-main' : ($type === 'sub' ? 'branch-type-sub' : 'branch-type-virtual');
+    $isActive = $branch->is_active == 'active' || $branch->is_active == 1;
+    $isOnline = $branch->is_online == 'online' || $branch->is_online == 1;
+    @endphp
+    <div class="col col-12 col-md-6">
+        <div class="branch-card position-relative">
+            <a href="{{ route('edit-branch-info', $branch->id) }}">
+                <div class="row branch-icons mb-3 ps-5">
+                    <span class="w-auto branch-type-label text-center py-1 px-3 {{ $typeClass }}">{{ $typeLabel }}</span>
+                    <span class="py-1 px-3 bg-{{ $isActive ? 'success' : 'danger' }}" style="width: 50px;">
+                        @if($isActive)
+                        <i class="fa-solid fa-link text-white"></i>
+                        @else
+                        <i class="fa-solid fa-unlink text-white"></i>
+                        @endif
+                    </span>
+                    <span class="py-1 px-3 bg-{{ $isOnline ? 'success' : 'danger' }}" style="width: 50px;">
+                        @if($isOnline)
+                        <i class="fa-solid fa-check-square text-white"></i>
+                        @else
+                        <i class="fa-solid fa-times text-white"></i>
+                        @endif
+                    </span>
                 </div>
-            </div>
-        @endforeach
-    @else
-        <div class="col-12">
-            <div class="alert alert-info text-center mb-0">
-                لا يوجد فروع حالياً
-            </div>
+                <div class="branch-name text-center">{{ $branch->name_ar ?? $branch->name_en }}</div>
+                <div class="branch-code text-center">{{ $branch->code }}</div>
+            </a>
         </div>
+    </div>
+    @endforeach
+    @else
+    <div class="alert alert-info text-center mb-0">
+        لا يوجد فروع حالياً
+    </div>
     @endif
 </div>
 
@@ -59,140 +77,6 @@
         </div>
 
         <div class="col col-12 col-md-6">
-            <div class="input-group sm mb-2">
-                <label for="tax_number" class="input-group-text">{{__('branches.tax_number')}}</label>
-                <input type="text" name="tax_number" class="form-control" placeholder="{{__('branches.tax_number-ph')}}" value="{{old('tax_number')}}">
-            </div>
-        </div>
-        <div class="col col-12 col-md-6">
-            <div class="input-group sm mb-2">
-                <label for="commercial_record" class="input-group-text">{{__('branches.commercial_record')}}</label>
-                <input type="text" name="commercial_record" class="form-control" placeholder="{{__('branches.commercial_record-ph')}}" value="{{old('commercial_record')}}">
-            </div>
-        </div>
-        <div class="col col-12 col-md-6">
-            <div class="input-group sm mb-2">
-                <label for="phone" class="input-group-text">{{__('branches.phone')}}</label>
-                <input type="text" name="phone" class="form-control" placeholder="{{__('branches.phone-ph')}}" value="{{old('phone')}}">
-            </div>
-        </div>
-        <div class="col col-12 col-md-6">
-            <div class="input-group sm mb-2">
-                <label for="mobile" class="input-group-text">{{__('branches.mobile')}}</label>
-                <input type="text" name="mobile" class="form-control" placeholder="{{__('branches.mobile-ph')}}" value="{{old('mobile')}}">
-            </div>
-        </div>
-        <div class="col col-12 col-md-6">
-            <div class="input-group sm mb-2">
-                <label for="email" class="input-group-text">{{__('branches.email')}}</label>
-                <input type="text" name="email" class="form-control" placeholder="{{__('branches.email-ph')}}" value="{{old('email')}}">
-            </div>
-        </div>
-        <div class="col col-12 col-md-6">
-            <div class="input-group sm mb-2">
-                <label for="website" class="input-group-text">{{__('branches.website')}}</label>
-                <input type="text" name="website" class="form-control" placeholder="{{__('branches.website-ph')}}" value="{{old('website')}}">
-            </div>
-        </div>
-        <div class="col col-12">
-            <div class="input-group sm mb-2">
-                <label for="country" class="input-group-text">{{__('branches.country')}}</label>
-                <select name="country_id" class="form-select">
-                    <option value="">{{__('branches.country_id-ph')}}</option>
-                    @foreach($countries as $country)
-                    <option value="{{$country->id}}" {{old('country_id') == $country->id ? 'selected' : ''}}>
-                        {{$country->iso2 . ' ' . $country->name}}
-                    </option>
-                    @endforeach
-                </select>
-
-                <label for="region_id" class="input-group-text">{{__('branches.region')}}</label>
-                <select name="region_id" class="form-select">
-                    <option value="">{{__('branches.region-ph')}}</option>
-                    @foreach($regions as $region)
-                    <option value="{{$region->id}}" {{old('region_id') == $region->id ? 'selected' : ''}}>
-                        {{$region->name}}
-                    </option>
-                    @endforeach
-                </select>
-
-                <label for="city_id" class="input-group-text">{{__('branches.city')}}</label>
-                <select name="city_id" class="form-select">
-                    <option value="">{{__('branches.city_id-ph')}}</option>
-                    @foreach($cities as $city)
-                    <option value="{{$city->id}}" {{old('city_id') == $city->id ? 'selected' : ''}}>
-                        {{$city->name}}
-                    </option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="col col-12">
-            <div class="input-group sm mb-2">
-                <label for="address" class="input-group-text">{{__('branches.address')}}</label>
-                <input type="text" name="address" class="form-control" placeholder="address" value="{{old('address')}}">
-            </div>
-        </div>
-        <div class="col col-12 col-md-6">
-    <div class="input-group sm mb-2">
-        <label for="timezone" class="input-group-text">{{__('branches.timezone')}}</label>
-        <select name="timezone" class="form-select">
-            <option value="">{{__('branches.timezone-ph')}}</option>
-            @foreach($timezones as $group => $tzs)
-                <optgroup label="{{ $group }}">
-                    @foreach($tzs as $tz)
-                        <option value="{{$tz->id}}" {{old('timezone') == $tz->id ? 'selected' : ''}}>
-                            {{ $tz->name }} ({{$tz->tz_value}})
-                        </option>
-                    @endforeach
-                </optgroup>
-            @endforeach
-        </select>
-    </div>
-        </div>
-        <div class="col col-12 col-md-6">
-            <div class="input-group sm mb-2">
-                <label for="postal_code" class="input-group-text">{{__('branches.postal_code')}}</label>
-                <input type="text" name="postal_code" class="form-control" placeholder="postal_code" value="{{old('postal_code')}}">
-            </div>
-        </div>
-        <div class="col col-12 col-md-6">
-            <div class="input-group sm mb-2">
-                <label for="latitude" class="input-group-text">{{__('branches.latitude')}}</label>
-                <input type="text" name="latitude" class="form-control" placeholder="{{__('branches.latitude-ph')}}" value="{{old('latitude')}}">
-            </div>
-        </div>
-        <div class="col col-12 col-md-6">
-            <div class="input-group sm mb-2">
-                <label for="longitude" class="input-group-text">{{__('branches.longitude')}}</label>
-                <input type="text" name="longitude" class="form-control" placeholder="{{__('branches.longitude-ph')}}" value="{{old('longitude')}}">
-            </div>
-        </div>
-        <div class="col col-12 col-md-6">
-            <div class="input-group sm mb-2">
-                <label for="currency_id" class="input-group-text">{{__('branches.currency')}}</label>
-                <input type="text" name="currency_id" class="form-control" placeholder="{{__('branches.currency-ph')}}" value="{{old('currency_id')}}">
-            </div>
-        </div>
-        <div class="col col-12 col-md-6">
-            <div class="input-group sm mb-2">
-                <label for="opening_date" class="input-group-text">{{__('branches.opening_date')}}</label>
-                <input class="form-control" type="date" name="opening_date" value="{{old('opening_date')}}">
-            </div>
-        </div>
-        <div class="col col-12 col-md-6">
-            <div class="input-group sm mb-2">
-                <label for="fiscal_start_date" class="input-group-text">{{__('branches.fiscal_start_date')}}</label>
-                <input type="date" name="fiscal_start_date" class="form-control" placeholder="{{__('branches.fiscal_start_date-ph')}}" value="{{old('fiscal_start_date')}}">
-            </div>
-        </div>
-        <div class="col col-12 col-md-6">
-            <div class="input-group sm mb-2">
-                <label for="fiscal_end_date" class="input-group-text">{{__('branches.fiscal_end_date')}}</label>
-                <input type="date" name="fiscal_end_date" class="form-control" placeholder="{{__('branches.fiscal_end_date-ph')}}" value="{{old('fiscal_end_date')}}">
-            </div>
-        </div>
-        <div class="col col-12 col-md-6">
 
             <div class="input-group sm mb-2">
                 <label for="is_active" class="input-group-text">{{__('branches.is_active')}}</label>
@@ -214,7 +98,7 @@
                 </select>
             </div>
         </div>
-        
+
     </div>
 
     <button type="submit" class="btn btn-primary">{{__('branches.save')}}</button>
