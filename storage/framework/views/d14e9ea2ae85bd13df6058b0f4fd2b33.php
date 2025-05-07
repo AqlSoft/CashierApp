@@ -1,7 +1,7 @@
 <div class="row g-3">
   <div class="col col-12">
 
-<div class="accordion " id="accordionExample">
+<div class="accordion " style="background-color:transparent !important;" id="accordionExample">
 
   <div class="accordion-item">
     <h2 class="accordion-header">

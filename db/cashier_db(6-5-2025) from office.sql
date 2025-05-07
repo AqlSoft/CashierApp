@@ -212,29 +212,27 @@ CREATE TABLE IF NOT EXISTS `branches` (
   `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `website` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `country_id` bigint UNSIGNED NOT NULL,
-  `city_id` bigint UNSIGNED NOT NULL,
-  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `country_id` bigint UNSIGNED NULL default 150,
+  `city_id` bigint UNSIGNED NULL default 15,
+  `region_id` bigint UNSIGNED NULL default 4,
+  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
   `postal_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `latitude` decimal(10,8) DEFAULT NULL COMMENT 'خط العرض',
   `longitude` decimal(11,8) DEFAULT NULL COMMENT 'خط الطول',
   `currency_id` int UNSIGNED NOT NULL,
-  `timezone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Asia/Riyadh',
+  `timezone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'Asia/Riyadh',
   `fiscal_start_date` date DEFAULT NULL COMMENT 'بداية السنة المالية',
   `fiscal_end_date` date DEFAULT NULL COMMENT 'نهاية السنة المالية',
-  `is_active` tinyint(1) NOT NULL DEFAULT '1',
-  `is_online` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'متصل بالنظام المركزي',
+  `is_active` boolean NULL DEFAULT '1',
+  `is_online` boolean NULL DEFAULT '1' COMMENT 'متصل بالنظام المركزي',
   `opening_date` date NOT NULL COMMENT 'تاريخ الافتتاح',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `branches_code_unique` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='فروع المطاعم';
 
-
-INSERT INTO `branches` (`id`, `code`, `name_ar`, `branch_type`, `tax_number`, `commercial_register`, `phone`, `mobile`, `email`, `website`, `country_id`, `city_id`, `address`, `postal_code`, `latitude`, `longitude`, `currency_id`, `timezone`, `fiscal_start_date`, `fiscal_end_date`, `is_active`, `is_online`, `opening_date`, `created_at`, `updated_at`, `deleted_at`, `name_en`) 
-VALUES (NULL, 'BR00123', 'بريدة المركزى', 'main', '30012345621540003', NULL, '00966547660005', NULL, NULL, NULL, '150', '15', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-05-07 04:48:10', '2025-05-07 04:48:10', NULL, 'Buraydah Centeral')
 
 -- --------------------------------------------------------
 

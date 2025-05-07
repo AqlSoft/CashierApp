@@ -45,7 +45,7 @@ class Branch extends Model
         'opening_date'      => 'date',
         'fiscal_start_date' => 'date',
         'fiscal_end_date'   => 'date',
-        'currency_id'       => 'string',
+        'currency_id'       => 'integer',
         'city_id'           => 'integer',
         'region_id'         => 'integer',
         'country_id'        => 'integer',

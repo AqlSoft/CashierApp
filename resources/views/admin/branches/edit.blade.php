@@ -174,21 +174,21 @@
                 <div class="col col-12 col-md-6">
                     <div class="input-group sm mb-2">
                         <label for="opening_date" class="input-group-text">{{__('branches.opening_date')}}</label>
-                        <input class="form-control" type="date" name="opening_date" value="{{old('opening_date', $branch)}}">
+                        <input class="form-control" type="date" name="opening_date" value="{{old('opening_date', $branch->opening_date ? $branch->opening_date->format('Y-m-d') : '')}}">
                     </div>
                 </div>
 
                 <div class="col col-12 col-md-6">
                     <div class="input-group sm mb-2">
                         <label for="fiscal_start_date" class="input-group-text">{{__('branches.fiscal_start_date')}}</label>
-                        <input type="date" name="fiscal_start_date" class="form-control" placeholder="{{__('branches.fiscal_start_date-ph')}}" value="{{old('fiscal_start_date', $branch)}}">
+                        <input type="date" name="fiscal_start_date" class="form-control" placeholder="{{__('branches.fiscal_start_date-ph')}}" value="{{old('fiscal_start_date',  $branch->fiscal_start_date ? $branch->fiscal_start_date->format('Y-m-d') : '')}}">
                     </div>
                 </div>
 
                 <div class="col col-12 col-md-6">
                     <div class="input-group sm mb-2">
                         <label for="fiscal_end_date" class="input-group-text">{{__('branches.fiscal_end_date')}}</label>
-                        <input type="date" name="fiscal_end_date" class="form-control" placeholder="{{__('branches.fiscal_end_date-ph')}}" value="{{old('fiscal_end_date', $branch)}}">
+                        <input type="date" name="fiscal_end_date" class="form-control" placeholder="{{__('branches.fiscal_end_date-ph')}}" value="{{old('fiscal_end_date', $branch->fiscal_end_date ? $branch->fiscal_end_date->format('Y-m-d') : '')}}">
                     </div>
                 </div>
 
