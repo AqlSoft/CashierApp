@@ -11,13 +11,13 @@
 
     <div class="d-flex justify-content-start align-items-start setting-nav p-0">
       <div class="nav flex-column justify-content-start text-end" style="width:180px;" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-        <button class="nav-link active" id="v-pills-general-setting-tab" data-bs-toggle="pill"
+        <button class="nav-link {{ $tab == 'general' ? 'active' : '' }}" id="v-pills-general-setting-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-general-setting" type="button" role="tab" aria-controls="v-pills-general-setting" aria-selected="true">
-          {{__('settings.general')}}
+          <a href="{{route('home-setting')}}">{{__('settings.general')}}</a>
         </button>
-        <button class="nav-link" id="v-pills-branches-tab" data-bs-toggle="pill"
+        <button class="nav-link {{ $tab == 'branches' ? 'active' : '' }}" id="v-pills-branches-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-branches" type="button" role="tab" aria-controls="v-pills-branches" aria-selected="false">
-          {{__('settings.branches')}}
+          <a href="{{route('display-branches-list')}}">{{__('settings.branches')}}</a>
         </button>
         <button class="nav-link" id="v-pills-contacts-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-contacts" type="button" role="tab" aria-controls="v-pills-contacts" aria-selected="false" contacts>
@@ -33,25 +33,25 @@
         </button>
       </div>
       <div class="tab-content p-3 m-0" id="v-pills-tabContent">
-        <div class="tab-pane fade" id="v-pills-general-setting" role="tabpanel"
+        <div class="tab-pane fade {{ $tab == 'general' ? 'show active' : '' }}" id="v-pills-general-setting" role="tabpanel"
           aria-labelledby="v-pills-general-setting-tab" tabindex="0">
-          @include('admin.setting.partials.general')
+          @if($tab == 'general') @include('admin.setting.partials.general') @endif
         </div>
-        <div class="tab-pane fade show active" id="v-pills-branches" role="tabpanel"
+        <div class="tab-pane fade {{ $tab == 'branches' ? 'show active' : '' }}" id="v-pills-branches" role="tabpanel"
           aria-labelledby="v-pills-branches-tab" tabindex="0">
-          @include('admin.setting.partials.branches')
+          @if($tab == 'branches') @include('admin.setting.partials.branches') @endif
         </div>
-        <div class="tab-pane fade" id="v-pills-contacts" role="tabpanel"
+        <div class="tab-pane fade {{ $tab == 'contacts' ? 'show active' : '' }}" id="v-pills-contacts" role="tabpanel"
           aria-labelledby="v-pills-contacts-tab" tabindex="0">
-          @include('admin.setting.partials.contacts')
+          @if($tab == 'contacts') @include('admin.setting.partials.contacts') @endif
         </div>
         <div class="tab-pane fade" id="v-pills-orders" role="tabpanel"
           aria-labelledby="v-pills-orders-tab" tabindex="0">
-          @include('admin.setting.partials.orders')
+          @if($tab == 'orders') @include('admin.setting.partials.orders') @endif
         </div>
         <div class="tab-pane fade" id="v-pills-invoices" role="tabpanel"
           aria-labelledby="v-pills-invoices-tab" tabindex="0">
-          @include('admin.setting.partials.invoices')
+          @if($tab == 'invoices') @include('admin.setting.partials.invoices') @endif
         </div>
       </div>
     </div>

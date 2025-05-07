@@ -182,7 +182,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
   // Branches routes
   Route::prefix('branches')->group(function () {
-    Route::get('/index',                          [BranchController::class, 'index'])->name('all-branches');
+    Route::get('/index',                          [BranchController::class, 'index'])->name('display-branches-list');
     Route::post('/store',                         [BranchController::class, 'store'])->name('store-branch-info');
     Route::put('/update',                        [BranchController::class, 'update'])->name('update-branch-info');
     Route::get('/edit/{id}',                      [BranchController::class, 'edit'])->name('edit-branch-info');

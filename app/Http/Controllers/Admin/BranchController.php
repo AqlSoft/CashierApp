@@ -12,6 +12,14 @@ use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
+
+    public function index()
+    {
+        $branches = Branch::all();
+
+        $tab = 'branches';
+        return view('admin.setting.index', compact('branches', 'tab'));
+    }
     //
     public function store(Request $request)
     {

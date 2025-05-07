@@ -27,6 +27,7 @@ class SettingsController  extends Controller
             'settings' => $settings,
             'timezones' => $timezones,
             'branches' => Branch::all(),
+            'tab' => 'general',
         ];
         return view('admin.setting.index', $vars);
     }

@@ -218,6 +218,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">{{__('branches.save')}}</button>
+            <a href="{{route('display-branches-list')}}" class="btn btn-secondary">{{__('branches.back')}}</a>
         </form>
     </div>
 </div>
