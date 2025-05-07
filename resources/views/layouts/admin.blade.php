@@ -49,11 +49,7 @@
     @endif
 
     @yield('extra-links')
-    <style>
-        body * {
-            font-family: 'Cairo', sans-serif;
-        }
-    </style>
+
 </head>
 
 <body class="{{ $dir }}-direction">

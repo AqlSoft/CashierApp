@@ -49,11 +49,7 @@
     <?php endif; ?>
 
     <?php echo $__env->yieldContent('extra-links'); ?>
-    <style>
-        body * {
-            font-family: 'Cairo', sans-serif;
-        }
-    </style>
+
 </head>
 
 <body class="<?php echo e($dir); ?>-direction">
