@@ -28,6 +28,8 @@ use App\Http\Controllers\Admin\KitchenController;
 use App\Http\Controllers\Admin\PaymentMethodsController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
+use App\Http\Controllers\Admin\CurrencyController;
+use App\Http\Controllers\Admin\ContactController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('locale/{locale}', [LocaleController::class, 'switch'])->name('locale-switch');
@@ -123,6 +125,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
   // orders Routes 
   Route::prefix('orders')->group(function () {
+    Route::get('/list',                           [OrdersController::class, 'index'])->name('display-orders-list');
     Route::get('/index',                          [OrdersController::class, 'index'])->name('display-order-all');
     Route::get('/fast/creater/{shift_id}',        [OrdersController::class, 'fastCreateOrder'])->name('fast-create-order');
     Route::post('/store',                         [OrdersController::class, 'store'])->name('store-new-order');
@@ -221,6 +224,24 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/edit/{id}',                      [PaymentsController::class, 'edit'])->name('edit-payment-info');
     Route::post('/update',                        [PaymentsController::class, 'update'])->name('update-payment-info');
     Route::get('/destroy/{id}', [PaymentsController::class, 'destroy'])->name('destroy-payment-info');
+  });
+
+  // route currencies
+  Route::prefix('currencies')->group(function () {
+    Route::get('/store',                          [CurrencyController::class, 'index'])->name('display-currencies-list');
+    Route::post('/update',                        [CurrencyController::class, 'store'])->name('store-currency-info');
+    Route::put('/update/{id}',                    [CurrencyController::class, 'update'])->name('update-currency-info');
+    Route::get('/view/{id}',                      [CurrencyController::class, 'view'])->name('view-currency-info');
+    Route::delete('/destroy/{id}',                [CurrencyController::class, 'destroy'])->name('destroy-currency-info');
+  });
+
+  // route contacts
+  Route::prefix('contacts')->group(function () {
+    Route::get('/store',                          [ContactController::class, 'index'])->name('display-contacts-list');
+    Route::post('/update',                        [ContactController::class, 'store'])->name('store-contact-info');
+    Route::put('/update/{id}',                    [ContactController::class, 'update'])->name('update-contact-info');
+    Route::get('/view/{id}',                      [ContactController::class, 'view'])->name('view-contact-info');
+    Route::delete('/destroy/{id}',                [ContactController::class, 'destroy'])->name('destroy-contact-info');
   });
 
   Route::prefix('setting')->group(function () {

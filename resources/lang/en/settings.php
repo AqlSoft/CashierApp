@@ -5,4 +5,5 @@ return [
     'contacts' => 'Contacts',
     'orders' => 'Orders',
     'invoices' => 'Invoices',
+    'currencies' => 'Currencies',
 ];
