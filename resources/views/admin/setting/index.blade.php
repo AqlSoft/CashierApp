@@ -4,7 +4,7 @@
 
 <div class="row">
   <div class="col-lg-12 col-sm-12">
-    <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede">General Setting</h1>
+    <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede">{{__('settings.general-settings')}}</h1>
 
 
 

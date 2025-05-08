@@ -1,37 +1,37 @@
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font: normal 1rem/1.2 Arial;
-  list-style-type: none;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font: normal 1rem/1.2 Arial;
+    list-style-type: none;
 }
 
 :root {
-  --primary-color: #3498db;
-  --secondary-color: #f8f9fa;
+    --primary-color: #3498db;
+    --secondary-color: #f8f9fa;
 
-  --border-color: #dee2e6;
+    --border-color: #dee2e6;
 }
 
 a,
 a:link,
 a:focus,
 a:visited {
-  text-decoration: none !important;
+    text-decoration: none !important;
 }
 
 a * {
-  cursor: pointer;
-  color: inherit;
+    cursor: pointer;
+    color: inherit;
 }
 
 .border-bottom {
-  border-bottom: 2px solid rgb(207, 211, 214) !important;
-  padding-top: 1px
+    border-bottom: 2px solid rgb(207, 211, 214) !important;
+    padding-top: 1px;
 }
 
 .border-radius-1 {
-  border-radius: 0.25rem;
+    border-radius: 0.25rem;
 }
 
 h1,
@@ -39,65 +39,64 @@ h2,
 h3,
 h4,
 h5 {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 h1 {
-  font: Bold 1.4rem/1.2 Arial;
+    font: Bold 1.4rem/1.2 Arial;
 }
 
 h2 {
-  font: Bold 1.3rem/1.2 Arial;
+    font: Bold 1.3rem/1.2 Arial;
 }
 
 h3 {
-  font: Bold 1.2rem/1.2 Arial;
+    font: Bold 1.2rem/1.2 Arial;
 }
 
 h4 {
-  font: Bold 1rem/1.2 Arial;
+    font: Bold 1rem/1.2 Arial;
 }
 
 h5 {
-  font: Bold 0.9rem/1.2 Arial;
+    font: Bold 0.9rem/1.2 Arial;
 }
 
 .bg-lightblue {
-  background-color: #ebf5ff !important;
+    background-color: #ebf5ff !important;
 }
 
 .add-icon {
-  color: #2b414b;
+    color: #2b414b;
 }
 
 .btn-primary {
-  background: #d3dce3;
-  border: 1px solid #dee2e6;
-  color: #000;
-  padding: 0.6rem;
-  border-radius: 8px;
+    background: #d3dce3;
+    border: 1px solid #dee2e6;
+    color: #000;
+    padding: 0.6rem;
+    border-radius: 8px;
 }
 
 .btn-primary:hover {
-  background-color: #a1c5e9;
-  border-color: #a1c5e9;
-  color: #1b1b1b;
-
+    background-color: #a1c5e9;
+    border-color: #a1c5e9;
+    color: #1b1b1b;
 }
 
 fieldset {
-  border: 0.5pt solid #dee2e6;
-  padding: 1rem 1rem 1rem;
-  position: relative;
-  margin: 0 1rem;
-  background-color: #eee;
+    border: 0.5pt solid #dee2e6;
+    padding: 1rem 1rem 1rem;
+    position: relative;
+    margin: 0 1rem;
+    background-color: #eee;
 }
 
 header#main-header {
-  position: fixed;
-  z-index: 99999;
-  background: linear-gradient(#fff, #dcdcdc);
-  padding-top: 20px;
+    position: fixed;
+    z-index: 99999;
+    background: linear-gradient(#fff, #dcdcdc);
+    padding-top: 20px;
 }
 
 /*===============================================
@@ -105,66 +104,66 @@ header#main-header {
 ===============================================*/
 /* Branches Cards Custom Styles */
 .branch-card {
-  background: #eaf4fd;
-  position: relative;
-  padding: 0;
-  overflow: hidden;
-  box-shadow: 0 0 6px 2px #b9b9b9;
+    background: #eaf4fd;
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 0 6px 2px #b9b9b9;
 }
 
 .branch-card .branch-type-label {
-  font-size: 0.95em;
-  color: #fff;
+    font-size: 0.95em;
+    color: #fff;
 }
 
 .branch-card .branch-type-main {
-  background: #111;
+    background: #111;
 }
 
 .branch-card .branch-type-sub {
-  background: #f37021;
+    background: #f37021;
 }
 
 .branch-card .branch-type-virtual {
-  background: #7d2996;
+    background: #7d2996;
 }
 
 .branch-card .branch-icons {
-  display: flex;
+    display: flex;
 }
 
 .branch-card .branch-icons i {
-  font-size: 1.1em;
-  color: #2176bd;
-  background: #fff;
-  border-radius: 2px;
-  padding: 2px 4px;
-  border: 1px solid #b6d4fa;
+    font-size: 1.1em;
+    color: #2176bd;
+    background: #fff;
+    border-radius: 2px;
+    padding: 2px 4px;
+    border: 1px solid #b6d4fa;
 }
 
 .branch-card .branch-body {
-  margin-top: 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 70px;
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
 }
 
 .branch-card .branch-name {
-  font-size: 1.4em;
-  font-weight: 500;
-  letter-spacing: 1px;
-  margin-bottom: 0.1em;
-  direction: rtl;
+    font-size: 1.4em;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 0.1em;
+    direction: rtl;
 }
 
 .branch-card .branch-code {
-  font-size: 2em;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-top: 0.1em;
-  color: #111;
+    font-size: 2em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-top: 0.1em;
+    color: #111;
 }
 
 /*===============================================
@@ -172,53 +171,55 @@ header#main-header {
 ===============================================*/
 
 .main-sidebar button.btn-toggle::before {
-  left: auto;
-  right: 1rem !important;
+    left: auto;
+    right: 1rem !important;
 }
-
-
 
 /*===============================================
 ============== Setting Nav Styles =============
 ===============================================*/
 
 .setting-nav {
-  margin-top: 1.5rem;
-  padding: 0;
-  display: flex;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: #4d4d4d;
-  align-items: stretch;
-  overflow: hidden;
+    margin-top: 1.5rem;
+    padding: 0;
+    display: flex;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #4d4d4d;
+    align-items: stretch;
+    overflow: hidden;
 }
 
-
-
 .setting-nav .nav {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  flex: 0 0 180px;
-  min-height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    flex: 0 0 180px;
+    min-height: auto;
 }
 
 .setting-nav .nav button.nav-link {
-  color: #fefefe;
-  width: 100%;
-  text-align: end;
+    color: #fefefe;
+    width: 100%;
+    text-align: end;
+}
+.setting-nav .nav button.nav-link.active {
+    background-color: #f4f4f4;
+}
+.setting-nav .nav-link a {
+    color: #f7f7f7 !important;
 }
 
-.setting-nav .nav-link.active {
-  background-color: #f4f4f4 !important;
-  color: #2089eb !important;
-  font-weight: bold;
+.setting-nav .nav-link.active a {
+    width: 100%;
+    color: #2089eb !important;
+    font-weight: bold;
 }
 
 .setting-nav .tab-content {
-  background-color: #f4f4f4;
-  width: calc(100% - 130px);
-  padding: 0;
-  margin: 0;
+    background-color: #f4f4f4;
+    width: calc(100% - 130px);
+    padding: 0;
+    margin: 0;
 }
 
 /*===============================================
@@ -227,189 +228,183 @@ header#main-header {
 
 .setting-item .item-icon,
 .setting-item .item-text {
-  transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 .setting-item .item-icon {
-  width: 50px;
-  color: #2b414b;
+    width: 50px;
+    color: #2b414b;
 }
 
 .setting-item:hover .item-icon {
-  transform: scale(1.05) rotate(-1deg);
-  color: #006797;
+    transform: scale(1.05) rotate(-1deg);
+    color: #006797;
 }
 
 .setting-item:hover .item-text p,
 .setting-item:hover .item-text small {
-  color: #006797;
+    color: #006797;
 }
 
 .setting-item .item-text p {
-  font: 800 0.9rem/1.2 "Cairo";
+    font: 800 0.9rem/1.2 "Cairo";
 }
 
 .setting-item .item-text small {
-  font: normal 0.9rem/1.2 "Cairo";
+    font: normal 0.9rem/1.2 "Cairo";
 }
-
 
 /* ===================================================
 ================= Bootstrap Like Modifications ============
 =================================================== */
 .input-group.sm :where(.input-group-text, .form-control, .form-select) {
-  height: 33px;
-  line-height: 33px;
+    height: 33px;
+    line-height: 33px;
 }
 
 .input-group.sm select.form-select {
-  padding-top: 0;
+    padding-top: 0;
 }
 
 /* ===================================================
 ================= Bootstrap Modifications ============
 =================================================== */
 .table tr td {
-  padding: 0.2rem 0.5rem;
+    padding: 0.2rem 0.5rem;
 }
 
 .card {
-  border-radius: 0;
+    border-radius: 0;
 }
 
 .card-home {
-  background: none;
-  border-top: none;
-  border-bottom: none;
-  border-left: .5em solid #d3dce3;
+    background: none;
+    border-top: none;
+    border-bottom: none;
+    border-left: 0.5em solid #d3dce3;
 }
 
 .card .card-header {
-
-  padding: 0;
-  background-color: #d3dce3;
-  font-weight: bold;
-  border: 0;
+    padding: 0;
+    background-color: #d3dce3;
+    font-weight: bold;
+    border: 0;
 }
 
-
 .card .card-header .card-title {
-  padding: 0.5rem 1rem;
-  margin: 0;
+    padding: 0.5rem 1rem;
+    margin: 0;
 }
 
 /* ===================================================
 ================= error message ============
 =================================================== */
 .invalid-feedback {
-  display: block;
-  width: 100%;
-  margin-top: 0.25rem;
-  font-size: 0.875rem;
-  color: #dc3545;
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #dc3545;
 }
-
 
 /* ===================================================
 ================= profile page ============
 =================================================== */
 
 .nav-tabs {
-  border-bottom: 4px solid #dee2e6;
-  position: relative;
+    border-bottom: 4px solid #dee2e6;
+    position: relative;
 }
 
 .nav-tabs .nav-link {
-  color: #495057;
-  border: none;
-  margin-right: 5px;
-  padding: 10px 20px;
-  font-weight: 500;
-  position: relative;
-  background-color: transparent;
+    color: #495057;
+    border: none;
+    margin-right: 5px;
+    padding: 10px 20px;
+    font-weight: 500;
+    position: relative;
+    background-color: transparent;
 }
 
 .nav-tabs .nav-link:hover {
-  color: #212529;
+    color: #212529;
 }
 
 .nav-tabs .nav-link.active {
-  color: #000;
-  /* font-weight: 600; */
-  background-color: transparent;
+    color: #000;
+    /* font-weight: 600; */
+    background-color: transparent;
 }
 
 .nav-tabs .nav-link.active::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background-color: rgb(148, 200, 240);
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: rgb(148, 200, 240);
 }
 
 .tab-content {
-  padding: 20px;
-  border-top: none;
+    padding: 20px;
+    border-top: none;
 }
 
-
-
 .profile-header {
-  text-align: left;
-  margin-bottom: 10px;
-  color: #2c3e50;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 15px;
+    text-align: left;
+    margin-bottom: 10px;
+    color: #2c3e50;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
 }
 
 .profile-picture {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 5px solid white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 8px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 8px;
 }
 
 .form-label {
-  font-weight: 600;
-  color: #495057;
+    font-weight: 600;
+    color: #495057;
 }
 
 .form-control:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
 }
 
 .btn-upload {
-  background-color: var(--secondary-color);
-  color: var(--primary-color);
-  border: 1px dashed var(--primary-color);
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border: 1px dashed var(--primary-color);
 
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-size: 12px;
-  margin-top: -10px;
-  padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 12px;
+    margin-top: -10px;
+    padding: 5px;
 }
 
 .btn-upload:hover {
-  background-color: var(--primary-color);
-  color: white;
+    background-color: var(--primary-color);
+    color: white;
 }
 
 .action-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .table-header {
-  background: linear-gradient(#fff, #dcdcdc);
-  padding-top: 20px;
+    background: linear-gradient(#fff, #dcdcdc);
+    padding-top: 20px;
 }

@@ -20,6 +20,7 @@ class SettingsController  extends Controller
         $settings = Setting::all();
         // جلب المناطق الزمنية مجمعة حسب tz_group
         $timezones = Timezone::all()->groupBy('tz_group');
+        $tzs = require_once resource_path('lang/timezones.php');
         $vars = [
             'countries' => Country::all(),
             'cities' => City::all(),

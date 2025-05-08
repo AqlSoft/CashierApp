@@ -8,6 +8,10 @@
     text-align: right;
 }
 
+* {
+    font-family: Cairo !important;
+}
+
 /* Sidebar RTL Adjustments */
 .rtl-direction .sidebar {
     left: auto;
