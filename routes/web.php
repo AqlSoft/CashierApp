@@ -242,8 +242,8 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
   // route contacts
   Route::prefix('contacts')->group(function () {
-    Route::get('/store',                          [ContactController::class, 'index'])->name('display-contacts-list');
-    Route::post('/update',                        [ContactController::class, 'store'])->name('store-contact-info');
+    Route::get('/list',                          [ContactController::class, 'index'])->name('display-contacts-list');
+    Route::post('/store',                        [ContactController::class, 'store'])->name('store-contact-info');
     Route::put('/update/{id}',                    [ContactController::class, 'update'])->name('update-contact-info');
     Route::get('/view/{id}',                      [ContactController::class, 'view'])->name('view-contact-info');
     Route::delete('/destroy/{id}',                [ContactController::class, 'destroy'])->name('destroy-contact-info');

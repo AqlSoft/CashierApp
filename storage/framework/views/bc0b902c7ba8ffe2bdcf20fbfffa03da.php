@@ -8,7 +8,7 @@
 
 
     <div class="d-flex justify-content-start align-items-start setting-nav p-0">
-      <div class="nav flex-column justify-content-start text-end" style="width:180px;" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <div class="nav justify-content-start text-end" style="width:200px;" id="v-pills-tab" role="tablist" aria-orientation="vertical">
         <button class="nav-link <?php echo e($tab == 'general' ? 'active' : ''); ?>" id="v-pills-general-setting-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-general-setting" type="button" role="tab" aria-controls="v-pills-general-setting" aria-selected="true">
           <a href="<?php echo e(route('home-setting')); ?>"><?php echo e(__('settings.general')); ?></a>
@@ -17,20 +17,22 @@
           data-bs-target="#v-pills-branches" type="button" role="tab" aria-controls="v-pills-branches" aria-selected="false">
           <a href="<?php echo e(route('display-branches-list')); ?>"><?php echo e(__('settings.branches')); ?></a>
         </button>
-        <button class="nav-link" id="v-pills-contacts-tab" data-bs-toggle="pill"
+        <button class="nav-link <?php echo e($tab == 'contacts' ? 'active' : ''); ?>" id="v-pills-contacts-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-contacts" type="button" role="tab" aria-controls="v-pills-contacts" aria-selected="false" contacts>
-          <?php echo e(__('settings.contacts')); ?>
-
+          <a href="<?php echo e(route('display-contacts-list')); ?>"><?php echo e(__('settings.contacts')); ?></a>
         </button>
-        <button class="nav-link" id="v-pills-orders-tab" data-bs-toggle="pill"
+        <button class="nav-link <?php echo e($tab == 'orders' ? 'active' : ''); ?>" id="v-pills-orders-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-orders" type="button" role="tab" aria-controls="v-pills-orders" aria-selected="false">
-          <?php echo e(__('settings.orders')); ?>
-
+          <a href="<?php echo e(route('display-orders-list')); ?>"><?php echo e(__('settings.orders')); ?></a>
         </button>
-        <button class="nav-link" id="v-pills-invoices-tab" data-bs-toggle="pill"
+        <button class="nav-link <?php echo e($tab == 'invoices' ? 'active' : ''); ?>" id="v-pills-invoices-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-invoices" type="button" role="tab" aria-controls="v-pills-invoices" aria-selected="false">
-          <?php echo e(__('settings.invoices')); ?>
-
+          <a href="<?php echo e(route('display-invoices-list')); ?>"><?php echo e(__('settings.invoices')); ?></a>
+        </button>
+       
+        <button class="nav-link <?php echo e($tab == 'currencies' ? 'active' : ''); ?>" id="v-pills-currencies-tab" data-bs-toggle="pill"
+          data-bs-target="#v-pills-currencies" type="button" role="tab" aria-controls="v-pills-currencies" aria-selected="false">
+          <a href="<?php echo e(route('display-currencies-list')); ?>"><?php echo e(__('settings.currencies')); ?></a>
         </button>
       </div>
       <div class="tab-content p-3 m-0" id="v-pills-tabContent">
@@ -44,7 +46,7 @@
         </div>
         <div class="tab-pane fade <?php echo e($tab == 'contacts' ? 'show active' : ''); ?>" id="v-pills-contacts" role="tabpanel"
           aria-labelledby="v-pills-contacts-tab" tabindex="0">
-          <?php if($tab == 'contacts'): ?> <?php echo $__env->make('admin.setting.partials.contacts', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?> <?php endif; ?>
+          <?php if($tab == 'contacts'): ?> <?php echo $__env->make('admin.setting.contacts.index', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?> <?php endif; ?>
         </div>
         <div class="tab-pane fade" id="v-pills-orders" role="tabpanel"
           aria-labelledby="v-pills-orders-tab" tabindex="0">
@@ -53,6 +55,10 @@
         <div class="tab-pane fade" id="v-pills-invoices" role="tabpanel"
           aria-labelledby="v-pills-invoices-tab" tabindex="0">
           <?php if($tab == 'invoices'): ?> <?php echo $__env->make('admin.setting.partials.invoices', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?> <?php endif; ?>
+        </div>
+        <div class="tab-pane fade <?php echo e($tab == 'currencies' ? 'show active' : ''); ?>" id="v-pills-currencies" role="tabpanel"
+          aria-labelledby="v-pills-currencies-tab" tabindex="0">
+          <?php if($tab == 'currencies'): ?> <?php echo $__env->make('admin.setting.partials.currencies', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?> <?php endif; ?>
         </div>
       </div>
     </div>

@@ -31,6 +31,7 @@
           data-bs-target="#v-pills-invoices" type="button" role="tab" aria-controls="v-pills-invoices" aria-selected="false">
           <a href="{{route('display-invoices-list')}}">{{__('settings.invoices')}}</a>
         </button>
+       
         <button class="nav-link {{ $tab == 'currencies' ? 'active' : '' }}" id="v-pills-currencies-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-currencies" type="button" role="tab" aria-controls="v-pills-currencies" aria-selected="false">
           <a href="{{route('display-currencies-list')}}">{{__('settings.currencies')}}</a>
@@ -47,7 +48,7 @@
         </div>
         <div class="tab-pane fade {{ $tab == 'contacts' ? 'show active' : '' }}" id="v-pills-contacts" role="tabpanel"
           aria-labelledby="v-pills-contacts-tab" tabindex="0">
-          @if($tab == 'contacts') @include('admin.setting.partials.contacts') @endif
+          @if($tab == 'contacts') @include('admin.setting.contacts.index') @endif
         </div>
         <div class="tab-pane fade" id="v-pills-orders" role="tabpanel"
           aria-labelledby="v-pills-orders-tab" tabindex="0">

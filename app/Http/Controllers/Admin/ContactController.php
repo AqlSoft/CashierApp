@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Contact;
-use Illuminate\Http\Request;
+use App\Models\Admin;
 use App\Http\Controllers\Admin\Controller;
+use App\Http\Requests\ContactRequest;
+use Illuminate\Support\Facades\Request;
+
+use Illuminate\Support\Facades\Auth;
 
 class ContactController extends Controller
 {
@@ -13,7 +17,10 @@ class ContactController extends Controller
      */
     public function index()
     {
-        //
+        $vars = [
+            'admins' => Admin::with('profile')->get(),
+            'contacts' => Contact::all(), 'tab' => 'contacts'];
+        return view('admin.setting.index', $vars);
     }
 
     /**
@@ -27,9 +34,25 @@ class ContactController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ContactRequest $request)
     {
-        //
+        try {
+            $contact = Contact::create([
+            'name' => $request->name,
+            'contact' => $request->contact,
+            'category_name' => $request->category_name,
+            'person_id' => $request->person_id,
+            'status' => $request->status ?? true,
+            'created_by' => Auth::id(),
+            'updated_by' => Auth::id(),
+        ]);
+
+        return redirect()->back()
+            ->with('success', 'تم إضافة جهة الاتصال بنجاح');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInputs()
+                ->with('error', 'حدث خطأ أثناء إضافة جهة الاتصال');
+        }
     }
 
     /**
