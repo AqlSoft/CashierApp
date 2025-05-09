@@ -19,17 +19,21 @@
           data-bs-target="#v-pills-branches" type="button" role="tab" aria-controls="v-pills-branches" aria-selected="false">
           <a href="{{route('display-branches-list')}}">{{__('settings.branches')}}</a>
         </button>
-        <button class="nav-link" id="v-pills-contacts-tab" data-bs-toggle="pill"
+        <button class="nav-link {{ $tab == 'contacts' ? 'active' : '' }}" id="v-pills-contacts-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-contacts" type="button" role="tab" aria-controls="v-pills-contacts" aria-selected="false" contacts>
-          {{__('settings.contacts')}}
+          <a href="{{route('display-contacts-list')}}">{{__('settings.contacts')}}</a>
         </button>
-        <button class="nav-link" id="v-pills-orders-tab" data-bs-toggle="pill"
+        <button class="nav-link {{ $tab == 'orders' ? 'active' : '' }}" id="v-pills-orders-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-orders" type="button" role="tab" aria-controls="v-pills-orders" aria-selected="false">
-          {{__('settings.orders')}}
+          <a href="{{route('display-orders-list')}}">{{__('settings.orders')}}</a>
         </button>
-        <button class="nav-link" id="v-pills-invoices-tab" data-bs-toggle="pill"
+        <button class="nav-link {{ $tab == 'invoices' ? 'active' : '' }}" id="v-pills-invoices-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-invoices" type="button" role="tab" aria-controls="v-pills-invoices" aria-selected="false">
-          {{__('settings.invoices')}}
+          <a href="{{route('display-invoices-list')}}">{{__('settings.invoices')}}</a>
+        </button>
+        <button class="nav-link {{ $tab == 'currencies' ? 'active' : '' }}" id="v-pills-currencies-tab" data-bs-toggle="pill"
+          data-bs-target="#v-pills-currencies" type="button" role="tab" aria-controls="v-pills-currencies" aria-selected="false">
+          <a href="{{route('display-currencies-list')}}">{{__('settings.currencies')}}</a>
         </button>
       </div>
       <div class="tab-content p-3 m-0" id="v-pills-tabContent">
@@ -52,6 +56,10 @@
         <div class="tab-pane fade" id="v-pills-invoices" role="tabpanel"
           aria-labelledby="v-pills-invoices-tab" tabindex="0">
           @if($tab == 'invoices') @include('admin.setting.partials.invoices') @endif
+        </div>
+        <div class="tab-pane fade {{ $tab == 'currencies' ? 'show active' : '' }}" id="v-pills-currencies" role="tabpanel"
+          aria-labelledby="v-pills-currencies-tab" tabindex="0">
+          @if($tab == 'currencies') @include('admin.setting.partials.currencies') @endif
         </div>
       </div>
     </div>
