@@ -189,10 +189,15 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/destroy/{id}',                   [BranchController::class, 'destroy'])->name('destroy-branch-info');
   });
 
+
   // users routes
   Route::prefix('users')->group(function () {
-    Route::get('/profile/{id}',                    [UserProfilesController::class, 'view'])->name('view-profile');
-    Route::put('/update/{id}',                     [UserProfilesController::class, 'update'])->name('admins.update');
+      Route::get('/profile/{id}', [UserProfilesController::class, 'view'])->name('view-profile');
+      Route::put('/update/{id}', [UserProfilesController::class, 'update'])->name('admins.update');
+      Route::put('/update-password/{id}', [UserProfilesController::class, 'updatePassword'])->name('admins.updatePassword');
+      Route::post('/logout-all-devices/{id}', [UserProfilesController::class, 'logoutAllDevices'])->name('admins.logoutAllDevices');
+      Route::post('/logout', [UserProfilesController::class, 'logout'])->name('admin.logout');
+    
   });
 
   // sales-shifts routes
