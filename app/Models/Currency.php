@@ -18,6 +18,7 @@ class Currency extends Model
         'code',
         'name',
         'symbol',
+        'icon',
         'symbol_position',
         'decimal_places',
         'decimal_separator',
@@ -35,10 +36,10 @@ class Currency extends Model
      * @var array
      */
     protected $casts = [
-        'is_default' => 'boolean',
-        'is_active' => 'boolean',
-        'decimal_places' => 'integer',
-        'exchange_rate' => 'decimal:6'
+        'is_default'        => 'boolean',
+        'is_active'         => 'boolean',
+        'decimal_places'    => 'integer',
+        'exchange_rate'     => 'decimal:6'
     ];
 
     /**

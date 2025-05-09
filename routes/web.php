@@ -232,7 +232,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::post('/update',                        [CurrencyController::class, 'store'])->name('store-currency-info');
     Route::put('/update/{id}',                    [CurrencyController::class, 'update'])->name('update-currency-info');
     Route::get('/view/{id}',                      [CurrencyController::class, 'view'])->name('view-currency-info');
-    Route::delete('/destroy/{id}',                [CurrencyController::class, 'destroy'])->name('destroy-currency-info');
+    Route::get('/destroy/{id}',                [CurrencyController::class, 'destroy'])->name('destroy-currency-info');
   });
 
   // route contacts

@@ -10,7 +10,7 @@
 
 
     <div class="d-flex justify-content-start align-items-start setting-nav p-0">
-      <div class="nav flex-column justify-content-start text-end" style="width:180px;" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <div class="nav justify-content-start text-end" style="width:200px;" id="v-pills-tab" role="tablist" aria-orientation="vertical">
         <button class="nav-link {{ $tab == 'general' ? 'active' : '' }}" id="v-pills-general-setting-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-general-setting" type="button" role="tab" aria-controls="v-pills-general-setting" aria-selected="true">
           <a href="{{route('home-setting')}}">{{__('settings.general')}}</a>

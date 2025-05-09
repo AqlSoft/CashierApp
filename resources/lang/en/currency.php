@@ -2,8 +2,14 @@
 
 return [
     // Headings & Titles
+    'currencies-list' => 'Application Currencies List',
+    'currency-settings' => 'Currency Settings',
 
+    'currency-info' => 'Currency Info',
+    'currencies' => 'Currencies',
     'currency' => 'Currency',
+    
+    // Labels & Buttons
     'name' => 'Currency Name',
     'symbol' => 'Currency Symbol',
     'code' => 'Currency Code',
@@ -26,5 +32,8 @@ return [
     'symbol-position-before' => 'Before',
     'symbol-position-after' => 'After',
     'save-currency' => 'Save Currency',
+    'update-currency' => 'Update Currency',
     'reset-form' => 'Reset Form',
+    'icon' => 'Select Icon',
+    'icon-hint' => 'Click to upload an icon for the currency. The icon should be a square image.',
 ];

@@ -38,13 +38,22 @@ class PosController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'code' => 'required|string|max:255|unique:points_of_sale',
             'location' => 'required|string|max:255',
-            'status' => 'required|in:active,inactive',
+            'branch_id' => 'required|exists:branches,id',
+            'printer_name' => 'required|string|max:255',
+            'printer_ip' => 'required|string|max:255',
         ]);
+        try {
+            $validated['status'] = 'active';
+            $validated['created_by'] = Admin::currentId();
+            $validated['updated_by'] = Admin::currentId();
+            POS::create($validated);
 
-        POS::create($validated);
-
-        return redirect()->route('display-pos-list')->with('success', 'POS created successfully');
+            return redirect()->route('display-pos-list')->with('success', 'New POS has been created successfully');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', $e->getMessage());
+        }
     }
 
     /**
