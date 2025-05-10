@@ -32,9 +32,11 @@ return [
     'split_bill' => 'Split Bill',
 
     // Displays
-    'kitchen' => 'Kitchen Display',
-    'customer' => 'Customer Display',
-    'order_status' => 'Order Status',
+    'waiting_hall' => 'Waiting Hall',
+    'restaurant_hall' => 'Restaurant',
+    'kitchen_processing_area' => 'Processing Area',
+    'ads_displays' => 'ADS Displays',
+    'meals_state' => 'Meals Status',
     'settings' => 'Display Settings',
 
     // Products

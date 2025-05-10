@@ -8,9 +8,10 @@ return [
     'currency-info' => 'Currency Info',
     'currencies' => 'Currencies',
     'currency' => 'Currency',
-    
+
     // Labels & Buttons
     'name' => 'Currency Name',
+    'add-currency-modal-title' => 'Add New Currency',
     'symbol' => 'Currency Symbol',
     'code' => 'Currency Code',
     'currncy-code-input-ph' => 'Example: USD, EUR',

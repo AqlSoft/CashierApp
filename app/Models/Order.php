@@ -227,6 +227,19 @@ class Order extends Model
         return $prefix . substr(str_pad($order->order_sn, 4, '0', STR_PAD_LEFT), -4);
     }
 
+    public function deliveryMethodIcon()
+    {
+        switch ($this->delivery_method) {
+            case 1: // Takeaway
+                return 'fa fa-shopping-bag';
+            case 2: // Local
+                return 'fa fa-utensils';
+            case 3: // Delivery
+                return 'fa fa-motorcycle';
+            default:
+                return 'fa fa-utensils';
+        }
+    }
 
     /**
      * علاقة واحد إلى واحد بين الطلب والفاتورة (SalesInvoice) الخاصة به.
@@ -243,5 +256,10 @@ class Order extends Model
     public function table()
     {
         return $this->belongsTo(Table::class, 'table_id');
+    }
+
+    public function parseStatus()
+    {
+        return self::$status[$this->status];
     }
 }

@@ -21,8 +21,9 @@ class SalesInvoiceController  extends Controller
     $invoices = SalesInvoice::all();
     $vars = [
       'invoices' => $invoices,
+      'tab' => 'invoices'
     ];
-    return view('admin.invoices.index', $vars);
+    return view('admin.setting.index', $vars);
   }
 
   /**
