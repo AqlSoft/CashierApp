@@ -29,81 +29,88 @@
 <body>
 
     <div class="admin-wrapperr">
-    <div class="d-flex  justify-content-center align-items-center">
-          <div class="button-container d-flex gap-3  flex-column  mb-2"> 
-             <button class="btn btn-primary mr-2" onclick="window.print()">  <i class="fas fa-print"></i> print
-              </button>
-              <a href="<?php echo e(route('display-order-all')); ?>" class="btn btn-success mr-2">
-                  <i class="fas fa-plus-square"></i> new order
-              </a>
-              <a href="<?php echo e(url()->previous()); ?>" class="btn btn-secondary">
-                  <i class="fas fa-arrow-circle-left"></i> back
-              </a>
-          </div>
-          <table id="content" class="text-center">
-              <thead>
-                  <tr>
-                      <td>
-                          
-                          <?php $__currentLoopData = $settings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $setting): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                              <header class="header-report">
-      
-                                  <div class="header-left">
-      
-                                      <div class="logo">
-                                          <img src="<?php echo e(asset('assets/admin/uploads/images/logo-icon.png')); ?>" alt="logo_report" />
-                                          <div class="logo-text ">
-                                              <span class="company-name"><?php echo e($setting->company_name); ?></span>
-                                              <span class="company-slogan">company slogan</span>
-                                          </div>
-                                      </div>
-                                      <div class="company-number mt-1">155 East Street, Winchester</div>
-                                  </div>
-      
-                                  <div class="header-right">
-                                      <span class="title-report">Simplified Tax Invoice</span>
-                                      <span class="info-report mt-1">order SN: 123456789</span>
-                                  </div>
-      
-      
-                              </header>
-                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                      </td>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                      <td>
-                          <div class="client-info p-3 text-center d-flex align-items-center">
-                              <div class="row ">
-                                  <div class="col col-6 pb-2">
-                                      <div class="row">
-                                          <div class="col col-4 text-end fw-bold">Cashier:</div>
-                                          <div class="col col-8 text-start">Atef Aql</div>
-                                      </div>
-                                  </div>
-                                  <div class="col col-6 pb-1">
-                                      <div class="row">
-                                          <div class="col col-4  text-end fw-bold">CRN: </div>
-                                          <div class="col col-8 text-start">123478000</div>
-                                      </div>
-                                  </div>
-                                  <div class="col col-12 tax_number pt-1 ">
-                                      <div class="row ">
-                                          <div class="col col-4 text-end fw-bold">Tax Number: </div>
-                                          <div class="col col-8 text-start"><?php echo e($setting->tax_number); ?></div>
-                                      </div>
-                                  </div>
-                              </div>
-      
-                          </div>
-                          <?php echo $__env->yieldContent('contents'); ?>
-                      </td>
-                  </tr>
-              </tbody>
-      
-          </table>
-    </div>
+
+        <div class="justify-content-center align-items-center">
+            <div class="row actions mb-2 w-25 m-auto">
+                <div class="col px-1">
+                    <button class="btn w-100 btn-primary mr-2" onclick="window.print()"> <i class="fas fa-print"></i> print
+                    </button>
+                </div>
+                <div class="col px-1">
+                    <a href="<?php echo e(route('display-orders-list')); ?>" class="btn w-100 btn-success mr-2">
+                        <i class="fas fa-plus-square"></i> new order
+                    </a>
+                </div>
+                <div class="col px-1">
+                    <a href="<?php echo e(url()->previous()); ?>" class="btn w-100 btn-secondary">
+                        <i class="fas fa-arrow-circle-left"></i> back
+                    </a>
+                </div>
+            </div>
+            <table id="content" class="text-center">
+                <thead>
+                    <tr>
+                        <td>
+                            
+                            <?php $__currentLoopData = $settings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $setting): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <header class="header-report">
+
+                                <div class="header-left">
+
+                                    <div class="logo">
+                                        <img src="<?php echo e(asset('assets/admin/uploads/images/logo-icon.png')); ?>" alt="logo_report" />
+                                        <div class="logo-text ">
+                                            <span class="company-name"><?php echo e($setting->company_name); ?></span>
+                                            <span class="company-slogan">company slogan</span>
+                                        </div>
+                                    </div>
+                                    <div class="company-number mt-1">155 East Street, Winchester</div>
+                                </div>
+
+                                <div class="header-right">
+                                    <span class="title-report">Simplified Tax Invoice</span>
+                                    <span class="info-report mt-1">order SN: 123456789</span>
+                                </div>
+
+
+                            </header>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="client-info p-3 text-center d-flex align-items-center">
+                                <div class="row ">
+                                    <div class="col col-6 pb-2">
+                                        <div class="row">
+                                            <div class="col col-4 text-end fw-bold">Cashier:</div>
+                                            <div class="col col-8 text-start">Atef Aql</div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-6 pb-1">
+                                        <div class="row">
+                                            <div class="col col-4  text-end fw-bold">CRN: </div>
+                                            <div class="col col-8 text-start">123478000</div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-12 tax_number pt-1 ">
+                                        <div class="row ">
+                                            <div class="col col-4 text-end fw-bold">Tax Number: </div>
+                                            <div class="col col-8 text-start"><?php echo e($setting->tax_number); ?></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <?php echo $__env->yieldContent('contents'); ?>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
 
     </div>
 
@@ -113,5 +120,4 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 
-</html>
-<?php /**PATH C:\wamp64\www\CashierApp\resources\views/layouts/reports/template1.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\wamp64\www\CashierApp\resources\views/layouts/reports/template1.blade.php ENDPATH**/ ?>
