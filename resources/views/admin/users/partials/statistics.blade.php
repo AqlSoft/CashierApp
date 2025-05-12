@@ -1,67 +1,50 @@
-<div class="row mb-4">
-                                <div class="col col-4">
-                                    <img src="{{ asset('assets/admin/uploads/images/avatar/avatar-04.jpg') }}"
-                                        alt="Profile Picture" class="profile-picture">
-                                    <div class="mt-3">
-                                        <input type="file" id="profilePhoto" class="d-none">
-                                        <label for="profilePhoto" class="btn btn-upload">
-                                            <i class="fas fa-camera me-2"></i>Change Photo
-                                        </label>
-                                    </div>
-                                    <small class="text-muted">JPEG or PNG, max 2MB</small>
-                                </div>
+@if ($admin->shifts->isNotEmpty())
+    <div class="row mt-2">
+        <div class="col col-12">
+            <div class="selected-products-container" style="font-size: 14px;">
+                <!-- Header Row  table-header-->
+                <div class="row g-0 border-bottom py-2 fw-bold align-items-center">
+                    <div class="col-1 text-center fw-bold">#</div>
+                    <div class="col-3 fw-bold">{{ __('profile.session_name') }}</div>
+                    <div class="col-3 text-center fw-bold">{{ __('profile.start_time') }}</div>
+                    <div class="col-3 text-center fw-bold">{{ __('profile.end_time') }}</div>
+                    <div class="col-2 text-center fw-bold">{{ __('profile.status') }}</div>
+                </div>
 
-                                <!-- Personal Information Section -->
-                                <div class="col col-8 mb-2 mt-4">
-                                    <div class="row mb-3">
-                                        <div class="col col-8 mb-2">
-                                            <form method="POST" action="{{ route('admins.update', $admin->id) }}">
-                                              
-                                                @method('PUT')
-                                                <div class="row">
-                                                    <div class="col col-5 fw-bold text-end">
-                                                        User Name:
-                                                    </div>
-                                                    <div class="col col-7 text-start">
-                                                        <input type="text" class="form-control sm py-0" name="userName"
-                                                            value="{{ old('userName', $admin->userName) }}"
-                                                            onchange="this.form.submit()"
-                                                            style="border:none;background-color:transparent;">
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                        <div class="col col-8 mb-2">
-                                            <form method="POST" action="{{ route('admins.update', $admin->id) }}">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="row">
-                                                    <div class="col col-5 fw-bold text-end">Job Title:</div>
-                                                    <div class="col col-7">
-                                                        <input type="text" name="job_title" class="form-control sm py-0"
-                                                            value="{{ old('job_title', $admin->job_title) }}"
-                                                            onchange="this.form.submit()"
-                                                            style="border:none;background-color:transparent;">
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="col col-8 mb-2">
-                                            <form method="POST" action="{{ route('admins.update', $admin->id) }}">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="row">
-                                                    <div class="col col-5 fw-bold text-end">Email:</div>
-                                                    <div class="col col-7 text-start">
-                                                        <input type="text" class="form-control sm py-0" name="email"
-                                                            value="{{ old('email', $admin->email) }}"
-                                                            onchange="this.form.submit()"
-                                                            style="border:none;background-color:transparent;width:200px">
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                <!-- Items Rows -->
+                @foreach ($admin->shifts as $shift)
+                    <div class="row g-0 border-bottom py-2 align-items-center">
+                        <div class="col-1 text-center fs-6">{{ $loop->iteration }}</div>
+                        <div class="col-3 ps-2 fs-6">{{ $shift->monybox->name }}</div>
+                        <div class="col-3 text-center fs-6">{{ $shift->start_time->format('d/m/Y H:i') }}</div>
+                        <div class="col-3 text-center fs-6">
+                            @if ($shift->end_time)
+                                {{ $shift->end_time->format('d/m/Y H:i') }}
+                            @else
+                                <span class="btn btn-sm btn-warning">{{ __('profile.in_progress') }}</span>
+                            @endif
+                        </div>
+                        <div class="col-2 text-center fs-6">
+                            @if ($shift->status == 'Active')
+                                <span class="btn btn-sm btn-success">{{ __('profile.active') }}</span>
+                                @php $hasActiveShift = true; @endphp
+                            @else
+                                <span class="btn btn-sm btn-secondary">{{ __('profile.closed') }}</span>
+                            @endif
+                            
+                            @if(isset($shift) && $shift->status == 'Active')
+                                <a href="{{ route('fast-create-order', [ $shift->id]) }}" class="btn btn-sm btn-info">
+                                    <i title="{{ __('profile.add_new_order') }}" class="fa fa-plus"></i>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+@else
+    <div class="alert alert-info mb-0">
+        {{ __('profile.no_shifts_found') }}
+    </div>
+@endif

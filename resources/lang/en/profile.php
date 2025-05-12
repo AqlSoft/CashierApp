@@ -11,7 +11,7 @@ return [
     'security_logs' => 'Security Logs',
     'settings' => 'Settings',
     'logout' => 'Logout',
-    'admin_profile' => 'Admin Profile',
+    'presonal_information ' => 'presonal Information ',
     'basic_information' => 'Basic Information',
     'contact_information' => 'Contact Information',
     'name_arabic' => 'Name (Arabic)',
@@ -100,13 +100,16 @@ return [
     'customer_service_excellence' => 'Customer Service Excellence',
 // +++++
 
+    'session_management' => 'Session Management',
+    'active_sessions' => 'Active Sessions',
+    'old_sessions' => 'Old Sessions',
     'session_name' => 'Session Name',
     'start_time' => 'Start Time',
     'end_time' => 'End Time',
     'status' => 'Status',
-    'in_progress' => 'In Progress',
     'active' => 'Active',
     'closed' => 'Closed',
-    'add_new_order' => 'Add New Order',
-    'no_shifts_found' => 'No shifts found for this user',
+    'in_progress' => 'In Progress',
+    'no_active_sessions' => 'No active sessions found.',
+    'no_old_sessions' => 'No old sessions found.',
 ];

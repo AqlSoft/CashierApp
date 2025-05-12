@@ -98,6 +98,8 @@
           </ul>
         </div>
       </div>
+
+      
     </div>
   </div>
 </div><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/users/partials/setting.blade.php ENDPATH**/ ?>

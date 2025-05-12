@@ -33,6 +33,9 @@
         {{-- Employee Status --}}
         <div class="tab-pane fade show active" id="v-pills-status" role="tabpanel" aria-labelledby="v-pills-status-tab" tabindex="0">
           <p>{{ __('profile.status') }}: <strong>{{ __('profile.active') }}</strong></p>
+          <!-- <p>{{ __('profile.hire_date') }}: <strong>{{ $admin->created_at->format('Y-m-d') }}</strong></p> -->
+          <!-- <p>{{ __('profile.work_duration') }}: <strong>  {{ $admin->created_at->diffForHumans() }}</strong></p> -->
+
         </div>
 
         {{-- Contract Type --}}
@@ -77,7 +80,11 @@
           <p>{{ __('profile.violations_warnings') }}: <strong>1 warning</strong></p>
           <p>{{ __('profile.achievements_awards') }}: <strong>{{ __('profile.employee_of_the_month') }} (March 2025)</strong></p>
         </div>
+
+
       </div>
+
     </div>
+
   </div>
 </div>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use App\Models\Admin;
+use App\Models\Contact;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,23 +17,34 @@ class UserProfilesController
     /**
      * Display a listing of the resource.
      */
-    public function view($id):View
+
+    public function view($id): View
     {
         // جلب بيانات المسؤول مع العلاقات اللازمة
-      $admin = Admin::with(['profile', 'permissions', 'roles','shifts' => function($query) {
-        $query->latest('start_time');
-    }])->findOrFail($id);
-
+        $admin = Admin::with(['profile', 'permissions', 'roles', 'shifts' => function ($query) {
+            $query->latest('start_time');
+        }])->findOrFail($id);
+    
         // بيانات إضافية مثل الأجهزة المتصلة ومحاولات الدخول المشبوهة
         $connectedDevices = $this->getConnectedDevices($admin->id);
         $suspiciousAttempts = $this->getSuspiciousLoginAttempts($admin->id);
-        
-      $vars=[
-       'admin'   =>$admin,
-       'connectedDevices'=> $connectedDevices,
-        'suspiciousAttempts'=>$suspiciousAttempts,
-      ];
-       return view('admin.users.profile' ,$vars);
+    
+        // جلب الجلسات النشطة
+        $activeSessions = $admin->shifts->where('status', 'Active');
+    
+        // جلب الجلسات القديمة
+        $oldSessions = $admin->shifts->where('status', 'Closed');
+    
+        $vars = [
+            'admin' => $admin,
+            'connectedDevices' => $connectedDevices,
+            'suspiciousAttempts' => $suspiciousAttempts,
+            'contacts' => Contact::all(),
+            'activeSessions' => $activeSessions,
+            'oldSessions' => $oldSessions,
+        ];
+    
+        return view('admin.users.profile', $vars);
     }
 
 

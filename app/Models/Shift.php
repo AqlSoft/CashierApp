@@ -15,6 +15,7 @@ class Shift extends Model
   protected $fillable = [
     'monybox_id',
     'admin_id',
+    'name',
     'opening_balance',
     'closing_balance',
     'start_time',

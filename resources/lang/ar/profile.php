@@ -12,7 +12,7 @@ return [
     'logout' => 'تسجيل الخروج',
   
 
-        'admin_profile' => 'ملف المسؤول',
+        'presonal_information' => 'المعلومات الشخصية',
         'basic_information' => 'المعلومات الأساسية',
         'contact_information' => 'معلومات الاتصال',
         'name_arabic' => 'الاسم (بالعربية)',
@@ -100,13 +100,17 @@ return [
         'advanced_cashier_training' => 'تدريب متقدم للكاشير',
         'customer_service_excellence' => 'تميز خدمة العملاء',
 // (((())))
-        'session_name' => 'اسم الجلسة',
-        'start_time' => 'وقت البدء',
-        'end_time' => 'وقت الانتهاء',
-        'status' => 'الحالة',
-        'in_progress' => 'قيد التنفيذ',
-        'active' => 'نشط',
-        'closed' => 'مغلق',
-        'add_new_order' => 'إضافة طلب جديد',
-        'no_shifts_found' => 'لم يتم العثور على جلسات لهذا المستخدم',
+
+    'session_management' => 'إدارة الجلسات',
+    'active_sessions' => 'الجلسات النشطة',
+    'old_sessions' => 'الجلسات القديمة',
+    'session_name' => 'اسم الجلسة',
+    'start_time' => 'وقت البدء',
+    'end_time' => 'وقت الانتهاء',
+    'status' => 'الحالة',
+    'active' => 'نشط',
+    'closed' => 'مغلق',
+    'in_progress' => 'قيد التنفيذ',
+    'no_active_sessions' => 'لا توجد جلسات نشطة.',
+    'no_old_sessions' => 'لا توجد جلسات قديمة.',
 ];

@@ -8,9 +8,16 @@
 @section('contents')
 <style>
   .nav-link.active {
-    color: blue !important; 
+    color: black !important; 
+background-color:gray;
+    border-left:4px solid  blue !important;
     font-weight: bold; 
   }
+  /* Hover effect for the profile picture */
+  /* .position-relative:hover .btn-upload {
+    opacity: 1;
+    z-index:20;
+  } */
 </style>
     <div class="container-fluid">
         <div class="row">
