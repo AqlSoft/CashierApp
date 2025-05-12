@@ -33,6 +33,17 @@ class OrdersController extends Controller
     return view('admin.orders.index', $vars);
   }
 
+  // عرض جميع الطلبات
+  public function stats()
+  {
+    $orders    = Order::with('customer')->get();
+    $vars = [
+      'orders'          => $orders,
+      'tab'          => 'orders'
+    ];
+    return view('admin.setting.index', $vars);
+  }
+
   // عرض نموذج إنشاء طلب
   public function allowEdit($id)
   {

@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
 body {
@@ -9,26 +8,33 @@ body {
 
 }
 
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0
+}
+
 table {
   width: 100mm;
   /* height: 297mm; */
   border-collapse: collapse;
   margin: 0 auto;
   border: none;
-  font-size:14px;
+  font-size: 14px;
 
 }
 
 
 /*====== header report Styles ============*/
 table thead tr td .header-report {
-  background-color: white; 
-  height: 26mm; 
-  border-bottom: 3px solid #000; 
+  background-color: white;
+  height: 26mm;
+  border-bottom: 3px solid #000;
   padding: 0;
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 1rem;
 
 }
@@ -37,28 +43,31 @@ table thead tr td .header-report {
   display: flex;
   flex-direction: column;
   width: 50%;
-  
+
 
 }
-.logo{
+
+.logo {
   display: flex;
-  justify-content:flex-start;
+  justify-content: flex-start;
   align-items: center;
-  gap:.5rem;
+  gap: .5rem;
 
 }
-  .header-left img {
+
+.header-left img {
   width: 40px;
   height: 40px;
-} 
+}
 
 .logo-text {
   display: flex;
   flex-direction: column;
-  text-align:left;
-  
+  text-align: left;
 
-} 
+
+}
+
 .company-name {
   font-weight: bold;
   font-size: .9rem;
@@ -66,13 +75,14 @@ table thead tr td .header-report {
   letter-spacing: .5px;
 }
 
-.company-slogan  {
+.company-slogan {
   font-size: 0.7rem;
   opacity: 0.8;
   font-weight: 400;
   letter-spacing: .5px;
 
 }
+
 .company-number {
   font-size: .7rem;
   opacity: 0.9;
@@ -81,19 +91,22 @@ table thead tr td .header-report {
   /* letter-spacing: 1px; */
   color: #000;
 }
+
 .company-info {
   font-size: 0.9rem;
 }
 
-.header-right{
+.header-right {
   display: flex;
   flex-direction: column;
   width: 50%;
 }
-.header-right img{
+
+.header-right img {
   width: 230px;
   height: 50px;
 }
+
 .header-right .title-report {
   font-size: .9rem;
   font-weight: bold;
@@ -102,13 +115,14 @@ table thead tr td .header-report {
   text-transform: uppercase;
 }
 
-.header-right.info-report{
+.header-right.info-report {
   font-size: 0.7rem;
   opacity: 0.8;
   font-weight: 400;
   letter-spacing: .5px;
 
 }
+
 /*====== content report Styles ============*/
 /* table tbody tr td  .content-report{
    background-color: gray;
@@ -116,7 +130,7 @@ table thead tr td .header-report {
    margin-left:1cm;
 
 } */
- table tbody tr td .client-info {
+table tbody tr td .client-info {
   background-color: white;
   color: #000;
   height: 20mm;
@@ -126,7 +140,7 @@ table thead tr td .header-report {
   text-align: center;
 }
 
-table tbody tr td  .tax_number {
+table tbody tr td .tax_number {
   border-top: 2px solid #000;
   ;
   width: 100%;
@@ -137,11 +151,12 @@ table table thead .header-color {
   color: #fff;
 }
 
-table table tfoot  {
+table table tfoot {
   border-top: 2px solid #000;
-  
+
   width: 100%;
 }
+
 table table tfoot .price {
   border: 1px solid #000;
   text-align: center;
@@ -150,12 +165,18 @@ table table tfoot .price {
 
 /*====== footer report Styles ============*/
 
-.footer-section img{
-  width:200px;
-  height:200px;
+.footer-section img {
+  width: 200px;
+  height: 200px;
 }
+
 /* Print-specific styles */
 @media print {
+
+  .actions {
+    display: none;
+  }
+
   @page {
     /* size: A4; */
     margin: 0;

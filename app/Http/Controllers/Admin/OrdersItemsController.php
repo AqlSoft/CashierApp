@@ -35,7 +35,7 @@ class OrdersItemsController extends Controller
     $shift = $order->shift;
 
     // delivery
-    $del_agents = Role::where(['name' => 'delivery'])->first()->admins;
+    $del_agents = Admin::where(['role_name' => 'delivery'])->get();
 
 
 

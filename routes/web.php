@@ -125,8 +125,8 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
   // orders Routes 
   Route::prefix('orders')->group(function () {
-    Route::get('/list',                           [OrdersController::class, 'index'])->name('display-orders-list');
-    Route::get('/index',                          [OrdersController::class, 'index'])->name('display-order-all');
+    Route::get('/stats',                           [OrdersController::class, 'stats'])->name('display-orders-stats');
+    Route::get('/index',                          [OrdersController::class, 'index'])->name('display-orders-list');
     Route::get('/fast/creater/{shift_id}',        [OrdersController::class, 'fastCreateOrder'])->name('fast-create-order');
     Route::post('/store',                         [OrdersController::class, 'store'])->name('store-new-order');
     Route::get('/display/{id}',                   [OrdersController::class, 'show'])->name('view-order-info');
@@ -159,8 +159,9 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
   // invoices routes
   Route::prefix('invoices')->group(function () {
     Route::get('/index',                          [SalesInvoiceController::class, 'index'])->name('display-invoices-list');
-    Route::get('/view/{id}',                      [SalesInvoiceController::class, 'view'])->name('view-invoice');
+    Route::get('/view/{id}',                      [SalesInvoiceController::class, 'view'])->name('view-invoice-info');
     Route::get('/print-invoice/{id}',             [SalesInvoiceController::class, 'printInvoice'])->name('print-invoice');
+    Route::get('/destroy/{id}',                   [SalesInvoiceController::class, 'destroy'])->name('destroy-invoice-info');
   });
 
   // payments routes
@@ -195,12 +196,11 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
   // users routes
   Route::prefix('users')->group(function () {
-      Route::get('/profile/{id}', [UserProfilesController::class, 'view'])->name('view-profile');
-      Route::put('/update/{id}', [UserProfilesController::class, 'update'])->name('admins.update');
-      Route::put('/update-password/{id}', [UserProfilesController::class, 'updatePassword'])->name('admins.updatePassword');
-      Route::post('/logout-all-devices/{id}', [UserProfilesController::class, 'logoutAllDevices'])->name('admins.logoutAllDevices');
-      Route::post('/logout', [UserProfilesController::class, 'logout'])->name('admin.logout');
-    
+    Route::get('/profile/{id}', [UserProfilesController::class, 'view'])->name('view-profile');
+    Route::put('/update/{id}', [UserProfilesController::class, 'update'])->name('admins.update');
+    Route::put('/update-password/{id}', [UserProfilesController::class, 'updatePassword'])->name('admins.updatePassword');
+    Route::post('/logout-all-devices/{id}', [UserProfilesController::class, 'logoutAllDevices'])->name('admins.logoutAllDevices');
+    Route::post('/logout', [UserProfilesController::class, 'logout'])->name('admin.logout');
   });
 
   // sales-shifts routes
