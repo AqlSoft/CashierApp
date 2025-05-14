@@ -262,4 +262,8 @@ class Order extends Model
     {
         return self::$status[$this->status];
     }
+    public function session()
+{
+    return $this->belongsTo(Shift::class);
+}
 }

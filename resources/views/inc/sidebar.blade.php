@@ -8,8 +8,9 @@
             </a>
         </div>
         <a href="{{ route('view-profile', [App\Models\Admin::currentId()]) }}" class="profile mb-2">
-            <img src="{{ asset('assets/admin/uploads/images/avatar/avatar-04.jpg') }}" alt="Profile Picture"
-                class="profile-picture">
+          
+              <img src="{{ $admin->profile->image ? asset('assets/admin/uploads/images/avatar/' . $admin->profile->image) : asset('assets/admin/images/avatar/user-1.png') }}" alt="Profile Picture" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+              
             <div class="profile-info ">
                 <h6 class="info-title">{{ App\Models\Admin::currentUser()->userName }}</h6>
                 <span class="sub-title">{{ ucfirst(App\Models\Admin::currentUser()->role_name) }}</span>

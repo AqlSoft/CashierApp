@@ -85,4 +85,12 @@ class Shift extends Model
     return $query->where('admin_id', $adminId)
       ->where('status', true);
   }
+
+public function orders()
+{
+    return $this->hasMany(Order::class);
+}
+
+
+
 }

@@ -12,12 +12,13 @@
 background-color:gray;
     border-left:4px solid  blue !important;
     font-weight: bold; 
+    
   }
   /* Hover effect for the profile picture */
-  /* .position-relative:hover .btn-upload {
+  .position-relative:hover .btn-upload {
     opacity: 1;
     z-index:20;
-  } */
+  }
 </style>
     <div class="container-fluid">
         <div class="row">
@@ -43,8 +44,8 @@ background-color:gray;
                             type="button" role="tab" aria-controls="security-logs" aria-selected="false">{{ __('profile.security_logs') }}</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings"
-                            type="button" role="tab" aria-controls="settings" aria-selected="false">{{ __('profile.settings') }}</button>
+                        <button class="nav-link" id="accountInfo-tab" data-bs-toggle="tab" data-bs-target="#accountInfo"
+                            type="button" role="tab" aria-controls="accountInfo" aria-selected="false">{{ __('profile.accountInfo') }}</button>
                     </li>
                     <form action="{{route('admin.logout')}}" class="nav-item" method="POST">
                         @csrf
@@ -70,9 +71,9 @@ background-color:gray;
                     <div class="tab-pane fade" id="security-logs" role="tabpanel" aria-labelledby="security-logs-tab">
                     @include('admin.users.partials.security-logs')
                     </div>
-                    <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                    <div class="tab-pane fade" id="accountInfo" role="tabpanel" aria-labelledby="settings-tab">
                     
-                    @include('admin.users.partials.setting')
+                    @include('admin.users.partials.accountInfo')
 
                     </div>
                 </div>

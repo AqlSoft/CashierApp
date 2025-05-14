@@ -13,7 +13,6 @@ class AdminProfile extends Model
     protected $fillable = [
         'first_name',
         'last_name',
-        'phone',
         'country',
         'city',
         'address',
@@ -22,6 +21,7 @@ class AdminProfile extends Model
         'image',
         'status',
         'admin_id',
+        'branch_id'
 
     ];
 

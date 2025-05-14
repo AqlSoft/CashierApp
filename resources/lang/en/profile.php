@@ -4,7 +4,7 @@ return [
   
     'account' => 'Account',
     'view_profile' => 'View Profile',
-    'profile' => 'Profile',
+    'profile' => ' My Profile',
     'personal_info' => 'Personal Info',
     'job_info' => 'Job Info',
     'sessions' => 'Sessions',

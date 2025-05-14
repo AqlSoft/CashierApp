@@ -33,8 +33,8 @@
         {{-- Employee Status --}}
         <div class="tab-pane fade show active" id="v-pills-status" role="tabpanel" aria-labelledby="v-pills-status-tab" tabindex="0">
           <p>{{ __('profile.status') }}: <strong>{{ __('profile.active') }}</strong></p>
-          <!-- <p>{{ __('profile.hire_date') }}: <strong>{{ $admin->created_at->format('Y-m-d') }}</strong></p> -->
-          <!-- <p>{{ __('profile.work_duration') }}: <strong>  {{ $admin->created_at->diffForHumans() }}</strong></p> -->
+          <p>{{ __('profile.hire_date') }}: <strong>{{ $admin->created_at->format('Y-m-d') }}</strong></p>
+          <p>{{ __('profile.work_duration') }}: <strong>  {{ $admin->created_at->diffForHumans() }}</strong></p>
 
         </div>
 
@@ -79,6 +79,34 @@
           <p>{{ __('profile.absences_delays') }}: <strong>3 days</strong></p>
           <p>{{ __('profile.violations_warnings') }}: <strong>1 warning</strong></p>
           <p>{{ __('profile.achievements_awards') }}: <strong>{{ __('profile.employee_of_the_month') }} (March 2025)</strong></p>
+        </div>
+
+        {{-- Internal Communication --}}
+        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
+          <h4>{{ __('profile.internal_communication') }}</h4>
+          <p>{{ __('profile.messages_from_colleagues') }}</p>
+          <p>{{ __('profile.important_notifications') }}</p>
+          <p>{{ __('profile.requests_for_leave') }}</p>
+        </div>
+
+        {{-- Training Records --}}
+        <div class="tab-pane fade" id="v-pills-training" role="tabpanel" aria-labelledby="v-pills-training-tab" tabindex="0">
+          <h4>{{ __('profile.training_records') }}</h4>
+          <p>{{ __('profile.completed_training_courses') }}</p>
+          <ul>
+            <li>{{ __('profile.course_1') }}</li>
+            <li>{{ __('profile.course_2') }}</li>
+          </ul>
+          <p>{{ __('profile.skills_acquired') }}</p>
+          <ul>
+            <li>{{ __('profile.skill_1') }}</li>
+            <li>{{ __('profile.skill_2') }}</li>
+          </ul>
+          <p>{{ __('profile.future_training_needs') }}</p>
+          <ul>
+            <li>{{ __('profile.advanced_cashier_training') }}</li>
+            <li>{{ __('profile.customer_service_excellence') }}</li>
+          </ul>
         </div>
 
 

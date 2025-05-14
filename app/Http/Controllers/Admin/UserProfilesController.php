@@ -39,7 +39,7 @@ class UserProfilesController
             'admin' => $admin,
             'connectedDevices' => $connectedDevices,
             'suspiciousAttempts' => $suspiciousAttempts,
-            'contacts' => Contact::all(),
+            'contacts' => Contact::where('person_id', $id)->get(),
             'activeSessions' => $activeSessions,
             'oldSessions' => $oldSessions,
         ];
@@ -62,21 +62,7 @@ class UserProfilesController
     
         return redirect()->route('admin.users.profile', $id)->with('success', 'Logged out from all devices successfully.');
     }
-      /**
-     * تسجيل الخروج من النظام
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect()->route('login')->with('success', 'Logged out successfully.');
-    }
-
+      
     /**
      * جلب الأجهزة المتصلة
      *
@@ -164,18 +150,53 @@ class UserProfilesController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id):RedirectResponse
-    {
-      $admin = Admin::findOrFail($id);
-    
-      // تحديد الحقل الذي تم تعديله
-      $field = array_key_first($request->except('_token', '_method'));
-      
-      // تحديث الحقل المحدد فقط
-      $admin->update([$field => $request->input($field)]);
-      
-      return back()->with('success', 'تم تحديث البيانات بنجاح');
+
+public function update(Request $request, $id)
+{
+    // التحقق من صحة البيانات
+    $validatedData = $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'phone' => 'nullable|string|max:15',
+        'branch_id' => 'nullable|string|max:255',
+        'country' => 'nullable|string|max:255',
+        'city' => 'nullable|string|max:255',
+        'address' => 'nullable|string|max:255',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    // جلب المستخدم
+    $admin = Admin::findOrFail($id);
+
+    // تحديث البيانات الشخصية
+    $admin->profile->update([
+        'first_name' => $validatedData['first_name'],
+        'last_name' => $validatedData['last_name'],
+        'phone' => $validatedData['phone'],
+        'branch_id' => $validatedData['branch_id'],
+        'country' => $validatedData['country'],
+        'city' => $validatedData['city'],
+        'address' => $validatedData['address'],
+    ]);
+
+// تحديث الصورة إذا تم رفعها
+if ($request->hasFile('image')) {
+    // حذف الصورة القديمة إذا كانت موجودة
+    if ($admin->profile->image && file_exists(public_path('assets/admin/uploads/images/avatar/' . $admin->profile->image))) {
+        unlink(public_path('assets/admin/uploads/images/avatar/' . $admin->profile->image));
     }
+
+    // رفع الصورة الجديدة
+    $image = $request->file('image');
+    $imageName = time() . '_' . $image->getClientOriginalName(); // إنشاء اسم فريد للصورة
+    $image->move(public_path('assets/admin/uploads/images/avatar'), $imageName);
+
+    // تحديث اسم الصورة في قاعدة البيانات
+    $admin->profile->update(['image' => $imageName]);
+}
+    // إعادة التوجيه مع رسالة نجاح
+    return redirect()->back()->with('success', __('profile.update_success'));
+}
 
     /**
      * Remove the specified resource from storage.
