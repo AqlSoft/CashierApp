@@ -1,0 +1,33 @@
+<?php
+return [
+    'roles_list' => 'قائمة الأدوار',
+    'admins' => 'المسؤولون',
+    'admins_list' => 'قائمة المسؤولين',
+    'permissions_list' => 'قائمة الصلاحيات',
+    'role_name' => 'اسم الدور',
+    'description' => 'الوصف',
+    'control' => 'التحكم',
+    'delete' => 'حذف',
+    'delete_confirmation' => 'هل أنت متأكد أنك تريد حذف هذا الدور؟',
+    'no_roles_found' => 'لم يتم العثور على أدوار.',
+    'new_role_description' => 'دور جديد بدون وصف',
+    'save_role' => 'حفظ الدور',
+   // roles-display
+
+    'users_roles' => 'أدوار المستخدمين',
+    'admins' => 'المسؤولون',
+    'roles' => 'الأدوار',
+    'role_details' => 'تفاصيل الدور',
+    'roles_list' => 'قائمة الأدوار',
+    'basic_info' => 'المعلومات الأساسية',
+    'attached_to' => 'مرتبط بـ',
+    'role_permissions' => 'صلاحيات الدور',
+    'edit_role_basic_info' => 'تعديل المعلومات الأساسية للدور',
+    'role_name' => 'اسم الدور',
+    'brief' => 'الوصف',
+    'status' => 'الحالة',
+    'active' => 'نشط',
+    'inactive' => 'غير نشط',
+    'update' => 'تحديث',
+    'no_permissions_found' => 'لم يتم العثور على صلاحيات.',
+];

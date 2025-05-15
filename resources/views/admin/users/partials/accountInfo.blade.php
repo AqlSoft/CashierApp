@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-lg-12 col-sm-12">
-    <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede">{{ __('profile.account_settings') }}</h1>
+    <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede">{{ __('profile.account_information') }}</h1>
 
     <div class="d-flex justify-content-start align-items-start setting-nav p-0">
       {{-- Sidebar Navigation --}}
@@ -27,11 +27,11 @@
             <div class="border p-3">
               <h4 class="mb-3">{{ __('profile.change_password') }}</h4>
               <div class="row">
-                {{--current password --}}
+                {{-- current password --}}
                 <div class="col col-12 col-md-6">
                   <div class="input-group sm mb-2">
                     <label for="current_password" class="input-group-text">{{ __('profile.current_password') }}</label>
-                    <input type="text" id="current_password" class="form-control" name="password" value="{{ old('password', $admin->profile->password ?? '') }}">
+                    <input type="password" id="current_password" class="form-control" name="current_password" placeholder="{{ __('profile.enter_current_password') }}">
                     @error('current_password')
                     <span class="text-danger">{{ $message }}</span>
                     @enderror

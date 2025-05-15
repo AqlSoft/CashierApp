@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-lg-12 col-sm-12">
-    <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede"><?php echo e(__('profile.account_settings')); ?></h1>
+    <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede"><?php echo e(__('profile.account_information')); ?></h1>
 
     <div class="d-flex justify-content-start align-items-start setting-nav p-0">
       
@@ -34,7 +34,7 @@
                 <div class="col col-12 col-md-6">
                   <div class="input-group sm mb-2">
                     <label for="current_password" class="input-group-text"><?php echo e(__('profile.current_password')); ?></label>
-                    <input type="text" id="current_password" class="form-control" name="password" value="<?php echo e(old('password', $admin->profile->password ?? '')); ?>">
+                    <input type="password" id="current_password" class="form-control" name="current_password" placeholder="<?php echo e(__('profile.enter_current_password')); ?>">
                     <?php $__errorArgs = ['current_password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :

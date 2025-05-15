@@ -36,16 +36,7 @@
         
         <div class="tab-pane fade" id="v-pills-connected-devices" role="tabpanel" aria-labelledby="v-pills-connected-devices-tab" tabindex="0">
           <h4><?php echo e(__('profile.connected_devices')); ?></h4>
-          <ul>
-            <?php $__currentLoopData = $connectedDevices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $device): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-              <li><?php echo e($device->device_name); ?> - <?php echo e($device->last_active_at->format('Y-m-d H:i:s')); ?></li>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-          </ul>
-          <form method="POST" action="<?php echo e(route('admins.logoutAllDevices', $admin->id)); ?>">
-            <?php echo csrf_field(); ?>
-            <?php echo method_field('POST'); ?>
-            <button type="submit" class="btn btn-danger"><?php echo e(__('profile.logout_from_all_devices')); ?></button>
-          </form>
+        
         </div>
 
         

@@ -32,16 +32,7 @@
         {{-- Connected Devices --}}
         <div class="tab-pane fade" id="v-pills-connected-devices" role="tabpanel" aria-labelledby="v-pills-connected-devices-tab" tabindex="0">
           <h4>{{ __('profile.connected_devices') }}</h4>
-          <ul>
-            @foreach ($connectedDevices as $device)
-              <li>{{ $device->device_name }} - {{ $device->last_active_at->format('Y-m-d H:i:s') }}</li>
-            @endforeach
-          </ul>
-          <form method="POST" action="{{ route('admins.logoutAllDevices', $admin->id) }}">
-            @csrf
-            @method('POST')
-            <button type="submit" class="btn btn-danger">{{ __('profile.logout_from_all_devices') }}</button>
-          </form>
+        
         </div>
 
         {{-- Access Permissions --}}
