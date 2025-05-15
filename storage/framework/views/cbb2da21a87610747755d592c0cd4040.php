@@ -24,71 +24,39 @@
       <div class="tab-content p-3 m-0" id="v-pills-tabContent">
         
         <div class="tab-pane fade show active" id="v-pills-password" role="tabpanel" aria-labelledby="v-pills-password-tab" tabindex="0">
-          <form method="POST" action="<?php echo e(route('admins.updatePassword', $admin->id)); ?>">
-            <?php echo csrf_field(); ?>
-            <?php echo method_field('PUT'); ?>
-            <div class="border p-3">
-              <h4 class="mb-3"><?php echo e(__('profile.change_password')); ?></h4>
-              <div class="row">
-                
-                <div class="col col-12 col-md-6">
-                  <div class="input-group sm mb-2">
-                    <label for="current_password" class="input-group-text"><?php echo e(__('profile.current_password')); ?></label>
-                    <input type="password" id="current_password" class="form-control" name="current_password" placeholder="<?php echo e(__('profile.enter_current_password')); ?>">
-                    <?php $__errorArgs = ['current_password'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                    <span class="text-danger"><?php echo e($message); ?></span>
-                    <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                  </div>
-                </div>
-                
-                <div class="col col-12 col-md-6">
-                  <div class="input-group sm mb-2">
-                    <label for="new_password" class="input-group-text"><?php echo e(__('profile.new_password')); ?></label>
-                    <input type="text" id="new_password" class="form-control" name="new_password" value="<?php echo e(old('new_password', $admin->profile->new_password ?? '')); ?>">
-                    <?php $__errorArgs = ['new_password'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                    <span class="text-danger"><?php echo e($message); ?></span>
-                    <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                  </div>
-                </div>
-                
-                <div class="col col-12 col-md-12">
-                  <div class="input-group sm mb-2">
-                    <label for="confirm_password" class="input-group-text"><?php echo e(__('profile.confirm_password')); ?></label>
-                    <input type="text" id="confirm_password" class="form-control" name="confirm_password" value="<?php echo e(old('confirm_password', $admin->profile->confirm_password ?? '')); ?>">
-                    <?php $__errorArgs = ['confirm_password'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                    <span class="text-danger"><?php echo e($message); ?></span>
-                    <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                  </div>
-                </div>
-              </div>
+        <div class="row">
+            
+                            <div class="col col-12 mb-3 p-1">
+                                <div class="card w-100">
+                                    <div class="card-header">
+                                        <h5 class="card-title py-2"><?php echo e(__('admins.change_password')); ?></h5>
+                                    </div>
+                                    <form action="" method="POST">
+                                        <?php echo csrf_field(); ?>
+                                        <div class="">
+                                            <div class="input-group sm mb-2">
+                                                <label class="input-group-text" for="current_password"><?php echo e(__('admins.current_password')); ?></label>
+                                                <input type="password" class="form-control sm" name="current_password" id="current_password">
+                                            </div>
+                                            <div class="input-group sm mb-2">
+                                                <label class="input-group-text" for="new_password"><?php echo e(__('admins.new_password')); ?></label>
+                                                <input type="password" class="form-control sm" name="password" id="new_password">
+                                            </div>
+                                            <div class="input-group sm mb-2">
+                                                <label class="input-group-text" for="password_confirmation"><?php echo e(__('admins.confirm_password')); ?></label>
+                                                <input type="password" class="form-control sm" name="password_confirmation" id="password_confirmation">
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="d-flex justify-content-end">
+                                                <button class="btn btn-outline-primary py-0" type="submit"><?php echo e(__('admins.update_password')); ?></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
 
-              <div class="input-group sm mt-2" style="border-top: 1px solid #aaa">
-                <button type="submit" class="py-0 btn btn-outline-primary p-3 mt-2" style="margin-inline-start: auto;"><?php echo e(__('profile.update_password')); ?></button>
-              </div>
-            </div>
-
-          </form>
+        </div>
         </div>
 
         

@@ -42,7 +42,7 @@ background-color:gray;
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="accountInfo-tab" data-bs-toggle="tab" data-bs-target="#accountInfo"
-                            type="button" role="tab" aria-controls="accountInfo" aria-selected="false"><?php echo e(__('profile.accountInfo')); ?></button>
+                            type="button" role="tab" aria-controls="accountInfo" aria-selected="false"><?php echo e(__('profile.account-info')); ?></button>
                     </li>
                     <form action="<?php echo e(route('admin.logout')); ?>" class="nav-item" method="POST">
                         <?php echo csrf_field(); ?>
@@ -70,7 +70,7 @@ background-color:gray;
                     </div>
                     <div class="tab-pane fade" id="accountInfo" role="tabpanel" aria-labelledby="settings-tab">
                     
-                    <?php echo $__env->make('admin.users.partials.accountInfo', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+                    <?php echo $__env->make('admin.users.partials.account-info', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
                     </div>
                 </div>

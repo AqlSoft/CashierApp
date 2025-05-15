@@ -16,6 +16,7 @@ class Shift extends Model
     'monybox_id',
     'admin_id',
     'name',
+    'device_name',
     'opening_balance',
     'closing_balance',
     'start_time',

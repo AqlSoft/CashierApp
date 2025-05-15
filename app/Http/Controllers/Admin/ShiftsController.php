@@ -61,6 +61,8 @@ class ShiftsController extends Controller
 
             // إنشاء الشفت الجديد
             Shift::create([
+                'name'            => 'Session Name', // اسم الجلسة
+                'device_name'     => $request->userAgent(),
                 'monybox_id'      => $request->monybox_id,
                 'admin_id'        => $request->admin_id,
                 'opening_balance' => $request->opening_balance,

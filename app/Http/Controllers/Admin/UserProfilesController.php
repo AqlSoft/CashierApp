@@ -17,48 +17,38 @@ class UserProfilesController
     /**
      * Display a listing of the resource.
      */
+public function view($id): View
+{
+    // جلب بيانات المسؤول مع العلاقات اللازمة
+    $admin = Admin::with(['profile', 'permissions', 'roles', 'shifts' => function ($query) {
+        $query->latest('start_time');
+    }])->findOrFail($id);
 
-    public function view($id): View
-    {
-        // جلب بيانات المسؤول مع العلاقات اللازمة
-        $admin = Admin::with(['profile', 'permissions', 'roles', 'shifts' => function ($query) {
-            $query->latest('start_time');
-        }])->findOrFail($id);
-    
-      
-        // جلب الجلسات النشطة
-        $activeSessions = $admin->shifts->where('status', 'Active');
-        // جلب الجلسات القديمة
-        $oldSessions = $admin->shifts->where('status', 'Closed');
-    
-        $vars = [
-            'admin' => $admin,
-            'contacts' => Contact::where('person_id', $id)->get(),
-            'activeSessions' => $activeSessions,
-            'oldSessions' => $oldSessions,
-        ];
-    
-        return view('admin.users.profile', $vars);
-    }
+    // جلب الجلسات النشطة
+    $activeSessions = $admin->shifts->where('status', 'Active')->map(function ($session) {
+        $session->total_revenue = $session->orders->sum('amount'); // حساب إجمالي الإيرادات
+        $session->cashbox_total = $session->orders->where('cashbox_id', $session->monybox->id ?? null)->sum('amount'); // إجمالي الإيرادات في الخزنة
+        return $session;
+    });
 
+    // جلب الجلسات القديمة
+    $oldSessions = $admin->shifts->where('status', 'Closed')->map(function ($session) {
+        $session->total_revenue = $session->orders->sum('amount'); // حساب إجمالي الإيرادات
+        $session->cashbox_total = $session->orders->where('cashbox_id', $session->monybox->id ?? null)->sum('amount'); // إجمالي الإيرادات في الخزنة
+        return $session;
+    });
 
-    public function logoutAllDevices($id)
-    {
-        // تحقق من المستخدم
-        $admin = Auth::guard('admin')->user();
-    
-        if ($admin->id != $id) {
-            return redirect()->back()->with('error', 'Unauthorized action.');
-        }
-    
-        // استخدام كلمة المرور المشفرة من قاعدة البيانات
-        Auth::logoutOtherDevices($admin->getAuthPassword());
-    
-        return redirect()->route('admin.users.profile', $id)->with('success', 'Logged out from all devices successfully.');
-    }
-      
+    $vars = [
+        'admin' => $admin,
+        'contacts' => Contact::where('person_id', $id)->get(),
+        'activeSessions' => $activeSessions,
+        'oldSessions' => $oldSessions,
+    ];
 
+    return view('admin.users.profile', $vars);
+}
   
+
     public function updatePassword(Request $request, $id)
     {
         // تحقق من المستخدم

@@ -1,4 +1,3 @@
-<?php
 <table class="table table-striped mt-2">
     <thead>
         <tr>

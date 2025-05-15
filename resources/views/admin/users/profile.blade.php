@@ -45,7 +45,7 @@ background-color:gray;
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="accountInfo-tab" data-bs-toggle="tab" data-bs-target="#accountInfo"
-                            type="button" role="tab" aria-controls="accountInfo" aria-selected="false">{{ __('profile.accountInfo') }}</button>
+                            type="button" role="tab" aria-controls="accountInfo" aria-selected="false">{{ __('profile.account-info') }}</button>
                     </li>
                     <form action="{{route('admin.logout')}}" class="nav-item" method="POST">
                         @csrf
@@ -73,7 +73,7 @@ background-color:gray;
                     </div>
                     <div class="tab-pane fade" id="accountInfo" role="tabpanel" aria-labelledby="settings-tab">
                     
-                    @include('admin.users.partials.accountInfo')
+                    @include('admin.users.partials.account-info')
 
                     </div>
                 </div>

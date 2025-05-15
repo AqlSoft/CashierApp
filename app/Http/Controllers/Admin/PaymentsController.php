@@ -13,8 +13,6 @@ use App\Models\SalesInvoice;
 use App\Models\OrderItem;
 use App\Models\Table;
 
-
-
 class PaymentsController extends Controller
 {
 
