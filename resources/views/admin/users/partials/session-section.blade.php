@@ -29,6 +29,20 @@
                   <p class="mb-1  pb-1 pt-1">{{ __('profile.total_orders') }}: <strong>{{ $session->orders->count() }}</strong></p>
                   <p class="mb-1  pb-1 pt-1">{{ __('profile.total_revenue') }}:: <strong> {{ number_format($session->total_revenue, 2) }} {{ __('profile.currency') }}</strong></p>
                   <p class="mb-1  pb-1 pt-1">{{ __('profile.cashbox_total') }}:: <strong> {{ number_format($session->cashbox_total, 2) }} {{ __('profile.currency') }}</strong></p>
+                  <p class="mb-1  pb-1 pt-1">
+                            @if ($session->status == 'Active')
+                                <span class="btn btn-sm btn-success">{{ __('profile.active') }}</span>
+                                @php $hasActiveShift = true; @endphp
+                            @else
+                                <span class="btn btn-sm btn-secondary">{{ __('profile.closed') }}</span>
+                            @endif
+                            
+                            @if(isset($session) && $session->status == 'Active')
+                                <a href="{{ route('fast-create-order', [ $session->id]) }}" class="btn btn-sm btn-info">
+                                    <i title="{{ __('profile.add_new_order') }}" class="fa fa-plus"></i>
+                                </a>
+                            @endif
+</p>
 
                 </div>
               @endforeach

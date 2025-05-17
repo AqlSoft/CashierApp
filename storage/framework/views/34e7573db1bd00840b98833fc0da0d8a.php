@@ -31,6 +31,20 @@
                   <p class="mb-1  pb-1 pt-1"><?php echo e(__('profile.total_orders')); ?>: <strong><?php echo e($session->orders->count()); ?></strong></p>
                   <p class="mb-1  pb-1 pt-1"><?php echo e(__('profile.total_revenue')); ?>:: <strong> <?php echo e(number_format($session->total_revenue, 2)); ?> <?php echo e(__('profile.currency')); ?></strong></p>
                   <p class="mb-1  pb-1 pt-1"><?php echo e(__('profile.cashbox_total')); ?>:: <strong> <?php echo e(number_format($session->cashbox_total, 2)); ?> <?php echo e(__('profile.currency')); ?></strong></p>
+                  <p class="mb-1  pb-1 pt-1">
+                            <?php if($session->status == 'Active'): ?>
+                                <span class="btn btn-sm btn-success"><?php echo e(__('profile.active')); ?></span>
+                                <?php $hasActiveShift = true; ?>
+                            <?php else: ?>
+                                <span class="btn btn-sm btn-secondary"><?php echo e(__('profile.closed')); ?></span>
+                            <?php endif; ?>
+                            
+                            <?php if(isset($session) && $session->status == 'Active'): ?>
+                                <a href="<?php echo e(route('fast-create-order', [ $session->id])); ?>" class="btn btn-sm btn-info">
+                                    <i title="<?php echo e(__('profile.add_new_order')); ?>" class="fa fa-plus"></i>
+                                </a>
+                            <?php endif; ?>
+</p>
 
                 </div>
               <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
