@@ -91,7 +91,7 @@
                 <div class="col col-12 col-md-6">
                   <div class="input-group sm mb-2">
                     <label for="country" class="input-group-text">{{ __('profile.country') }}</label>
-                    <input type="text" id="country" class="form-control" name="country" value="{{ old('country', $admin->profile->country->name ?? '') }}">
+                    <input type="text" id="country" class="form-control" name="country" value="{{ old('country', $admin->profile->country ?? '') }}">
                     @error('country')
                       <span class="text-danger">{{ $message }}</span>
                     @enderror
