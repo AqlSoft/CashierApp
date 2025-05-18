@@ -19,6 +19,32 @@
         </a>
     </div>
     <ul class="list-unstyled ps-0" id="sidebarAccordion">
+        <!-- المشتريات -->
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center" data-bs-toggle="collapse"
+                data-bs-target="#purchases-collapse" aria-expanded="">
+                <i class="fas fa-shopping-cart"></i> &nbsp; المشتريات
+            </button>
+            <div class="collapse <?php echo e(request()->is(['admin/purchase-orders*', 'admin/suppliers*']) ? 'show' : ''); ?>"
+                id="purchases-collapse" data-bs-parent="#sidebarAccordion">
+                <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    <li>
+                        <a href="<?php echo e(route('admin.purchase-orders.index')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/purchase-orders*') ? 'active' : ''); ?>">
+                            <i class="fas fa-file-invoice"></i> &nbsp; طلبات الشراء
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('admin.suppliers.index')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/suppliers*') ? 'active' : ''); ?>">
+                            <i class="fas fa-truck"></i> &nbsp; الموردين
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- لوحة التحكم -->
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
                 data-bs-target="#dashboard-collapse1" aria-expanded="">
@@ -81,13 +107,50 @@
 </li>
 
 <!-- Point Of Sale Menu -->
-<li class="mb-1">
-    <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
-        data-bs-target="#pos-collapse1" aria-expanded="">
-        <i class="fa-solid fa-cash-register"></i> &nbsp; <?php echo e(__('sidebar.pos')); ?>
+<nav class="mt-2">
+    <!-- المشتريات -->
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-shopping-cart"></i>
+                <p>
+                    المشتريات
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="<?php echo e(route('admin.purchase-orders.index')); ?>" class="nav-link">
+                        <i class="fas fa-file-invoice nav-icon"></i>
+                        <p>طلبات الشراء</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo e(route('admin.suppliers.index')); ?>" class="nav-link">
+                        <i class="fas fa-truck nav-icon"></i>
+                        <p>الموردين</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
+            data-bs-target="#pos-collapse1" aria-expanded="">
+            <i class="fa-solid fa-cash-register"></i> &nbsp; <?php echo e(__('sidebar.pos')); ?>
 
-    </button>
-    <div class="collapse <?php echo e(request()->is(['admin/pos*']) ? 'show' : ''); ?>" id="pos-collapse1"
+        </button>
+        <div class="collapse <?php echo e(request()->is(['admin/pos*']) ? 'show' : ''); ?>" id="pos-collapse1"
+            data-bs-parent="#sidebarAccordion">
+            <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                <!-- Point Of Sale List -->
+                <li>
+                    <a href="<?php echo e(route('display-pos-list')); ?>"
+                        class="rounded <?php echo e(request()->is('admin/pos') ? 'active' : ''); ?>">
+                        <i class="fa-solid fa-list"></i> &nbsp; <?php echo e(__('sidebar.pos-list')); ?>
+
+                    </a>
+                </li>
         data-bs-parent="#sidebarAccordion">
         <ul class="btn-toggle-nav list-unstyled fw-normal small">
             <!-- Point Of Sale List -->

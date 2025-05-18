@@ -30,6 +30,8 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\PurchaseOrderController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('locale/{locale}', [LocaleController::class, 'switch'])->name('locale-switch');
@@ -236,6 +238,31 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::put('/update/{id}',                    [CurrencyController::class, 'update'])->name('update-currency-info');
     Route::get('/view/{id}',                      [CurrencyController::class, 'view'])->name('view-currency-info');
     Route::get('/destroy/{id}',                [CurrencyController::class, 'destroy'])->name('destroy-currency-info');
+  });
+
+  // route purchase orders
+  Route::prefix('purchase-orders')->group(function () {
+    Route::get('/',                 [PurchaseOrderController::class, 'index'])->name('admin.purchase-orders.index');
+    Route::get('/create',           [PurchaseOrderController::class, 'create'])->name('admin.purchase-orders.create');
+    Route::post('/',                [PurchaseOrderController::class, 'store'])->name('admin.purchase-orders.store');
+    Route::get('/{purchaseOrder}',  [PurchaseOrderController::class, 'show'])->name('admin.purchase-orders.show');
+    Route::get('/{purchaseOrder}/edit', [PurchaseOrderController::class, 'edit'])->name('admin.purchase-orders.edit');
+    Route::put('/{purchaseOrder}',  [PurchaseOrderController::class, 'update'])->name('admin.purchase-orders.update');
+    Route::delete('/{purchaseOrder}', [PurchaseOrderController::class, 'destroy'])->name('admin.purchase-orders.destroy');
+    Route::post('/{purchaseOrder}/approve', [PurchaseOrderController::class, 'approve'])->name('admin.purchase-orders.approve');
+    Route::post('/{purchaseOrder}/receive', [PurchaseOrderController::class, 'receive'])->name('admin.purchase-orders.receive');
+    Route::post('/{purchaseOrder}/cancel', [PurchaseOrderController::class, 'cancel'])->name('admin.purchase-orders.cancel');
+  });
+
+  // route suppliers
+  Route::prefix('suppliers')->group(function () {
+    Route::get('/',                 [SupplierController::class, 'index'])->name('admin.suppliers.index');
+    Route::get('/create',           [SupplierController::class, 'create'])->name('admin.suppliers.create');
+    Route::post('/',                [SupplierController::class, 'store'])->name('admin.suppliers.store');
+    Route::get('/{supplier}',       [SupplierController::class, 'show'])->name('admin.suppliers.show');
+    Route::get('/{supplier}/edit',  [SupplierController::class, 'edit'])->name('admin.suppliers.edit');
+    Route::put('/{supplier}',       [SupplierController::class, 'update'])->name('admin.suppliers.update');
+    Route::delete('/{supplier}',    [SupplierController::class, 'destroy'])->name('admin.suppliers.destroy');
   });
 
   // route contacts
