@@ -1,3 +1,4 @@
+
 {{-- filepath: c:\wamp64\www\CashierApp\resources\views\inc\sidebar.blade.php --}}
 <div class="main-sidebar flex-shrink-0">
 
@@ -9,44 +10,14 @@
             </a>
         </div>
         <a href="{{ route('view-profile', [App\Models\Admin::currentId()]) }}" class="profile mb-2">
-              <img src="{{ $admin->profile->image ? asset('assets/admin/uploads/images/avatar/' . $admin->profile->image) : asset('assets/admin/images/avatar/user-1.png') }}" alt="Profile Picture" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+            <img src="{{ $admin->profile->image ? asset('assets/admin/uploads/images/avatar/' . $admin->profile->image) : asset('assets/admin/images/avatar/user-1.png') }}" alt="Profile Picture" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
             <div class="profile-info ">
                 <h6 class="info-title">{{ App\Models\Admin::currentUser()->userName }}</h6>
                 <span class="sub-title">{{ ucfirst(App\Models\Admin::currentUser()->role_name) }}</span>
-            </div>            php artisan route:clear
-            php artisan config:clear
-            php artisan cache:clear
-            php artisan view:clear
+            </div>
         </a>
     </div>
     <ul class="list-unstyled ps-0" id="sidebarAccordion">
-        <!-- المشتريات -->
-        @php
-            $isPurchasesActive = request()->is('admin/purchase-orders*') || request()->is('admin/suppliers*');
-        @endphp
-        <li class="mb-1">
-            <button class="btn btn-toggle d-inline-flex align-items-center {{ $isPurchasesActive ? 'active' : '' }}" data-bs-toggle="collapse"
-                data-bs-target="#purchases-collapse" aria-expanded="{{ $isPurchasesActive ? 'true' : 'false' }}">
-                <i class="fas fa-shopping-cart"></i> &nbsp; {{ __('sidebar.purchases') }}
-            </button>
-            <div class="collapse {{ $isPurchasesActive ? 'show' : '' }}"
-                id="purchases-collapse" data-bs-parent="#sidebarAccordion">
-                <ul class="btn-toggle-nav list-unstyled fw-normal small">
-                    <li>
-                        <a href="{{ route('admin.purchase-orders.index') }}"
-                            class="rounded {{ request()->is('admin/purchase-orders*') ? 'active' : '' }}">
-                            <i class="fas fa-file-invoice"></i> &nbsp; {{ __('sidebar.purchase_orders') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.suppliers.index') }}"
-                            class="rounded {{ request()->is('admin/suppliers*') ? 'active' : '' }}">
-                            <i class="fas fa-truck"></i> &nbsp; {{ __('sidebar.suppliers') }}
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </li>
 
         <!-- لوحة التحكم -->
         @php
@@ -129,6 +100,34 @@
             </div>
         </li>
 
+        <!-- المشتريات -->
+        @php
+            $isPurchasesActive = request()->is('admin/purchase-orders*') || request()->is('admin/suppliers*');
+        @endphp
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center {{ $isPurchasesActive ? 'active' : '' }}" data-bs-toggle="collapse"
+                data-bs-target="#purchases-collapse" aria-expanded="{{ $isPurchasesActive ? 'true' : 'false' }}">
+                <i class="fas fa-shopping-cart"></i> &nbsp; {{ __('sidebar.purchases') }}
+            </button>
+            <div class="collapse {{ $isPurchasesActive ? 'show' : '' }}"
+                id="purchases-collapse" data-bs-parent="#sidebarAccordion">
+                <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    <li>
+                        <a href="{{ route('admin.purchase-orders.index') }}"
+                            class="rounded {{ request()->is('admin/purchase-orders*') ? 'active' : '' }}">
+                            <i class="fas fa-file-invoice"></i> &nbsp; {{ __('sidebar.purchase_orders') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.suppliers.index') }}"
+                            class="rounded {{ request()->is('admin/suppliers*') ? 'active' : '' }}">
+                            <i class="fas fa-truck"></i> &nbsp; {{ __('sidebar.suppliers') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
         <!-- Point Of Sale Menu -->
         @php
             $isPosActive = request()->is('admin/pos*');
@@ -143,14 +142,8 @@
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
                         <a href="{{ route('display-pos-list') }}"
-                            class="rounded {{ request()->is('admin/pos') ? 'active' : '' }}">
+                            class="rounded {{ request()->is('admin/pos/index') ? 'active' : '' }}">
                             <i class="fa-solid fa-list"></i> &nbsp; {{ __('sidebar.pos-list') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('display-pos-list') }}"
-                            class="rounded {{ request()->is('admin/pos') ? 'active' : '' }}">
-                            <i class="fa-solid fa-shopping-cart"></i> &nbsp; {{ __('sidebar.orders') }}
                         </a>
                     </li>
                 </ul>
@@ -171,37 +164,37 @@
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
                         <a href="{{ route('monitors-waiting-hall') }}"
-                            class="rounded {{ Request::is('/admin/monitors/waiting/hall') ? 'active' : '' }}">
+                            class="rounded {{ request()->is('admin/monitors/waiting-hall') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.waiting_hall') }}
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('monitors-restaurant-hall') }}"
-                            class="rounded {{ Request::is('/admin/monitors/restaurant/hall') ? 'active' : '' }}">
+                            class="rounded {{ request()->is('admin/monitors/restaurant-hall') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.restaurant_hall') }}
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/kitchen/display"
-                            class="rounded {{ Request::is('/admin/kitchen/display') ? 'active' : '' }}">
+                        <a href="{{ route('admin.kitchen.kitchen') }}"
+                            class="rounded {{ request()->is('admin/kitchen/display') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.kitchen') }}
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('monitors-kitchen-processing-area') }}"
-                            class="rounded {{ Request::is('/admin/monitors/kitchen') ? 'active' : '' }}">
+                            class="rounded {{ request()->is('admin/monitors/kitchen-processing-area') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.kitchen_processing_area') }}
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('monitors-meals-state') }}"
-                            class="rounded {{ Request::is('/stats/home') ? 'active' : '' }}">
+                            class="rounded {{ request()->is('admin/monitors/meals-state') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.meals_state') }}
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('monitors-advertisment-displays') }}"
-                            class="rounded {{ Request::is('/admin/sales/active/sessions') ? 'active' : '' }}">
+                            class="rounded {{ request()->is('admin/monitors/advertisment-displays') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.ads_displays') }}
                         </a>
                     </li>
@@ -222,31 +215,21 @@
                 data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
-                        <a href="/admin/setting/payment-methods/index"
-                            class="rounded {{ Request::is('/admin/setting/payment-methods/index') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.payment-methods') }}
+                        <a href="{{ route('display-payment-methods-list') }}"
+                            class="rounded {{ request()->is('admin/setting/payment-methods/index') ? 'active' : '' }}">
+                            <i class="fa-solid fa-credit-card"></i> &nbsp; {{ __('sidebar.payment-methods') }}
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/monyBoxes/index"
-                            class="rounded {{ Request::is('/admin/monyBoxes/index') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.mony-boxes') }}
+                        <a href="{{ route('all-Mony-box') }}"
+                            class="rounded {{ request()->is('admin/monyBoxes/index') ? 'active' : '' }}">
+                            <i class="fa-solid fa-box"></i> &nbsp; {{ __('sidebar.mony-boxes') }}
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/sales-shifts/index"
-                            class="rounded {{ request()->is('/admin/sales-shifts/index') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.sessions') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class="fa-solid fa-credit-card"></i> &nbsp; {{ __('sidebar.payments') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class="fa-solid fa-user-shield"></i> &nbsp; {{ __('sidebar.roles') }}
+                        <a href="{{ route('all-sales-shifts') }}"
+                            class="rounded {{ request()->is('admin/sales-shifts/index') ? 'active' : '' }}">
+                            <i class="fa-solid fa-clock"></i> &nbsp; {{ __('sidebar.sessions') }}
                         </a>
                     </li>
                 </ul>
@@ -255,29 +238,25 @@
 
         <!-- Orders -->
         @php
-            $isOrdersActive = Request::is('/admin/' . __('sidebar.orders') . '/index');
+            $isOrdersActive = request()->is('admin/orders*');
         @endphp
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center {{ $isOrdersActive ? 'active' : '' }}" data-bs-toggle="collapse"
-                data-bs-target="#{{ __('sidebar.orders') }}-collapse" aria-expanded="{{ $isOrdersActive ? 'true' : 'false' }}">
+                data-bs-target="#orders-collapse" aria-expanded="{{ $isOrdersActive ? 'true' : 'false' }}">
                 <i class="fa-solid fa-list"></i> &nbsp; {{ __('sidebar.orders') }}
             </button>
-            <div class="collapse {{ $isOrdersActive ? 'show' : '' }}" id="{{ __('sidebar.orders') }}-collapse" data-bs-parent="#sidebarAccordion">
+            <div class="collapse {{ $isOrdersActive ? 'show' : '' }}" id="orders-collapse" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
-                        <a href="">
-                            <i class="fas fa-chart-pie"></i> &nbsp; {{ __('sidebar.orders') }}
+                        <a href="{{ route('display-orders-stats') }}"
+                            class="rounded {{ request()->is('admin/orders/stats') ? 'active' : '' }}">
+                            <i class="fas fa-chart-pie"></i> &nbsp; {{ __('sidebar.orders_stats') }}
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/{{ __('sidebar.orders') }}/index"
-                            class="rounded {{ $isOrdersActive ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.orders') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class="fa-solid fa-cog"></i> &nbsp; {{ __('sidebar.settings') }}
+                        <a href="{{ route('display-orders-list') }}"
+                            class="rounded {{ request()->is('admin/orders/index') ? 'active' : '' }}">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.orders_list') }}
                         </a>
                     </li>
                 </ul>
@@ -286,35 +265,20 @@
 
         <!-- Products -->
         @php
-            $isProductsActive = Request::is('/admin/' . __('sidebar.products') . '/index');
+            $isProductsActive = request()->is('admin/products*');
         @endphp
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center {{ $isProductsActive ? 'active' : '' }}" data-bs-toggle="collapse"
-                data-bs-target="#{{ __('sidebar.products') }}-collapse1" aria-expanded="{{ $isProductsActive ? 'true' : 'false' }}">
+                data-bs-target="#products-collapse" aria-expanded="{{ $isProductsActive ? 'true' : 'false' }}">
                 <i class="fa-solid fa-boxes-stacked"></i> &nbsp; {{ __('sidebar.products') }}
             </button>
             <div class="collapse {{ $isProductsActive ? 'show' : '' }}"
-                id="{{ __('sidebar.products') }}-collapse1" data-bs-parent="#sidebarAccordion">
+                id="products-collapse" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
-                        <a href="">
-                            <i class="fas fa-chart-pie"></i> &nbsp; {{ __('sidebar.products') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/admin/{{ __('sidebar.products') }}/index"
-                            class="rounded {{ $isProductsActive ? 'active' : '' }}">
+                        <a href="{{ route('display-product-all') }}"
+                            class="rounded {{ request()->is('admin/products/index') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.items') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class="fa-solid fa-file-invoice"></i> &nbsp; {{ __('sidebar.purchases-invoice') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class="fa-solid fa-sliders"></i> &nbsp; {{ __('sidebar.settings') }}
                         </a>
                     </li>
                 </ul>
@@ -334,27 +298,21 @@
                 data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
-                        <a href=""
-                            class="rounded {{ Request::is('admin/' . __('sidebar.payments') . '/index') ? 'active' : '' }}">
-                            <i class="fas fa-chart-pie"></i> &nbsp; {{ __('sidebar.payments') }}
+                        <a href="{{ route('display-payments-list') }}"
+                            class="rounded {{ request()->is('admin/payments/index') ? 'active' : '' }}">
+                            <i class="fas fa-money-bill-wave"></i> &nbsp; {{ __('sidebar.payments_list') }}
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('display-accounts-list') }}"
-                            class="rounded {{ Request::is('admin/accounts/index') ? 'active' : '' }}">
+                            class="rounded {{ request()->is('admin/accounts/index') ? 'active' : '' }}">
                             <i class="fa-solid fa-hand-holding-dollar"></i> &nbsp; {{ __('sidebar.accounts') }}
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('display-payments-list') }}"
-                            class="rounded {{ Request::is('admin/invoices/index') ? 'active' : '' }}">
+                        <a href="{{ route('display-invoices-list') }}"
+                            class="rounded {{ request()->is('admin/invoices/index') ? 'active' : '' }}">
                             <i class="fa-solid fa-file-invoice"></i> &nbsp; {{ __('sidebar.invoices') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('display-payment-methods-list') }}"
-                            class="rounded {{ Request::is('admin/settings/index') ? 'active' : '' }}">
-                            <i class="fa-solid fa-sliders"></i> &nbsp; {{ __('sidebar.settings') }}
                         </a>
                     </li>
                 </ul>
@@ -363,7 +321,7 @@
 
         <!-- Clients -->
         @php
-            $isClientsActive = Request::is('/admin/clients/index');
+            $isClientsActive = request()->is('admin/clients*');
         @endphp
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center {{ $isClientsActive ? 'active' : '' }}" data-bs-toggle="collapse"
@@ -373,24 +331,9 @@
             <div class="collapse {{ $isClientsActive ? 'show' : '' }}" id="clients-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     <li>
-                        <a href="">
-                            <i class="fas fa-chart-pie"></i> &nbsp; {{ __('sidebar.home') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/admin/clients/index"
-                            class="rounded {{ $isClientsActive ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.clients') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class="fa-solid fa-file-invoice"></i> &nbsp; {{ __('sidebar.reports') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class="fa-solid fa-sliders"></i> &nbsp; {{ __('sidebar.settings') }}
+                        <a href="{{ route('display-client-all') }}"
+                            class="rounded {{ request()->is('admin/clients/index') ? 'active' : '' }}">
+                            <i class="fa-solid fa-users"></i> &nbsp; {{ __('sidebar.clients_list') }}
                         </a>
                     </li>
                 </ul>
