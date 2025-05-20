@@ -90,4 +90,39 @@ return [
               'name' => 'الاسم',
               'contact' => 'جهة الاتصال',
               'no_contacts_found' => 'لا توجد جهات اتصال مسجلة.',
-          ];  
+                
+                  // ...security_logs...
+                  'security_logs' => 'سجلات الأمان',
+                  'login_logs' => 'سجلات الدخول',
+                  'connected_devices' => 'الأجهزة المتصلة',
+                  'access_permissions' => 'صلاحيات الوصول',
+                  'system_permissions' => 'صلاحيات النظام',
+                  'last_login' => 'آخر تسجيل دخول',
+                  'last_logout' => 'آخر تسجيل خروج',
+                  'suspicious_login_attempts' => 'محاولات دخول مشبوهة',
+                  'can_access_safe' => 'يمكنه الوصول إلى الخزنة',
+                  'can_edit_cancelled_invoices' => 'يمكنه تعديل الفواتير الملغاة',
+                  'yes' => 'نعم',
+                  'no' => 'لا',
+                                
+                  // session_management
+                      'session_management' => 'إدارة الجلسات',
+                      'active_sessions' => 'الجلسات النشطة',
+                      'old_sessions' => 'الجلسات السابقة',
+                      'session_name' => 'اسم الجلسة',
+                      'device_name' => 'اسم الجهاز',
+                      'cashbox_name' => 'اسم الخزنة',
+                      'total_orders' => 'إجمالي الطلبات',
+                      'total_revenue' => 'إجمالي الإيرادات',
+                      'cashbox_total' => 'إجمالي الخزنة',
+                      'currency' => 'ر.س',
+                      'add_new_order' => 'إضافة طلب جديد',
+                      'no_active_sessions' => 'لا توجد جلسات نشطة.',
+                      'no_old_sessions' => 'لا توجد جلسات سابقة.',
+                      'start_time' => 'وقت البدء',
+                      'end_time' => 'وقت الانتهاء',
+                      'in_progress' => 'قيد التنفيذ',
+                      'closed' => 'مغلقة',
+                
+              ];
+           

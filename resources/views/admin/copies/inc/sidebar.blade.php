@@ -1,4 +1,3 @@
-{{-- filepath: c:\wamp64\www\CashierApp\resources\views\inc\sidebar.blade.php --}}
 <div class="main-sidebar flex-shrink-0">
 
     <div class=" d-flex flex-column">
@@ -13,10 +12,7 @@
             <div class="profile-info ">
                 <h6 class="info-title">{{ App\Models\Admin::currentUser()->userName }}</h6>
                 <span class="sub-title">{{ ucfirst(App\Models\Admin::currentUser()->role_name) }}</span>
-            </div>            php artisan route:clear
-            php artisan config:clear
-            php artisan cache:clear
-            php artisan view:clear
+            </div>
         </a>
     </div>
     <ul class="list-unstyled ps-0" id="sidebarAccordion">

@@ -1,3 +1,4 @@
+<?php $__env->startSection('contents'); ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -57,4 +58,6 @@
             </div>
         </div>
     </div>
-</div><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/users/profile.blade.php ENDPATH**/ ?>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/users/profile.blade.php ENDPATH**/ ?>

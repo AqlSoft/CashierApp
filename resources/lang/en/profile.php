@@ -91,4 +91,38 @@ return [
             'name' => 'Name',
             'contact' => 'Contact',
             'no_contacts_found' => 'No contacts found.',
+            
+                // ...security_logs...
+                'security_logs' => 'Security Logs',
+                'login_logs' => 'Login Logs',
+                'connected_devices' => 'Connected Devices',
+                'access_permissions' => 'Access Permissions',
+                'system_permissions' => 'System Permissions',
+                'last_login' => 'Last Login',
+                'last_logout' => 'Last Logout',
+                'suspicious_login_attempts' => 'Suspicious Login Attempts',
+                'can_access_safe' => 'Can Access Safe',
+                'can_edit_cancelled_invoices' => 'Can Edit Cancelled Invoices',
+                'yes' => 'Yes',
+                'no' => 'No',
+                    
+            // ...session_management...
+                'session_management' => 'Session Management',
+                'active_sessions' => 'Active Sessions',
+                'old_sessions' => 'Old Sessions',
+                'session_name' => 'Session Name',
+                'device_name' => 'Device Name',
+                'cashbox_name' => 'Cashbox Name',
+                'total_orders' => 'Total Orders',
+                'total_revenue' => 'Total Revenue',
+                'cashbox_total' => 'Cashbox Total',
+                'currency' => 'SAR',
+                'add_new_order' => 'Add New Order',
+                'no_active_sessions' => 'No active sessions found.',
+                'no_old_sessions' => 'No old sessions found.',
+                'start_time' => 'Start Time',
+                'end_time' => 'End Time',
+                'in_progress' => 'In Progress',
+                'closed' => 'Closed',
+          
         ];
