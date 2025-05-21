@@ -275,6 +275,11 @@
             <div class="collapse {{ $isProductsActive ? 'show' : '' }}"
                 id="products-collapse" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                      <li>
+                        <a href="">
+                            <i class="fas fa-chart-pie"></i> &nbsp; {{ __('sidebar.products') }}
+                        </a>
+                    </li>
                     <li>
                         <a href="{{ route('display-product-all') }}"
                             class="rounded {{ request()->is('admin/products/index') ? 'active' : '' }}">
@@ -315,6 +320,7 @@
                             <i class="fa-solid fa-file-invoice"></i> &nbsp; {{ __('sidebar.invoices') }}
                         </a>
                     </li>
+                    
                 </ul>
             </div>
         </li>

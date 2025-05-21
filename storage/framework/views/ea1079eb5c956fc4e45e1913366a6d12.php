@@ -277,6 +277,12 @@
             <div class="collapse <?php echo e($isProductsActive ? 'show' : ''); ?>"
                 id="products-collapse" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                      <li>
+                        <a href="">
+                            <i class="fas fa-chart-pie"></i> &nbsp; <?php echo e(__('sidebar.products')); ?>
+
+                        </a>
+                    </li>
                     <li>
                         <a href="<?php echo e(route('display-product-all')); ?>"
                             class="rounded <?php echo e(request()->is('admin/products/index') ? 'active' : ''); ?>">
@@ -322,6 +328,7 @@
 
                         </a>
                     </li>
+                    
                 </ul>
             </div>
         </li>
