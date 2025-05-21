@@ -19,33 +19,34 @@
         {{-- Active Sessions --}}
         <div class="tab-pane fade show active" id="v-pills-active-sessions" role="tabpanel" aria-labelledby="v-pills-active-sessions-tab" tabindex="0">
           <h4 class="mb-3">{{ __('profile.active_sessions') }}</h4>
-          @if ($activeSessions->isNotEmpty())
+          
+          @if ($activeSessions)
             <div class="list-group">
-              @foreach ($activeSessions as $session)
+             
                 <div class="list-group-item">
-                  <h5 class="mb-1  pb-1 pt-1">{{ __('profile.session_name') }}: <strong>{{ $session->name }}</strong></h5>
-                  <p class="mb-1  pb-1 pt-1">{{ __('profile.device_name') }}: <strong>{{ $session->device_name }}</strong></p>
-                  <p class="mb-1  pb-1 pt-1">{{ __('profile.cashbox_name') }}: <strong>{{ $session->monybox->name }}</strong></p>
-                  <p class="mb-1  pb-1 pt-1">{{ __('profile.total_orders') }}: <strong>{{ $session->orders->count() }}</strong></p>
-                  <p class="mb-1  pb-1 pt-1">{{ __('profile.total_revenue') }}:: <strong> {{ number_format($session->total_revenue, 2) }} {{ __('profile.currency') }}</strong></p>
-                  <p class="mb-1  pb-1 pt-1">{{ __('profile.cashbox_total') }}:: <strong> {{ number_format($session->cashbox_total, 2) }} {{ __('profile.currency') }}</strong></p>
+                  <h5 class="mb-1  pb-1 pt-1">{{ __('profile.session_name') }}: <strong>{{ '@' }}</strong></h5>
+                  <p class="mb-1  pb-1 pt-1">{{ __('profile.device_name') }}: <strong>{{ $activeSessions->device_name ?? '-' }}</strong></p>
+                  <p class="mb-1  pb-1 pt-1">{{ __('profile.cashbox_name') }}: <strong>{{ $activeSessions->monybox->name }}</strong></p>
+                  <p class="mb-1  pb-1 pt-1">{{ __('profile.total_orders') }}: <strong>{{ $activeSessions->orders->count() }}</strong></p>
+                  <p class="mb-1  pb-1 pt-1">{{ __('profile.total_revenue') }}:: <strong> {{ number_format($sessionSales, 2) }} {{ __('profile.currency') }}</strong></p>
+                  <p class="mb-1  pb-1 pt-1">{{ __('profile.cashbox_total') }}:: <strong> {{ number_format($activeSessions->cashbox_total, 2) }} {{ __('profile.currency') }}</strong></p>
                   <p class="mb-1  pb-1 pt-1">
-                            @if ($session->status == 'Active')
+                            @if ($activeSessions->status == 'Active')
                                 <span class="btn btn-sm btn-success">{{ __('profile.active') }}</span>
                                 @php $hasActiveShift = true; @endphp
                             @else
                                 <span class="btn btn-sm btn-secondary">{{ __('profile.closed') }}</span>
                             @endif
                             
-                            @if(isset($session) && $session->status == 'Active')
-                                <a href="{{ route('fast-create-order', [ $session->id]) }}" class="btn btn-sm btn-info">
+                            @if(isset($activeSessions) && $activeSessions->status == 'Active')
+                                <a href="{{ route('fast-create-order', [ $activeSessions->id]) }}" class="btn btn-sm btn-info">
                                     <i title="{{ __('profile.add_new_order') }}" class="fa fa-plus"></i>
                                 </a>
                             @endif
-</p>
+                  </p>
 
                 </div>
-              @endforeach
+              
             </div>
           @else
             <div class="alert alert-info">{{ __('profile.no_active_sessions') }}</div>

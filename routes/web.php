@@ -127,9 +127,9 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
   // orders Routes 
   Route::prefix('orders')->group(function () {
-    Route::get('/stats',                           [OrdersController::class, 'stats'])->name('display-orders-stats');
+    Route::get('/stats',                          [OrdersController::class, 'stats'])->name('display-orders-stats');
     Route::get('/index',                          [OrdersController::class, 'index'])->name('display-orders-list');
-    Route::get('/fast/creater/{shift_id}',        [OrdersController::class, 'fastCreateOrder'])->name('fast-create-order');
+    Route::get('/fast/create/{shift_id}',         [OrdersController::class, 'fastCreateOrder'])->name('fast-create-order');
     Route::post('/store',                         [OrdersController::class, 'store'])->name('store-new-order');
     Route::get('/display/{id}',                   [OrdersController::class, 'show'])->name('view-order-info');
     Route::post('/update',                        [OrdersController::class, 'update'])->name('update-order-info');

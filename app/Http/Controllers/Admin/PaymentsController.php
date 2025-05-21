@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\SalesInvoice;
 use App\Models\OrderItem;
+use App\Models\SalesSession;
 use App\Models\Table;
 
 class PaymentsController extends Controller
@@ -41,6 +42,7 @@ class PaymentsController extends Controller
      */
     public function cashStore(Request $request)
     {
+        //return $request->all();
 
         $id = $request->order_id;
         $order = Order::with('orderItems.product', 'customer', 'orderItems.order')->findOrFail($id);
@@ -78,6 +80,7 @@ class PaymentsController extends Controller
                 'due_date' => date('Y-m-d'),
                 'payment_method' => '1',
                 'payment_date' => date('Y-m-d'),
+                'sales_session_id' => $request->sales_session_id,
                 'amount' => $totalPrice,
                 'vat_amount' => $vatAmount,
                 'total_amount' => $totalAmount,
@@ -97,7 +100,7 @@ class PaymentsController extends Controller
             $payment = Payment::create([
                 'order_id' => $request->order_id,
                 'invoice_id' => $invoice->id,
-                // 'payment_method' => '1',
+                'payment_method' => '1',
                 'payment_date' => now(),
                 'status' => 1,
                 'note' => 'سند سلفة',
@@ -123,7 +126,7 @@ class PaymentsController extends Controller
                     $table->update(['is_occupied' => true]);
                 }
             }
-            return redirect()->route('view-invoice', $invoice->id)
+            return redirect()->route('view-invoice-info', $invoice->id)
                 ->with('success', 'تم الدفع وإنشاء الفاتورة بنجاح.');
         } catch (\Exception $e) {
             return redirect()->back()

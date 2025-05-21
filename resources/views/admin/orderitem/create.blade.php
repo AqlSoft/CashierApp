@@ -234,7 +234,7 @@
               {{ __('orderitem.back_to_order') }}
             </a>
             @if ($order->status == 3 && $order->invoice->id)
-            <a href="{{ route('view-invoice', [$order->invoice->id]) }}"
+            <a href="{{ route('view-invoice-info', [$order->invoice->id]) }}"
               class="btn py-1 btn-outline-secondary btn-sm">
               {{ __('orderitem.view_invoice') }}
             </a>
@@ -327,6 +327,7 @@
         <input type="hidden" name="delivery_id" id="delivery_id" value="">
         <input type="hidden" name="customer_id" id="customer_id" value="">
         <input type="hidden" name="table_id" id="table_id" value="">
+        <input type="hidden" name="sales_session_id" id="sales_session_id" value="{{ $shift->id }}">
 
         <div class="modal-body">
           <div class="input-group input-group-sm mb-2">

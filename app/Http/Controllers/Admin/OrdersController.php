@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Admin;
 use App\Models\Product;
 use App\Models\Party;
+use App\Models\SalesSession;
 use App\Models\User;
 use App\Models\Shift;
 
@@ -78,16 +79,15 @@ class OrdersController extends Controller
 
   public function fastCreateOrder($shift_id)
   {
-    $shift = Shift::findOrFail($shift_id);
-
-    try {
+   
+      try {
       $order = Order::create([
-        'order_sn'        => Order::generateSerialNumber(),
-        'shift_id'        => $shift->id,
-        'order_date'      => now(),
-        'customer_id'     => 1,
-        'status'          => Order::ORDER_JUST_CREATED,
-        'created_by'      => Admin::currentId(),
+        'order_sn'            => Order::generateSerialNumber(),
+        'sales_session_id'    => $shift_id,
+        'order_date'          => now(),
+        'customer_id'         => 1,
+        'status'              => Order::ORDER_JUST_CREATED,
+        'created_by'          => Admin::currentId(),
 
       ]);
       $order->wait_no = Order::generateValidWaitNo($order->id, 3);

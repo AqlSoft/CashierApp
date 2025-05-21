@@ -132,6 +132,7 @@
         @php
             $isPosActive = request()->is('admin/pos*');
         @endphp
+        @if (Auth::user()->hasPermission('display-orders-list'))
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center {{ $isPosActive ? 'active' : '' }}" data-bs-toggle="collapse"
                 data-bs-target="#pos-collapse1" aria-expanded="{{ $isPosActive ? 'true' : 'false' }}">
@@ -140,16 +141,26 @@
             <div class="collapse {{ $isPosActive ? 'show' : '' }}" id="pos-collapse1"
                 data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    @if (Auth::user()->hasPermission('display-order-info'))
                     <li>
                         <a href="{{ route('display-pos-list') }}"
                             class="rounded {{ request()->is('admin/pos/index') ? 'active' : '' }}">
                             <i class="fa-solid fa-list"></i> &nbsp; {{ __('sidebar.pos-list') }}
                         </a>
                     </li>
+                    @endif
+                    @if (Auth::user()->hasPermission('edit-order-info'))
+                    <li>
+                        <a href=""
+                            class="rounded {{ request()->is('admin/pos/index') ? 'active' : '' }}">
+                            <i class="fa-solid fa-list"></i> &nbsp; {{ __('Yousra') }}
+                        </a>
+                    </li>
+                    @endif
                 </ul>
             </div>
         </li>
-
+        @endif
         <!-- Monitors -->
         @php
             $isMonitorsActive = request()->is('admin/monitors*') || request()->is('admin/kitchen/display') || request()->is('admin/monitors/kitchen');

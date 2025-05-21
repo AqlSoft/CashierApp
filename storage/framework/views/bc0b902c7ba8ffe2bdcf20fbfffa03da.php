@@ -28,29 +28,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $__empty_1 = true; $__currentLoopData = $payments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pm): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                        <tr>
-                            <td><?php echo e($loop->iteration); ?></td>
-                            <td><i class="fa <?php echo e($pm->icon); ?>"></i> <?php echo e($pm->name); ?></td>
-                            <td><?php echo e($pm->code); ?></td>
-                            <td>
-                                <span class="badge <?php echo e($pm->is_active ? 'bg-success' : 'bg-danger'); ?>">
-                                    <?php echo e($pm->is_active ? __('payment-meth.active') : __('payment-meth.inactive')); ?>
-
-                                </span>
-                            </td>
-                            <td>
-                                <a href="<?php echo e(route('view-payment-method-info', $pm->id)); ?>" class="btn py-0 btn-primary">
-                                    <?php echo e(__('payment-meth.view')); ?>
-
-                                </a>
-                            </td>
-                        </tr>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                        <tr>
-                            <td colspan="7"><?php echo e(__('payment-meth.no_payments_found')); ?></td>
-                        </tr>
-                        <?php endif; ?>
+                        
                     </tbody>
                 </table>
 

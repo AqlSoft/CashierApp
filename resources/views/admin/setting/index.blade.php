@@ -27,27 +27,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($payments as $pm)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td><i class="fa {{ $pm->icon }}"></i> {{ $pm->name }}</td>
-                            <td>{{ $pm->code }}</td>
-                            <td>
-                                <span class="badge {{ $pm->is_active ? 'bg-success' : 'bg-danger' }}">
-                                    {{ $pm->is_active ? __('payment-meth.active') : __('payment-meth.inactive') }}
-                                </span>
-                            </td>
-                            <td>
-                                <a href="{{ route('view-payment-method-info', $pm->id) }}" class="btn py-0 btn-primary">
-                                    {{ __('payment-meth.view') }}
-                                </a>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="7">{{ __('payment-meth.no_payments_found') }}</td>
-                        </tr>
-                        @endforelse
+                        
                     </tbody>
                 </table>
 

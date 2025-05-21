@@ -20,29 +20,36 @@ class UserProfilesController
 public function view($id): View
 {
     // جلب بيانات المسؤول مع العلاقات اللازمة
-    $admin = Admin::with(['profile', 'permissions', 'roles', 'shifts' => function ($query) {
+    $admin = Admin::with(['profile', 'permissions', 'roles', 'salesSessions' => function ($query) {
         $query->latest('start_time');
     }])->findOrFail($id);
 
+
+    // الجلسة الحالية
+    $currentSession = $admin->salesSessions->where('status', 'Active')->first();
+    $sessionSales = $currentSession->invoices->sum('total_amount');
     // جلب الجلسات النشطة
-    $activeSessions = $admin->shifts->where('status', 'Active')->map(function ($session) {
+    // $activeSessions = $admin->salesSessions->where('status', 'Active')->map(function ($session) {
+    //     $session->total_revenue = $session->orders->sum('amount'); // حساب إجمالي الإيرادات
+    //     $session->cashbox_total = $session->orders->where('cashbox_id', $session->monybox->id ?? null)->sum('amount'); // إجمالي الإيرادات في الخزنة
+    //     return $session;
+    // });
+
+    // جلب الجلسات القديمة
+    $oldSessions = $admin->salesSessions->where('status', 'Closed')->map(function ($session) {
         $session->total_revenue = $session->orders->sum('amount'); // حساب إجمالي الإيرادات
         $session->cashbox_total = $session->orders->where('cashbox_id', $session->monybox->id ?? null)->sum('amount'); // إجمالي الإيرادات في الخزنة
         return $session;
     });
 
-    // جلب الجلسات القديمة
-    $oldSessions = $admin->shifts->where('status', 'Closed')->map(function ($session) {
-        $session->total_revenue = $session->orders->sum('amount'); // حساب إجمالي الإيرادات
-        $session->cashbox_total = $session->orders->where('cashbox_id', $session->monybox->id ?? null)->sum('amount'); // إجمالي الإيرادات في الخزنة
-        return $session;
-    });
+
 
     $vars = [
         'admin' => $admin,
         'contacts' => Contact::where('person_id', $id)->get(),
-        'activeSessions' => $activeSessions,
+        'activeSessions' => $currentSession,
         'oldSessions' => $oldSessions,
+        'sessionSales' => $sessionSales,
     ];
 
     return view('admin.users.profile', $vars);

@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\ItemCategroy;
 use App\Models\Role;
 use App\Models\Party;
+use App\Models\SalesSession;
 use App\Models\Table;
 
 
@@ -25,14 +26,14 @@ class OrdersItemsController extends Controller
   public function create(string $id, Request $request) // استقبل الـ Request object
   {
     // 1. احصل على الطلب مع العلاقات
-    $order = Order::with(['shift', 'orderItems.product'])->findOrFail($id);
+    $order = Order::with([ 'orderItems.product'])->findOrFail($id);
     $activeOrderId = $order->id;
     // 2. تحقق من وجود الشفت المرتبط
-    if (!$order->shift) {
+    if (!$order->sales_session_id) {
       return redirect()->back()
         ->with('error', 'لا يوجد شفت مرتبط بهذا الطلب');
     }
-    $shift = $order->shift;
+    $shift = SalesSession::find($order->sales_session_id);
 
     // delivery
     $del_agents = Admin::where(['role_name' => 'delivery'])->get();
@@ -40,7 +41,7 @@ class OrdersItemsController extends Controller
 
 
     // 3. الآن يمكنك استخدام shift_id بأمان
-    $orders = Order::where('shift_id', $shift->id)->get();
+    $orders = Order::where('sales_session_id', $shift->id)->get();
 
     // حساب الكميات والمبالغ
     $quantities = [];

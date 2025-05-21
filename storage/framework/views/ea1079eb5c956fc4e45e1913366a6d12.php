@@ -117,6 +117,7 @@
         <?php
             $isPosActive = request()->is('admin/pos*');
         ?>
+        <?php if(Auth::user()->hasPermission('display-orders-list')): ?>
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center <?php echo e($isPosActive ? 'active' : ''); ?>" data-bs-toggle="collapse"
                 data-bs-target="#pos-collapse1" aria-expanded="<?php echo e($isPosActive ? 'true' : 'false'); ?>">
@@ -126,6 +127,7 @@
             <div class="collapse <?php echo e($isPosActive ? 'show' : ''); ?>" id="pos-collapse1"
                 data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    <?php if(Auth::user()->hasPermission('display-order-info')): ?>
                     <li>
                         <a href="<?php echo e(route('display-pos-list')); ?>"
                             class="rounded <?php echo e(request()->is('admin/pos/index') ? 'active' : ''); ?>">
@@ -133,10 +135,20 @@
 
                         </a>
                     </li>
+                    <?php endif; ?>
+                    <?php if(Auth::user()->hasPermission('edit-order-info')): ?>
+                    <li>
+                        <a href=""
+                            class="rounded <?php echo e(request()->is('admin/pos/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-list"></i> &nbsp; <?php echo e(__('Yousra')); ?>
+
+                        </a>
+                    </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </li>
-
+        <?php endif; ?>
         <!-- Monitors -->
         <?php
             $isMonitorsActive = request()->is('admin/monitors*') || request()->is('admin/kitchen/display') || request()->is('admin/monitors/kitchen');

@@ -92,6 +92,10 @@ public function orders()
     return $this->hasMany(Order::class);
 }
 
+public function invoices()
+{
+    return $this->hasMany(SalesInvoice::class, 'sales_session_id', 'id');
+}
 
 
 }

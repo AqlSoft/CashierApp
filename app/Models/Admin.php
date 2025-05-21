@@ -87,6 +87,7 @@ class Admin extends Authenticatable
     {
         return $this->hasMany(SalesSession::class, 'admin_id');
     }
+    
     public function activeSalesSession()
     {
         return $this->hasOne(SalesSession::class, 'admin_id')

@@ -38,6 +38,7 @@ class Order extends Model
         'created_by',
         'updated_by',
         'processing_by',
+        'sales_session_id',
         'processing_time',
         'started_processing_at'
     ];
