@@ -227,8 +227,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('all-sales-shifts') }}"
-                            class="rounded {{ request()->is('admin/sales-shifts/index') ? 'active' : '' }}">
+                        <a href="{{ route('all-sales-session') }}"
+                            class="rounded {{ request()->is('admin/sales-session/index') ? 'active' : '' }}">
                             <i class="fa-solid fa-clock"></i> &nbsp; {{ __('sidebar.sessions') }}
                         </a>
                     </li>

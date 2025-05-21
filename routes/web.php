@@ -22,7 +22,7 @@ use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\MonyBoxesController;
 use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\Admin\ShiftsController;
+use App\Http\Controllers\Admin\SalesSessionController;
 use App\Http\Controllers\Admin\UserProfilesController;
 use App\Http\Controllers\Admin\KitchenController;
 use App\Http\Controllers\Admin\PaymentMethodsController;
@@ -203,14 +203,14 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::put('/update-password/{id}',           [UserProfilesController::class, 'updatePassword'])->name('admins.updatePassword');
   });
 
-  // sales-shifts routes
-  Route::prefix('sales-shifts')->group(function () {
-    Route::get('/index',                           [ShiftsController::class, 'index'])->name('all-sales-shifts');
-    Route::post('/store',                          [ShiftsController::class, 'store'])->name('store-sales-shifts');
-    Route::get('/close/{shift}',                   [ShiftsController::class, 'close'])->name('shifts.close');
-    Route::post('/update',                         [ShiftsController::class, 'update'])->name('update-shift-info');
-    Route::get('/edit/{id}',                       [ShiftsController::class, 'edit'])->name('edit-shift-info');
-    Route::get('/destroy/{id}',                    [ShiftsController::class, 'destroy'])->name('destroy-shift-info');
+  // sales-session routes
+  Route::prefix('sales-session')->group(function () {
+    Route::get('/index',                           [SalesSessionController::class, 'index'])->name('all-sales-session');
+    Route::post('/store',                          [SalesSessionController::class, 'store'])->name('store-sales-session');
+    Route::get('/close/{shift}',                   [SalesSessionController::class, 'close'])->name('sales-session.close');
+    Route::post('/update',                         [SalesSessionController::class, 'update'])->name('update-sales-session-info');
+    Route::get('/edit/{id}',                       [SalesSessionController::class, 'edit'])->name('edit-sales-session-info');
+    Route::get('/destroy/{id}',                    [SalesSessionController::class, 'destroy'])->name('destroy-sales-session-info');
   });
 
   // route kitchen

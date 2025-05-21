@@ -224,8 +224,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo e(route('all-sales-shifts')); ?>"
-                            class="rounded <?php echo e(request()->is('admin/sales-shifts/index') ? 'active' : ''); ?>">
+                        <a href="<?php echo e(route('all-sales-session')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/sales-session/index') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-clock"></i> &nbsp; <?php echo e(__('sidebar.sessions')); ?>
 
                         </a>
