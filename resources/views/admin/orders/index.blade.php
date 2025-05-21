@@ -25,20 +25,29 @@
                                     <div class="modal-body">
                                         <div class="input-group sm mb-2">
                                             <label class="input-group-text" for="vat_number">{{ __('orders.vat_number') }}</label>
-                                            <input type="number" class="form-control sm" name="vat_number" id="vat_number">
+                                            <input type="number" class="form-control sm" name="vat_number" id="vat_number" value="{{ old('vat_number') }}">
                                         </div>
                                         <div class="input-group sm mb-2">
                                             <label class="input-group-text" for="name">{{ __('orders.client_name') }}</label>
-                                            <input type="text" class="form-control sm" name="name" id="name">
+                                            <input type="text" class="form-control sm" name="name" id="name" value="{{ old('name') }}">
                                         </div>
                                         <div class="input-group sm mb-2">
                                             <label class="input-group-text" for="phone">{{ __('orders.phone_number') }}</label>
-                                            <input type="number" class=" form-control sm " name="phone" id="phone">
+                                            <input type="number" class=" form-control sm " name="phone" id="phone" value="{{ old('phone') }}">
                                         </div>
                                         <div class="input-group sm mb-2">
                                             <label class="input-group-text" for="address">{{ __('orders.address') }}</label>
-                                            <input type="text" class="form-control sm" name="address" id="address">
+                                            <input type="text" class="form-control sm" name="address" id="address" value="{{ old('address') }}">
                                         </div>
+                                         @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
                                         <div class="input-group pt-2 px-3 mt-2 justify-content-end "
                                             style="border-top: 1px solid #dedede">
                                             <button type="button" class="btn px-3 py-1 btn-outline-secondary btn-sm"
@@ -92,6 +101,15 @@
                                                 </div>
                                                 <button type="button" class="input-group-text text-start">{{ __('orders.active') }}</button>
                                             </div>
+                                            @if ($errors->any())
+                                                <div class="alert alert-danger">
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
                                             <div class="input-group d-flex sm mt-2 justify-content-end"
                                                 style="border-top: 1px solid #aaa">
                                                 <button type="submit" class="py-0 btn btn-primary p-3 mt-2">{{ __('orders.save_order') }}</button>
