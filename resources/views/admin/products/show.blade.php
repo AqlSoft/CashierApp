@@ -67,9 +67,40 @@
               </div>
               <div class="row m-0 mb-1 border-bottom border-dark-50 pb-1">
                 <div class="col col-3">{{__('products.processing_time')}}:</div>
-                <div class="col col-9">
-                  <input type="time" class="form-control" name="processing_time" value="{{ $product->processing_time }}">
+                <div class="col col-2">
+                  <input type="text" class="form-control disabled" readonly id="processing_time" value="{{ '00:00'}}">
+                  <input type="hidden" class="form-control disabled" readonly name="processing_time" value="{{old('processing_time',$product->processing_time)}}">
                 </div>
+                <div class="col col-7">
+                  <label id="processing_time_min"  for="processing_time_range">0</label>
+                  <input type="range"  min="0" max="3600" step="1" style="display: block; width: 100%;"
+                  name="processing_time" id="processing_time_range" value="{{old('processing_time',$product->processing_time)}}">
+                  <label id="processing_time_max" for="processing_time_range">3600</label>
+                </div>
+                <script>
+                  function formatTime(seconds) {
+                    const minutes = Math.floor(seconds / 60);
+                    const remainingSeconds = seconds % 60;
+                    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+                  }
+
+                  const currentValue = document.getElementById('processing_time_range').value;
+
+                  const rangeInput = document.getElementById('processing_time_range');
+                  document.addEventListener('DOMContentLoaded', function() {
+                    document.getElementById('processing_time').value = formatTime(currentValue);
+                  });
+                  
+                  rangeInput.addEventListener('input', function() {
+                    const seconds = parseInt(this.value);
+                    // document.getElementById('processing_time_min').textContent = seconds;
+                    document.getElementById('processing_time').value = formatTime(seconds);
+                  });
+
+                  // تهيئة القيمة الافتراضية
+                  timeLabel.textContent = formatTime(parseInt(rangeInput.value));
+                  document.getElementById('processing_time').value = rangeInput.value;
+                </script>
               </div>
               <div class="row m-0 mb-1 border-bottom border-dark-50 pb-1">
                 <div class="col col-3">{{__('products.status')}}:</div>

@@ -22,7 +22,7 @@ class Product extends Model
 
   protected $casts = [
     'status' => 'boolean',
-    'processing_time' => 'datetime',
+    'processing_time' => 'int',
   
   ];
 
