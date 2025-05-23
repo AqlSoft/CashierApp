@@ -74,7 +74,6 @@ class ProductsController extends Controller
         'cost_price' => $request->cost_price,
         'sale_price' => $request->sale_price,
         'description' => $request->brief,
-        'processing_time' => $request->processing_time,
         'category_id' => $request->category_id,
         'status' => $request->status ? Product::PRODUCT_EDITING : Product::PRODUCT_JUST_CREATED,
         'created_by' => Admin::currentId(),

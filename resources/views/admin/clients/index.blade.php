@@ -1,4 +1,3 @@
-
 @extends('layouts.admin')
 
 @section('contents')
@@ -17,11 +16,26 @@
                 @csrf
                 <div class="input-group sm mb-2">
                   <label class="input-group-text" for="vat_number">{{ __('clients.vat_number') }}</label>
-                  <input type="number" class="form-control sm" name="vat_number" id="vat_number">
+                  <input type="number" class="form-control sm  @error('vat_number') is-invalid @enderror" name="vat_number" id="vat_number">
+                  @error('vat_number')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                  @enderror
                   <label class="input-group-text" for="name">{{ __('clients.client_name') }}</label>
-                  <input type="text" class="form-control sm" name="name" id="name">
+                  <input type="text" class="form-control sm @error('name') is-invalid @enderror" name="name" id="name">
+                    @error('name')
+                  <span class="invalid-feedback">
+                    {{ $message }}
+</span>
+                  @enderror
                   <label class="input-group-text" for="phone">{{ __('clients.phone_number') }}</label>
-                  <input type="number" class=" form-control sm " name="phone" id="phone">
+                  <input type="number" class=" form-control sm @error('phone') is-invalid @enderror " name="phone" id="phone">
+                      @error('phone')
+                  <span class="invalid-feedback">
+                    {{ $message }}
+</span>
+                  @enderror
                   <label class="input-group-text" for="address">{{ __('clients.address') }}</label>
                   <input type="text" class="form-control sm" name="address" id="address">
                   <button type="submit" class="py-0 btn btn-primary">{{ __('clients.save_client') }}</button>

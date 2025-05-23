@@ -2,14 +2,13 @@
 <html lang="{{ App::getLocale() }}" dir="{{ $dir }}" data-bs-theme="auto">
 
 <head>
-    <!-- <script src="{{ asset('assets/admin/js/color.modes.js') }}"></script> -->
     {{-- ADMIN TEMPLATE BLADE --}}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.122.0">
-    <title>@yield('title', 'CashSys | Cashier System')</title>
+    <title>@yield('title', 'Cashier System')</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -35,8 +34,6 @@
         });
     </script>
 
-    <!-- <script src="{{ asset('assets/admin/js/app.main.js') }}"></script> -->
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
     <!-- Custom styles for this template -->
     <link href="{{ asset('assets/admin/css/sidebar.css') }}" rel="stylesheet">
@@ -58,31 +55,58 @@
         @include('inc.sidebar')
         <div id="content">
             <header id="main-header" class="">
-
                 <nav aria-label="breadcrumb">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
                         @yield('header-links')
                     </ul>
                 </nav>
-
             </header>
             <div class="container-fluid py-5 mb-5">
                 <div class="container mt-3">
-                    @if (session('success'))
-                    <div class="alert alert-sm alert-success py-1 mt-2">
-                        {{ session('success') }}
+                    {{-- Toasts for errors and success --}}
+                    <div aria-live="polite" aria-atomic="true" class="position-relative">
+                        <div class="mt-5 toast-container position-fixed 
+                            @if(app()->getLocale() == 'ar') top-0 start-0 @else top-0 end-0 @endif p-3" style="z-index: 9999;">
+                            @if (session('success'))
+                            <div class="toast align-items-center text-bg-success border-0 show mt-3" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="d-flex">
+                                    <div class="toast-body mt-5">
+                                        {{ session('success') }}
+                                    </div>
+                                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                            </div>
+                            @endif
+                            @if ($errors->any())
+                            <div class="toast align-items-center text-bg-danger border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="d-flex">
+                                    <div class="toast-body">
+                                        @foreach ($errors->all() as $error)
+                                            <div>{{ $error }}</div>
+                                        @endforeach
+                                    </div>
+                                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                            </div>
+                            @endif
+                            @if (session('error'))
+                            <div class="toast align-items-center text-bg-danger border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="d-flex">
+                                    <div class="toast-body">
+                                        {{ session('error') }}
+                                    </div>
+                                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                            </div>
+                            @endif
+                        </div>
                     </div>
-                    @elseif (session('error'))
-                    <div class="alert alert-sm alert-danger py-1 mt-2">
-                        {{ session('error') }}
-                    </div>
-                    @endif
+                    {{-- End Toasts --}}
                     @yield('contents')
                 </div>
             </div>
         </div>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -94,11 +118,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/js/all.min.js"
         integrity="sha512-1JkMy1LR9bTo3psH+H4SV5bO2dFylgOy+UJhMus1zF4VEFuZVu5lsi4I6iIndE4N9p01z1554ZDcvMSjMaqCBQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- <script src="{{ asset('assets/admin/js/sidebar.js') }}"></script> -->
-    <!--<script src="{{ asset('assets/admin/js/color.modes.js') }}"></script> -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-
+            // Show all toasts automatically
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            toastElList.map(function (toastEl) {
+                var t = new bootstrap.Toast(toastEl, { delay: 5000 });
+                t.show();
+            });
+            // Tooltip code
             const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
             const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(
                 tooltipTriggerEl), {

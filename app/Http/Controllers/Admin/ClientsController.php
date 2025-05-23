@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Party;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreClientRequest;
 
 class ClientsController extends Controller
 {
@@ -32,7 +33,7 @@ class ClientsController extends Controller
   /**
    * Store a newly created resource in storage.
    */
-  public function store(Request $request)
+  public function store(StoreClientRequest $request)
   {
     try {
       Party::create([
