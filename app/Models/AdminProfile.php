@@ -39,4 +39,14 @@ class AdminProfile extends Model
     {
         return $this->first_name . ' ' . $this->last_name;
     }
+  
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id');
+    }
 }

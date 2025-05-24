@@ -2,13 +2,13 @@
 return [
 
     // title
-    'index-main-title' => 'Points Of Sale List',
-    'new-pos-modal-title' => 'Creating A New Point Of Sale',
+    'index-main-title' => 'POS List',
+    'new-pos-modal-title' => 'Create New POS',
 
     // Labels
 
-    'name' => 'Name',
-    'code' => 'Code',
+    'name' => 'POS Name',
+    'code' => 'POS Code',
     'location' => 'Location',
     'branch' => 'Branch',
     'printer-settings' => 'Printer Settings',
@@ -17,7 +17,7 @@ return [
     'save-pos' => 'Save POS',
 
     // Messages
-    'code-must-be-unique' => 'Code must be unique',
+    'code-must-be-unique' => 'The code must be unique, e.g. (POS-001)',
     'main-hall' => 'Main Hall',
     'terrace' => 'Terrace',
     'first-floor' => 'First Floor',
@@ -25,7 +25,15 @@ return [
     // Options
     'active' => 'Active',
     'inactive' => 'Inactive',
-    'main-hall' => 'Main Hall',
-    'terrace' => 'Terrace',
-    'first-floor' => 'First Floor',
+    'branch' => 'Branch',
+    'printer-settings' => 'Printer Settings',
+    'printer-name' => 'Printer Name',
+    'printer-ip' => 'Printer IP',
+    'save-pos' => 'Save POS',
+    'new-pos-modal-title' => 'Add New POS',
+    'close' => 'Close',
+    'default' => 'Default',
+    'active' => 'Active',
+    'inactive' => 'Inactive',
+    'no-pos-found' => 'No POS found.',
 ];

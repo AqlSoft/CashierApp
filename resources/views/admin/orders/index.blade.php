@@ -7,10 +7,10 @@
             <div class="col-md-12">
                 <div id="products-container">
 
-                    <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede">Order List
+                    <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede">{{ __('orders.orders-list') }}
                         <a class="ms-3 add-icon" data-bs-toggle="collapse" data-bs-target="#addOrderForm" aria-expanded="false"
                             aria-controls="addOrderForm">
-                            <i data-bs-toggle="tooltip" title="Add New order" class="fa fa-plus"></i>
+                            <i data-bs-toggle="tooltip" title="{{ __('orders.add_new_order') }}" class="fa fa-plus"></i>
                         </a>
                     </h1>
                     <!-- add Client modal -->
@@ -21,30 +21,38 @@
                                 @csrf
                                 <div class="modal-content">
                                     <h1 class="modal-title fs-5 mt-2  ps-3" id="exampleModalToggleLabel"
-                                        style="border-bottom: 1px solid #dedede">Add New Client </h1>
+                                        style="border-bottom: 1px solid #dedede">{{ __('orders.add_new_client') }}</h1>
                                     <div class="modal-body">
                                         <div class="input-group sm mb-2">
-                                            <label class="input-group-text" for="vat_number">Vat Number</label>
-                                            <input type="number" class="form-control sm" name="vat_number" id="vat_number">
+                                            <label class="input-group-text" for="vat_number">{{ __('orders.vat_number') }}</label>
+                                            <input type="number" class="form-control sm" name="vat_number" id="vat_number" value="{{ old('vat_number') }}">
                                         </div>
                                         <div class="input-group sm mb-2">
-                                            <label class="input-group-text" for="name">Client name</label>
-                                            <input type="text" class="form-control sm" name="name" id="name">
+                                            <label class="input-group-text" for="name">{{ __('orders.client_name') }}</label>
+                                            <input type="text" class="form-control sm" name="name" id="name" value="{{ old('name') }}">
                                         </div>
                                         <div class="input-group sm mb-2">
-                                            <label class="input-group-text" for="phone">Phone Number</label>
-                                            <input type="number" class=" form-control sm " name="phone" id="phone">
+                                            <label class="input-group-text" for="phone">{{ __('orders.phone_number') }}</label>
+                                            <input type="number" class=" form-control sm " name="phone" id="phone" value="{{ old('phone') }}">
                                         </div>
                                         <div class="input-group sm mb-2">
-                                            <label class="input-group-text" for="address">Address</label>
-                                            <input type="text" class="form-control sm" name="address" id="address">
+                                            <label class="input-group-text" for="address">{{ __('orders.address') }}</label>
+                                            <input type="text" class="form-control sm" name="address" id="address" value="{{ old('address') }}">
                                         </div>
+                                         @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
                                         <div class="input-group pt-2 px-3 mt-2 justify-content-end "
                                             style="border-top: 1px solid #dedede">
                                             <button type="button" class="btn px-3 py-1 btn-outline-secondary btn-sm"
-                                                data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn px-3 py-1 btn-primary btn-sm">Save
-                                                Client</button>
+                                                data-bs-dismiss="modal">{{ __('orders.close') }}</button>
+                                            <button type="submit" class="btn px-3 py-1 btn-primary btn-sm">{{ __('orders.save_client') }}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -60,10 +68,10 @@
                                         <form action="/admin/orders/store" method="POST">
                                             @csrf
                                             <div class="input-group sm mb-2">
-                                                <label class="input-group-text" for="order_sn">Order SN</label>
+                                                <label class="input-group-text" for="order_sn">{{ __('orders.order_sn') }}</label>
                                                 <input type="number" class="form-control sm" name="order_sn" id="order_sn"
                                                     value="{{ $order_SN }}">
-                                                <label class="input-group-text" for="customer_id"> Client</label>
+                                                <label class="input-group-text" for="customer_id"> {{ __('orders.client') }}</label>
                                                 <select class="form-select  form-control sm py-0" name="customer_id"
                                                     id="customer_id">
                                                     @foreach ($customers as $customer)
@@ -76,29 +84,37 @@
                                                 <label class="input-group-text" for="customer_id">
                                                     <a class="btn btn-sm py-0" href="#"
                                                         data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
-                                                        <i class="fa-solid fa-user-plus" title="View Details"></i></a>
+                                                        <i class="fa-solid fa-user-plus" title="{{ __('orders.view_details') }}"></i></a>
                                                 </label>
-                                                <label class="input-group-text" for="order_date">Order Date</label>
+                                                <label class="input-group-text" for="order_date">{{ __('orders.order_date') }}</label>
                                                 <input type="text" value="{{ date('Y-m-d') }}" placeholder="YYYY-MM-DD"
                                                     class="fc-datepicker form-control sm " name="order_date"
                                                     id="order_date">
                                             </div>
                                             <div class="input-group sm mt-2">
-                                                <label class="input-group-text" for="notes">Notes</label>
+                                                <label class="input-group-text" for="notes">{{ __('orders.notes') }}</label>
                                                 <input type="text" class="form-control sm" name="notes"
                                                     id="notes">
                                                 <div class="input-group-text">
                                                     <input class="form-check-input mt-0" name="status" type="checkbox"
                                                         value="1" aria-label="Checkbox for following text input">
                                                 </div>
-                                                <button type="button" class="input-group-text text-start">Active</button>
+                                                <button type="button" class="input-group-text text-start">{{ __('orders.active') }}</button>
                                             </div>
+                                            @if ($errors->any())
+                                                <div class="alert alert-danger">
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
                                             <div class="input-group d-flex sm mt-2 justify-content-end"
                                                 style="border-top: 1px solid #aaa">
-                                                <button type="submit" class="py-0 btn btn-primary p-3 mt-2">Save
-                                                    Order</button>
+                                                <button type="submit" class="py-0 btn btn-primary p-3 mt-2">{{ __('orders.save_order') }}</button>
                                                 <button type="reset" class="py-0 btn btn-secondary p-3 mt-2"
-                                                    id="add-item">reset</button>
+                                                    id="add-item">{{ __('orders.reset') }}</button>
                                             </div>
                                         </form>
                                     </div>
@@ -113,11 +129,11 @@
                         <thead>
                             <tr>
                                 <th> #</th>
-                                <th>Order SN</th>
-                                <th>Client Name</th>
-                                <th>Order Date</th>
-                                <th>Status</th>
-                                <th>Control</th>
+                                <th>{{ __('orders.order_sn') }}</th>
+                                <th>{{ __('orders.client_name') }}</th>
+                                <th>{{ __('orders.order_date') }}</th>
+                                <th>{{ __('orders.status') }}</th>
+                                <th>{{ __('orders.control') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -129,7 +145,7 @@
                                     <tr>
                                         <td>{{ ++$counter }}</td>
                                         <td>{{ $order->order_sn }}</td>
-                                        <td>{{ @$order->customer->name }}</td> <!-- اسم العميل -->
+                                        <td>{{ @$order->customer->name }}</td>
                                         <td>{{ $order->order_date }}</td>
                                         <td>
                                             @if ($order->status == 1)
@@ -150,42 +166,39 @@
                                         <td>
                                             @if ($order->status == 1 || $order->status == 2)
                                                 <a class="btn btn-sm py-0 p-0" data-bs-toggle="tooltip"
-                                                    title="Add order item"
+                                                    title="{{ __('orders.add_order_item') }}"
                                                     href="{{ route('add-orderitem', [$order->id]) }}"><i
                                                         class="fa fa-square-plus text-success"></i></a>
                                                 <a class="btn btn-sm py-0"
                                                     href="{{ route('edit-order-info', $order->id) }}"><i
                                                         class="fa fa-edit text-primary"></i></a>
                                                 <a class="btn btn-sm py-0"
-                                                    onclick="if(!confirm('You are about to Archive a order, are you sure!?.')){return false}"
-                                                    title="Archive  order and related Information"
+                                                    onclick="if(!confirm('{{ __('orders.confirm_archive') }}')){return false}"
+                                                    title="{{ __('orders.archive_order') }}"
                                                     href="{{ route('destroy-order-info', $order->id) }}">
                                                     <i class="fa fa-trash text-danger"></i></a>
                                             @endif
                                             <a class="btn btn-sm py-0"
                                                 href="{{ route('view-order-info', $order->id) }}"><i
-                                                    class="fas fa-eye text-success" title="View Details"></i></a>
+                                                    class="fas fa-eye text-success" title="{{ __('orders.view_details') }}"></i></a>
                                             @if ($order->status == 5)
                                                 <a class="btn btn-sm py-0 p-0" data-bs-toggle="tooltip"
-                                                    title="print order" href="#"><i
+                                                    title="{{ __('orders.print_order') }}" href="#"><i
                                                         class="fa fa-print text-secondary"></i></a>
                                             @endif
                                             @if ($order->status == 0)
                                                 <a class="btn btn-sm py-0"
-                                                    onclick="if(!confirm('You are about to Archive a order, are you sure!?.')){return false}"
-                                                    title="Archive  order and related Information"
+                                                    onclick="if(!confirm('{{ __('orders.confirm_archive') }}')){return false}"
+                                                    title="{{ __('orders.archive_order') }}"
                                                     href="{{ route('destroy-order-info', $order->id) }}"><i
                                                         class="fa fa-trash text-danger"></i></a>
                                             @endif
-
-
-
                                         </td>
                                     </tr>
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="7">No order has been added yet, Add your .</td>
+                                    <td colspan="7">{{ __('orders.no_orders_yet') }}</td>
                                 </tr>
                             @endif
                         </tbody>

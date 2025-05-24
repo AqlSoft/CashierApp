@@ -6,20 +6,20 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Processing Area</h4>
+                    <h4>{{ __('kitchen-processing-area.processing_area') }}</h4>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Meal Name</th>
-                                <th>Meal State</th>
+                                <th>{{ __('kitchen-processing-area.meal_name') }}</th>
+                                <th>{{ __('kitchen-processing-area.meal_state') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Meal 1</td>
-                                <td>Ready</td>
+                                <td>{{ __('kitchen-processing-area.meal_1') }}</td>
+                                <td>{{ __('kitchen-processing-area.ready') }}</td>
                             </tr>
                         </tbody>
                     </table>

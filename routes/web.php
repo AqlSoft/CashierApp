@@ -22,7 +22,7 @@ use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\MonyBoxesController;
 use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\Admin\ShiftsController;
+use App\Http\Controllers\Admin\SalesSessionController;
 use App\Http\Controllers\Admin\UserProfilesController;
 use App\Http\Controllers\Admin\KitchenController;
 use App\Http\Controllers\Admin\PaymentMethodsController;
@@ -30,6 +30,8 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\PurchaseOrderController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('locale/{locale}', [LocaleController::class, 'switch'])->name('locale-switch');
@@ -125,9 +127,9 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 
   // orders Routes 
   Route::prefix('orders')->group(function () {
-    Route::get('/stats',                           [OrdersController::class, 'stats'])->name('display-orders-stats');
+    Route::get('/stats',                          [OrdersController::class, 'stats'])->name('display-orders-stats');
     Route::get('/index',                          [OrdersController::class, 'index'])->name('display-orders-list');
-    Route::get('/fast/creater/{shift_id}',        [OrdersController::class, 'fastCreateOrder'])->name('fast-create-order');
+    Route::get('/fast/create/{shift_id}',         [OrdersController::class, 'fastCreateOrder'])->name('fast-create-order');
     Route::post('/store',                         [OrdersController::class, 'store'])->name('store-new-order');
     Route::get('/display/{id}',                   [OrdersController::class, 'show'])->name('view-order-info');
     Route::post('/update',                        [OrdersController::class, 'update'])->name('update-order-info');
@@ -197,20 +199,18 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
   // users routes
   Route::prefix('users')->group(function () {
     Route::get('/profile/{id}',                   [UserProfilesController::class, 'view'])->name('view-profile');
-    Route::put('/update/{id}',                   [UserProfilesController::class, 'update'])->name('admins.update');
+    Route::put('/update/{id}',                    [UserProfilesController::class, 'update'])->name('admins.update');
     Route::put('/update-password/{id}',           [UserProfilesController::class, 'updatePassword'])->name('admins.updatePassword');
-    Route::post('/logout-all-devices/{id}',       [UserProfilesController::class, 'logoutAllDevices'])->name('admins.logoutAllDevices');
-    Route::post('/logout',                        [UserProfilesController::class, 'logout'])->name('admin.logout');
   });
 
-  // sales-shifts routes
-  Route::prefix('sales-shifts')->group(function () {
-    Route::get('/index',                           [ShiftsController::class, 'index'])->name('all-sales-shifts');
-    Route::post('/store',                          [ShiftsController::class, 'store'])->name('store-sales-shifts');
-    Route::get('/close/{shift}',                   [ShiftsController::class, 'close'])->name('shifts.close');
-    Route::post('/update',                         [ShiftsController::class, 'update'])->name('update-shift-info');
-    Route::get('/edit/{id}',                       [ShiftsController::class, 'edit'])->name('edit-shift-info');
-    Route::get('/destroy/{id}',                    [ShiftsController::class, 'destroy'])->name('destroy-shift-info');
+  // sales-session routes
+  Route::prefix('sales-session')->group(function () {
+    Route::get('/index',                           [SalesSessionController::class, 'index'])->name('all-sales-session');
+    Route::post('/store',                          [SalesSessionController::class, 'store'])->name('store-sales-session');
+    Route::get('/close/{shift}',                   [SalesSessionController::class, 'close'])->name('sales-session.close');
+    Route::post('/update',                         [SalesSessionController::class, 'update'])->name('update-sales-session-info');
+    Route::get('/edit/{id}',                       [SalesSessionController::class, 'edit'])->name('edit-sales-session-info');
+    Route::get('/destroy/{id}',                    [SalesSessionController::class, 'destroy'])->name('destroy-sales-session-info');
   });
 
   // route kitchen
@@ -238,6 +238,31 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::put('/update/{id}',                    [CurrencyController::class, 'update'])->name('update-currency-info');
     Route::get('/view/{id}',                      [CurrencyController::class, 'view'])->name('view-currency-info');
     Route::get('/destroy/{id}',                [CurrencyController::class, 'destroy'])->name('destroy-currency-info');
+  });
+
+  // route purchase orders
+  Route::prefix('purchase-orders')->group(function () {
+    Route::get('/',                 [PurchaseOrderController::class, 'index'])->name('admin.purchase-orders.index');
+    Route::get('/create',           [PurchaseOrderController::class, 'create'])->name('admin.purchase-orders.create');
+    Route::post('/',                [PurchaseOrderController::class, 'store'])->name('admin.purchase-orders.store');
+    Route::get('/{purchaseOrder}',  [PurchaseOrderController::class, 'show'])->name('admin.purchase-orders.show');
+    Route::get('/{purchaseOrder}/edit', [PurchaseOrderController::class, 'edit'])->name('admin.purchase-orders.edit');
+    Route::put('/{purchaseOrder}',  [PurchaseOrderController::class, 'update'])->name('admin.purchase-orders.update');
+    Route::delete('/{purchaseOrder}', [PurchaseOrderController::class, 'destroy'])->name('admin.purchase-orders.destroy');
+    Route::post('/{purchaseOrder}/approve', [PurchaseOrderController::class, 'approve'])->name('admin.purchase-orders.approve');
+    Route::post('/{purchaseOrder}/receive', [PurchaseOrderController::class, 'receive'])->name('admin.purchase-orders.receive');
+    Route::post('/{purchaseOrder}/cancel', [PurchaseOrderController::class, 'cancel'])->name('admin.purchase-orders.cancel');
+  });
+
+  // route suppliers
+  Route::prefix('suppliers')->group(function () {
+    Route::get('/',                 [SupplierController::class, 'index'])->name('admin.suppliers.index');
+    Route::get('/create',           [SupplierController::class, 'create'])->name('admin.suppliers.create');
+    Route::post('/',                [SupplierController::class, 'store'])->name('admin.suppliers.store');
+    Route::get('/{supplier}',       [SupplierController::class, 'show'])->name('admin.suppliers.show');
+    Route::get('/{supplier}/edit',  [SupplierController::class, 'edit'])->name('admin.suppliers.edit');
+    Route::put('/{supplier}',       [SupplierController::class, 'update'])->name('admin.suppliers.update');
+    Route::delete('/{supplier}',    [SupplierController::class, 'destroy'])->name('admin.suppliers.destroy');
   });
 
   // route contacts

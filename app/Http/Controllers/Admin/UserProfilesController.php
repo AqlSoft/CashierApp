@@ -17,78 +17,44 @@ class UserProfilesController
     /**
      * Display a listing of the resource.
      */
-
-    public function view($id): View
-    {
-        // جلب بيانات المسؤول مع العلاقات اللازمة
-        $admin = Admin::with(['profile', 'permissions', 'roles', 'shifts' => function ($query) {
-            $query->latest('start_time');
-        }])->findOrFail($id);
-    
-        // بيانات إضافية مثل الأجهزة المتصلة ومحاولات الدخول المشبوهة
-        $connectedDevices = $this->getConnectedDevices($admin->id);
-        $suspiciousAttempts = $this->getSuspiciousLoginAttempts($admin->id);
-    
-        // جلب الجلسات النشطة
-        $activeSessions = $admin->shifts->where('status', 'Active');
-    
-        // جلب الجلسات القديمة
-        $oldSessions = $admin->shifts->where('status', 'Closed');
-    
-        $vars = [
-            'admin' => $admin,
-            'connectedDevices' => $connectedDevices,
-            'suspiciousAttempts' => $suspiciousAttempts,
-            'contacts' => Contact::where('person_id', $id)->get(),
-            'activeSessions' => $activeSessions,
-            'oldSessions' => $oldSessions,
-        ];
-    
-        return view('admin.users.profile', $vars);
-    }
+public function view($id): View
+{
+    // جلب بيانات المسؤول مع العلاقات اللازمة
+    $admin = Admin::with(['profile', 'permissions', 'roles', 'salesSessions' => function ($query) {
+        $query->latest('start_time');
+    }])->findOrFail($id);
 
 
-    public function logoutAllDevices($id)
-    {
-        // تحقق من المستخدم
-        $admin = Auth::guard('admin')->user();
-    
-        if ($admin->id != $id) {
-            return redirect()->back()->with('error', 'Unauthorized action.');
-        }
-    
-        // استخدام كلمة المرور المشفرة من قاعدة البيانات
-        Auth::logoutOtherDevices($admin->getAuthPassword());
-    
-        return redirect()->route('admin.users.profile', $id)->with('success', 'Logged out from all devices successfully.');
-    }
-      
-    /**
-     * جلب الأجهزة المتصلة
-     *
-     * @param int $adminId
-     * @return array
-     */
-    private function getConnectedDevices($adminId)
-    {
-        // مثال: جلب الأجهزة المتصلة من قاعدة البيانات
-        return [
-            (object) ['device_name' => 'Chrome on Windows', 'last_active_at' => now()->subMinutes(10)],
-            (object) ['device_name' => 'Safari on iPhone', 'last_active_at' => now()->subHours(2)],
-        ];
-    }
+    // الجلسة الحالية
+    $currentSession = $admin->salesSessions->where('status', 'Active')->first();
+    $sessionSales = $currentSession->invoices->sum('total_amount');
+    // جلب الجلسات النشطة
+    // $activeSessions = $admin->salesSessions->where('status', 'Active')->map(function ($session) {
+    //     $session->total_revenue = $session->orders->sum('amount'); // حساب إجمالي الإيرادات
+    //     $session->cashbox_total = $session->orders->where('cashbox_id', $session->monybox->id ?? null)->sum('amount'); // إجمالي الإيرادات في الخزنة
+    //     return $session;
+    // });
 
-    /**
-     * جلب محاولات الدخول المشبوهة
-     *
-     * @param int $adminId
-     * @return int
-     */
-    private function getSuspiciousLoginAttempts($adminId)
-    {
-        // مثال: جلب عدد محاولات الدخول المشبوهة من قاعدة البيانات
-        return 3;
-    }
+    // جلب الجلسات القديمة
+    $oldSessions = $admin->salesSessions->where('status', 'Closed')->map(function ($session) {
+        $session->total_revenue = $session->orders->sum('amount'); // حساب إجمالي الإيرادات
+        $session->cashbox_total = $session->orders->where('cashbox_id', $session->monybox->id ?? null)->sum('amount'); // إجمالي الإيرادات في الخزنة
+        return $session;
+    });
+
+
+
+    $vars = [
+        'admin' => $admin,
+        'contacts' => Contact::where('person_id', $id)->get(),
+        'activeSessions' => $currentSession,
+        'oldSessions' => $oldSessions,
+        'sessionSales' => $sessionSales,
+    ];
+
+    return view('admin.users.profile', $vars);
+}
+  
 
     public function updatePassword(Request $request, $id)
     {
@@ -181,20 +147,19 @@ public function update(Request $request, $id)
 
 // تحديث الصورة إذا تم رفعها
 if ($request->hasFile('image')) {
-    // حذف الصورة القديمة إذا كانت موجودة
+   
     if ($admin->profile->image && file_exists(public_path('assets/admin/uploads/images/avatar/' . $admin->profile->image))) {
         unlink(public_path('assets/admin/uploads/images/avatar/' . $admin->profile->image));
     }
-
-    // رفع الصورة الجديدة
+   
     $image = $request->file('image');
     $imageName = time() . '_' . $image->getClientOriginalName(); // إنشاء اسم فريد للصورة
     $image->move(public_path('assets/admin/uploads/images/avatar'), $imageName);
 
-    // تحديث اسم الصورة في قاعدة البيانات
+  
     $admin->profile->update(['image' => $imageName]);
 }
-    // إعادة التوجيه مع رسالة نجاح
+  
     return redirect()->back()->with('success', __('profile.update_success'));
 }
 

@@ -68,14 +68,14 @@ class MonyBox extends Model
 
 
 	// العلاقة مع الشفتات
-	public function shifts()
+	public function SalesSession()
 	{
-		return $this->hasMany(Shift::class, 'monybox_id');
+		return $this->hasMany(SalesSession::class, 'monybox_id');
 	}
 
-	public function activeShift()
+	public function activeSalesSession()
 	{
-		return $this->hasOne(Shift::class, 'monybox_id')
+		return $this->hasOne(SalesSession::class, 'monybox_id')
 			->where('status', true);
 	}
 }

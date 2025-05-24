@@ -1,88 +1,36 @@
 <?php
-
 return [
-
-    // Main Menues
-    'dashboard'     => 'لوحة التحكم',
-    'pos'           => 'نقاط البيع',
-    'monitors'      => 'الشاشات',
-    'products'      => 'المنتجات',
-    'accounts'      => 'الحسابات',
-    'transactions'  => 'المعاملات',
-    'financials'    => 'المالية',
-    'hr'            => 'الموارد البشرية',
-    'configs'       => 'الإعدادات',
-    'profile'       => 'الملف الشخصي',
-
-    // Dashboard
+    'dashboard' => 'لوحة التحكم',
     'home' => 'الرئيسية',
     'overview' => 'نظرة عامة',
     'day-summary' => 'ملخص اليوم',
-    'performance' => 'مقياسات الأداء',
+    'performance' => 'الأداء',
     'quick-actions' => 'إجراءات سريعة',
-
-    // P.O.S
-    'pos-list' => 'قائمة نقاط البيع',
-    'orders' => 'الطلبات',
-    'order_history' => 'تاريخ الطلبات',
-    'quick_products' => 'منتجات سريعة',
-    'discounts' => 'خصومات',
-    'split_bill' => 'تقسيم الفاتورة',
-
-    // Monitors
-    'kitchen' => 'شاشة المطبخ',
-    'customer' => 'شاشة العميل',
-    'order_status' => 'حالة الطلب',
-    'settings' => 'إعدادات الشاشات',
-
-    // Products
-    'items' => 'العناصر',
-    'categories' => 'الاقسام',
-    'ingredients' => 'المكونات',
-    'modifiers' => 'المعدلات',
-    'inventory' => 'المخزون',
-    'recipes' => 'الوصفات',
-
-    // Accounts
-    'customers' => 'العملاء',
+    'purchases' => 'المشتريات',
+    'purchase_orders' => 'أوامر الشراء',
     'suppliers' => 'الموردين',
-    'loyalty' => 'برنامج الولاء',
-    'credit' => 'حسابات الائتمان',
-    // Transactions
-    'sales' => 'المبيعات',
-    'returns' => 'الإرجاعات',
-    'voids' => 'الإلغاءات',
-    'payment_types' => 'أنواع الدفع',
-    'daily_closing' => 'إغلاق اليوم',
-
-    // Financials
-    'reports' => 'التقارير',
-    'sales_reports' => 'تقرير المبيعات',
-    'tax_reports' => 'تقرير الضرائب',
-    'product_reports' => 'تقرير المنتجات',
-    'expenses' => 'المصروفات',
-    'profit_loss' => 'الربح والخسارة',
-    'banking' => 'البنك',
-
-    // HR
-    'employees' => 'الموظفين',
-    'shifts' => 'الورش',
-    'attendance' => 'الحضور',
-    'payroll' => 'الرواتب',
-    'permissions' => 'الصلاحيات',
-
-    // Settings
-    'general' => 'عام',
-    'taxes' => 'الضريبة',
-    'printers' => 'ال принتيرات',
-    'terminals' => 'الinals',
-    'backup' => 'النسخ الاحتياطي',
-    'system' => 'النظام',
-
-    // Profile
-    'my_profile' => 'الملف الشخصي',
-    'change_password' => 'تغيير كلمة المرور',
-    'notifications' => 'الإشعارات',
-    'preferences' => 'الإعدادات',
-    'logout' => 'تسجيل الخروج',
+    'pos' => 'نقطة البيع',
+    'pos-list' => 'قائمة نقاط البيع',
+    'monitors' => 'شاشات المراقبة',
+    'waiting_hall' => 'قاعة الانتظار',
+    'restaurant_hall' => 'صالة المطعم',
+    'kitchen' => 'المطبخ',
+    'kitchen_processing_area' => 'منطقة تجهيز المطبخ',
+    'meals_state' => 'حالة الوجبات',
+    'ads_displays' => 'شاشات العرض الإعلانية',
+    'settings' => 'الإعدادات',
+    'payment-methods' => 'طرق الدفع',
+    'mony-boxes' => 'صناديق المال',
+    'sessions' => 'الجلسات',
+    'orders' => 'الطلبات',
+    'orders_stats' => 'إحصائيات الطلبات',
+    'orders_list' => 'قائمة الطلبات',
+    'products' => 'المنتجات',
+    'items' => 'العناصر',
+    'payments' => 'المدفوعات',
+    'payments_list' => 'قائمة المدفوعات',
+    'accounts' => 'الحسابات',
+    'invoices' => 'الفواتير',
+    'clients' => 'العملاء',
+    'clients_list' => 'قائمة العملاء',
 ];

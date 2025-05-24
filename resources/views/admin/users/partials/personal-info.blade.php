@@ -79,7 +79,7 @@
                 <div class="col col-12 col-md-6">
                   <div class="input-group sm mb-2">
                     <label for="branch_id" class="input-group-text">{{ __('profile.branch') }}</label>
-                    <input type="text" id="branch_id" class="form-control" name="branch_id" value="{{ old('branch_id', $admin->profile->branch_id ?? '') }}">
+                    <input type="text" id="branch_id" class="form-control" name="branch_id" value="{{ old('branch_id', $admin->profile->branch->name ?? '') }}">
                     @error('branch_id')
                       <span class="text-danger">{{ $message }}</span>
                     @enderror

@@ -1,3 +1,5 @@
+
+
 <div class="main-sidebar flex-shrink-0">
 
     <div class=" d-flex flex-column">
@@ -8,25 +10,27 @@
             </a>
         </div>
         <a href="<?php echo e(route('view-profile', [App\Models\Admin::currentId()])); ?>" class="profile mb-2">
-          
-              <img src="<?php echo e($admin->profile->image ? asset('assets/admin/uploads/images/avatar/' . $admin->profile->image) : asset('assets/admin/images/avatar/user-1.png')); ?>" alt="Profile Picture" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-              
+            <img src="<?php echo e($admin->profile->image ? asset('assets/admin/uploads/images/avatar/' . $admin->profile->image) : asset('assets/admin/images/avatar/user-1.png')); ?>" alt="Profile Picture" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
             <div class="profile-info ">
                 <h6 class="info-title"><?php echo e(App\Models\Admin::currentUser()->userName); ?></h6>
                 <span class="sub-title"><?php echo e(ucfirst(App\Models\Admin::currentUser()->role_name)); ?></span>
             </div>
-
         </a>
     </div>
     <ul class="list-unstyled ps-0" id="sidebarAccordion">
+
+        <!-- لوحة التحكم -->
+        <?php
+            $isDashboardActive = request()->is('admin/dashboard') || request()->is('admin/admins*') || request()->is('admin/roles*') || request()->is('admin/stats*') || request()->is('admin/sales/active/sessions');
+        ?>
         <li class="mb-1">
-            <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
-                data-bs-target="#dashboard-collapse1" aria-expanded="">
+            <button class="btn btn-toggle d-inline-flex align-items-center <?php echo e($isDashboardActive ? 'active' : ''); ?>" data-bs-toggle="collapse"
+                data-bs-target="#dashboard-collapse1" aria-expanded="<?php echo e($isDashboardActive ? 'true' : 'false'); ?>">
                 <i class="fa-solid fa-sliders"></i> &nbsp; <?php echo e(__('sidebar.dashboard')); ?>
 
             </button>
 
-            <div class="collapse <?php echo e(request()->is(['admin/dashboard', 'admin/admins/*', 'admin/roles*', 'admin/stats/*', 'admin/sales/active/sessions']) ? 'show' : ''); ?>"
+            <div class="collapse <?php echo e($isDashboardActive ? 'show' : ''); ?>"
                 id="dashboard-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                     
@@ -73,307 +77,309 @@
 
                         </a>
                     </li>
-
                     
-                    
-    </ul>
-</div>
-</li>
+                </ul>
+            </div>
+        </li>
 
-<!-- Point Of Sale Menu -->
-<li class="mb-1">
-    <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
-        data-bs-target="#pos-collapse1" aria-expanded="">
-        <i class="fa-solid fa-cash-register"></i> &nbsp; <?php echo e(__('sidebar.pos')); ?>
-
-    </button>
-    <div class="collapse <?php echo e(request()->is(['admin/pos*']) ? 'show' : ''); ?>" id="pos-collapse1"
-        data-bs-parent="#sidebarAccordion">
-        <ul class="btn-toggle-nav list-unstyled fw-normal small">
-            <!-- Point Of Sale List -->
-            <li>
-                <a href="<?php echo e(route('display-pos-list')); ?>"
-                    class="rounded <?php echo e(request()->is('admin/pos') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-list"></i> &nbsp; <?php echo e(__('sidebar.pos-list')); ?>
-
-                </a>
-            </li>
-
-
-            <li>
-                <a href="<?php echo e(route('display-pos-list')); ?>"
-                    class="rounded <?php echo e(request()->is('admin/pos') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-shopping-cart"></i> &nbsp; <?php echo e(__('sidebar.orders')); ?>
-
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-
-<li class="mb-1">
-    <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
-        data-bs-target="#monitors-collapse1" aria-expanded="">
-        <i class="fa-solid fa-desktop"></i> &nbsp; <?php echo e(__('sidebar.monitors')); ?>
-
-    </button>
-    <div class="collapse <?php echo e(request()->is(['admin/monitors*']) ? 'show' : ''); ?>" id="monitors-collapse1"
-        data-bs-parent="#sidebarAccordion">
-        <ul class="btn-toggle-nav list-unstyled fw-normal small">
-            <li>
-                <a href="<?php echo e(route('monitors-waiting-hall')); ?>"
-                    class="rounded <?php echo e(Request::is('/admin/monitors/waiting/hall') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.waiting_hall')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="<?php echo e(route('monitors-restaurant-hall')); ?>"
-                    class="rounded <?php echo e(Request::is('/admin/monitors/restaurant/hall') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.restaurant_hall')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="/admin/kitchen/display"
-                    class="rounded <?php echo e(Request::is('/admin/kitchen/display') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.kitchen')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="<?php echo e(route('monitors-kitchen-processing-area')); ?>"
-                    class="rounded <?php echo e(Request::is('/admin/monitors/kitchen') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.kitchen_processing_area')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="<?php echo e(route('monitors-meals-state')); ?>"
-                    class="rounded <?php echo e(Request::is('/stats/home') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.meals_state')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="<?php echo e(route('monitors-advertisment-displays')); ?>"
-                    class="rounded <?php echo e(Request::is('/admin/sales/active/sessions') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.ads_displays')); ?>
-
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-
-<li class="mb-1">
-    <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
-        data-bs-target="#settings-collapse1" aria-expanded="">
-        <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('sidebar.settings')); ?>
-
-    </button>
-    <div class="collapse <?php echo e(request()->is(['admin/settings*']) ? 'show' : ''); ?>" id="settings-collapse1"
-        data-bs-parent="#sidebarAccordion">
-        <ul class="btn-toggle-nav list-unstyled fw-normal small">
-            <li>
-                <a href="/admin/setting/payment-methods/index"
-                    class="rounded <?php echo e(Request::is('/admin/setting/payment-methods/index') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.payment-methods')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="/admin/monyBoxes/index"
-                    class="rounded <?php echo e(Request::is('/admin/monyBoxes/index') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.mony-boxes')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="/admin/sales-shifts/index"
-                    class="rounded <?php echo e(request()->is('/admin/sales-shifts/index') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-cubes"></i> &nbsp; Sessions
-                </a>
-            </li>
-            <li>
-                <a href="">
-                    <i class="fa-solid fa-credit-card"></i> &nbsp; <?php echo e(__('sidebar.payments')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="">
-                    <i class="fa-solid fa-user-shield"></i> &nbsp; <?php echo e(__('sidebar.roles')); ?>
-
-                </a>
-            </li>
-
-        </ul>
-    </div>
-</li>
-
-
-<!-- <?php echo e(__('sidebar.orders')); ?> -->
-<li class="mb-1">
-    <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
-        data-bs-target="#<?php echo e(__('sidebar.orders')); ?>-collapse" aria-expanded="">
-        <i class="fa-solid fa-list"></i> &nbsp; <?php echo e(__('sidebar.orders')); ?>
-
-    </button>
-    <div class="collapse" id="<?php echo e(__('sidebar.orders')); ?>-collapse" data-bs-parent="#sidebarAccordion">
-        <ul class="btn-toggle-nav list-unstyled fw-normal small">
-            <li>
-                <a href="">
-                    <i class="fas fa-chart-pie"></i> &nbsp; <?php echo e(__('sidebar.orders')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="/admin/<?php echo e(__('sidebar.orders')); ?>/index"
-                    class="rounded <?php echo e(Request::is('/admin/' . __('sidebar.orders') . '/index') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.orders')); ?>
-
-                </a>
-            </li>
-
-            <li>
-                <a href="">
-                    <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('sidebar.settings')); ?>
-
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-<li class="mb-1">
-    <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
-        data-bs-target="#<?php echo e(__('sidebar.products')); ?>-collapse1" aria-expanded="">
-        <i class="fa-solid fa-boxes-stacked"></i> &nbsp; <?php echo e(__('sidebar.products')); ?>
-
-    </button>
-    <div class="collapse <?php echo e(request()->is(['admin/' . __('sidebar.products') . '*']) ? 'show' : ''); ?>"
-        id="<?php echo e(__('sidebar.products')); ?>-collapse1" data-bs-parent="#sidebarAccordion">
-        <ul class="btn-toggle-nav list-unstyled fw-normal small">
-            <li>
-                <a href="">
-                    <i class="fas fa-chart-pie"></i> &nbsp; <?php echo e(__('sidebar.products')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="/admin/<?php echo e(__('sidebar.products')); ?>/index"
-                    class="rounded <?php echo e(Request::is('/admin/' . __('sidebar.products') . '/index') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.items')); ?>
-
-                </a>
-
-            </li>
-            <li>
-                <a href="">
-                    <i class="fa-solid fa-file-invoice"></i> &nbsp; <?php echo e(__('sidebar.purchases-invoice')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="">
-                    <i class="fa-solid fa-sliders"></i> &nbsp; <?php echo e(__('sidebar.settings')); ?>
-
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-<li class="mb-1">
-    <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
-        data-bs-target="#payments-collapse1" aria-expanded="">
-        <i class="fa-solid fa-money-bill-transfer"></i> &nbsp; <?php echo e(__('sidebar.payments')); ?>
-
-    </button>
-    <div class="collapse <?php echo e(request()->is(['admin/payments*']) ? 'show' : ''); ?>" id="payments-collapse1"
-        data-bs-parent="#sidebarAccordion">
-        <ul class="btn-toggle-nav list-unstyled fw-normal small">
-            <li>
-                <a href=""
-                    class="rounded <?php echo e(Request::is('admin/' . __('sidebar.payments') . '/index') ? 'active' : ''); ?>">
-                    <i class="fas fa-chart-pie"></i> &nbsp; <?php echo e(__('sidebar.payments')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="<?php echo e(route('display-accounts-list')); ?>"
-                    class="rounded <?php echo e(Request::is('admin/accounts/index') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-hand-holding-dollar"></i> &nbsp; <?php echo e(__('sidebar.accounts')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="<?php echo e(route('display-payments-list')); ?>"
-                    class="rounded <?php echo e(Request::is('admin/invoices/index') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-file-invoice"></i> &nbsp; <?php echo e(__('sidebar.invoices')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="<?php echo e(route('display-payment-methods-list')); ?>"
-                    class="rounded <?php echo e(Request::is('admin/settings/index') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-sliders"></i> &nbsp; <?php echo e(__('sidebar.settings')); ?>
-
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-<li class="mb-1">
-    <button class="btn btn-toggle d-inline-flex align-items-center " data-bs-toggle="collapse"
-        data-bs-target="#clients-collapse1" aria-expanded="">
-        <i class="fa-solid fa-users"></i> &nbsp; <?php echo e(__('sidebar.clients')); ?>
-
-    </button>
-    <div class="collapse" id="clients-collapse1" data-bs-parent="#sidebarAccordion">
-        <ul class="btn-toggle-nav list-unstyled fw-normal small">
-            <li>
-                <a href="">
-                    <i class="fas fa-chart-pie"></i> &nbsp; <?php echo e(__('sidebar.home')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="/admin/clients/index"
-                    class="rounded <?php echo e(Request::is('/admin/clients/index') ? 'active' : ''); ?>">
-                    <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.clients')); ?>
-
-                </a>
-
-            </li>
-            <li>
-                <a href="">
-                    <i class="fa-solid fa-file-invoice"></i> &nbsp; <?php echo e(__('sidebar.reports')); ?>
-
-                </a>
-            </li>
-            <li>
-                <a href="">
-                    <i class="fa-solid fa-sliders"></i> &nbsp; <?php echo e(__('sidebar.settings')); ?>
-
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-
-</ul>
-
-<!-- Language Switch Button -->
-<div class="language-switcher mt-4 mb-3">
-    <hr class="sidebar-divider">
-    <div class="d-flex justify-content-center align-items-center mt-2">
-        <form action="<?php echo e(route('locale-switch', session('locale') === 'ar' ? 'en' : 'ar')); ?>" method="GET">
-            <button type="submit" class="btn btn-outline-primary btn-sm w-100">
-                <i class="fas fa-language me-2"></i>
-                <?php echo e(session('locale') === 'ar' ? 'English' : 'العربية'); ?>
+        <!-- المشتريات -->
+        <?php
+            $isPurchasesActive = request()->is('admin/purchase-orders*') || request()->is('admin/suppliers*');
+        ?>
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center <?php echo e($isPurchasesActive ? 'active' : ''); ?>" data-bs-toggle="collapse"
+                data-bs-target="#purchases-collapse" aria-expanded="<?php echo e($isPurchasesActive ? 'true' : 'false'); ?>">
+                <i class="fas fa-shopping-cart"></i> &nbsp; <?php echo e(__('sidebar.purchases')); ?>
 
             </button>
-        </form>
+            <div class="collapse <?php echo e($isPurchasesActive ? 'show' : ''); ?>"
+                id="purchases-collapse" data-bs-parent="#sidebarAccordion">
+                <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    <li>
+                        <a href="<?php echo e(route('admin.purchase-orders.index')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/purchase-orders*') ? 'active' : ''); ?>">
+                            <i class="fas fa-file-invoice"></i> &nbsp; <?php echo e(__('sidebar.purchase_orders')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('admin.suppliers.index')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/suppliers*') ? 'active' : ''); ?>">
+                            <i class="fas fa-truck"></i> &nbsp; <?php echo e(__('sidebar.suppliers')); ?>
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Point Of Sale Menu -->
+        <?php
+            $isPosActive = request()->is('admin/pos*');
+        ?>
+        <?php if(Auth::user()->hasPermission('display-orders-list')): ?>
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center <?php echo e($isPosActive ? 'active' : ''); ?>" data-bs-toggle="collapse"
+                data-bs-target="#pos-collapse1" aria-expanded="<?php echo e($isPosActive ? 'true' : 'false'); ?>">
+                <i class="fa-solid fa-cash-register"></i> &nbsp; <?php echo e(__('sidebar.pos')); ?>
+
+            </button>
+            <div class="collapse <?php echo e($isPosActive ? 'show' : ''); ?>" id="pos-collapse1"
+                data-bs-parent="#sidebarAccordion">
+                <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    <?php if(Auth::user()->hasPermission('display-order-info')): ?>
+                    <li>
+                        <a href="<?php echo e(route('display-pos-list')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/pos/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-list"></i> &nbsp; <?php echo e(__('sidebar.pos-list')); ?>
+
+                        </a>
+                    </li>
+                    <?php endif; ?>
+                    <?php if(Auth::user()->hasPermission('edit-order-info')): ?>
+                    <li>
+                        <a href=""
+                            class="rounded <?php echo e(request()->is('admin/pos/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-list"></i> &nbsp; <?php echo e(__('Yousra')); ?>
+
+                        </a>
+                    </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </li>
+        <?php endif; ?>
+        <!-- Monitors -->
+        <?php
+            $isMonitorsActive = request()->is('admin/monitors*') || request()->is('admin/kitchen/display') || request()->is('admin/monitors/kitchen');
+        ?>
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center <?php echo e($isMonitorsActive ? 'active' : ''); ?>" data-bs-toggle="collapse"
+                data-bs-target="#monitors-collapse1" aria-expanded="<?php echo e($isMonitorsActive ? 'true' : 'false'); ?>">
+                <i class="fa-solid fa-desktop"></i> &nbsp; <?php echo e(__('sidebar.monitors')); ?>
+
+            </button>
+            <div class="collapse <?php echo e($isMonitorsActive ? 'show' : ''); ?>" id="monitors-collapse1"
+                data-bs-parent="#sidebarAccordion">
+                <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    <li>
+                        <a href="<?php echo e(route('monitors-waiting-hall')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/monitors/waiting-hall') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.waiting_hall')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('monitors-restaurant-hall')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/monitors/restaurant-hall') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.restaurant_hall')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('admin.kitchen.kitchen')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/kitchen/display') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.kitchen')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('monitors-kitchen-processing-area')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/monitors/kitchen-processing-area') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.kitchen_processing_area')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('monitors-meals-state')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/monitors/meals-state') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.meals_state')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('monitors-advertisment-displays')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/monitors/advertisment-displays') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.ads_displays')); ?>
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Settings -->
+        <?php
+            $isSettingsActive = request()->is('admin/settings*') || request()->is('admin/setting/payment-methods/index') || request()->is('admin/monyBoxes/index') || request()->is('admin/sales-shifts/index');
+        ?>
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center <?php echo e($isSettingsActive ? 'active' : ''); ?>" data-bs-toggle="collapse"
+                data-bs-target="#settings-collapse1" aria-expanded="<?php echo e($isSettingsActive ? 'true' : 'false'); ?>">
+                <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('sidebar.settings')); ?>
+
+            </button>
+            <div class="collapse <?php echo e($isSettingsActive ? 'show' : ''); ?>" id="settings-collapse1"
+                data-bs-parent="#sidebarAccordion">
+                <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    <li>
+                        <a href="<?php echo e(route('display-payment-methods-list')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/setting/payment-methods/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-credit-card"></i> &nbsp; <?php echo e(__('sidebar.payment-methods')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('all-Mony-box')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/monyBoxes/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-box"></i> &nbsp; <?php echo e(__('sidebar.mony-boxes')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('all-sales-session')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/sales-session/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-clock"></i> &nbsp; <?php echo e(__('sidebar.sessions')); ?>
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Orders -->
+        <?php
+            $isOrdersActive = request()->is('admin/orders*');
+        ?>
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center <?php echo e($isOrdersActive ? 'active' : ''); ?>" data-bs-toggle="collapse"
+                data-bs-target="#orders-collapse" aria-expanded="<?php echo e($isOrdersActive ? 'true' : 'false'); ?>">
+                <i class="fa-solid fa-list"></i> &nbsp; <?php echo e(__('sidebar.orders')); ?>
+
+            </button>
+            <div class="collapse <?php echo e($isOrdersActive ? 'show' : ''); ?>" id="orders-collapse" data-bs-parent="#sidebarAccordion">
+                <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    <li>
+                        <a href="<?php echo e(route('display-orders-stats')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/orders/stats') ? 'active' : ''); ?>">
+                            <i class="fas fa-chart-pie"></i> &nbsp; <?php echo e(__('sidebar.orders_stats')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('display-orders-list')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/orders/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.orders_list')); ?>
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Products -->
+        <?php
+            $isProductsActive = request()->is('admin/products*');
+        ?>
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center <?php echo e($isProductsActive ? 'active' : ''); ?>" data-bs-toggle="collapse"
+                data-bs-target="#products-collapse" aria-expanded="<?php echo e($isProductsActive ? 'true' : 'false'); ?>">
+                <i class="fa-solid fa-boxes-stacked"></i> &nbsp; <?php echo e(__('sidebar.products')); ?>
+
+            </button>
+            <div class="collapse <?php echo e($isProductsActive ? 'show' : ''); ?>"
+                id="products-collapse" data-bs-parent="#sidebarAccordion">
+                <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                      <li>
+                        <a href="">
+                            <i class="fas fa-chart-pie"></i> &nbsp; <?php echo e(__('sidebar.products')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('display-product-all')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/products/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.items')); ?>
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Payments -->
+        <?php
+            $isPaymentsActive = request()->is('admin/payments*');
+        ?>
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center <?php echo e($isPaymentsActive ? 'active' : ''); ?>" data-bs-toggle="collapse"
+                data-bs-target="#payments-collapse1" aria-expanded="<?php echo e($isPaymentsActive ? 'true' : 'false'); ?>">
+                <i class="fa-solid fa-money-bill-transfer"></i> &nbsp; <?php echo e(__('sidebar.payments')); ?>
+
+            </button>
+            <div class="collapse <?php echo e($isPaymentsActive ? 'show' : ''); ?>" id="payments-collapse1"
+                data-bs-parent="#sidebarAccordion">
+                <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    <li>
+                        <a href="<?php echo e(route('display-payments-list')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/payments/index') ? 'active' : ''); ?>">
+                            <i class="fas fa-money-bill-wave"></i> &nbsp; <?php echo e(__('sidebar.payments_list')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('display-accounts-list')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/accounts/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-hand-holding-dollar"></i> &nbsp; <?php echo e(__('sidebar.accounts')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo e(route('display-invoices-list')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/invoices/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-file-invoice"></i> &nbsp; <?php echo e(__('sidebar.invoices')); ?>
+
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </li>
+
+        <!-- Clients -->
+        <?php
+            $isClientsActive = request()->is('admin/clients*');
+        ?>
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center <?php echo e($isClientsActive ? 'active' : ''); ?>" data-bs-toggle="collapse"
+                data-bs-target="#clients-collapse1" aria-expanded="<?php echo e($isClientsActive ? 'true' : 'false'); ?>">
+                <i class="fa-solid fa-users"></i> &nbsp; <?php echo e(__('sidebar.clients')); ?>
+
+            </button>
+            <div class="collapse <?php echo e($isClientsActive ? 'show' : ''); ?>" id="clients-collapse1" data-bs-parent="#sidebarAccordion">
+                <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    <li>
+                        <a href="<?php echo e(route('display-client-all')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/clients/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-users"></i> &nbsp; <?php echo e(__('sidebar.clients_list')); ?>
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+    <!-- Language Switch Button -->
+    <div class="language-switcher mt-4 mb-3">
+        <hr class="sidebar-divider">
+        <div class="d-flex justify-content-center align-items-center mt-2">
+            <form action="<?php echo e(route('locale-switch', session('locale') === 'ar' ? 'en' : 'ar')); ?>" method="GET">
+                <button type="submit" class="btn btn-outline-primary btn-sm w-100">
+                    <i class="fas fa-language me-2"></i>
+                    <?php echo e(session('locale') === 'ar' ? 'English' : 'العربية'); ?>
+
+                </button>
+            </form>
+        </div>
     </div>
-</div>
 </div><?php /**PATH C:\wamp64\www\CashierApp\resources\views/inc/sidebar.blade.php ENDPATH**/ ?>
