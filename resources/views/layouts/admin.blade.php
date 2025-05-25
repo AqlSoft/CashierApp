@@ -69,9 +69,9 @@
                         <div class="mt-5 toast-container position-fixed 
                             @if(app()->getLocale() == 'ar') top-0 start-0 @else top-0 end-0 @endif p-3" style="z-index: 9999;">
                             @if (session('success'))
-                            <div class="toast align-items-center text-bg-success border-0 show mt-3" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast align-items-center text-bg-outline-success border-0 show mt-3" role="alert" aria-live="assertive" aria-atomic="true">
                                 <div class="d-flex">
-                                    <div class="toast-body mt-5">
+                                    <div class="toast-body ">
                                         {{ session('success') }}
                                     </div>
                                     <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>

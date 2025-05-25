@@ -8,8 +8,8 @@
             <div id="units-container">
                 <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede">
                     <a href="{{ route('product-setting-home') }}" class="btn py-1 fw-bold btn-primary">Home</a>
-                    <a href="{{ route('display-units-all') }}" class="btn py-1 fw-bold btn-primary active">Units</a>
-                    <a href="{{ route('display-categories-all') }}" class="btn py-1 fw-bold btn-primary">Categories</a>
+                    <a href="{{ route('display-units-all') }}" class="btn py-1 fw-bold btn-primary ">Units</a>
+                    <a href="{{ route('display-categories-all') }}" class="btn py-1 fw-bold btn-primary active">Categories</a>
                 </h1>
                 <table class="table table-striped mt-2">
                     <thead>
