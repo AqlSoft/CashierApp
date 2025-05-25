@@ -37,7 +37,6 @@ class ProductsController extends Controller
     return view('admin.products.index', $vars);
   }
 
-
   /**
    * Show the form for creating a new resource.
    */
@@ -199,5 +198,12 @@ class ProductsController extends Controller
     } catch (Exception $err) {
       return redirect()->route('display-product-all')->with('error', 'Error deleting Product because of: ' . $err->getMessage());
     }
+  }
+
+
+    public function setting(Request $request){
+
+      $product = Product::first();
+    return view('admin.setting.products.index',compact('product'));
   }
 }

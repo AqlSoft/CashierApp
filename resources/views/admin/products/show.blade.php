@@ -65,6 +65,18 @@
                   <input type="number" class="form-control" name="sale_price" value="{{ $product->sale_price }}">
                 </div>
               </div>
+                <div class="row m-0 mb-1 border-bottom border-dark-50 pb-1">
+                <div class="col col-3">{{__('products.unit')}}:</div>
+                <div class="col col-9">
+                  <input type="text" class="form-control"  value="{{ @$product->unit->name }}">
+                </div>
+              </div>
+                <div class="row m-0 mb-1 border-bottom border-dark-50 pb-1">
+                <div class="col col-3">{{__('products.tax')}}:</div>
+                <div class="col col-9">
+                  <input type="number" class="form-control" readonly name="tax" value="{{ $product->tax }}">
+                </div>
+              </div>
               <div class="row m-0 mb-1 border-bottom border-dark-50 pb-1">
                 <div class="col col-3">{{__('products.processing_time')}}:</div>
                 <div class="col col-2">

@@ -302,8 +302,8 @@
                     </li>
           
                       <li>
-                        <a href="<?php echo e(route('display-product-all')); ?>"
-                            class="rounded <?php echo e(request()->is('admin/products/index') ? 'active' : ''); ?>">
+                        <a href="<?php echo e(route('product-setting-home')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/products/setting') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.setting')); ?>
 
                         </a>

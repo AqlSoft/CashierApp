@@ -308,8 +308,8 @@
                     </li>
           
                       <li>
-                        <a href="{{ route('display-product-all') }}"
-                            class="rounded {{ request()->is('admin/products/index') ? 'active' : '' }}">
+                        <a href="{{ route('product-setting-home') }}"
+                            class="rounded {{ request()->is('admin/products/setting') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.setting') }}
                         </a>
                     </li>

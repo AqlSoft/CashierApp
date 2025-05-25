@@ -67,6 +67,18 @@
                   <input type="number" class="form-control" name="sale_price" value="<?php echo e($product->sale_price); ?>">
                 </div>
               </div>
+                <div class="row m-0 mb-1 border-bottom border-dark-50 pb-1">
+                <div class="col col-3"><?php echo e(__('products.unit')); ?>:</div>
+                <div class="col col-9">
+                  <input type="text" class="form-control"  value="<?php echo e(@$product->unit->name); ?>">
+                </div>
+              </div>
+                <div class="row m-0 mb-1 border-bottom border-dark-50 pb-1">
+                <div class="col col-3"><?php echo e(__('products.tax')); ?>:</div>
+                <div class="col col-9">
+                  <input type="number" class="form-control" readonly name="tax" value="<?php echo e($product->tax); ?>">
+                </div>
+              </div>
               <div class="row m-0 mb-1 border-bottom border-dark-50 pb-1">
                 <div class="col col-3"><?php echo e(__('products.processing_time')); ?>:</div>
                 <div class="col col-2">

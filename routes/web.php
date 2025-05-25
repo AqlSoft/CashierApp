@@ -32,7 +32,11 @@ use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\PurchaseOrderController;
+use App\Http\Controllers\Admin\UnitsController;
+use App\Http\Controllers\Admin\CategroiesController;
+
 use Illuminate\Support\Facades\Auth;
+
 
 Route::get('locale/{locale}', [LocaleController::class, 'switch'])->name('locale-switch');
 // Auth::routes();
@@ -114,6 +118,29 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/destroy/{id}',                 [ProductsController::class, 'destroy'])->name('destroy-product-info');
     Route::get('/park/{id}',                    [ProductsController::class, 'park'])->name('park-product');
     Route::get('/cancel/{id}',                  [ProductsController::class, 'cancel'])->name('cancel-product-info');
+    Route::get('/setting',                      [ProductsController::class, 'setting'])->name('product-setting-home');
+
+  });
+    // units Routes
+  Route::prefix('units')->group(function () {
+    Route::get('/index',                        [UnitsController::class, 'index'])->name('display-units-all');
+    Route::post('/store',                       [UnitsController::class, 'store'])->name('store-new-unit');
+    Route::get('/display/{id}',                 [UnitsController::class, 'show'])->name('view-unit-info');
+    Route::post('/update',                      [UnitsController::class, 'update'])->name('update-unit-info');
+    Route::get('/edit/{id}',                    [UnitsController::class, 'edit'])->name('edit-unit-info');
+    Route::get('/destroy/{id}',                 [UnitsController::class, 'destroy'])->name('destroy-unit-info');
+                  
+  });
+    // categories Routes
+  Route::prefix('categories')->group(function () {
+    Route::get('/index',                        [CategroiesController::class, 'index'])->name('display-categories-all');
+    Route::post('/store',                       [CategroiesController::class, 'store'])->name('store-new-category');
+    Route::get('/display/{id}',                 [CategroiesController::class, 'show'])->name('view-category-info');
+    Route::post('/update',                      [CategroiesController::class, 'update'])->name('update-category-info');
+    Route::get('/edit/{id}',                    [CategroiesController::class, 'edit'])->name('edit-category-info');
+    Route::get('/destroy/{id}',                 [CategroiesController::class, 'destroy'])->name('destroy-category-info');
+                                              
+
   });
 
   // Monitors  Routes
@@ -281,6 +308,8 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/payment-methods/edit/{id}',    [PaymentMethodsController::class, 'edit'])->name('edit-payment-method-info');
     Route::post('/payment-methods/update',      [PaymentMethodsController::class, 'update'])->name('update-payment-method-info');
     Route::get('/destroy/{id}', [PaymentMethodsController::class, 'destroy'])->name('destroy-payment-method-info');
+
+
   });
 
   //Accounts Routes List
