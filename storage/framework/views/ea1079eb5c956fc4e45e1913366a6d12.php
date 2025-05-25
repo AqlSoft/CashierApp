@@ -172,31 +172,18 @@
                     <li>
                         <a href="<?php echo e(route('monitors-restaurant-hall')); ?>"
                             class="rounded <?php echo e(request()->is('admin/monitors/restaurant-hall') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.restaurant_hall')); ?>
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.R.H_monitor')); ?>
 
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo e(route('admin.kitchen.kitchen')); ?>"
                             class="rounded <?php echo e(request()->is('admin/kitchen/display') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.kitchen')); ?>
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.kitchen_monitor')); ?>
 
                         </a>
                     </li>
-                    <li>
-                        <a href="<?php echo e(route('monitors-kitchen-processing-area')); ?>"
-                            class="rounded <?php echo e(request()->is('admin/monitors/kitchen-processing-area') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.kitchen_processing_area')); ?>
-
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?php echo e(route('monitors-meals-state')); ?>"
-                            class="rounded <?php echo e(request()->is('admin/monitors/meals-state') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.meals_state')); ?>
-
-                        </a>
-                    </li>
+                  
                     <li>
                         <a href="<?php echo e(route('monitors-advertisment-displays')); ?>"
                             class="rounded <?php echo e(request()->is('admin/monitors/advertisment-displays') ? 'active' : ''); ?>">
@@ -272,6 +259,12 @@
 
                         </a>
                     </li>
+                      <li>
+                        <a href="">
+                            <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('sidebar.settings')); ?>
+
+                        </a>
+                    </li>
                 </ul>
             </div>
         </li>
@@ -291,14 +284,27 @@
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                       <li>
                         <a href="">
-                            <i class="fas fa-chart-pie"></i> &nbsp; <?php echo e(__('sidebar.products')); ?>
+                            <i class="fas fa-chart-pie"></i> &nbsp; <?php echo e(__('sidebar.products_stats')); ?>
 
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo e(route('display-product-all')); ?>"
                             class="rounded <?php echo e(request()->is('admin/products/index') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.items')); ?>
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.products_list')); ?>
+
+                        </a>
+                    </li>
+                          <a href="">
+                            <i class="fa-solid fa-file-invoice"></i> &nbsp; <?php echo e(__('sidebar.purchases-invoice')); ?>
+
+                        </a>
+                    </li>
+          
+                      <li>
+                        <a href="<?php echo e(route('display-product-all')); ?>"
+                            class="rounded <?php echo e(request()->is('admin/products/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.setting')); ?>
 
                         </a>
                     </li>
@@ -340,6 +346,13 @@
 
                         </a>
                     </li>
+                    <li>
+                        <a href="<?php echo e(route('display-payment-methods-list')); ?>"
+                            class="rounded <?php echo e(Request::is('admin/settings/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-sliders"></i> &nbsp; <?php echo e(__('sidebar.settings')); ?>
+
+                        </a>
+                    </li>
                     
                 </ul>
             </div>
@@ -357,10 +370,28 @@
             </button>
             <div class="collapse <?php echo e($isClientsActive ? 'show' : ''); ?>" id="clients-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                      <li>
+                        <a href="">
+                            <i class="fas fa-chart-pie"></i> &nbsp; <?php echo e(__('sidebar.home')); ?>
+
+                        </a>
+                    </li>
                     <li>
                         <a href="<?php echo e(route('display-client-all')); ?>"
                             class="rounded <?php echo e(request()->is('admin/clients/index') ? 'active' : ''); ?>">
                             <i class="fa-solid fa-users"></i> &nbsp; <?php echo e(__('sidebar.clients_list')); ?>
+
+                        </a>
+                    </li>
+                      <li>
+                        <a href="">
+                            <i class="fa-solid fa-file-invoice"></i> &nbsp; <?php echo e(__('sidebar.reports')); ?>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="fa-solid fa-sliders"></i> &nbsp; <?php echo e(__('sidebar.settings')); ?>
 
                         </a>
                     </li>

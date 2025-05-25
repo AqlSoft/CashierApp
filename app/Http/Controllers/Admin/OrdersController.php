@@ -12,6 +12,7 @@ use App\Models\SalesSession;
 use App\Models\User;
 use App\Models\Shift;
 
+
 class OrdersController extends Controller
 {
 
@@ -107,20 +108,16 @@ class OrdersController extends Controller
   {
     // إنشاء الطلب
     try {
- $validatedData = $request->validated();
-
     // Create the order
-    $order = Order::create($validatedData);
-
-      // $order = Order::create([
-      //   'order_sn'        => $request->order_sn,
-      //   'order_date'      => $request->order_date,
-      //   'customer_id'     => $request->customer_id, // customer_id هو العميل المحدد
-      //   'notes'           => $request->notes,
-      //   'delivery_method' => $request->delivery_method ?? 1,
-      //   'status'          => $request->status !== null ? $request->status : 1, // إذا لم يتم تحديد الحالة، افترض أنها غير نشطة
-      //   'created_by'      => Admin::currentId(), // المستخدم الحالي
-      // ]);
+      $order = Order::create([
+        'order_sn'        => $request->order_sn,
+        'order_date'      => $request->order_date,
+        'customer_id'     => $request->customer_id, // customer_id هو العميل المحدد
+        'notes'           => $request->notes,
+        'delivery_method' => $request->delivery_method ?? 1,
+        'status'          => $request->status !== null ? $request->status : 1, // إذا لم يتم تحديد الحالة، افترض أنها غير نشطة
+        'created_by'      => Admin::currentId(), // المستخدم الحالي
+      ]);
 
       return redirect()->back()->with('success', 'تم حفظ البيانات بنجاح.');
     } catch (\Exception $e) {

@@ -3,8 +3,6 @@
 @section('contents')
 <div class="container-fluid">
 
-
-
   <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede">{{ __('clients.client_list') }}</h1>
   <!-- هنا سيتم اضافة العملاء -->
   <div class="row">

@@ -8,6 +8,7 @@ use Exception;
 use App\Models\Product;
 use App\Models\Admin;
 use App\Models\ItemCategroy;
+use App\Http\Requests\StoreProductRequest;
 
 class ProductsController extends Controller
 {
@@ -48,7 +49,7 @@ class ProductsController extends Controller
   /**
    * Store a newly created resource in storage.
    */
-  public function store(Request $request)
+  public function store(StoreProductRequest $request)
   {
     // $request->validate([
     //     'name' => 'required|string|max:255',

@@ -182,16 +182,16 @@
                     <li>
                         <a href="{{ route('monitors-restaurant-hall') }}"
                             class="rounded {{ request()->is('admin/monitors/restaurant-hall') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.restaurant_hall') }}
+                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.R.H_monitor') }}
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('admin.kitchen.kitchen') }}"
                             class="rounded {{ request()->is('admin/kitchen/display') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.kitchen') }}
+                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.kitchen_monitor') }}
                         </a>
                     </li>
-                    <li>
+                  {{--  <li>
                         <a href="{{ route('monitors-kitchen-processing-area') }}"
                             class="rounded {{ request()->is('admin/monitors/kitchen-processing-area') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.kitchen_processing_area') }}
@@ -202,7 +202,7 @@
                             class="rounded {{ request()->is('admin/monitors/meals-state') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.meals_state') }}
                         </a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a href="{{ route('monitors-advertisment-displays') }}"
                             class="rounded {{ request()->is('admin/monitors/advertisment-displays') ? 'active' : '' }}">
@@ -270,6 +270,11 @@
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.orders_list') }}
                         </a>
                     </li>
+                      <li>
+                        <a href="">
+                            <i class="fa-solid fa-cog"></i> &nbsp; {{ __('sidebar.settings') }}
+                        </a>
+                    </li>
                 </ul>
             </div>
         </li>
@@ -288,13 +293,24 @@
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
                       <li>
                         <a href="">
-                            <i class="fas fa-chart-pie"></i> &nbsp; {{ __('sidebar.products') }}
+                            <i class="fas fa-chart-pie"></i> &nbsp; {{ __('sidebar.products_stats') }}
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('display-product-all') }}"
                             class="rounded {{ request()->is('admin/products/index') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.items') }}
+                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.products_list') }}
+                        </a>
+                    </li>
+                          <a href="">
+                            <i class="fa-solid fa-file-invoice"></i> &nbsp; {{ __('sidebar.purchases-invoice') }}
+                        </a>
+                    </li>
+          
+                      <li>
+                        <a href="{{ route('display-product-all') }}"
+                            class="rounded {{ request()->is('admin/products/index') ? 'active' : '' }}">
+                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.setting') }}
                         </a>
                     </li>
                 </ul>
@@ -331,6 +347,12 @@
                             <i class="fa-solid fa-file-invoice"></i> &nbsp; {{ __('sidebar.invoices') }}
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('display-payment-methods-list') }}"
+                            class="rounded {{ Request::is('admin/settings/index') ? 'active' : '' }}">
+                            <i class="fa-solid fa-sliders"></i> &nbsp; {{ __('sidebar.settings') }}
+                        </a>
+                    </li>
                     
                 </ul>
             </div>
@@ -347,10 +369,25 @@
             </button>
             <div class="collapse {{ $isClientsActive ? 'show' : '' }}" id="clients-collapse1" data-bs-parent="#sidebarAccordion">
                 <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                      <li>
+                        <a href="">
+                            <i class="fas fa-chart-pie"></i> &nbsp; {{ __('sidebar.home') }}
+                        </a>
+                    </li>
                     <li>
                         <a href="{{ route('display-client-all') }}"
                             class="rounded {{ request()->is('admin/clients/index') ? 'active' : '' }}">
                             <i class="fa-solid fa-users"></i> &nbsp; {{ __('sidebar.clients_list') }}
+                        </a>
+                    </li>
+                      <li>
+                        <a href="">
+                            <i class="fa-solid fa-file-invoice"></i> &nbsp; {{ __('sidebar.reports') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="fa-solid fa-sliders"></i> &nbsp; {{ __('sidebar.settings') }}
                         </a>
                     </li>
                 </ul>

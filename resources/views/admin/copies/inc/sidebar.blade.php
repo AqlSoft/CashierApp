@@ -91,7 +91,7 @@
 
                     {{-- Quick Actions --}}
                     <li>
-                        <a href="{{ route('admin-list') }}"
+                        <a href=""
                             class="rounded {{ request()->is('admin/admins*') ? 'active' : '' }}">
                             <i class="fa-solid fa-bolt"></i> &nbsp; {{ __('sidebar.quick-actions') }}
                         </a>
@@ -174,16 +174,16 @@
                     <li>
                         <a href="{{ route('monitors-restaurant-hall') }}"
                             class="rounded {{ Request::is('/admin/monitors/restaurant/hall') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.restaurant_hall') }}
+                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.R.H_monitor') }}
                         </a>
                     </li>
                     <li>
                         <a href="/admin/kitchen/display"
                             class="rounded {{ Request::is('/admin/kitchen/display') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.kitchen') }}
+                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.kitchen_monitor') }}
                         </a>
                     </li>
-                    <li>
+                  {{--  <li>
                         <a href="{{ route('monitors-kitchen-processing-area') }}"
                             class="rounded {{ Request::is('/admin/monitors/kitchen') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.kitchen_processing_area') }}
@@ -194,7 +194,7 @@
                             class="rounded {{ Request::is('/stats/home') ? 'active' : '' }}">
                             <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.meals_state') }}
                         </a>
-                    </li>
+                    </li>--}}
                     <li>
                         <a href="{{ route('monitors-advertisment-displays') }}"
                             class="rounded {{ Request::is('/admin/sales/active/sessions') ? 'active' : '' }}">
