@@ -233,6 +233,47 @@
             </div>
         </li>
 
+        <!-- Products Section -->
+        <?php
+            $isProductsActive = request()->is('products*') || request()->is('units*') || request()->is('taxes*');
+        ?>
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center <?php echo e($isProductsActive ? 'active' : ''); ?>" data-bs-toggle="collapse"
+                data-bs-target="#products-collapse" aria-expanded="<?php echo e($isProductsActive ? 'true' : 'false'); ?>">
+                <i class="fa-solid fa-boxes-stacked"></i> &nbsp; <?php echo e(__('sidebar.products')); ?>
+
+            </button>
+            <div class="collapse <?php echo e($isProductsActive ? 'show' : ''); ?>" id="products-collapse"
+                data-bs-parent="#sidebarAccordion">
+                <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    <!-- Products -->
+                    <li>
+                        <a href="<?php echo e(route('display-product-all')); ?>"
+                            class="rounded <?php echo e(request()->is('products/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-box"></i> &nbsp; <?php echo e(__('sidebar.products')); ?>
+
+                        </a>
+                    </li>
+                    <!-- Units -->
+                    <li>
+                        <a href="<?php echo e(route('display-units-all')); ?>"
+                            class="rounded <?php echo e(request()->is('units/index') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-ruler"></i> &nbsp; <?php echo e(__('sidebar.units')); ?>
+
+                        </a>
+                    </li>
+                    <!-- Taxes -->
+                    <li>
+                        <a href="<?php echo e(route('taxes.index')); ?>"
+                            class="rounded <?php echo e(request()->is('taxes*') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-money-bill-wave"></i> &nbsp; <?php echo e(__('sidebar.taxes')); ?>
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
         <!-- Orders -->
         <?php
             $isOrdersActive = request()->is('admin/orders*');
@@ -262,49 +303,6 @@
                       <li>
                         <a href="">
                             <i class="fa-solid fa-cog"></i> &nbsp; <?php echo e(__('sidebar.settings')); ?>
-
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-
-        <!-- Products -->
-        <?php
-            $isProductsActive = request()->is('admin/products*');
-        ?>
-        <li class="mb-1">
-            <button class="btn btn-toggle d-inline-flex align-items-center <?php echo e($isProductsActive ? 'active' : ''); ?>" data-bs-toggle="collapse"
-                data-bs-target="#products-collapse" aria-expanded="<?php echo e($isProductsActive ? 'true' : 'false'); ?>">
-                <i class="fa-solid fa-boxes-stacked"></i> &nbsp; <?php echo e(__('sidebar.products')); ?>
-
-            </button>
-            <div class="collapse <?php echo e($isProductsActive ? 'show' : ''); ?>"
-                id="products-collapse" data-bs-parent="#sidebarAccordion">
-                <ul class="btn-toggle-nav list-unstyled fw-normal small">
-                      <li>
-                        <a href="">
-                            <i class="fas fa-chart-pie"></i> &nbsp; <?php echo e(__('sidebar.products_stats')); ?>
-
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?php echo e(route('display-product-all')); ?>"
-                            class="rounded <?php echo e(request()->is('admin/products/index') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.products_list')); ?>
-
-                        </a>
-                    </li>
-                          <a href="">
-                            <i class="fa-solid fa-file-invoice"></i> &nbsp; <?php echo e(__('sidebar.purchases-invoice')); ?>
-
-                        </a>
-                    </li>
-          
-                      <li>
-                        <a href="<?php echo e(route('product-setting-home')); ?>"
-                            class="rounded <?php echo e(request()->is('admin/products/setting') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; <?php echo e(__('sidebar.setting')); ?>
 
                         </a>
                     </li>

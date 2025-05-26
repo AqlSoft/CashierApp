@@ -58,6 +58,7 @@ class ProductsController extends Controller
     //     'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     //     'processing_time' => 'nullable|date_format:H:i:s',
     // ]);
+    return $request->all();
 
     try {
       $imageName = null;
@@ -80,7 +81,7 @@ class ProductsController extends Controller
         'image' => $imageName,
       ]);
 
-      return redirect()->route('display-product-all')->with('success', 'Product saved successfully');
+      return redirect()->back()->with('success', 'Product saved successfully');
     } catch (\Exception $e) {
       return redirect()->back()
         ->withInput()

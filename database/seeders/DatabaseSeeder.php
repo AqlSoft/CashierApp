@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Tax;
+use Database\Seeders\TaxGroupSeeder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,11 +15,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // إنشاء مستخدم افتراضي
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'مدير النظام',
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password'),
         ]);
+
+        // إنشاء ضرائب افتراضية إذا لم تكن موجودة
+        if (Tax::count() === 0) {
+            $this->call(TaxSeeder::class);
+        }
+
+        // إنشاء مجموعات ضريبية
+        $this->call(TaxGroupSeeder::class);
     }
 }

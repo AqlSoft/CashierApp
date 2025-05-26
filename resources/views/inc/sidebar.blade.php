@@ -247,6 +247,43 @@
             </div>
         </li>
 
+        <!-- Products Section -->
+        @php
+            $isProductsActive = request()->is('products*') || request()->is('units*') || request()->is('taxes*');
+        @endphp
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center {{ $isProductsActive ? 'active' : '' }}" data-bs-toggle="collapse"
+                data-bs-target="#products-collapse" aria-expanded="{{ $isProductsActive ? 'true' : 'false' }}">
+                <i class="fa-solid fa-boxes-stacked"></i> &nbsp; {{ __('sidebar.products') }}
+            </button>
+            <div class="collapse {{ $isProductsActive ? 'show' : '' }}" id="products-collapse"
+                data-bs-parent="#sidebarAccordion">
+                <ul class="btn-toggle-nav list-unstyled fw-normal small">
+                    <!-- Products -->
+                    <li>
+                        <a href="{{ route('display-product-all') }}"
+                            class="rounded {{ request()->is('products/index') ? 'active' : '' }}">
+                            <i class="fa-solid fa-box"></i> &nbsp; {{ __('sidebar.products') }}
+                        </a>
+                    </li>
+                    <!-- Units -->
+                    <li>
+                        <a href="{{ route('display-units-all') }}"
+                            class="rounded {{ request()->is('units/index') ? 'active' : '' }}">
+                            <i class="fa-solid fa-ruler"></i> &nbsp; {{ __('sidebar.units') }}
+                        </a>
+                    </li>
+                    <!-- Taxes -->
+                    <li>
+                        <a href="{{ route('taxes.index') }}"
+                            class="rounded {{ request()->is('taxes*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-money-bill-wave"></i> &nbsp; {{ __('sidebar.taxes') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
         <!-- Orders -->
         @php
             $isOrdersActive = request()->is('admin/orders*');
@@ -273,44 +310,6 @@
                       <li>
                         <a href="">
                             <i class="fa-solid fa-cog"></i> &nbsp; {{ __('sidebar.settings') }}
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-
-        <!-- Products -->
-        @php
-            $isProductsActive = request()->is('admin/products*');
-        @endphp
-        <li class="mb-1">
-            <button class="btn btn-toggle d-inline-flex align-items-center {{ $isProductsActive ? 'active' : '' }}" data-bs-toggle="collapse"
-                data-bs-target="#products-collapse" aria-expanded="{{ $isProductsActive ? 'true' : 'false' }}">
-                <i class="fa-solid fa-boxes-stacked"></i> &nbsp; {{ __('sidebar.products') }}
-            </button>
-            <div class="collapse {{ $isProductsActive ? 'show' : '' }}"
-                id="products-collapse" data-bs-parent="#sidebarAccordion">
-                <ul class="btn-toggle-nav list-unstyled fw-normal small">
-                      <li>
-                        <a href="">
-                            <i class="fas fa-chart-pie"></i> &nbsp; {{ __('sidebar.products_stats') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('display-product-all') }}"
-                            class="rounded {{ request()->is('admin/products/index') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.products_list') }}
-                        </a>
-                    </li>
-                          <a href="">
-                            <i class="fa-solid fa-file-invoice"></i> &nbsp; {{ __('sidebar.purchases-invoice') }}
-                        </a>
-                    </li>
-          
-                      <li>
-                        <a href="{{ route('product-setting-home') }}"
-                            class="rounded {{ request()->is('admin/products/setting') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cubes"></i> &nbsp; {{ __('sidebar.setting') }}
                         </a>
                     </li>
                 </ul>

@@ -1,0 +1,264 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Tax extends Model
+{
+    /**
+     * الحقول المحمية من التعيين المباشر
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'tax_code',
+        'tax_name_ar',
+        'tax_name_en',
+        'tax_rate',
+        'tax_type',
+        'is_active',
+        'is_default',
+        'is_inclusive',
+        'effective_from',
+        'effective_to',
+        'gl_account_code',
+        'created_by',
+        'updated_by',
+    ];
+
+    /**
+     * التحويل التلقائي لأنواع البيانات
+     *
+     * @var array
+     */
+    protected $casts = [
+        'tax_rate' => 'decimal:4',
+        'is_active' => 'boolean',
+        'is_default' => 'boolean',
+        'is_inclusive' => 'boolean',
+        'effective_from' => 'date',
+        'effective_to' => 'date',
+    ];
+
+    /**
+     * القيم الافتراضية للنموذج
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'is_active' => true,
+        'is_default' => false,
+        'is_inclusive' => false,
+        'tax_type' => 'PERCENTAGE',
+        'tax_rate' => 0,
+    ];
+
+    /**
+     * الحقول التي يجب إخفاؤها عند التحويل إلى مصفوفة أو JSON
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'created_by',
+        'updated_by',
+    ];
+
+    /**
+     * الحقول التي يجب إضافتها إلى المصفوفة
+     *
+     * @var array
+     */
+    protected $appends = [
+        'tax_name',
+        'formatted_tax_rate',
+    ];
+
+    /**
+     * نطاق الاستعلام للضرائب النشطة فقط
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
+     * نطاق الاستعلام للضرائب الافتراضية
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDefault($query)
+    {
+        return $query->where('is_default', true);
+    }
+
+    /**
+     * الحصول على اسم الضريبة بناءً على لغة التطبيق
+     *
+     * @return string
+     */
+    public function getTaxNameAttribute()
+    {
+        return app()->getLocale() === 'ar' ? $this->tax_name_ar : $this->tax_name_en;
+    }
+
+    /**
+     * الحصول على نسبة الضريبة المنسقة
+     *
+     * @return string
+     */
+    public function getFormattedTaxRateAttribute()
+    {
+        return $this->tax_type === 'PERCENTAGE' 
+            ? number_format($this->tax_rate, 2) . '%' 
+            : number_format($this->tax_rate, 2);
+    }
+
+    /**
+     * العلاقة مع مجموعات الضرائب التي تنتمي إليها هذه الضريبة
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function taxGroups()
+    {
+        return $this->belongsToMany(TaxGroup::class, 'tax_group_mappings', 'tax_id', 'tax_group_id')
+            ->withPivot('display_order')
+            ->withTimestamps();
+    }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (Auth::check()) {
+                $model->created_by = Auth::id();
+                $model->updated_by = Auth::id();
+            }
+            
+            // إذا كانت هذه الضريبة هي الافتراضية، قم بإلغاء تحديد أي ضريبة افتراضية أخرى
+            if ($model->is_default) {
+                static::where('is_default', true)->update(['is_default' => false]);
+            }
+        });
+
+        static::updating(function ($model) {
+            if (Auth::check()) {
+                $model->updated_by = Auth::id();
+            }
+            
+            // إذا كانت هذه الضريبة هي الافتراضية، قم بإلغاء تحديد أي ضريبة افتراضية أخرى
+            if ($model->isDirty('is_default') && $model->is_default) {
+                static::where('id', '!=', $model->id)
+                    ->where('is_default', true)
+                    ->update(['is_default' => false]);
+            }
+        });
+    }
+
+    /**
+     * حساب قيمة الضريبة لمبلغ معين
+     *
+     * @param float $amount
+     * @return float
+     */
+    public function calculateTax(float $amount): float
+    {
+        if ($this->tax_type === 'PERCENTAGE') {
+            return ($amount * $this->tax_rate) / 100;
+        }
+        
+        return $this->tax_rate;
+    }
+
+    /**
+     * التحقق مما إذا كانت الضريبة سارية المفعول في تاريخ معين
+     *
+     * @param string|null $date
+     * @return bool
+     */
+    public function isActiveOnDate(?string $date = null): bool
+    {
+        $date = $date ?: now()->toDateString();
+        
+        return $this->is_active 
+            && $this->effective_from <= $date 
+            && ($this->effective_to === null || $this->effective_to >= $date);
+    }
+
+    /**
+     * العلاقة مع المستخدم الذي أنشأ السجل
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * العلاقة مع المستخدم الذي قام آخر تحديث للسجل
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+}
+    /**
+     * العلاقة مع مجموعات الضرائب
+     *
+     * @return BelongsToMany
+     */
+    public function taxGroups(): BelongsToMany
+    {
+        return $this->belongsToMany(TaxGroup::class, 'tax_group_details')
+            ->withPivot('display_order')
+            ->withTimestamps();
+    }
+
+    /**
+     * نطاق الاستعلام للضرائب النشطة فقط
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
+     * نطاق الاستعلام للضرائب السارية المفعول في تاريخ معين
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string|null $date
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeEffectiveOn($query, ?string $date = null)
+    {
+        $date = $date ?: now()->toDateString();
+        
+        return $query->where('is_active', true)
+            ->where('effective_from', '<=', $date)
+            ->where(function ($q) use ($date) {
+                $q->whereNull('effective_to')
+                  ->orWhere('effective_to', '>=', $date);
+            });
+    }
+}
