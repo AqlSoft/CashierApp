@@ -31,7 +31,19 @@ class CategroiesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'cat_name'  => 'required|string|max:255',
+            'cat_breif' => 'nullable|string|max:255',
+            'status'    => 'required|in:0,1',
+        ]);
+
+        ItemCategroy::create([
+            'cat_name'  => $request->cat_name,
+            'cat_breif' => $request->cat_breif,
+            'status'    => $request->status,
+        ]);
+
+        return redirect()->back()->with('success', 'Category created successfully.');
     }
 
     /**
@@ -47,15 +59,30 @@ class CategroiesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $categories = ItemCategroy::all();
+        $categoryToEdit = ItemCategroy::findOrFail($id);
+        return view('admin.setting.categories.index', compact('categories', 'categoryToEdit'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'cat_name'  => 'required|string|max:255',
+            'cat_breif' => 'nullable|string|max:255',
+            'status'    => 'required|in:0,1',
+        ]);
+
+        $category = ItemCategroy::findOrFail($id);
+        $category->update([
+            'cat_name'  => $request->cat_name,
+            'cat_breif' => $request->cat_breif,
+            'status'    => $request->status,
+        ]);
+
+        return redirect()->back()->with('success', 'Category updated successfully.');
     }
 
     /**
@@ -63,6 +90,9 @@ class CategroiesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $category = ItemCategroy::findOrFail($id);
+        $category->delete();
+
+        return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
     }
 }

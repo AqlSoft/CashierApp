@@ -202,9 +202,5 @@ class ProductsController extends Controller
   }
 
 
-    public function setting(Request $request){
-
-      $product = Product::first();
-    return view('admin.setting.products.index',compact('product'));
-  }
+  
 }

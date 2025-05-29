@@ -120,8 +120,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/destroy/{id}',                   [ProductsController::class, 'destroy'])->name('destroy-product-info');
     Route::get('/park/{id}',                      [ProductsController::class, 'park'])->name('park-product');
     Route::get('/cancel/{id}',                    [ProductsController::class, 'cancel'])->name('cancel-product-info');
-    Route::get('/setting',                        [ProductsController::class, 'setting'])->name('product-setting-home');
-
+  
   });
     // units Routes
   Route::prefix('units')->group(function () {
@@ -138,7 +137,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/index',                          [CategroiesController::class, 'index'])->name('display-categories-all');
     Route::post('/store',                         [CategroiesController::class, 'store'])->name('store-new-category');
     Route::get('/display/{id}',                   [CategroiesController::class, 'show'])->name('view-category-info');
-    Route::post('/update',                        [CategroiesController::class, 'update'])->name('update-category-info');
+    Route::put('/categories/update/{id}', [CategroiesController::class, 'update'])->name('update-category-info');
     Route::get('/edit/{id}',                      [CategroiesController::class, 'edit'])->name('edit-category-info');
     Route::get('/destroy/{id}',                   [CategroiesController::class, 'destroy'])->name('destroy-category-info');
                                               
@@ -228,6 +227,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
   Route::prefix('settings')->group(function () {
     Route::get('/index',                          [SettingsController::class, 'index'])->name('home-setting');
     Route::put('/update/{id}',                    [SettingsController::class, 'update'])->name('admin.settings.update');
+    Route::get('/product',                        [SettingsController::class, 'setting'])->name('product-setting-home');
   });
 
   // MonyBox routes

@@ -7,7 +7,11 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\Region;
 use App\Models\Setting;
+use App\Models\Unit;
+use App\Models\ItemCategroy;
+use App\Models\Tax;
 use App\Models\Timezone;
+
 use Illuminate\Http\Request;
 
 class SettingsController  extends Controller
@@ -32,6 +36,17 @@ class SettingsController  extends Controller
         return view('admin.setting.index', $vars);
     }
 
+
+  public function setting(){
+
+        $vars = [
+            'categroies' => ItemCategroy::all(),
+            'units' => Unit::all(),
+            'taxes' => Tax::all(),
+            'tab' => 'general',
+        ];
+    return view('admin.setting.products.index',$vars);
+  }
     /**
      * Show the form for creating a new resource.
      */

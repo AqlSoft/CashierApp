@@ -42,7 +42,7 @@ class UnitsController extends Controller
     public function edit($id)
     {
         $unit = Unit::findOrFail($id);
-        return view('admin.setting.units.edit', compact('unit'));
+        return view('admin.setting.units.index', compact('unit'));
     }
 
     public function update(Request $request, $id)

@@ -1,0 +1,1 @@
+hello<?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/setting/products/partials/general.blade.php ENDPATH**/ ?>
