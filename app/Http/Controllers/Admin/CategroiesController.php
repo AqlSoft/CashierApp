@@ -12,10 +12,9 @@ class CategroiesController extends Controller
      */
     public function index()
     {
-    
         $categories = ItemCategroy::all();
-        return view('admin.setting.categories.index', compact('categories'));
-  
+        $tab = 'categroies';
+        return view('admin.setting.products.index', compact('categories' ,'tab'));
     }
 
     /**

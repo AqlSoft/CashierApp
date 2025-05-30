@@ -20,7 +20,9 @@ class TaxController extends BaseController
     public function index()
     {
         $taxes = Tax::latest()->paginate(10);
-        return view('admin.taxes.index', compact('taxes'));
+        $tab='taxes';
+
+        return view('admin.setting.products.index', compact('taxes' ,'tab'));
     }
 
     /**

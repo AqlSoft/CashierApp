@@ -1,10 +1,11 @@
+
 <?php $__env->startSection('title', 'إدارة الضرائب'); ?>
 
-<?php $__env->startSection('contents'); ?>
-<div class="container">
+
+
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card w-100">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="card-title">قائمة الضرائب</h3>
                     <a href="<?php echo e(route('taxes.create')); ?>" class="btn btn-primary">
@@ -13,7 +14,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="taxes-table" class="table table-bordered table-striped">
+                    <table id="taxes-table" class="table table-bordered table-striped w-100">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -84,8 +85,8 @@
         <!-- /.col -->
     </div>
     <!-- /.row -->
-</div>
-<!-- /.container -->
+
+
 
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -112,7 +113,7 @@
         </div>
     </div>
 </div>
-<?php $__env->stopSection(); ?>
+
 
 <?php $__env->startPush('scripts'); ?>
 <script>
@@ -141,5 +142,4 @@
     });
 </script>
 <?php $__env->stopPush(); ?>
-
-<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/taxes/index.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/taxes/index.blade.php ENDPATH**/ ?>

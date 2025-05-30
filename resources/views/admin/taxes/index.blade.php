@@ -1,12 +1,11 @@
-@extends('layouts.admin')
 
 @section('title', 'إدارة الضرائب')
 
-@section('contents')
-<div class="container">
+
+
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card w-100">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="card-title">قائمة الضرائب</h3>
                     <a href="{{ route('taxes.create') }}" class="btn btn-primary">
@@ -15,7 +14,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="taxes-table" class="table table-bordered table-striped">
+                    <table id="taxes-table" class="table table-bordered table-striped w-100">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -83,8 +82,8 @@
         <!-- /.col -->
     </div>
     <!-- /.row -->
-</div>
-<!-- /.container -->
+
+
 
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -111,7 +110,7 @@
         </div>
     </div>
 </div>
-@endsection
+
 
 @push('scripts')
 <script>

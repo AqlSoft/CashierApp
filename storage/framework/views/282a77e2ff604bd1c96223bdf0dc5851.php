@@ -24,6 +24,10 @@
                     data-bs-target="#v-pills-orders" type="button" role="tab" aria-controls="v-pills-orders" aria-selected="<?php echo e($tab == 'orders' ? 'true' : 'false'); ?>">
                     <a href="<?php echo e(route('taxes.index')); ?>"><?php echo e(__('settings.taxes')); ?></a>
                 </button>
+                  <button class="nav-link <?php echo e($tab == 'tax-groups' ? 'active' : ''); ?>" id="v-pills-orders-tab" data-bs-toggle="pill"
+                    data-bs-target="#v-pills-orders" type="button" role="tab" aria-controls="v-pills-orders" aria-selected="<?php echo e($tab == 'orders' ? 'true' : 'false'); ?>">
+                    <a href="<?php echo e(route('admin.tax-groups.index')); ?>"><?php echo e(__('settings.taxes-groups')); ?></a>
+                </button>
 
             </div>
             <div class="tab-content p-3 m-0" id="v-pills-tabContent">
@@ -41,8 +45,13 @@
                 </div>
                 <div class="tab-pane fade <?php echo e($tab == 'taxes' ? 'show active' : ''); ?>" id="v-pills-orders" role="tabpanel"
                     aria-labelledby="v-pills-orders-tab" tabindex="0">
-                    <?php if($tab == 'taxes'): ?> <?php echo $__env->make('admin.setting.taxes.index', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?> <?php endif; ?>
+                    <?php if($tab == 'taxes'): ?> <?php echo $__env->make('admin.taxes.index', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?> <?php endif; ?>
                 </div>
+                  <div class="tab-pane fade <?php echo e($tab == 'tax-groups' ? 'show active' : ''); ?>" id="v-pills-orders" role="tabpanel"
+                    aria-labelledby="v-pills-orders-tab" tabindex="0">
+                    <?php if($tab == 'tax-groups'): ?> <?php echo $__env->make('admin.tax-groups.index', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?> <?php endif; ?>
+                </div>
+              
             </div>
         </div>
 

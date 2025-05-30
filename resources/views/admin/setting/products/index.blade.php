@@ -26,6 +26,10 @@
                     data-bs-target="#v-pills-orders" type="button" role="tab" aria-controls="v-pills-orders" aria-selected="{{ $tab == 'orders' ? 'true' : 'false' }}">
                     <a href="{{route('taxes.index')}}">{{__('settings.taxes')}}</a>
                 </button>
+                  <button class="nav-link {{ $tab == 'tax-groups' ? 'active' : '' }}" id="v-pills-orders-tab" data-bs-toggle="pill"
+                    data-bs-target="#v-pills-orders" type="button" role="tab" aria-controls="v-pills-orders" aria-selected="{{ $tab == 'orders' ? 'true' : 'false' }}">
+                    <a href="{{route('admin.tax-groups.index')}}">{{__('settings.taxes-groups')}}</a>
+                </button>
 
             </div>
             <div class="tab-content p-3 m-0" id="v-pills-tabContent">
@@ -43,8 +47,13 @@
                 </div>
                 <div class="tab-pane fade {{ $tab == 'taxes' ? 'show active' : '' }}" id="v-pills-orders" role="tabpanel"
                     aria-labelledby="v-pills-orders-tab" tabindex="0">
-                    @if($tab == 'taxes') @include('admin.setting.taxes.index') @endif
+                    @if($tab == 'taxes') @include('admin.taxes.index') @endif
                 </div>
+                  <div class="tab-pane fade {{ $tab == 'tax-groups' ? 'show active' : '' }}" id="v-pills-orders" role="tabpanel"
+                    aria-labelledby="v-pills-orders-tab" tabindex="0">
+                    @if($tab == 'tax-groups') @include('admin.tax-groups.index') @endif
+                </div>
+              
             </div>
         </div>
 

@@ -21,7 +21,9 @@ class TaxGroupController extends BaseController
     public function index()
     {
         $taxGroups = TaxGroup::withCount('taxes')->latest()->paginate(10);
-        return view('admin.tax-groups.index', compact('taxGroups'));
+        $tab='tax-groups';
+
+        return view('admin.setting.products.index', compact('taxGroups' ,'tab'));
     }
 
     /**

@@ -11,7 +11,9 @@ class UnitsController extends Controller
     public function index()
     {
         $units = Unit::all();
-        return view('admin.setting.units.index', compact('units'));
+        
+        $tab = 'units';
+        return view('admin.setting.products.index', compact('units' ,'tab'));
     }
 
     public function create()

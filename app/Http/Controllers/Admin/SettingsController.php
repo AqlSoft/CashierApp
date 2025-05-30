@@ -11,7 +11,7 @@ use App\Models\Unit;
 use App\Models\ItemCategroy;
 use App\Models\Tax;
 use App\Models\Timezone;
-
+USE App\Models\TaxGroup;
 use Illuminate\Http\Request;
 
 class SettingsController  extends Controller
@@ -43,6 +43,7 @@ class SettingsController  extends Controller
             'categroies' => ItemCategroy::all(),
             'units' => Unit::all(),
             'taxes' => Tax::all(),
+            'taxGroups' => TaxGroup::withCount('taxes')->latest(),
             'tab' => 'general',
         ];
     return view('admin.setting.products.index',$vars);
