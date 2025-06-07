@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'tax-list'        => 'Tax List',
+    'tax-code'        => 'Tax Code',
+    'tax-name'        => 'Tax Name',
+    'tax-type'        => 'Type',
+    'tax-rate'        => 'Rate',
+    'status'          => 'Status',
+    'effective-date'  => 'Effective Date',
+    'actions'         => 'Actions',
+    'percentage'      => 'Percentage',
+    'fixed'           => 'Fixed Amount',
+    'active'          => 'Active',
+    'inactive'        => 'Inactive',
+    'from'            => 'From',
+    'to'              => 'To',
+    'add-tax'         => 'Add New Tax',
+    'edit'            => 'Edit',
+    'show'            => 'Show',
+    'delete'          => 'Delete',
+    'delete_confirm'  => 'Are you sure you want to delete this tax?',
+    'delete_warning'  => 'This action cannot be undone.',
+    'cancel'          => 'Cancel',
+    'no-taxes'        => 'No taxes found.',
+];
