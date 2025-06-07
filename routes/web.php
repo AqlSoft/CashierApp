@@ -127,7 +127,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/index',                          [UnitsController::class, 'index'])->name('display-units-all');
     Route::post('/store',                         [UnitsController::class, 'store'])->name('store-new-unit');
     Route::get('/display/{id}',                   [UnitsController::class, 'show'])->name('view-unit-info');
-    Route::post('/update',                        [UnitsController::class, 'update'])->name('update-unit-info');
+    Route::put('/update/{id}',                        [UnitsController::class, 'update'])->name('update-unit-info');
     Route::get('/edit/{id}',                      [UnitsController::class, 'edit'])->name('edit-unit-info');
     Route::get('/destroy/{id}',                   [UnitsController::class, 'destroy'])->name('destroy-unit-info');
                   
@@ -137,7 +137,7 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/index',                          [CategroiesController::class, 'index'])->name('display-categories-all');
     Route::post('/store',                         [CategroiesController::class, 'store'])->name('store-new-category');
     Route::get('/display/{id}',                   [CategroiesController::class, 'show'])->name('view-category-info');
-    Route::put('/categories/update/{id}', [CategroiesController::class, 'update'])->name('update-category-info');
+    Route::put('/update/{id}',        [CategroiesController::class, 'update'])->name('update-category-info');
     Route::get('/edit/{id}',                      [CategroiesController::class, 'edit'])->name('edit-category-info');
     Route::get('/destroy/{id}',                   [CategroiesController::class, 'destroy'])->name('destroy-category-info');
                                               

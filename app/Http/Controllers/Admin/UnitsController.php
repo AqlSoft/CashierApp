@@ -31,8 +31,8 @@ class UnitsController extends Controller
         ]);
 
         Unit::create([
-            'name' => $request->name,
-            'breif' => $request->breif,
+            'name'       => $request->name,
+            'brief'      => $request->brief,
             'short_name' => $request->short_name,
             'status' => $request->status,
             'created_by' => auth()->id(),
@@ -43,8 +43,10 @@ class UnitsController extends Controller
 
     public function edit($id)
     {
-        $unit = Unit::findOrFail($id);
-        return view('admin.setting.units.index', compact('unit'));
+        $unitToEdit = Unit::findOrFail($id);
+        $units = Unit::all();
+        $tab = 'units';
+        return view('admin.setting.products.index', compact('unitToEdit','units','tab'));
     }
 
     public function update(Request $request, $id)
@@ -53,14 +55,14 @@ class UnitsController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'breif' => 'nullable|string|max:255',
+            'brief' => 'nullable|string|max:255',
             'short_name' => 'nullable|string|max:50',
             'status' => 'required|boolean',
         ]);
 
         $unit->update([
             'name' => $request->name,
-            'breif' => $request->breif,
+            'brief' => $request->brief,
             'short_name' => $request->short_name,
             'status' => $request->status,
             'updated_by' => auth()->id(),

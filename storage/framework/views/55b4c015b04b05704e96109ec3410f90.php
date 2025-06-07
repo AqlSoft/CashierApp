@@ -39,9 +39,9 @@ unset($__errorArgs, $__bag); ?>
 
                 <div class="mb-2 input-group sm">
                   <label class="input-group-text"><?php echo e(__('units.brief')); ?></label>
-                  <input type="text" name="breif" class="form-control" value="<?php echo e(old('breif')); ?>">
+                  <input type="text" name="brief" class="form-control" value="<?php echo e(old('brief')); ?>">
                 </div>
-                <?php $__errorArgs = ['breif'];
+                <?php $__errorArgs = ['brief'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -88,7 +88,7 @@ unset($__errorArgs, $__bag); ?>
               </div>
               <form class="p-3" method="POST" action="<?php echo e(route('update-unit-info', $unitToEdit->id)); ?>">
                 <?php echo csrf_field(); ?>
-                <?php echo method_field('PUT'); ?>
+              <?php echo method_field('PUT'); ?>
 
                 <div class="mb-2 input-group sm">
                   <label class="input-group-text"><?php echo e(__('units.name')); ?></label>
@@ -170,12 +170,12 @@ unset($__errorArgs, $__bag); ?>
                 <?php endif; ?>
               </td>
               <td>
-                <a href="<?php echo e(route('edit-unit-info', $unit->id)); ?>" class="btn btn-sm btn-primary"><?php echo e(__('units.edit')); ?></a>
-                <form action="<?php echo e(route('destroy-unit-info', $unit->id)); ?>" method="POST" style="display:inline-block;">
-                  <?php echo csrf_field(); ?>
-                  <?php echo method_field('DELETE'); ?>
-                  <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('<?php echo e(__('units.delete-confirm')); ?>')"><?php echo e(__('units.delete')); ?></button>
-                </form>
+                
+                  <a href="<?php echo e(route('edit-unit-info', $unit->id)); ?>" class="btn btn-sm btn-outline-primary" title="Edit unit"> <i class="fas fa-edit"></i></a>
+              <a href="<?php echo e(route('destroy-unit-info', $unit->id)); ?>"  onclick="return confirm('<?php echo e(__('units.delete-confirm')); ?>')"title="Delete unit" class="btn btn-outline-danger btn-sm">
+                <i class="fa fa-trash"></i>
+              </a>
+              
               </td>
             </tr>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

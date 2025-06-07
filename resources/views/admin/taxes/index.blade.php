@@ -5,16 +5,16 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card w-100">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="card-title">قائمة الضرائب</h3>
-                    <a href="{{ route('taxes.create') }}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> إضافة ضريبة جديدة
-                    </a>
-                </div>
+            <div class=" w-100">
+                  <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede">{{__('tax.tax-list')}}
+        <a class="ms-3 add-icon" href="{{ route('taxes.create') }}">
+          <i data-bs-toggle="tooltip" title="Add New tax" class="fa fa-plus"></i>
+        </a>
+      </h1>
+                
                 <!-- /.card-header -->
-                <div class="card-body">
-                    <table id="taxes-table" class="table table-bordered table-striped w-100">
+                <div class="">
+                    <table id="taxes-table" class="table table-striped mt-2 table-sm w-100">
                         <thead>
                             <tr>
                                 <th>#</th>

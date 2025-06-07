@@ -31,9 +31,9 @@
 
                 <div class="mb-2 input-group sm">
                   <label class="input-group-text">{{__('units.brief')}}</label>
-                  <input type="text" name="breif" class="form-control" value="{{ old('breif') }}">
+                  <input type="text" name="brief" class="form-control" value="{{ old('brief') }}">
                 </div>
-                @error('breif')
+                @error('brief')
                 <div class="text-danger">{{ $message }}</div>
                 @enderror
 
@@ -66,7 +66,7 @@
               </div>
               <form class="p-3" method="POST" action="{{ route('update-unit-info', $unitToEdit->id) }}">
                 @csrf
-                @method('PUT')
+              @method('PUT')
 
                 <div class="mb-2 input-group sm">
                   <label class="input-group-text">{{__('units.name')}}</label>
@@ -127,12 +127,12 @@
                 @endif
               </td>
               <td>
-                <a href="{{ route('edit-unit-info', $unit->id) }}" class="btn btn-sm btn-primary">{{__('units.edit')}}</a>
-                <form action="{{ route('destroy-unit-info', $unit->id) }}" method="POST" style="display:inline-block;">
-                  @csrf
-                  @method('DELETE')
-                  <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('{{__('units.delete-confirm')}}')">{{__('units.delete')}}</button>
-                </form>
+                
+                  <a href="{{ route('edit-unit-info', $unit->id) }}" class="btn btn-sm btn-outline-primary" title="Edit unit"> <i class="fas fa-edit"></i></a>
+              <a href="{{ route('destroy-unit-info', $unit->id) }}"  onclick="return confirm('{{__('units.delete-confirm')}}')"title="Delete unit" class="btn btn-outline-danger btn-sm">
+                <i class="fa fa-trash"></i>
+              </a>
+              
               </td>
             </tr>
             @endforeach

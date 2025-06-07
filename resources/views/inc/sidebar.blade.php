@@ -268,18 +268,18 @@
                     </li>
                     <!-- Units -->
                     <li>
-                        <a href="{{ route('display-units-all') }}"
-                            class="rounded {{ request()->is('units/index') ? 'active' : '' }}">
-                            <i class="fa-solid fa-ruler"></i> &nbsp; {{ __('sidebar.units') }}
+                        <a href="{{ route('product-setting-home') }}"
+                            class="rounded {{ request()->is('settings/product') ? 'active' : '' }}">
+                            <i class="fa-solid fa-ruler"></i> &nbsp; {{ __('sidebar.setting') }}
                         </a>
                     </li>
                     <!-- Taxes -->
-                    <li>
+                  {{-- <li>
                         <a href="{{ route('taxes.index') }}"
                             class="rounded {{ request()->is('taxes*') ? 'active' : '' }}">
                             <i class="fa-solid fa-money-bill-wave"></i> &nbsp; {{ __('sidebar.taxes') }}
                         </a>
-                    </li>
+                    </li>--}}
                 </ul>
             </div>
         </li>

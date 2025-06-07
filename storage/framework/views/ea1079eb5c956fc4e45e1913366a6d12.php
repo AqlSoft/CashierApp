@@ -256,20 +256,14 @@
                     </li>
                     <!-- Units -->
                     <li>
-                        <a href="<?php echo e(route('display-units-all')); ?>"
-                            class="rounded <?php echo e(request()->is('units/index') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-ruler"></i> &nbsp; <?php echo e(__('sidebar.units')); ?>
+                        <a href="<?php echo e(route('product-setting-home')); ?>"
+                            class="rounded <?php echo e(request()->is('settings/product') ? 'active' : ''); ?>">
+                            <i class="fa-solid fa-ruler"></i> &nbsp; <?php echo e(__('sidebar.setting')); ?>
 
                         </a>
                     </li>
                     <!-- Taxes -->
-                    <li>
-                        <a href="<?php echo e(route('taxes.index')); ?>"
-                            class="rounded <?php echo e(request()->is('taxes*') ? 'active' : ''); ?>">
-                            <i class="fa-solid fa-money-bill-wave"></i> &nbsp; <?php echo e(__('sidebar.taxes')); ?>
-
-                        </a>
-                    </li>
+                  
                 </ul>
             </div>
         </li>

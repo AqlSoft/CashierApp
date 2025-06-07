@@ -32,13 +32,13 @@ class CategroiesController extends Controller
     {
         $request->validate([
             'cat_name'  => 'required|string|max:255',
-            'cat_breif' => 'nullable|string|max:255',
+            'cat_brief' => 'nullable|string|max:255',
             'status'    => 'required|in:0,1',
         ]);
 
         ItemCategroy::create([
             'cat_name'  => $request->cat_name,
-            'cat_breif' => $request->cat_breif,
+            'cat_brief' => $request->cat_brief,
             'status'    => $request->status,
         ]);
 
@@ -60,7 +60,8 @@ class CategroiesController extends Controller
     {
         $categories = ItemCategroy::all();
         $categoryToEdit = ItemCategroy::findOrFail($id);
-        return view('admin.setting.categories.index', compact('categories', 'categoryToEdit'));
+        $tab = 'categroies';
+        return view('admin.setting.products.index', compact('categories', 'categoryToEdit' ,'tab'));
     }
 
     /**
@@ -70,14 +71,14 @@ class CategroiesController extends Controller
     {
         $request->validate([
             'cat_name'  => 'required|string|max:255',
-            'cat_breif' => 'nullable|string|max:255',
+            'cat_brief' => 'nullable|string|max:255',
             'status'    => 'required|in:0,1',
         ]);
 
         $category = ItemCategroy::findOrFail($id);
         $category->update([
             'cat_name'  => $request->cat_name,
-            'cat_breif' => $request->cat_breif,
+            'cat_brief' => $request->cat_brief,
             'status'    => $request->status,
         ]);
 
@@ -92,6 +93,6 @@ class CategroiesController extends Controller
         $category = ItemCategroy::findOrFail($id);
         $category->delete();
 
-        return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
+        return redirect()->back()->with('success', 'Category deleted successfully.');
     }
 }

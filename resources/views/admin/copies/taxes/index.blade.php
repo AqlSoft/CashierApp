@@ -1,21 +1,20 @@
 
-<?php $__env->startSection('title', 'إدارة الضرائب'); ?>
+@section('title', 'إدارة الضرائب')
 
 
 
     <div class="row">
         <div class="col-12">
-            <div class=" w-100">
-                  <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede"><?php echo e(__('tax.tax-list')); ?>
-
-        <a class="ms-3 add-icon" href="<?php echo e(route('taxes.create')); ?>">
-          <i data-bs-toggle="tooltip" title="Add New tax" class="fa fa-plus"></i>
-        </a>
-      </h1>
-                
+            <div class="card w-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title">قائمة الضرائب</h3>
+                    <a href="{{ route('taxes.create') }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> إضافة ضريبة جديدة
+                    </a>
+                </div>
                 <!-- /.card-header -->
-                <div class="">
-                    <table id="taxes-table" class="table table-striped mt-2 table-sm w-100">
+                <div class="card-body">
+                    <table id="taxes-table" class="table table-bordered table-striped w-100">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -29,56 +28,53 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $__currentLoopData = $taxes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tax): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            @foreach($taxes as $tax)
                             <tr>
-                                <td><?php echo e($loop->iteration); ?></td>
-                                <td><?php echo e($tax->tax_code); ?></td>
-                                <td><?php echo e($tax->tax_name); ?></td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $tax->tax_code }}</td>
+                                <td>{{ $tax->tax_name }}</td>
                                 <td>
-                                    <?php if($tax->tax_type === 'PERCENTAGE'): ?>
+                                    @if($tax->tax_type === 'PERCENTAGE')
                                         <span class="badge bg-info">نسبة مئوية</span>
-                                    <?php else: ?>
+                                    @else
                                         <span class="badge bg-secondary">قيمة ثابتة</span>
-                                    <?php endif; ?>
+                                    @endif
                                 </td>
-                                <td><?php echo e($tax->formatted_tax_rate); ?></td>
+                                <td>{{ $tax->formatted_tax_rate }}</td>
                                 <td>
-                                    <?php if($tax->is_active): ?>
+                                    @if($tax->is_active)
                                         <span class="badge bg-success">نشط</span>
-                                    <?php else: ?>
+                                    @else
                                         <span class="badge bg-danger">غير نشط</span>
-                                    <?php endif; ?>
+                                    @endif
                                 </td>
                                 <td>
-                                    <?php echo e($tax->effective_from->format('Y-m-d')); ?>
-
-                                    <?php if($tax->effective_to): ?>
-                                        <br>إلى <?php echo e($tax->effective_to->format('Y-m-d')); ?>
-
-                                    <?php endif; ?>
+                                    {{ $tax->effective_from->format('Y-m-d') }}
+                                    @if($tax->effective_to)
+                                        <br>إلى {{ $tax->effective_to->format('Y-m-d') }}
+                                    @endif
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="<?php echo e(route('admin.taxes.show', $tax)); ?>" class="btn btn-sm btn-info" title="عرض">
+                                        <a href="{{ route('admin.taxes.show', $tax) }}" class="btn btn-sm btn-info" title="عرض">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="<?php echo e(route('admin.taxes.edit', $tax)); ?>" class="btn btn-sm btn-primary" title="تعديل">
+                                        <a href="{{ route('admin.taxes.edit', $tax) }}" class="btn btn-sm btn-primary" title="تعديل">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <button type="button" class="btn btn-sm btn-danger delete-tax" data-id="<?php echo e($tax->id); ?>" title="حذف">
+                                        <button type="button" class="btn btn-sm btn-danger delete-tax" data-id="{{ $tax->id }}" title="حذف">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
                                 </td>
                             </tr>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                    <?php echo e($taxes->links()); ?>
-
+                    {{ $taxes->links() }}
                 </div>
             </div>
             <!-- /.card -->
@@ -105,8 +101,8 @@
             </div>
             <div class="modal-footer">
                 <form id="deleteForm" method="POST" action="">
-                    <?php echo csrf_field(); ?>
-                    <?php echo method_field('DELETE'); ?>
+                    @csrf
+                    @method('DELETE')
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
                     <button type="submit" class="btn btn-danger">حذف</button>
                 </form>
@@ -116,7 +112,7 @@
 </div>
 
 
-<?php $__env->startPush('scripts'); ?>
+@push('scripts')
 <script>
     $(document).ready(function() {
         // Initialize DataTable
@@ -129,7 +125,7 @@
             "autoWidth": false,
             "responsive": true,
             "language": {
-                "url": "<?php echo e(asset('adminlte/plugins/datatables/arabic.json')); ?>"
+                "url": "{{ asset('adminlte/plugins/datatables/arabic.json') }}"
             }
         });
 
@@ -142,5 +138,4 @@
         });
     });
 </script>
-<?php $__env->stopPush(); ?>
-<?php /**PATH C:\wamp64\www\CashierApp\resources\views/admin/taxes/index.blade.php ENDPATH**/ ?>
+@endpush

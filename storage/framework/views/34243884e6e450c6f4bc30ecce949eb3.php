@@ -6,17 +6,16 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card w-100">
-                <div class="card-header">
-                    <h3 class="card-title">قائمة مجموعات الضرائب</h3>
-                    <div class="card-tools">
-                        <a href="<?php echo e(route('admin.tax-groups.create')); ?>" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> إضافة مجموعة جديدة
-                        </a>
-                    </div>
-                </div>
+            <div class=" w-100">
+                          <h1 class="mt-3 pb-2" style="border-bottom: 1px solid #dedede"><?php echo e(__('tax-groups.tax-groups-list')); ?>
+
+        <a class="ms-3 add-icon" href="<?php echo e(route('admin.tax-groups.create')); ?>">
+          <i data-bs-toggle="tooltip" title="Add New tax-groups" class="fa fa-plus"></i>
+        </a>
+      </h1>
+                
                 <!-- /.card-header -->
-                <div class="card-body">
+                <div class="">
                     <?php if(session('success')): ?>
                         <div class="alert alert-success alert-dismissible">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -36,7 +35,7 @@
                     <?php endif; ?>
 
                     <div class="table-responsive ">
-                        <table class="table table-bordered table-hover w-100" id="tax-groups-table">
+                        <table class="table table-striped mt-2 table-sm w-100" id="tax-groups-table">
                             <thead>
                                 <tr>
                                     <th>#</th>
